@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Physics of Transmission: Why Not All Light Is Created Equal for Data</title>
+<meta name="description" content="A look at why laser wavelength changes data throughput — the Shannon-Hartley limit, fiber vs. subsea attenuation windows, and the quantum photon-energy ceiling.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Physics of Transmission: Why Not All Light Is Created Equal for Data">
+<meta property="og:description" content="Bandwidth, attenuation, and quantum limits: why 1550nm dominates fiber, blue-green light rules the ocean, and X-rays don't carry your data.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Physics of Transmission: Why Not All Light Is Created Equal for Data">
+<meta name="twitter:description" content="Bandwidth, attenuation, and quantum limits: why 1550nm dominates fiber, blue-green light rules the ocean, and X-rays don't carry your data.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/assets/cover.png">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#2563eb; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#60a5fa; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#050b18 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:2rem; line-height:1.2; margin:0 0 6px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
+  h2{font-size:1.35rem; margin:40px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  p{margin:0 0 18px;}
+  ul{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  .eq{
+    background:var(--card); border:1px solid var(--rule); border-radius:8px;
+    padding:16px 20px; margin:0 0 18px; font-family:Georgia,'Times New Roman',serif;
+    font-size:1.1rem; overflow-x:auto;
+  }
+  table{width:100%; border-collapse:collapse; margin:0 0 18px; font-size:.92rem;}
+  th,td{border:1px solid var(--rule); padding:10px 12px; text-align:left; vertical-align:top;}
+  th{background:var(--card); font-weight:600;}
+  .cta{
+    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--card);
+  }
+  .cta p{margin:0 0 14px;}
+  .btn{
+    display:inline-block; background:var(--accent); color:#fff !important; text-decoration:none;
+    padding:10px 18px; border-radius:6px; font-weight:600; font-size:.9rem;
+  }
+  a{color:var(--accent);}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Physics of Transmission — Why Not All Light Is Created Equal for Data"></div>
+
+<main>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>The Physics of Transmission: Why Not All Light Is Created Equal for Data</h1>
+  <p class="byline">By Malcolm R. Smith — Principal Manager, Savvy Security LLC</p>
+
+  <p>When we talk about transmitting data—whether across a Wi-Fi link, down an undersea cable, or through deep space—we are fundamentally talking about modulating electromagnetic waves. But a common question in systems architecture is: does the specific spectrum or wavelength of light change the information density and transmission performance?</p>
+
+  <p>The short answer is yes. The physics of wave propagation, quantum photonics, and material optics dictate that different wavelengths excel at drastically different tasks.</p>
+
+  <h2>1. Frequency Dictates Bandwidth (The Shannon-Hartley Limit)</h2>
+  <p>At the foundation of information theory is the Shannon-Hartley Theorem, which proves that the maximum theoretical data throughput of any channel is directly proportional to its available bandwidth (B).</p>
+
+  <div class="eq">Capacity (C) = B · log<sub>2</sub>( 1 + S/N )</div>
+
+  <p>Because electromagnetic frequency (ν) increases as wavelength (λ) shortens (c = λν), higher-frequency spectrum regions contain vast operational bandwidths compared to lower-frequency radio waves:</p>
+  <ul>
+    <li><strong>2.4 GHz Wi-Fi:</strong> a 1% operational bandwidth slice gives you roughly 24 MHz of usable spectrum.</li>
+    <li><strong>1550 nm Near-Infrared Laser:</strong> a 1% operational bandwidth slice gives you 1.93 THz of usable spectrum.</li>
+  </ul>
+  <p>Higher frequencies allow us to package exponentially more bits per second into a carrier signal — the core reason why optical laser communication offers 10x to 100x the data throughput of traditional RF for deep-space communications.</p>
+
+  <h2>2. The Medium Dictates the Winner (Attenuation Windows)</h2>
+  <p>Having ultra-high potential bandwidth means nothing if the signal cannot pass through the physical medium without degrading. The choice of wavelength is usually dictated by attenuation (scattering and absorption):</p>
+  <ul>
+    <li><strong>Fiber Optics (1550 nm):</strong> standard silica glass fiber exhibits a global attenuation minimum (~0.2 dB/km) around 1550 nm (the C-Band). Shorter wavelengths suffer from Rayleigh scattering (∝ 1/λ⁴), while longer wavelengths hit the physical absorption limits of silica lattice vibrations.</li>
+    <li><strong>Subsea Communications (450–550 nm):</strong> water absorbs infrared and radio waves almost instantaneously. However, clear seawater exhibits a tight optical transmission window in the blue-green spectrum, making 450–550 nm visible lasers the standard for underwater wireless optical communication.</li>
+  </ul>
+
+  <h2>3. Quantum Limits: Energy per Photon (E = hν)</h2>
+  <p>If higher frequencies yield higher bandwidth, why not move straight to ultraviolet or X-rays for maximum data rates?</p>
+  <p>The limiting factor is energy quantization. According to Planck's relation (E = hν), higher-frequency photons carry significantly higher individual energies. As you move up into high-energy ultraviolet or X-ray frequencies, communication enters a photon-starved regime. Generating and detecting these high-energy photons requires immense power, and individual photons introduce high quantum shot noise and hardware degradation.</p>
+
+  <h2>Technical Summary</h2>
+  <table>
+    <thead>
+      <tr><th>Spectrum Band</th><th>Wavelength</th><th>Primary Medium Strength</th><th>Key Performance Trade-off</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Radio / Microwave</td><td>1 m – 1 mm</td><td>Penetrates solid obstacles and atmosphere</td><td>Low absolute bandwidth capacity</td></tr>
+      <tr><td>Near-Infrared (NIR)</td><td>750 nm – 1600 nm</td><td>Ultra-low loss in silica fiber (1550 nm)</td><td>Attenuated by fog / atmospheric moisture</td></tr>
+      <tr><td>Blue-Green Visible</td><td>450 nm – 550 nm</td><td>Low absorption in ocean water</td><td>High atmospheric scattering in air</td></tr>
+      <tr><td>Ultraviolet / X-Ray</td><td>&lt; 400 nm</td><td>Massive theoretical bandwidth potential</td><td>Quantum shot noise, high photon energy, material degradation</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Conclusion</h2>
+  <p>Building high-throughput, secure communication architecture requires balancing bandwidth density, medium attenuation, and quantum energy limits. Infrared lasers dominate long-haul fiber backbones, radio dominates wide-area coverage, and blue-green optical links rule subsea domains.</p>
+  <p>What spectrum or medium challenges are you navigating in your own network architectures? Drop a comment below or connect with Savvy Security LLC.</p>
+
+  <div class="cta">
+    <p>Want the full write-up as a document?</p>
+    <a class="btn" href="assets/physics-of-transmission.pdf" target="_blank" rel="noopener">Download the PDF</a>
+  </div>
+</main>
+
+<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+
+</body>
+</html>
