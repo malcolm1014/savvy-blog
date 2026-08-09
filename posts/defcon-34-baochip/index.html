@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The DEFCON 34 Badge Isn't a Badge — It's an Open-Source Security Chip You Get to Keep</title>
+<meta name="description" content="DEFCON 34's badge is built around the Baochip-1x, a real production chip you can inspect, verify, and keep using as a security key long after the con ends.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The DEFCON 34 Badge Isn't a Badge — It's an Open-Source Security Chip You Get to Keep">
+<meta property="og:description" content="Bunnie Huang's Baochip-1x turns this year's DEFCON badge into a verifiable, keepable hardware security key — and a new benchmark for open silicon.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/defcon-34-baochip/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/defcon-34-baochip/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The DEFCON 34 Badge Isn't a Badge — It's an Open-Source Security Chip You Get to Keep">
+<meta name="twitter:description" content="Bunnie Huang's Baochip-1x turns this year's DEFCON badge into a verifiable, keepable hardware security key — and a new benchmark for open silicon.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/defcon-34-baochip/assets/cover.png">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#16a34a; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#4ade80; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#0a0f0a url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:1.9rem; line-height:1.25; margin:0 0 6px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
+  h2{font-size:1.3rem; margin:40px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  p{margin:0 0 18px;}
+  ul{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  a{color:var(--accent);}
+  .sources{font-size:.85rem; color:var(--muted);}
+  .sources li{margin-bottom:6px;}
+  .cta{
+    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--card);
+  }
+  .cta p{margin:0 0 14px;}
+  .btn{
+    display:inline-block; background:var(--accent); color:#052e16 !important; text-decoration:none;
+    padding:10px 18px; border-radius:6px; font-weight:700; font-size:.9rem;
+  }
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The DEFCON 34 Badge Isn't a Badge — It's an Open-Source Security Chip You Get to Keep"></div>
+
+<main>
+  <p><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>The DEFCON 34 Badge Isn't a Badge — It's an Open-Source Security Chip You Get to Keep</h1>
+  <p class="byline">A Savvy Security LLC Briefing</p>
+
+  <p>Every year, DEFCON hands out an electronic badge that's part collectible, part puzzle, part flex. Most years, that's where the story ends: a fun PCB, a light show, maybe a hidden challenge or two, then it goes in a drawer.</p>
+
+  <p>DEFCON 34 is different. This year's badge is built around a real, production silicon chip — one designed from the ground up to be inspected, verified, and reused long after the conference lights go out. It's the work of legendary hardware hacker Andrew "bunnie" Huang, working with the Cheeso team (Yafsec and collaborators), and it may be the most significant thing to happen to hardware transparency in years.</p>
+
+  <p>Here's what's actually in your hand, and what you can do with it.</p>
+
+  <h2>Who Built It</h2>
+  <p>Bunnie Huang has spent two decades pulling hardware apart in public — from reverse-engineering the original Xbox to building the Novena, one of the first laptops designed to be fully open at the hardware level, to co-developing the Introspection Engine with Edward Snowden, a device built to detect covert radio transmissions on phones carried by journalists in hostile environments. The thread running through all of it is the same question: how do you actually trust a piece of hardware you didn't build yourself?</p>
+
+  <p>The DEFCON 34 badge is his most ambitious answer yet. Joe Grand (aka "Kingpin," a longtime DEFCON badge designer) introduced Huang to Yafsec over dinner in Amsterdam in late 2025, and the badge team was born from there. This year's DEFCON theme is agency — the idea that the tools we use should expand our own self-determination rather than quietly working against it — and the badge was built to embody that directly.</p>
+
+  <h2>The Chip: Baochip-1x</h2>
+  <p>At the center of the badge is the Baochip-1x, a system-on-chip Huang describes as "mostly open." That's not marketing language — it's a precise engineering claim:</p>
+  <ul>
+    <li>350 MHz VexRiscv RV32-IMAC core (RISC-V), paired with a four-core, 700 MHz PicoRV32 I/O accelerator</li>
+    <li>4MB of ReRAM and 2MB of SRAM</li>
+    <li>Hardware secure elements: cryptographic accelerators, a dedicated key store, one-way counters, a true random number generator, and physical attack countermeasures</li>
+    <li>Fabricated on TSMC's 22nm process</li>
+    <li>The entire bootloader is open-source and NDA-free, and the majority of the compute-logic design source is open and NDA-free as well</li>
+  </ul>
+  <p>That combination — real cryptographic hardware plus an openly published design — is what makes this chip a genuine hardware security token, password manager, and HSM (Hardware Security Module), not just a novelty.</p>
+
+  <h2>The Party Trick That Isn't a Trick: IRIS Inspection</h2>
+  <p>The most striking feature is one most people will never use, but it changes what "open source hardware" even means.</p>
+  <p>The Baochip-1x is packaged in a way that exposes the backside of the silicon (a Wafer-Level Chip-Scale Package). Using a technique Huang calls IRIS — Infra-Red, In-Situ inspection — an owner can shine near-infrared light through the exposed silicon and, with a modified digital camera (roughly $180 in commercially available parts), photograph the actual transistor layout inside the chip. That image can then be compared directly against the publicly released design files.</p>
+  <p>In plain terms: for the first time at real production scale, an ordinary person can check — with their own eyes, not just trust a vendor's word — that the chip they're holding matches the design that was published. Every one of the 30,000-plus DEFCON 34 attendees is holding a chip built for exactly this kind of verification. That's a structurally new kind of hardware trust, and it's the direct descendant of the trust problem Huang started chasing with Snowden back in 2016.</p>
+
+  <h2>The Badge Itself</h2>
+  <p>The badge is built around a removable core module containing the Baochip-1x, a small low-resolution black-and-white camera, and a 128x128 OLED display. The module snaps out of the carrier board (which houses the badge art, LEDs, and battery holder) and can run entirely on its own over USB-C.</p>
+  <p>Practically, that means:</p>
+  <ul>
+    <li><strong>Before DEFCON ends:</strong> the badge does badge things — light patterns, QR-code-based "light donor" exchanges between attendees, and a hidden challenge (find the two secure boot keys, and Huang will credit you).</li>
+    <li><strong>After DEFCON ends:</strong> you pull the core module out, and it keeps working as a standalone security device. It's powered by two AA batteries in badge form (roughly three days of intermittent use) or USB-C once detached.</li>
+  </ul>
+
+  <h2>What You Can Actually Build With It</h2>
+  <p>This is the part that matters for anyone in security, hardware, or firmware work — the badge doesn't stop being useful when the conference ends.</p>
+  <ul>
+    <li><strong>FIDO2 hardware security key</strong> — use it as a physical second factor for logins, the same category as a YubiKey, except every layer of the design is inspectable.</li>
+    <li><strong>TOTP authenticator / password manager</strong> — run time-based one-time codes and credential storage on hardware you can personally verify, rather than trusting a closed secure enclave.</li>
+    <li><strong>Custom firmware and applications</strong> — because the bootloader and most compute logic are open and NDA-free, developers can write and load their own firmware rather than being locked to whatever ships from the factory.</li>
+    <li><strong>A teaching platform for hardware security</strong> — students and researchers can study a real, production, cryptographically-capable chip's RTL and firmware source instead of working from datasheets and black-box assumptions.</li>
+    <li><strong>A foundation for your own secure devices</strong> — because the design is open, teams building bespoke secure hardware (payment devices, access-control tokens, air-gapped signing devices) now have a verifiable reference implementation to build from instead of starting from a proprietary secure element.</li>
+  </ul>
+  <p>For developers who want to go deeper without waiting on badge supply, Huang has a follow-on Dabao development board in crowdfunding, aimed at making it cheap and easy to build directly on top of the Baochip-1x outside the badge form factor.</p>
+
+  <h2>Why This Matters Beyond DEFCON</h2>
+  <p>Supply-chain transparency has become table stakes in software — reproducible builds, SBOMs, signed commits. Hardware has lagged far behind, largely because verifying silicon has historically required expensive, destructive lab equipment out of reach of almost everyone. The Baochip-1x is a working demonstration that a security-grade chip can be manufactured at real volume and be independently verifiable by its owner with a couple hundred dollars of gear.</p>
+  <p>That's directly relevant to anyone evaluating hardware security tokens, HSMs, or embedded secure elements for their own stack. It won't replace commercial secure elements overnight — but it sets a new reference point for what "trust the vendor" versus "verify it yourself" can actually look like in production hardware.</p>
+  <p>Savvy Security LLC will be tracking the Baochip ecosystem as firmware, tooling, and community projects mature in the months following DEFCON 34. If your team is evaluating hardware security tokens or exploring open-silicon design for a product, reach out — this is exactly the kind of hardware trust problem we help clients think through.</p>
+
+  <h2>Sources</h2>
+  <ul class="sources">
+    <li>Wired — "DEF CON 34 badge is Baochip-1x, an open-source verifiable chip that doubles as a hardware security token" (Aug 1, 2026)</li>
+    <li>Hackster.io — "The DEF CON 34 Badge Packs a Surprise: Andrew 'bunnie' Huang's 'Mostly-Open' Baochip-x1"</li>
+    <li>TechTimes — "DEF CON 34 Badge Features First Verifiable Open-Source Silicon at Production Scale"</li>
+    <li>SC Media — "Defcon badges feature new open-source chip for enhanced security"</li>
+    <li>DEFCON 34 official badge help page (defcon.org/34b)</li>
+    <li>Cheeso team &amp; bunnie Huang, badge project site (cheeso.io/defcon-34-badge)</li>
+  </ul>
+
+  <div class="cta">
+    <p>Want the full write-up as a document?</p>
+    <a class="btn" href="assets/defcon-34-baochip-article.pdf" target="_blank" rel="noopener">Download the PDF</a>
+  </div>
+</main>
+
+<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+
+</body>
+</html>

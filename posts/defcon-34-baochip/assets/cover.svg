@@ -1,0 +1,60 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f0a"/>
+      <stop offset="100%" stop-color="#0e1f14"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chipFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="920" cy="180" r="380" fill="url(#glow)"/>
+
+  <!-- circuit trace lines -->
+  <g stroke="#22c55e" stroke-width="2" fill="none" opacity="0.35">
+    <path d="M 900 60 L 950 60 L 950 110 L 1030 110"/>
+    <path d="M 1000 40 L 1000 90 L 1080 90 L 1080 150"/>
+    <path d="M 870 480 L 870 430 L 780 430 L 780 500"/>
+    <path d="M 950 500 L 950 450 L 1040 450 L 1040 400"/>
+    <circle cx="1030" cy="110" r="4" fill="#22c55e"/>
+    <circle cx="1080" cy="150" r="4" fill="#22c55e"/>
+    <circle cx="780" cy="500" r="4" fill="#22c55e"/>
+    <circle cx="1040" cy="400" r="4" fill="#22c55e"/>
+  </g>
+
+  <!-- stylized chip die, lower right -->
+  <g transform="translate(880,300)">
+    <rect x="0" y="0" width="220" height="220" rx="10" fill="url(#chipFace)" stroke="#22c55e" stroke-width="1.5" opacity="0.9"/>
+    <g stroke="#16a34a" stroke-width="1" opacity="0.6">
+      <line x1="20" y1="0" x2="20" y2="220"/>
+      <line x1="60" y1="0" x2="60" y2="220"/>
+      <line x1="100" y1="0" x2="100" y2="220"/>
+      <line x1="140" y1="0" x2="140" y2="220"/>
+      <line x1="180" y1="0" x2="180" y2="220"/>
+      <line x1="0" y1="20" x2="220" y2="20"/>
+      <line x1="0" y1="60" x2="220" y2="60"/>
+      <line x1="0" y1="100" x2="220" y2="100"/>
+      <line x1="0" y1="140" x2="220" y2="140"/>
+      <line x1="0" y1="180" x2="220" y2="180"/>
+    </g>
+    <rect x="70" y="70" width="80" height="80" rx="4" fill="#052e16" stroke="#4ade80" stroke-width="1.5"/>
+  </g>
+
+  <!-- eyebrow -->
+  <text x="80" y="140" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#4ade80" letter-spacing="3" font-weight="600">SAVVY SECURITY LLC</text>
+
+  <!-- title -->
+  <text x="78" y="220" font-family="Georgia, 'Times New Roman', serif" font-size="46" fill="#f8fafc" font-weight="700">The DEFCON 34 Badge Isn't a Badge</text>
+  <text x="78" y="270" font-family="Georgia, 'Times New Roman', serif" font-size="46" fill="#f8fafc" font-weight="700">It's a Chip You Get to Keep</text>
+  <text x="78" y="320" font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#cbd5e1" font-weight="400">Inside bunnie Huang's open-source Baochip-1x</text>
+
+  <!-- byline -->
+  <text x="80" y="380" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#64748b">A Savvy Security LLC Briefing</text>
+</svg>
