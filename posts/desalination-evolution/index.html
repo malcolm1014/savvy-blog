@@ -3,127 +3,566 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>From Antiquity to Osmosis: The Evolution of Desalination Architecture</title>
-<meta name="description" content="Tracing desalination from Minoan boiling techniques to reverse osmosis — and how Israel built the world's most advanced national water grid.">
+<title>The Long Ascent: A Civilizational Review of Desalination</title>
+<meta name="description" content="Five thousand years of desalination, civilization by civilization, sourced and fact-checked against 31 primary and scholarly references -- closing on how Israel built the world's most advanced national water grid.">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="article">
-<meta property="og:title" content="From Antiquity to Osmosis: The Evolution of Desalination Architecture">
-<meta property="og:description" content="From suspended sea sponges to polymeric membranes: how reverse osmosis let Israel decouple national water security from the weather.">
+<meta property="og:title" content="The Long Ascent: A Civilizational Review of Desalination">
+<meta property="og:description" content="From a sponge over a brass cauldron to a steam-driven membrane grid supplying four-fifths of a nation's tap water -- five thousand years, sourced and audited.">
 <meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/desalination-evolution/assets/cover.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/desalination-evolution/">
 <meta property="og:site_name" content="Savvy Security LLC">
-<meta property="article:author" content="Dr. Elias Thorne">
+<meta property="article:author" content="Malcolm R. Smith">
 
 <!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="From Antiquity to Osmosis: The Evolution of Desalination Architecture">
-<meta name="twitter:description" content="From suspended sea sponges to polymeric membranes: how reverse osmosis let Israel decouple national water security from the weather.">
+<meta name="twitter:title" content="The Long Ascent: A Civilizational Review of Desalination">
+<meta name="twitter:description" content="From a sponge over a brass cauldron to a steam-driven membrane grid supplying four-fifths of a nation's tap water -- five thousand years, sourced and audited.">
 <meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/desalination-evolution/assets/cover.png">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
-    --accent:#0891b2; --card:#ffffff;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#22d3ee; --card:#0f172a; }
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg); color:var(--fg);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    line-height:1.65;
-  }
-  .hero{
-    background:#031017 url('assets/cover.png') center/cover no-repeat;
-    aspect-ratio:1200/630; width:100%;
-  }
-  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
-  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
-  h1{font-size:2rem; line-height:1.2; margin:0 0 6px;}
-  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
-  h2{font-size:1.35rem; margin:40px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
-  h3{font-size:1.1rem; margin:28px 0 10px;}
-  p{margin:0 0 18px;}
-  ul{margin:0 0 18px; padding-left:22px;}
-  li{margin-bottom:8px;}
-  blockquote{
-    margin:0 0 18px; padding:4px 20px; border-left:3px solid var(--accent);
-    color:var(--muted); font-style:italic;
-  }
-  .stat-row{display:flex; gap:16px; margin:0 0 28px; flex-wrap:wrap;}
-  .stat{
-    flex:1; min-width:140px; background:var(--card); border:1px solid var(--rule);
-    border-radius:8px; padding:16px 18px;
-  }
-  .stat .num{font-size:1.5rem; font-weight:700; color:var(--accent); display:block;}
-  .stat .label{font-size:.82rem; color:var(--muted);}
-  table{width:100%; border-collapse:collapse; margin:0 0 18px; font-size:.92rem;}
-  th,td{border:1px solid var(--rule); padding:10px 12px; text-align:left; vertical-align:top;}
-  th{background:var(--card); font-weight:600;}
-  .cta{
-    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
-    background:var(--card);
-  }
-  .cta p{margin:0 0 14px;}
-  .btn{
-    display:inline-block; background:var(--accent); color:#03181f !important; text-decoration:none;
-    padding:10px 18px; border-radius:6px; font-weight:600; font-size:.9rem;
-  }
-  a{color:var(--accent);}
-  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+  html, body { margin: 0; padding: 0; background: #ece7dc; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  a { color: #0f5f5c; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:hover { color: #8a3c14; }
+  sup a { text-decoration: none; }
+  .hero { background: #17170f url('assets/cover.png') center/cover no-repeat; aspect-ratio: 1200/630; width: 100%; }
+  footer.site { color: #6b6752; font-size: .85rem; text-align: center; padding: 30px 20px 50px; font-family: 'IBM Plex Mono', monospace; letter-spacing: .04em; background: #ece7dc; }
 </style>
 </head>
 <body>
 
-<div class="hero" role="img" aria-label="From Antiquity to Osmosis — The Evolution of Desalination Architecture"></div>
+<div class="hero" role="img" aria-label="The Long Ascent: A Civilizational Review of Desalination"></div>
 
-<main>
-  <p><a href="../../">&larr; All articles</a></p>
-  <p class="kicker">Savvy Security LLC</p>
-  <h1>From Antiquity to Osmosis: The Evolution of Desalination Architecture</h1>
-  <p class="byline">By Dr. Elias Thorne — Professor of Hydrological Systems Engineering, Department of Environmental Infrastructure</p>
+<article style="background: #f7f4ec; color: #17170f; font-family: Spectral, Georgia, serif; padding: 64px 0 96px; min-height: 100vh;">
 
-  <blockquote>This paper traces the historical development of desalination technologies, from the rudimentary survival techniques of ancient seafaring cultures to the highly complex, membrane-based systems of the modern era — with special attention to Israel, which has radically optimized reverse osmosis to architect a national water grid decoupled from volatile climatic conditions.</blockquote>
+  <div style="max-width: 1180px; margin: 0 auto; padding: 0 40px; box-sizing: border-box;">
 
-  <h2>1. The Eternal Quest for Freshwater</h2>
-  <p>For millennia, the primary barrier to maritime exploration and arid-climate habitation was the availability of potable water. The ocean, while offering vast navigational networks, presented a cruel paradox: an infinite resource inherently toxic to human biology. The historical trajectory of desalination is not merely a timeline of chemical engineering, but a testament to human resilience and our evolving capacity to architect socio-economic systems capable of mitigating environmental constraints.</p>
+    <p style="margin: 0 0 22px;"><a href="../../" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #0f5f5c; text-decoration: none;">&larr; All articles</a></p>
 
-  <h2>2. The Antiquity Phase: Thermal Phase Change</h2>
-  <p>The earliest documented forms of desalination relied on the simple principles of thermal phase change. By 3200 BCE, evidence suggests Minoan sailors utilized rudimentary boiling techniques to capture steam. The methodology was further theorized during the Hellenistic period, where scholars such as Aristotle documented the "Sponge Method" — suspending porous natural sea sponges over boiling brass cauldrons to absorb distilled vapor.</p>
-  <p>While conceptually sound, these primitive systems were practically constrained. The energetic requirement to boil seawater on a wooden vessel was perilous, and the yield was infinitesimally small. It functioned strictly as an emergency survival mechanic rather than a sustainable means of continuous supply.</p>
+    <header style="border-bottom: 3px double #17170f; padding-bottom: 28px; margin-bottom: 40px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #5c5a4a; border-bottom: 1px solid #cfc8b6; padding-bottom: 14px; margin-bottom: 30px;">
+        <span>Savvy Security LLC &nbsp;·&nbsp; Infrastructure Research Series</span>
+        <span>Working Paper No. 07 &nbsp;·&nbsp; August 2026</span>
+      </div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #8a3c14; margin-bottom: 20px;">Water Security · Historical Technology Review</div>
+      <h1 style="font-size: 74px; line-height: 0.98; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 22px; max-width: 20ch;">The Long Ascent of Sweet Water</h1>
+      <p style="font-size: 25px; line-height: 1.4; font-weight: 300; font-style: italic; color: #3d3b2c; margin: 0 0 30px; max-width: 52ch;">Five thousand years of desalination, civilization by civilization — from a sponge over a brass cauldron to a steam-driven membrane grid that supplies four-fifths of a nation's tap water.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: baseline; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.7; color: #3d3b2c;">
+        <div>
+          <div style="color: #8a8465; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;">Prepared by</div>
+          <div style="font-weight: 600;">Malcolm R. Smith</div>
+          <div>Savvy Security LLC</div>
+        </div>
+        <div>
+          <div style="color: #8a8465; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;">Scope</div>
+          <div>ca. 3200 BCE – 2026 CE</div>
+          <div>Technique, capacity, energy</div>
+        </div>
+        <div>
+          <div style="color: #8a8465; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;">Evidence base</div>
+          <div>31 cited sources</div>
+          <div>Peer-reviewed, primary, industry</div>
+        </div>
+      </div>
+    </header>
 
-  <h2>3. The Industrial Leap: Flash Distillation</h2>
-  <p>The pivot from individual survival to municipal infrastructure occurred during the Industrial Revolution. Land-based, steam-powered technologies facilitated the construction of the first commercial desalination plant in Malta in 1881. However, the defining breakthrough of the mid-20th century was Multi-Stage Flash (MSF) distillation. By "flashing" heated seawater into steam across consecutive low-pressure chambers, engineers dramatically increased thermal efficiency, laying the groundwork for massive desalination hubs worldwide.</p>
+    <section style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 56px; margin-bottom: 64px; align-items: start;">
+      <div>
+        <h2 style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #8a3c14; margin: 0 0 18px; font-weight: 600;">Abstract</h2>
+        <p style="font-size: 19px; line-height: 1.62; margin: 0 0 18px; text-wrap: pretty;">Desalination is often narrated as a modern engineering achievement with a decorative classical prologue. The documentary record supports a different reading: the <em>principle</em> was settled in the fourth century BCE, the <em>apparatus</em> matured across a millennium of Greek, Chinese, Roman and Islamic practice, and the <em>economics</em> remained prohibitive until two twentieth-century inventions — multi-stage flash distillation (patented 1957) and the asymmetric cellulose-acetate membrane (1959) — decoupled fresh water from both rainfall and heat.</p>
+        <p style="font-size: 19px; line-height: 1.62; margin: 0 0 18px; text-wrap: pretty;">This review reconstructs that sequence contribution by contribution, distinguishing what the sources establish from what they infer. It closes on the State of Israel, whose six coastal reverse-osmosis plants now deliver roughly 800 million cubic metres per year — <a href="https://www.timesofisrael.com/desalination-plant-in-central-region-goes-into-full-operation/">70–80% of national potable demand</a> — and which in November 2025 became the first country to pump desalinated seawater <em>into</em> a natural freshwater lake.</p>
+        <p style="font-size: 19px; line-height: 1.62; margin: 0; text-wrap: pretty;">Two cautions frame the whole: the ancient record is thin and partly inferential, and the modern record is contested even in its headline numbers. Both are flagged in place rather than smoothed over.</p>
+      </div>
+      <aside style="background: #17170f; color: #f2eee2; padding: 32px 30px; box-sizing: border-box;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #c9b98d; margin-bottom: 20px;">Five findings</div>
+        <ol style="margin: 0; padding-left: 20px; font-size: 15.5px; line-height: 1.55; display: grid; gap: 15px;">
+          <li><strong style="font-weight: 600;">Theory preceded hardware by ~500 years.</strong> Aristotle stated the phase-change law c. 340 BCE; the earliest depicted apparatus is Alexander of Aphrodisias, c. 200 CE.</li>
+          <li><strong style="font-weight: 600;">China's contribution was non-thermal.</strong> Warring-States texts describe salt <em>adsorption</em> on bamboo mats — a sorption idea, not a distillation one — plus documented freeze separation using sea ice.</li>
+          <li><strong style="font-weight: 600;">Industrialisation supplied the boiler, not the motive.</strong> Steam-plant demand for pure feedwater, not thirst, drove nineteenth-century evaporator design.</li>
+          <li><strong style="font-weight: 600;">The real discontinuity is energy, not scale.</strong> Seawater RO fell from ~16 kWh/m³ in the 1970s to under 2 kWh/m³ today, against a thermodynamic floor near 1.</li>
+          <li><strong style="font-weight: 600;">Israel's achievement is systemic.</strong> Not one plant but seven, cross-linked to a reversible national carrier — an insurance architecture, not a production record.</li>
+        </ol>
+      </aside>
+    </section>
 
-  <h2>4. The Membrane Revolution and the Israeli Architecture</h2>
-  <p>The most profound shift in modern water architecture was the transition from thermal distillation to Reverse Osmosis (RO). By forcing saltwater through a semi-permeable membrane at high pressure, RO circumvented the massive thermal energy penalty of vaporizing water. This breakthrough laid the foundation for the most advanced water architecture in the modern world: the Israeli national water grid.</p>
+    <figure style="margin: 0 0 72px; border-top: 3px double #17170f; border-bottom: 1px solid #cfc8b6; padding: 30px 0 22px;">
+      <figcaption style="margin-bottom: 22px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #8a3c14; margin-bottom: 10px; font-weight: 600;">Figure 1</div>
+        <div style="font-size: 27px; line-height: 1.25; font-weight: 600; max-width: 34ch; margin-bottom: 12px;">Documented output of a single desalination installation, 3200 BCE – 2026 CE</div>
+        <div style="font-size: 15.5px; line-height: 1.55; color: #4a4738; max-width: 88ch;">Logarithmic vertical scale, cubic metres per day. Horizontal axis is banded by era, not linear in time — each band is equal width so that antiquity remains legible beside the modern era. Solid markers are the largest capacity documented for a single installation in a cited source; the dashed upper series is global <em>installed</em> capacity, plotted on the same scale for magnitude comparison. Points marked <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">inf.</span> are inferred by the cited authors rather than measured.</div>
+      </figcaption>
+      <svg viewBox="0 0 1600 660" style="width: 100%; height: auto; display: block; font-family: 'IBM Plex Mono', monospace;" role="img" aria-label="Logarithmic chart of desalination installation capacity from 3200 BCE to 2026 CE">
+        <rect x="120" y="46" width="240" height="514" fill="#efe9db" />
+        <rect x="360" y="46" width="240" height="514" fill="#f5f1e6" />
+        <rect x="600" y="46" width="240" height="514" fill="#efe9db" />
+        <rect x="840" y="46" width="240" height="514" fill="#f5f1e6" />
+        <rect x="1080" y="46" width="240" height="514" fill="#efe9db" />
+        <rect x="1320" y="46" width="240" height="514" fill="#eae2cf" />
 
-  <h3>Optimizing Local Infrastructure</h3>
-  <p>Israel's achievement is a masterclass in socio-economic system architecture designed specifically to optimize local infrastructure. Facing chronic, multi-year droughts and a rapidly expanding population, Israel recognized that reliance on natural aquifers was unsustainable. Instead, it integrated mega-scale RO plants — such as Ashkelon (commissioned in 2005) and Sorek (2013) — into a highly networked, redundant national carrier system.</p>
-  <p>Rather than relying on a centralized, single-point-of-failure water source, this architecture decentralizes production. The Sorek facility, utilizing advanced energy-recovery devices and specialized multi-stage filtration, can produce over 600 million liters per day.</p>
+        <line x1="120" y1="560" x2="1560" y2="560" stroke="#17170f" stroke-width="1.5" />
+        <line x1="120" y1="514.5" x2="1560" y2="514.5" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="469" x2="1560" y2="469" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="423.6" x2="1560" y2="423.6" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="378" x2="1560" y2="378" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="332.7" x2="1560" y2="332.7" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="287.3" x2="1560" y2="287.3" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="241.8" x2="1560" y2="241.8" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="196.4" x2="1560" y2="196.4" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="150.9" x2="1560" y2="150.9" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="105.5" x2="1560" y2="105.5" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="60" x2="1560" y2="60" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="46" x2="120" y2="560" stroke="#17170f" stroke-width="1.5" />
 
-  <div class="stat-row">
-    <div class="stat"><span class="num">3200 BCE</span><span class="label">First documented thermal desalination (Minoan sailors)</span></div>
-    <div class="stat"><span class="num">600M L/day</span><span class="label">Sorek plant's reverse-osmosis output</span></div>
-    <div class="stat"><span class="num">80%+</span><span class="label">Of Israel's domestic municipal water from RO systems</span></div>
+        <g font-size="13" fill="#6b6752" text-anchor="end">
+          <text x="108" y="564">0.001</text>
+          <text x="108" y="518.5">0.01</text>
+          <text x="108" y="473">0.1</text>
+          <text x="108" y="427.6">1</text>
+          <text x="108" y="382">10</text>
+          <text x="108" y="336.7">100</text>
+          <text x="108" y="291.3">1 000</text>
+          <text x="108" y="245.8">10 000</text>
+          <text x="108" y="200.4">100 000</text>
+          <text x="108" y="154.9">1 000 000</text>
+          <text x="108" y="109.5">10 000 000</text>
+          <text x="108" y="64">100 000 000</text>
+        </g>
+        <text x="20" y="300" font-size="13" fill="#8a3c14" transform="rotate(-90 20 300)" text-anchor="middle" letter-spacing="0.16em">M³ PER DAY (LOG)</text>
+
+        <g font-size="12.5" fill="#5c5a4a" text-anchor="middle" letter-spacing="0.1em">
+          <text x="240" y="584">ANTIQUITY</text>
+          <text x="240" y="602" fill="#8a8465">3200 BCE – 200 CE</text>
+          <text x="480" y="584">MEDIEVAL</text>
+          <text x="480" y="602" fill="#8a8465">200 – 1400</text>
+          <text x="720" y="584">EARLY MODERN</text>
+          <text x="720" y="602" fill="#8a8465">1400 – 1800</text>
+          <text x="960" y="584">INDUSTRIAL</text>
+          <text x="960" y="602" fill="#8a8465">1800 – 1945</text>
+          <text x="1200" y="584">THERMAL STATE ERA</text>
+          <text x="1200" y="602" fill="#8a8465">1945 – 1980</text>
+          <text x="1440" y="584">MEMBRANE ERA</text>
+          <text x="1440" y="602" fill="#8a8465">1980 – 2026</text>
+        </g>
+
+        <polyline points="150,528 230,514.5 276,519 345,501 430,483 520,469 650,455 730,442 790,423.6 880,378 920,359 985,332.7 1010,343 1100,320 1150,271 1200,261 1380,173 1440,160 1520,159" fill="none" stroke="#0f5f5c" stroke-width="2.5" />
+        <polyline points="1360,86 1470,61 1530,62" fill="none" stroke="#8a3c14" stroke-width="2.5" stroke-dasharray="7 6" />
+
+        <g fill="#0f5f5c">
+          <circle cx="150" cy="528" r="6" fill="#f7f4ec" stroke="#0f5f5c" stroke-width="2.5" />
+          <circle cx="230" cy="514.5" r="6" fill="#f7f4ec" stroke="#0f5f5c" stroke-width="2.5" />
+          <circle cx="276" cy="519" r="6" fill="#f7f4ec" stroke="#0f5f5c" stroke-width="2.5" />
+          <circle cx="345" cy="501" r="6" />
+          <circle cx="430" cy="483" r="6" />
+          <circle cx="520" cy="469" r="6" fill="#f7f4ec" stroke="#0f5f5c" stroke-width="2.5" />
+          <circle cx="650" cy="455" r="6" />
+          <circle cx="730" cy="442" r="6" />
+          <circle cx="790" cy="423.6" r="6" />
+          <circle cx="880" cy="378" r="6" />
+          <circle cx="920" cy="359" r="6" />
+          <circle cx="985" cy="332.7" r="6" fill="#f7f4ec" stroke="#0f5f5c" stroke-width="2.5" />
+          <circle cx="1010" cy="343" r="6" />
+          <circle cx="1100" cy="320" r="6" />
+          <circle cx="1150" cy="271" r="6" />
+          <circle cx="1200" cy="261" r="6" />
+          <circle cx="1380" cy="173" r="7" />
+          <circle cx="1440" cy="160" r="7" />
+          <circle cx="1520" cy="159" r="7" />
+        </g>
+        <g fill="#8a3c14">
+          <circle cx="1360" cy="86" r="6" />
+          <circle cx="1470" cy="61" r="6" />
+          <circle cx="1530" cy="62" r="6" />
+        </g>
+        <circle cx="1470" cy="144" r="6" fill="#f7f4ec" stroke="#17170f" stroke-width="2.5" />
+
+        <line x1="1252" y1="196" x2="1252" y2="560" stroke="#8a3c14" stroke-width="1.5" stroke-dasharray="4 5" />
+        <g font-size="15" font-weight="600" fill="#17170f" text-anchor="middle">
+          <text x="150" y="512">1</text>
+          <text x="230" y="498">2</text>
+          <text x="276" y="537">3</text>
+          <text x="345" y="485">4</text>
+          <text x="430" y="467">5</text>
+          <text x="520" y="453">6</text>
+          <text x="650" y="439">7</text>
+          <text x="730" y="426">8</text>
+          <text x="790" y="408">9</text>
+          <text x="880" y="362">10</text>
+          <text x="920" y="343">11</text>
+          <text x="985" y="317">12</text>
+          <text x="1010" y="362">13</text>
+          <text x="1100" y="304">14</text>
+          <text x="1150" y="255">15</text>
+          <text x="1200" y="245">16</text>
+          <text x="1380" y="157">17</text>
+          <text x="1440" y="144">18</text>
+          <text x="1520" y="143">19</text>
+          <text x="1470" y="128">20</text>
+        </g>
+        <g font-size="15" font-weight="600" fill="#8a3c14" text-anchor="middle">
+          <text x="1360" y="105">21</text>
+          <text x="1470" y="45">22</text>
+          <text x="1530" y="81">23</text>
+        </g>
+        <text x="1264" y="222" font-size="14.5" fill="#8a3c14">1959 Loeb–Sourirajan membrane</text>
+        <text x="1264" y="242" font-size="14.5" fill="#8a3c14">1965 Coalinga: first municipal RO</text>
+      </svg>
+      <div style="display: flex; flex-wrap: wrap; gap: 26px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5c5a4a;">
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 26px; height: 3px; background: #0f5f5c; display: inline-block;"></span> Single installation, documented</span>
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 11px; height: 11px; border: 2.5px solid #0f5f5c; background: #f7f4ec; border-radius: 50%; display: inline-block;"></span> Inferred or estimated value</span>
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 26px; height: 0; border-top: 3px dashed #8a3c14; display: inline-block;"></span> Global installed capacity</span>
+      </div>
+      <div style="margin-top: 22px; border-top: 1px solid #cfc8b6; padding-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 34px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.45; color: #35332a;">
+        <div><strong style="color: #0f5f5c;">1</strong> &nbsp;Minoan shipboard boiling · inferred, ~5 L/d</div>
+        <div><strong style="color: #0f5f5c;">2</strong> &nbsp;Aristotle states the principle, c. 340 BCE</div>
+        <div><strong style="color: #0f5f5c;">3</strong> &nbsp;Warring-States China · mat adsorption</div>
+        <div><strong style="color: #0f5f5c;">4</strong> &nbsp;Brass vessel + sponge, c. 200 CE</div>
+        <div><strong style="color: #0f5f5c;">5</strong> &nbsp;Jabir ibn Hayyan · alembic &amp; treatise</div>
+        <div><strong style="color: #0f5f5c;">6</strong> &nbsp;Song “sea well” · legend</div>
+        <div><strong style="color: #0f5f5c;">7</strong> &nbsp;Tunisia siege still, 1560</div>
+        <div><strong style="color: #0f5f5c;">8</strong> &nbsp;Hawkins distils at sea, 1662</div>
+        <div><strong style="color: #0f5f5c;">9</strong> &nbsp;Walcot / Fitzgerald patents, 1675–83</div>
+        <div><strong style="color: #0f5f5c;">10</strong> &nbsp;Normandy vertical-tube evaporator, 1852</div>
+        <div><strong style="color: #0f5f5c;">11</strong> &nbsp;Key West evaporators · 26 m³/d, 1860s</div>
+        <div><strong style="color: #0f5f5c;">12</strong> &nbsp;Malta, Tigné 1881 · first commercial, est.</div>
+        <div><strong style="color: #0f5f5c;">13</strong> &nbsp;Curaçao MED · 60 m³/d, 1928</div>
+        <div><strong style="color: #0f5f5c;">14</strong> &nbsp;US Navy 5-stage MSF · 189 m³/d, 1953</div>
+        <div><strong style="color: #0f5f5c;">15</strong> &nbsp;Kuwait MSF units · 2 271 m³/d, 1957</div>
+        <div><strong style="color: #0f5f5c;">16</strong> &nbsp;Freeport, Texas · 1 MGD, 1961</div>
+        <div><strong style="color: #0f5f5c;">17</strong> &nbsp;Ashkelon SWRO · 328 000 m³/d, 2005</div>
+        <div><strong style="color: #0f5f5c;">18</strong> &nbsp;Sorek · 624 000 m³/d, 2013</div>
+        <div><strong style="color: #0f5f5c;">19</strong> &nbsp;Sorek 2 · 670 000 m³/d design, 2025</div>
+        <div><strong style="color: #17170f;">20</strong> &nbsp;Ras Al-Khair, Saudi Arabia · 1 401 000 m³/d</div>
+        <div><strong style="color: #8a3c14;">21</strong> &nbsp;Global installed, 2003 · 27 M m³/d</div>
+        <div><strong style="color: #8a3c14;">22</strong> &nbsp;Global installed, 2020 · 97 M m³/d</div>
+        <div><strong style="color: #8a3c14;">23</strong> &nbsp;Global installed, 2024 · 91.5 M m³/d (IDRA)</div>
+      </div>
+      <div style="margin-top: 18px; font-size: 14px; line-height: 1.5; color: #6b6752; max-width: 100ch;">Sources for plotted values: Angelakis et al., <em>Water</em> 13(16):2222 (2021); Birkett, in Wikipedia, <em>Desalination</em>; McArthur, DESWARE; Khawaji et al. via ScienceDirect; IDE Technologies plant sheets; Israel Desalination Society; IDRA (2024); European Commission Blue Economy Observatory (2024). Pre-1800 values are order-of-magnitude reconstructions from the descriptions in those sources, not measurements; the 1881 Malta figure is an estimate, as no capacity is recorded.</div>
+    </figure>
+
+    <section style="margin-bottom: 68px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">I. The ledger of contributions</h2>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.06em; color: #5c5a4a; margin: 0 0 34px;">Who added what, and when — with the evidentiary standing of each claim stated plainly.</p>
+
+      <div style="display: grid; gap: 34px;">
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">ca. 3200–1100 BCE</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Minoan Crete &amp; the Bronze-Age Aegean</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #e5dcc2; color: #6b4a12; padding: 4px 8px;">Inferred</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;"><span style="float: left; font-size: 62px; line-height: 0.78; font-weight: 700; padding: 6px 12px 0 0; color: #0f5f5c;">T</span>he earliest layer of the story is also the weakest. Angelakis and colleagues, in the most comprehensive scholarly survey of desalination's history, write that Minoan sailors "probably implemented desalination for thousands of years by boiling water to evaporate and separate freshwater from the salt" — a reasonable inference from Minoan maritime range and cookware, not a documented practice. What <em>is</em> archaeologically attested is adjacent and arguably more impressive: a clay oblong <strong>water filter</strong> operated under turbulent flow so that its porous surface self-cleaned, which the same authors call "a precursor of the ceramic membranes."</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;"><strong>Contribution:</strong> potable-water treatment as routine infrastructure aboard ships and in palaces; the filter-as-membrane concept. <strong>Not established:</strong> any dated Minoan distillation apparatus. Claims of "documented boiling by 3200 BCE" overstate the record.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">ca. 610–322 BCE</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Ionian &amp; Classical Greece</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Textually documented</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">This is the era's decisive contribution, and it is intellectual rather than mechanical. <strong>Anaximander</strong> (c. 610–547 BCE) framed water as a recycling meteorological system. <strong>Hippocrates</strong> (c. 460–370 BCE) contributed the cloth bag filter still called the "Hippocratic sleeve." Then <strong>Aristotle</strong>, in <em>Meteorologica</em>, states the law on which every thermal desalination plant since has run: <em>"Saltwater, when it turns into vapour, becomes sweet, and the vapour does not form saltwater again when it condenses"</em> — and, pointedly, adds "this I identify by experimentation." <a href="https://www.britannica.com/technology/desalination">Britannica</a> dates the associated sailors' evaporation practice to the fourth century BCE.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;">Aristotle also reports a wax vessel sealed and submerged in the sea yielding drinkable water — an early, and physically dubious, claim of separation by material rather than by heat. <strong>Contribution:</strong> the phase-change principle, stated as reproducible experiment; the first articulation of desalination as a <em>method</em> rather than an accident.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">ca. 475 BCE – 1279 CE</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Warring States, Han &amp; Song China</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Textually documented</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">China's line of development is independent of the Greek one and conceptually distinct. The <em>Classic of Mountains and Seas</em> (Warring States, c. 475–221 BCE) and Eastern Han texts record that bamboo mats used repeatedly for steaming rice developed a thin surface film with <strong>adsorption and ion-exchange behaviour</strong> capable of taking up salt. Lei's <em>Treatise on Preparing Drugs</em> (Southern Song) records steamer-and-mat desalting of kelp. A Song-era account of a "sea well" lowered into the ocean to draw fresh water is legend, but signals that the goal was current among Tang and Song mariners.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;">Separately, farmers on China's northern coast used <strong>sea ice</strong> — nearly fresh, because salt is excluded during crystal growth — to maintain soil moisture: the first recorded direct use of freeze desalination. <strong>Contribution:</strong> sorption and freeze separation, two of the four modern families, roughly two millennia before either was industrialised.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">1st – 3rd century CE</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Rome &amp; the Hellenistic Mediterranean</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Textually documented</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">Roman practice was filtration-first: clay filters to trap salt, sand and gravel beds, and a wool wick siphon in which salts were retained by the fibre. Pliny the Elder describes crews spreading fleeces on deck overnight and wringing out condensed sea mist — condensation harvesting, not distillation, and worth distinguishing.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;">The pivotal document belongs to <strong>Alexander of Aphrodisias, c. 200 CE</strong>, who describes and illustrates seamen boiling saltwater in a brass vessel with a large sponge suspended over the mouth to absorb the vapour, then drinking the water squeezed from the sponge. This — not Aristotle — is the first written and depicted indication of desalination by boiling. <strong>Contribution:</strong> the earliest recorded working apparatus, plus the alembic-adjacent glassware of Hellenistic Alexandria that the next era would inherit.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">7th – 14th century</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">The Islamic scientific world</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Textually documented</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">Where antiquity supplied the principle, the Islamic world supplied the <strong>instrument</strong>. Britannica records that "an Arab writer of the 8th century CE produced a treatise on distillation"; Angelakis et al. identify the best-known figure as <strong>Jabir ibn Hayyan</strong> ("Geber"), whose distillation writings date to the late seventh century, with later contributions from Abu Mansur al-Harawi. The refined <em>alembic</em> — controlled vessel, condensing head, receiver — is the direct ancestor of every still that followed, and this knowledge, layered on Greek, Persian and Egyptian sources, reached Western Europe through the Iberian Peninsula.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;"><strong>Contribution:</strong> distillation as a documented, transmissible technology with purpose-built apparatus and a written literature — the step that made later European work cumulative rather than repetitive.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">1452 – 1800</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Renaissance &amp; early-modern Europe</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Documented</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">A long plateau punctuated by good ideas that would not scale. <strong>Leonardo da Vinci</strong> proposed producing distilled water cheaply by adapting a still to a cookstove — the first explicit attempt at <em>cost</em> engineering. In <strong>1560</strong>, a besieged garrison on an island off Tunisia reportedly built a still for survival. <strong>Francis Bacon</strong> tried sand filtration in <strong>1627</strong>; <strong>Sir Richard Hawkins</strong> reported supplying his crew by shipboard distillation in <strong>1662</strong>; the first desalination patents went to <strong>William Walcot (1675)</strong> and <strong>Robert Fitzgerald and others (1683)</strong>. None entered service: scaling defeated them all. In the new United States, <strong>Thomas Jefferson</strong> compiled the workable heat-based methods and had instructions printed on the backs of ships' clearance permits — an early act of state technology transfer.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;"><strong>Contribution:</strong> intellectual property, publication and distribution of method. No measurable improvement in the basic process between the mid-1600s and 1800.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">1800 – 1945</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Industrial Britain, empire &amp; the first plants</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #e5dcc2; color: #6b4a12; padding: 4px 8px;">Documented / contested</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">The steam engine changed the incentive. Boilers required pure feedwater, thermodynamics gave engineers a theory of heat reuse, and colonial expansion put garrisons on arid coasts. <strong>Multiple-effect evaporators</strong> let one unit of heat work through several stages; in <strong>1852 Alphonse Normandy</strong> patented a vertical-tube seawater still that became the maritime standard because it was simple to build. The <strong>US Army</strong> installed Normandy evaporators at Key West and Dry Tortugas in the 1860s at about 26 m³/day each; a six-effect plant at <strong>Suakin</strong> in the 1880s made roughly 350 tonnes/day for British troops.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px;">The commonly cited "first commercial plant" — <strong>Tigné, Sliema, Malta, 1881</strong> — deserves care. <a href="https://iwaponline.com/ws/article/23/6/2517/95477/A-closer-look-at-the-history-of-the-desalination">IWA's review notes</a> that "vague and contradictory information often makes it impossible to pinpoint" such milestones, that <em>many</em> scholars accept Malta, and that comparable works existed on the Pacific coast of Peru, Bolivia and Chile at the same date. Maltese records add a deflating coda: the machinery was so costly to build and run that it was <strong>abandoned by 1885</strong>.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;">Land-based continuity arrives with <strong>Curaçao, 1928</strong> — a 60 m³/day multiple-effect plant, modest in output but permanent in kind. <strong>Contribution:</strong> heat recovery, mass manufacture, and the shift from survival device to municipal asset.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">1945 – 1980</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">The state-science era: MSF and the Gulf</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Documented</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">Desalination became an object of national policy. The <strong>Saline Water Act (1952)</strong> and the <strong>Office of Saline Water (1955)</strong> funded American membrane and thermal research; President Kennedy called the work "more important than any other scientific enterprise in which the USA is now engaged." Freeport, Texas, opened the first US industrial plant in <strong>1961</strong> after prolonged drought.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px;">The decisive thermal invention was <strong>multi-stage flash</strong>, patented by <strong>Professor R. S. Silver in 1957</strong>: seawater is flashed into steam across a cascade of successively lower-pressure chambers, each stage reusing the previous stage's latent heat. Kuwait commissioned four MSF units of 2,271 m³/day in 1957, and the first major commercial plants — two units of 4,550 m³/day for Kuwait and one of 2,775 m³/day for Guernsey — came on stream in <strong>1960</strong>. MSF displaced multiple-effect evaporation and, coupled with power-station steam in Gulf co-generation plants, produced the first megaprojects.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;"><strong>Contribution:</strong> Gulf states, Britain and the United States jointly converted desalination into utility-scale industry — at a thermal price of roughly 20–27 kWh/m³ that only cheap hydrocarbons could absorb.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">1959 – present</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">The membrane revolution</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Primary sources
+</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">Reverse osmosis removes the phase change altogether: pressure alone drives water through a semi-permeable film while salts are rejected. Two American laboratory results made it real. <strong>Reid and Breton (1959)</strong> found that cellulose acetate films rejected salt at usable ratios, though fluxes were too low to matter. Then at UCLA, <strong>Sidney Loeb and Srinivasa Sourirajan</strong> cast the <em>asymmetric</em> membrane — a dense skin under a tenth of a micron thick on a porous support — which raised flux by orders of magnitude. Loeb's own account dates the breakthrough casting work to <strong>1959</strong>; the canonical publication is <strong>1963</strong>, which is why sources differ on the date.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px;">Packaging followed physics: General Atomics introduced the <strong>spiral-wound module</strong> in 1963, still the industry standard; Loeb and McCutchan piloted the technology at <strong>Coalinga, California</strong>, the first municipal utility to run RO, in <strong>1965</strong>; the first seawater RO plant followed in <strong>1975</strong>. <strong>Thin-film composite</strong> aromatic-polyamide membranes cut specific energy sharply from the late 1970s.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;">The second half of the efficiency story is energy recovery from the brine stream: Francis turbines (75–80% recovery), Pelton wheels (80–85%), hydraulic turbochargers in the 1990s (~90%), and finally positive-displacement <strong>isobaric energy-recovery devices</strong> reaching up to <strong>98%</strong>, standard in efficient plants since about 2005–06. <strong>Contribution:</strong> a physical process in place of a thermal one — and the fall from ~16 kWh/m³ to under 2.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 190px 1fr; gap: 34px; border-top: 1px solid #cfc8b6; padding-top: 24px;">
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #8a3c14; margin-bottom: 6px;">1964 – 2026</div>
+            <div style="font-size: 21px; font-weight: 600; line-height: 1.2;">Israel: from scarcity to engineered surplus</div>
+            <div style="display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; background: #d6e5e0; color: #0f5f5c; padding: 4px 8px;">Operator &amp; regulator data</div>
+          </div>
+          <div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px; text-wrap: pretty;">Israel's distinctive contribution is not a membrane or a pump. It is the decision to treat manufactured water as the <em>base load</em> of a national grid, and to build the grid to match. The <strong>National Water Carrier</strong> of the 1960s moved northern water south; the desalination programme of the 2000s inverted the logic, putting production on the Mediterranean coast beside demand and using the carrier for redistribution.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 18px;">The build-out is legible as a sequence: <strong>Ashkelon (2005, 120 MCM/yr)</strong>, <strong>Palmachim (2007, 90)</strong>, <strong>Hadera (2010, 145)</strong>, <strong>Sorek (2013, 150)</strong>, <strong>Ashdod (2015, 100)</strong>, and <strong>Sorek 2 / Be'er Miriam (full operation 2025, 200)</strong>. Sorek 1 set two benchmarks at once: 16-inch membrane elements mounted vertically to shrink the footprint, IDE's pressure-centre design for efficiency, and a then-record low water price in a build-operate-transfer tender. Sorek 2 is the world's first <strong>steam-driven SWRO plant</strong>, adds carbon capture and on-site chemical production, and again claims a world-record low cost.</p>
+            <div style="background: #17170f; color: #f2eee2; padding: 26px 28px; margin-bottom: 18px;">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #c9b98d; margin-bottom: 14px;">What the numbers actually say</div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;">
+                <div>
+                  <div style="font-size: 34px; font-weight: 700; line-height: 1;">~800</div>
+                  <div style="font-size: 14px; line-height: 1.45; margin-top: 6px;">MCM/yr from six plants in the 2025–26 hydrological year, per the Israel Water Authority</div>
+                </div>
+                <div>
+                  <div style="font-size: 34px; font-weight: 700; line-height: 1;">70–80%</div>
+                  <div style="font-size: 14px; line-height: 1.45; margin-top: 6px;">of national <em>potable</em> demand met by those plants — not of all water use</div>
+                </div>
+                <div>
+                  <div style="font-size: 34px; font-weight: 700; line-height: 1;">85–90%</div>
+                  <div style="font-size: 14px; line-height: 1.45; margin-top: 6px;">of household <em>and industrial</em> consumption projected once Western Galilee opens (EIB, 2023)</div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0 0 14px;">Two 2025–26 developments matter more than capacity. First, the seventh plant — <strong>Western Galilee / Birkat Miriam</strong>, €425 million with €150 million from the European Investment Bank — is sited in the north, ending the coastal-centre concentration; it is expected online around 2027 with 100 MCM/yr. Second, in <strong>November 2025</strong> Israel began pumping desalinated water <em>into</em> the Sea of Galilee through a reversed carrier, after the lake fell below its lower red line at −213 m. Mekorot's stated long-term target for that reverse flow is 15,000 m³/hour.</p>
+            <p style="font-size: 18px; line-height: 1.6; margin: 0;">The forward plan is explicit: a government-approved 50-year framework targeting <strong>2.3 billion m³/yr of desalinated water by 2050</strong> and 2.75 billion by 2075, opening large-plant development to private builders at a minimum scale of 100 MCM/yr. <strong>Contribution:</strong> desalination as redundant, reversible national infrastructure — and the first use of manufactured water to recharge a natural reservoir.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <figure style="margin: 0 0 72px; border-top: 3px double #17170f; padding: 30px 0 0;">
+      <figcaption style="margin-bottom: 26px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #8a3c14; margin-bottom: 10px; font-weight: 600;">Figure 2</div>
+        <div style="font-size: 27px; line-height: 1.25; font-weight: 600; max-width: 40ch; margin-bottom: 12px;">Specific energy consumption by method — the axis on which the real progress happened</div>
+        <div style="font-size: 15.5px; line-height: 1.55; color: #4a4738; max-width: 88ch;">Kilowatt-hours per cubic metre of product water. Thermal ranges after Kumar et al. via Danfoss (2021); RO figures after IWA (2022), Panagopoulos (2020) and Danfoss. The dashed marker is the thermodynamic minimum for seawater separation, ~1 kWh/m³ excluding intake and pre-filtration.</div>
+      </figcaption>
+      <div style="display: grid; gap: 14px; font-family: 'IBM Plex Mono', monospace;">
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f;">MSF thermal <span style="color: #8a8465;">(1960s–)</span></div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 71.4%; width: 25%; top: 0; bottom: 0; background: #8a3c14;"></div><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; width: 1px; background: #b9b09a;"></div></div>
+          <div style="font-size: 13.5px; text-align: right;">20 – 27</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f;">MED thermal</div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 50%; width: 25%; top: 0; bottom: 0; background: #a8562a;"></div><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; width: 1px; background: #b9b09a;"></div></div>
+          <div style="font-size: 13.5px; text-align: right;">14 – 21</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f;">Mechanical vapour compression</div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 25%; width: 17.86%; top: 0; bottom: 0; background: #c07741;"></div><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; width: 1px; background: #b9b09a;"></div></div>
+          <div style="font-size: 13.5px; text-align: right;">7 – 12</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f;">Seawater RO, 1970s membranes</div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 53.6%; width: 3.5%; top: 0; bottom: 0; background: #0f5f5c;"></div><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; width: 1px; background: #b9b09a;"></div></div>
+          <div style="font-size: 13.5px; text-align: right;">~16</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f;">SWRO with Pelton recovery, ~2000</div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 10.7%; width: 7.1%; top: 0; bottom: 0; background: #16736f;"></div><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; width: 1px; background: #b9b09a;"></div></div>
+          <div style="font-size: 13.5px; text-align: right;">3 – 5</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f;">Global average, 2018</div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 8.9%; width: 3.5%; top: 0; bottom: 0; background: #2e8b85;"></div><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; width: 1px; background: #b9b09a;"></div></div>
+          <div style="font-size: 13.5px; text-align: right;">~3</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #17170f; font-weight: 600;">Best-in-class SWRO today</div>
+          <div style="position: relative; height: 26px; background: #e8e2d2;"><div style="position: absolute; left: 3.57%; width: 3.5%; top: 0; bottom: 0; background: #0f5f5c;"></div></div>
+          <div style="font-size: 13.5px; text-align: right; font-weight: 600;">&lt; 2</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px; align-items: center;">
+          <div style="font-size: 13.5px; color: #8a3c14;">Thermodynamic floor</div>
+          <div style="position: relative; height: 26px;"><div style="position: absolute; left: 3.57%; top: 0; bottom: 0; border-left: 2px dashed #8a3c14;"></div></div>
+          <div style="font-size: 13.5px; text-align: right; color: #8a3c14;">~1</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 250px 1fr 130px; gap: 18px;">
+          <div></div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: #8a8465; border-top: 1px solid #cfc8b6; padding-top: 7px;"><span>0</span><span>7</span><span>14</span><span>21</span><span>28 kWh/m³</span></div>
+          <div></div>
+        </div>
+      </div>
+    </figure>
+
+    <section style="margin-bottom: 68px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">II. Where the evidence pushes back</h2>
+      <div style="columns: 2; column-gap: 48px; font-size: 18px; line-height: 1.6;">
+        <p style="margin: 0 0 16px; text-wrap: pretty;">A review that only ascends is not a review. Four counterweights sit in the same literature as the achievements.</p>
+        <p style="margin: 0 0 16px;"><strong>The headline capacity number is contested.</strong> IDRA reports roughly <strong>91.5 million m³/day</strong> installed as of 2024, with about 105 million committed. The European Commission's Blue Economy Observatory, on the same page, cites "approximately 135 million m³/day" operating across more than 22,000 plants. Wikipedia carries ~97 million for 2020 and ~99 million for 2023. These are not reconcilable by rounding; they reflect different definitions of installed, contracted and operating capacity. Any figure quoted without its definition should be treated as unreliable.</p>
+        <p style="margin: 0 0 16px;"><strong>Brine now exceeds product.</strong> Global assessments put brine discharge above the volume of fresh water produced — on the order of <strong>142–150 million m³/day</strong>. In the Persian Gulf, a shallow semi-enclosed basin averaging 35 m deep, cumulative discharge has left the water roughly <strong>25% saltier</strong> than open seawater, raising the prospect of a "peak salt" ceiling on the same coastline that pioneered MSF.</p>
+        <p style="margin: 0 0 16px;"><strong>The energy is still mostly fossil.</strong> Over 95% of Middle Eastern desalination energy came from fossil fuels as of recent assessment, and in 2023 desalination consumed nearly half of the region's residential-sector energy. Efficiency gains are real; decarbonisation is not yet.</p>
+        <p style="margin: 0;"><strong>Product water is not neutral.</strong> Reverse osmosis strips iodine. Israeli researchers found <strong>62% of school-age children and 85% of pregnant women</strong> below the WHO adequacy range, in a country with no universal salt-iodisation programme and heavy SWRO reliance. The public-health cost of a water-security success is a genuine finding, not a footnote.</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 68px; background: #ece6d6; padding: 40px 40px 36px; border-left: 5px solid #8a3c14;">
+      <h2 style="font-size: 34px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px;">III. Audit of the supplied source document</h2>
+      <p style="font-size: 16.5px; line-height: 1.55; color: #4a4738; margin: 0 0 26px; max-width: 84ch;">This review was commissioned against a white paper titled <em>“From Antiquity to Osmosis: The Evolution of Desalination Architecture,”</em> attributed to “Dr. Elias Thorne.” Its narrative arc is broadly sound. Several specific claims are not supported by the sources consulted here, and one attribution is inverted. Corrections are listed so the published article does not inherit them.</p>
+      <div style="display: grid; gap: 0; font-size: 15.5px; line-height: 1.5;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 12px 0; border-bottom: 2px solid #17170f; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #6b6752;">
+          <div>Claim in the white paper</div><div>What the sources support</div><div>Verdict</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0; border-bottom: 1px solid #cfc8b6;">
+          <div>“By 3200 BCE, evidence suggests Minoan sailors utilized rudimentary boiling techniques.”</div>
+          <div>Angelakis et al. write that Minoans <em>probably</em> did so; no dated apparatus or text exists. Attested Minoan technology is ceramic filtration.</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #6b4a12;">OVERSTATED</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0; border-bottom: 1px solid #cfc8b6;">
+          <div>Aristotle documented the “Sponge Method” — sponges over boiling brass cauldrons.</div>
+          <div>Aristotle stated the phase-change principle. The vessel-and-sponge description and illustration are <strong>Alexander of Aphrodisias, c. 200 CE</strong> — some five centuries later.</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8a3c14;">MISATTRIBUTED</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0; border-bottom: 1px solid #cfc8b6;">
+          <div>Malta 1881 was “the first commercial desalination plant,” framed as settled fact.</div>
+          <div>Widely accepted but explicitly contested; IWA notes contradictory records and parallel South American installations. The Maltese plant was abandoned by 1885.</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #6b4a12;">NEEDS CAVEAT</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0; border-bottom: 1px solid #cfc8b6;">
+          <div>MSF was “the defining breakthrough of the mid-20th century,” with no inventor named.</div>
+          <div>Correct in substance; the specific attribution is R. S. Silver's 1957 patent, with first commercial plants in 1960 (Kuwait, Guernsey).</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #0f5f5c;">SUPPORTED</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0; border-bottom: 1px solid #cfc8b6;">
+          <div>Sorek “can produce over 600 million liters per day.”</div>
+          <div>Accurate: 624,000 m³/day = 624 million litres, per IDE and the Israel Desalination Society. Sorek 2 is separate, at 200 MCM/yr.</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #0f5f5c;">SUPPORTED</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0; border-bottom: 1px solid #cfc8b6;">
+          <div>“Israel derives more than 80% of its domestic municipal water from these systems.”</div>
+          <div>Directionally right, imprecisely stated. Water Authority figures give 70–80% of <em>potable</em> demand from six plants; EIB projects 85–90% of household <em>and industrial</em> consumption after the seventh. Fanack, citing 2023 data, gives 50% of potable water.</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #6b4a12;">IMPRECISE</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 108px; gap: 22px; padding: 16px 0;">
+          <div>Authorship: “Dr. Elias Thorne, Professor of Hydrological Systems Engineering.”</div>
+          <div>No institution is named and no publication record for this author was located in the sources consulted. Treat the document as an unattributed draft, not a citable authority.</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #8a3c14;">UNVERIFIED</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">IV. Conclusion</h2>
+      <div style="columns: 2; column-gap: 48px; font-size: 18px; line-height: 1.62;">
+        <p style="margin: 0 0 16px; text-wrap: pretty;">Read across five millennia, the curve in Figure 1 is not a story of gradually better boiling. It is three discontinuities separated by long plateaus. The Greeks converted an observation into a law. Islamic chemistry converted the law into an instrument and a literature. And the twentieth century converted the instrument into an economy — first by recycling heat across stages, then by abandoning heat altogether.</p>
+        <p style="margin: 0 0 16px;">Israel's role is the fourth kind of contribution, and the one least visible in a capacity chart: institutional. Seven plants, a reversible carrier, tendered build-operate-transfer contracts, private-development rules with a 100 MCM/yr floor, and a fifty-year production target amount to treating water like an electricity grid — dispatchable, redundant, and planned against demand curves rather than rainfall.</p>
+        <p style="margin: 0;">The open problems are correspondingly institutional. Brine volumes now exceed product volumes. Regional energy remains overwhelmingly fossil-fuelled. Product water is nutritionally incomplete. On present evidence the next real advance will not be a better membrane — the thermodynamic headroom is nearly gone — but a plant whose outputs are all accounted for.</p>
+      </div>
+    </section>
+
+    <section style="border-top: 3px double #17170f; padding-top: 30px;">
+      <h2 style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #8a3c14; margin: 0 0 22px; font-weight: 600;">Sources</h2>
+      <ol style="margin: 0; padding-left: 24px; columns: 2; column-gap: 48px; font-size: 14.5px; line-height: 1.55; color: #35332a;">
+        <li style="margin-bottom: 11px;">Angelakis, A. N., Valipour, M., Choo, K.-H., et al. “Desalination: From Ancient to Present and Future.” <em>Water</em> 13(16):2222, 2021. <a href="https://www.mdpi.com/2073-4441/13/16/2222">mdpi.com</a></li>
+        <li style="margin-bottom: 11px;">“Desalination.” <em>Encyclopædia Britannica</em>, accessed 2026. <a href="https://www.britannica.com/technology/desalination">britannica.com</a></li>
+        <li style="margin-bottom: 11px;">“A closer look at the history of the desalination industry.” <em>Water Supply</em> 23(6):2517, IWA Publishing, 2023. <a href="https://iwaponline.com/ws/article/23/6/2517/95477/A-closer-look-at-the-history-of-the-desalination">iwaponline.com</a></li>
+        <li style="margin-bottom: 11px;">“Desalination.” <em>Wikipedia</em> — history section citing Birkett (1984, 2010), Nebbia &amp; Menozzi (1966). <a href="https://en.wikipedia.org/wiki/Desalination">en.wikipedia.org</a></li>
+        <li style="margin-bottom: 11px;">Danfoss. “A brief history of the energy intensity of desalination,” 2021, after Kumar et al. <a href="https://www.danfoss.com/en/about-danfoss/articles/hpp/a-brief-history-of-the-energy-intensity-of-desalination/">danfoss.com</a></li>
+        <li style="margin-bottom: 11px;">National Academies. “Water Desalination: History, Advances, and Challenges” — Reid &amp; Breton, Loeb &amp; Sourirajan, spiral-wound module. <a href="https://www.nationalacademies.org/read/23659/chapter/14">nationalacademies.org</a></li>
+        <li style="margin-bottom: 11px;">Loeb, S. “The Loeb–Sourirajan Membrane: How It Came About.” ACS Symposium Series 153, 1981. <a href="https://pubs.acs.org/doi/pdf/10.1021/bk-1981-0153.ch001">pubs.acs.org</a></li>
+        <li style="margin-bottom: 11px;">Silver, R. S. “Multi-stage flash distillation: the first 10 years.” <em>Desalination</em> 9(3), 1971. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0011916400801265">sciencedirect.com</a></li>
+        <li style="margin-bottom: 11px;">McArthur, N. “Milestones in the Development of Multi-Stage Flash Desalination Plants Worldwide.” DESWARE. <a href="http://www.desware.net/sample-chapters/d01/d01-006.pdf">desware.net</a></li>
+        <li style="margin-bottom: 11px;">“Multi-Stage Flash Distillation — overview,” after Khawaji et al. (2008). <a href="https://www.sciencedirect.com/topics/engineering/multi-stage-flash-distillation">sciencedirect.com</a></li>
+        <li style="margin-bottom: 11px;">Water Services Corporation (Malta), “Our History”; “Desalination in Malta,” D. Sacco. <a href="https://www.wsc.com.mt/about-us/our-history/">wsc.com.mt</a></li>
+        <li style="margin-bottom: 11px;">“Water supply during British Rule,” in <em>8000 Years of Water — A Maltese Story of Sustainability</em>, 2022. <a href="https://www.researchgate.net/publication/368296942_Water_supply_during_British_Rule_Chapter_9_in_8000_Years_of_Water_-_A_Maltese_Story_of_Sustainability_2022_Water_Services_Corporation_Authors'_copy">researchgate.net</a></li>
+        <li style="margin-bottom: 11px;">Israel Desalination Society. “Sorek A Desalination Plant.” <a href="https://ildesal.org.il/sorek-a-desalination-plant/">ildesal.org.il</a></li>
+        <li style="margin-bottom: 11px;">IDE Technologies. Sorek I and Sorek II project sheets. <a href="https://ide-tech.com/en/project/sorek-b-desalination-plant/">ide-tech.com</a></li>
+        <li style="margin-bottom: 11px;">IDE Water Technologies. “Sorek 2 – Be'er Miriam now in operation,” Business Wire, 18 Mar 2025. <a href="https://www.businesswire.com/news/home/20250318656352/en">businesswire.com</a></li>
+        <li style="margin-bottom: 11px;">European Investment Bank. “€150 million EIB backing for Western Galilee Water Desalination Project,” 2023. <a href="https://www.eib.org/en/press/all/2023-245-eur-150-million-eib-backing-for-western-galilee-water-desalination-project">eib.org</a></li>
+        <li style="margin-bottom: 11px;">Fanack Water. “Water Infrastructure in Israel,” updated 2026 — plant table, costs, National Water Carrier. <a href="https://water.fanack.com/israel/water-infrastructure-in-israel/">water.fanack.com</a></li>
+        <li style="margin-bottom: 11px;"><em>Times of Israel</em>. “Desalination plant in central region goes into full operation,” Jan 2026. <a href="https://www.timesofisrael.com/desalination-plant-in-central-region-goes-into-full-operation/">timesofisrael.com</a></li>
+        <li style="margin-bottom: 11px;"><em>Times of Israel</em>. “In world first, Israel begins pumping desalinated water into depleted Sea of Galilee,” Nov 2025. <a href="https://www.timesofisrael.com/in-world-first-israel-begins-pumping-desalinated-water-into-depleted-sea-of-galilee/">timesofisrael.com</a></li>
+        <li style="margin-bottom: 11px;"><em>Ynetnews</em>. “Israel launches world-first plan to save Sea of Galilee with desalinated seawater,” Sep 2025. <a href="https://www.ynetnews.com/environment/article/s1ch116vcel">ynetnews.com</a></li>
+        <li style="margin-bottom: 11px;"><em>Jerusalem Post</em>. “Government's new 50-year plan to build large desalination plants,” 2026. <a href="https://www.jpost.com/israel-news/article-898754">jpost.com</a></li>
+        <li style="margin-bottom: 11px;">IDRA. “Road to Reykjavik, Part 2: Decarbonizing Desalination and Reuse,” 2025 — 91.5 M m³/day. <a href="https://idrawater.org/news/road-to-reykjavik-part-2-mitigation-through-innovation-decarbonizing-desalination-and-reuse/">idrawater.org</a></li>
+        <li style="margin-bottom: 11px;">European Commission, EU Blue Economy Observatory. “Desalination,” 2024–25 — 135 M m³/day, 22,000 plants. <a href="https://blue-economy-observatory.ec.europa.eu/eu-blue-economy-sectors/desalination_en">ec.europa.eu</a></li>
+        <li style="margin-bottom: 11px;">Third World Centre for Water Management. “Desalination in the context of global water security,” 2024. <a href="https://thirdworldcentre.org/2024/03/desalination-in-the-context-of-global-water-security/">thirdworldcentre.org</a></li>
+        <li style="margin-bottom: 11px;">Greek Reporter. “Ancient Greeks Figured Out How to Turn Seawater Into Fresh Water,” 2026 — Pliny's fleeces, Aristotle. <a href="https://greekreporter.com/2026/07/01/ancient-greeks-seawater-fresh-water/">greekreporter.com</a></li>
+        <li style="margin-bottom: 11px;">Encyclopedia.com. “Desalination of Water” — Roman clay filters, wool wick, 8th-century Arab treatise. <a href="https://www.encyclopedia.com/science-and-technology/technology/technology-terms-and-concepts/desalination-water">encyclopedia.com</a></li>
+        <li style="margin-bottom: 11px;">Barnett-Itzhaki, Z., et al. “Persistent iodine deficiency in Israel.” <em>Israel J. Health Policy Research</em> 11:18, 2022. <a href="https://doi.org/10.1186/s13584-022-00526-9">doi.org</a></li>
+        <li style="margin-bottom: 11px;">Roth, M. B. &amp; Tal, A. “Ecological tradeoffs of desalination in land-constrained countries.” <em>Desalination</em> 529:115607, 2022. <a href="https://doi.org/10.1016/j.desal.2022.115607">doi.org</a></li>
+        <li style="margin-bottom: 11px;">Kramer, I., et al. “Effects of population growth on Israel's demand for desalinated water.” <em>npj Clean Water</em> 5:67, 2022. <a href="https://doi.org/10.1038/s41545-022-00215-9">doi.org</a></li>
+        <li style="margin-bottom: 11px;">IEEE Spectrum. “Desalination Behind the Scenes” — Malta, Pembroke RO. <a href="https://spectrum.ieee.org/amp/desalination-behind-the-scenes-2650253685">spectrum.ieee.org</a></li>
+        <li style="margin-bottom: 11px;">Blackridge Research. “Sorek Desalination Plant” and “Top desalination plants in Israel,” 2026. <a href="https://www.blackridgeresearch.com/project-profiles/all-about-sorek-desalination-plant-israel-cost-location-detail">blackridgeresearch.com</a></li>
+      </ol>
+      <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid #cfc8b6; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; color: #6b6752; display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+        <span>Prepared for publication on behalf of Malcolm R. Smith · Savvy Security LLC</span>
+        <span>Figures compiled August 2026 · numbers dated to their sources</span>
+      </div>
+    </section>
+
   </div>
-
-  <p>By carefully designing this infrastructure to support regional demands, Israel has optimized its local coastal footprint to ensure a continuous, drought-resistant surplus.</p>
-
-  <h2>5. Conclusion</h2>
-  <p>As we trace the historical curve from suspended sea sponges to polymeric membranes, the defining trend is one of exponential efficiency and scale. The future of desalination will undoubtedly involve tighter integration with renewable energy grids, sophisticated brine management protocols, and AI-assisted operational monitoring, ensuring that our oldest struggle against the sea continues to sustain human development.</p>
-
-  <div class="cta">
-    <p>Want the full write-up as a document?</p>
-    <a class="btn" href="assets/Desalination_Evolution_White_Paper.pdf" target="_blank" rel="noopener">Download the PDF</a>
-  </div>
-</main>
-
-<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+</article>
+<footer class="site">Savvy Security LLC &middot; Malcolm R. Smith</footer>
 
 </body>
 </html>
