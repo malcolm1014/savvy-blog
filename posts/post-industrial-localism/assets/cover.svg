@@ -1,0 +1,60 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#111c33"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="990" cy="120" r="360" fill="url(#glow)"/>
+
+  <!-- blueprint grid, right third -->
+  <g stroke="#3b82f6" stroke-width="1" opacity="0.18">
+    <line x1="860" y1="0" x2="860" y2="630"/>
+    <line x1="940" y1="0" x2="940" y2="630"/>
+    <line x1="1020" y1="0" x2="1020" y2="630"/>
+    <line x1="1100" y1="0" x2="1100" y2="630"/>
+    <line x1="1180" y1="0" x2="1180" y2="630"/>
+    <line x1="800" y1="80" x2="1200" y2="80"/>
+    <line x1="800" y1="200" x2="1200" y2="200"/>
+    <line x1="800" y1="320" x2="1200" y2="320"/>
+    <line x1="800" y1="440" x2="1200" y2="440"/>
+    <line x1="800" y1="560" x2="1200" y2="560"/>
+  </g>
+
+  <!-- two-arrow motif: disperse (outward) vs concentrate (inward), lower right -->
+  <g transform="translate(940,470)" stroke="#60a5fa" stroke-width="3" fill="none" opacity="0.85">
+    <line x1="0" y1="0" x2="-46" y2="-30"/>
+    <line x1="0" y1="0" x2="46" y2="-30"/>
+    <line x1="0" y1="0" x2="-46" y2="30"/>
+    <line x1="0" y1="0" x2="46" y2="30"/>
+    <circle cx="0" cy="0" r="5" fill="#60a5fa" stroke="none"/>
+  </g>
+  <g transform="translate(1140,470)" stroke="#f8fafc" stroke-width="3" fill="none" opacity="0.55">
+    <line x1="-46" y1="-30" x2="0" y2="0"/>
+    <line x1="46" y1="-30" x2="0" y2="0"/>
+    <line x1="-46" y1="30" x2="0" y2="0"/>
+    <line x1="46" y1="30" x2="0" y2="0"/>
+    <circle cx="0" cy="0" r="5" fill="#f8fafc" stroke="none"/>
+  </g>
+  <text x="940" y="530" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#93c5fd" letter-spacing="1.5" text-anchor="middle" opacity="0.9">DISPERSE ACT</text>
+  <text x="1140" y="530" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#cbd5e1" letter-spacing="1.5" text-anchor="middle" opacity="0.75">RATION BLOCK</text>
+
+  <!-- eyebrow -->
+  <text x="80" y="130" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#60a5fa" letter-spacing="3" font-weight="600">SAVVY SECURITY LLC</text>
+
+  <!-- title -->
+  <text x="78" y="215" font-family="Georgia, 'Times New Roman', serif" font-size="50" fill="#f8fafc" font-weight="700">I Built a Political Theory.</text>
+  <text x="78" y="278" font-family="Georgia, 'Times New Roman', serif" font-size="50" fill="#f8fafc" font-weight="700">Then I Tried to Destroy It.</text>
+
+  <!-- subtitle -->
+  <text x="80" y="330" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#94a3b8" font-weight="400">Post-Industrial Localism, after adversarial peer review</text>
+
+  <!-- byline -->
+  <text x="80" y="400" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#64748b">By Malcolm R. Smith</text>
+</svg>

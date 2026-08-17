@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Built a Political Theory. Then I Tried to Destroy It.</title>
+<meta name="description" content="I handed my political framework, Post-Industrial Localism, over for hostile adversarial review. Here's what broke, what survived, and the one rule the whole thing runs on now.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="I Built a Political Theory. Then I Tried to Destroy It.">
+<meta property="og:description" content="What survived is called Post-Industrial Localism — and the parts that died were my favorites. Here's what broke under hostile review, and the one rule everything else follows from.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/post-industrial-localism/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/post-industrial-localism/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="I Built a Political Theory. Then I Tried to Destroy It.">
+<meta name="twitter:description" content="What survived is called Post-Industrial Localism — and the parts that died were my favorites.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/post-industrial-localism/assets/cover.png">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#2563eb; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#60a5fa; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#0b1220 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:2rem; line-height:1.2; margin:0 0 6px;}
+  .dek{font-size:1.05rem; color:var(--muted); font-style:italic; margin:0 0 10px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
+  h2{font-size:1.35rem; margin:40px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  p{margin:0 0 18px;}
+  ul{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:32px 0;}
+  .rule{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:8px; padding:18px 22px; margin:0 0 18px;
+    font-size:1.15rem; font-weight:600;
+  }
+  em{color:var(--fg);}
+  .cta{
+    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--card);
+  }
+  .cta p{margin:0 0 14px;}
+  .cta-buttons{display:flex; flex-wrap:wrap; gap:12px;}
+  .btn{
+    display:inline-block; background:var(--accent); color:#fff !important; text-decoration:none;
+    padding:10px 18px; border-radius:6px; font-weight:600; font-size:.9rem;
+  }
+  .btn.secondary{background:transparent; color:var(--accent) !important; border:1px solid var(--accent);}
+  a{color:var(--accent);}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="I Built a Political Theory. Then I Tried to Destroy It."></div>
+
+<main>
+  <p><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>I Built a Political Theory. Then I Tried to Destroy It.</h1>
+  <p class="dek">What survived is called Post-Industrial Localism — and the parts that died were my favorites.</p>
+  <p class="byline">By Malcolm R. Smith — Savvy Security LLC</p>
+
+  <p>A few months ago I wrote a white paper laying out a political framework I call Post-Industrial Localism, or PIL. It was an attempt to answer a question I don't think either party in this country is answering well: how do you get government that's close enough to people to actually work, without giving up the ability of a nation this size to do hard things?</p>
+
+  <p>Then I did something I'd recommend to anyone building anything. I handed it over for adversarial review — not to be praised, but to be taken apart. Skeptical, hostile, cite-your-sources, prove-it review. The kind a journal referee gives you when they don't care about your feelings.</p>
+
+  <p>It went badly. Which is the point of doing it.</p>
+
+  <p>Here's what broke, what survived, and why I think the surviving version is worth your time.</p>
+
+  <h2>The one idea that matters</h2>
+  <p>If you take nothing else from this, take this distinction.</p>
+  <p>There are two completely different kinds of power we lump together and shouldn't:</p>
+  <ul>
+    <li><strong>The power to act</strong> — to build, deliver, adapt, try something.</li>
+    <li><strong>The power to block</strong> — to veto, delay, sue, condition, stall.</li>
+  </ul>
+  <p>My original paper treated these as one thing. "Decentralization" meant pushing both downward. That's the standard localist move, and it's wrong.</p>
+  <p>Because here's what actually happens in America: we've been pushing the power to <em>block</em> downward for fifty years while the power to <em>act</em> stayed jammed. A few hundred people at a zoning meeting can stop housing for thousands. A single lawsuit can hold a transmission line for a decade. We didn't get local self-government out of this. We got local paralysis, and then we blamed Washington for the results.</p>
+  <p>The revised framework runs on one rule:</p>
+  <div class="rule">Disperse the power to act. Concentrate and ration the power to block.</div>
+  <p>Every veto gets a shot clock, a standing limit, an appeal, and an expiration date. Every capacity to build gets pushed as close to people as competence allows.</p>
+  <p>That single distinction is the whole framework. Everything else follows from it.</p>
+
+  <h2>What broke: my diagnosis was backwards</h2>
+  <p>My original paper said the problem was federal bureaucratic bloat — too many administrators, too much centralized machinery, crowding out the government's ability to respond to real crises.</p>
+  <p>Then someone made me look at the numbers.</p>
+  <p>The federal civilian workforce was about two million people in the early 1960s. It's about two million today. Over that same stretch the U.S. population went from roughly 180 million to roughly 340 million. Measured against the country it serves, the federal civil service is a fraction of its mid-century size.</p>
+  <p>I'd been arguing against something that hadn't happened.</p>
+  <p>The real problem isn't size. It's fragmentation — decision-making scattered across so many veto points that nothing can move. That's a harder problem than bloat, and it doesn't get solved by cutting. It gets solved by clearing the blockages and making the parts that execute actually competent.</p>
+
+  <h2>What broke: I was romantic about guilds</h2>
+  <p>My paper proposed guild-style institutions for trades and skills. Apprenticeship, mastery, standards, professional identity. I still love that vision.</p>
+  <p>The economic history is brutal about it. The current standard study of European craft guilds — built on thousands of documented cases — finds they mostly functioned as cartels. They blocked entry, fixed prices, obstructed innovation, and systematically excluded women, migrants, and outsiders. Where they regulated "quality," it was largely to keep non-members out.</p>
+  <p>And their modern descendant is sitting right in front of us. Roughly a quarter to nearly 30% of American workers now need a government license to do their job, up from about 5% in the 1950s. It raises wages for people already inside and reduces mobility for everyone else, and the restrictions land hardest in lower-wage work.</p>
+  <p>So the revised framework draws a hard line. <strong>Certification</strong>: voluntary, portable, competing providers, proves you're good — expand it aggressively. <strong>Licensure</strong>: mandatory, locked to one state, controls who's allowed to work — narrow it to real safety cases and make it transfer across state lines.</p>
+  <p>Same respect for mastery. None of the cartel.</p>
+
+  <h2>What broke: the plank I cared about most</h2>
+  <p>My original paper proposed a Bitcoin monetary standard. I argued it hard, over many rounds, and I revised it several times trying to keep it.</p>
+  <p>I withdrew it. Here's the honest reason.</p>
+  <p>My own framework promises a federal government that can stabilize the economy in a crisis. You cannot promise that and simultaneously adopt a fixed-supply money the government can't expand when a crisis hits. Those two things contradict each other in adjacent sections of the same paper. The historical record on this is about as settled as economics gets: in the Great Depression, the countries that got off the gold standard earliest recovered earliest.</p>
+  <p>There's also a distributional problem I hadn't thought through. Money that appreciates forever helps creditors and hurts debtors. But the people my economic plank exists to serve — young families, apprentices, people starting small businesses — are net <em>debtors</em>. A fixed-supply standard raises the real weight of their obligations while they sleep, with no relief mechanism, because the whole design is that nobody can adjust it. I was proposing to help people with a structure that quietly worked against them.</p>
+  <p>And the sovereign experiment ran. El Salvador made Bitcoin legal tender in 2021, subsidized transaction costs, and got almost no real usage. In January 2025 it revoked legal tender status.</p>
+  <p><strong>What I kept:</strong> the concerns underneath it, all of which are legitimate. The right to transact without permission. Real protection against arbitrary debanking. Open, cheap payment infrastructure that isn't a private chokepoint. Skepticism of surveillance-capable digital currency design. And rules-based monetary policy with published rules and pre-specified emergency exceptions — which gets you money insulated from political manipulation <em>without</em> disarming the government in a downturn.</p>
+  <p>I still think Bitcoin is a legitimate thing to own. I no longer think it should be the base of a monetary system. Those are different claims and I was collapsing them.</p>
+
+  <h2>What got stronger</h2>
+  <p><strong>Subsidiarity got teeth.</strong> "Handle it at the most local level that can" is a slogan, not a rule, until you define "can." So now there are four tests — spillover, scale, information, and whether the level can actually pay for it — plus two hard limits: no level can use local control to deny anyone's rights, and no level can dump its costs on people who don't get to vote there.</p>
+  <p><strong>The insight that changed the most.</strong> I'd assumed the magic of American civic life was that it was <em>local</em>. It wasn't. It was <strong>federated</strong> — the Legion, the PTA, the Elks, the unions. Local chapters that were also rungs on a national ladder, funded by member dues, run by the members themselves. Purely local groups can't aggregate; they leave you with no route from a neighborhood problem to a national fix. What died in American civic life wasn't localness. It was the nesting.</p>
+  <p><strong>The structural claim I had exactly inverted.</strong> Communities are better at <em>delivering</em> services. They're structurally incapable of <em>financing</em> them, because both taxpayers and needy people can move. So: <strong>finance nationally, deliver locally.</strong> A kid's floor shouldn't depend on the wealth of their county.</p>
+  <p>That's not theory. Denmark is the most decentralized country in the OECD by spending — about 61% of public money is spent at the local level — and it works precisely <em>because</em> the financing and equalization are national. Switzerland rebuilt its whole federal financial system on the same principle in 2008 and passed it by referendum.</p>
+  <p>And we have our own counter-example. When welfare was block-granted in 1996 with flexibility but no maintained floor, cash assistance fell from about 70% of the funds to roughly a quarter. Twenty states now spend under 10% of it on basic help. Flexibility without a floor drifts. That's the whole lesson.</p>
+
+  <h2>The part I'll bite in public</h2>
+  <p>Local control of land use is the most consequential localism in America, and it's the one with the clearest costs. Homeowners have a rational interest in restricting supply, and the bill lands on people who don't live there and can't vote there.</p>
+  <p>On my own framework's rules, that's a failure. A town blocking housing exports its costs to a whole region.</p>
+  <p>So: housing supply floors get set at the state level. Towns keep control over what things look like. They lose control over whether anything gets built.</p>
+  <p>I know that costs me support with people who like the words "local control." It's what the framework requires, and a theory you only apply when it's convenient isn't a theory.</p>
+
+  <h2>What would prove me wrong</h2>
+  <p>The full paper lists eight testable predictions and a table of ways the framework could fail. I'd rather be checkable than persuasive.</p>
+  <p>The failure I worry about most: that PIL gets picked up rhetorically to defend local veto power while the floors, the supply requirements, and the open-entry rules get quietly dropped. A localism that keeps the vetoes and ditches the floors isn't a weaker version of this. It's the opposite of it.</p>
+
+  <h2>Where to read it</h2>
+  <p>The full white paper is up, along with the referee report that tore the first version apart. The referee report is honestly the more useful document — it shows the seams.</p>
+  <p><strong>If you disagree, I want to hear it.</strong> That's not a courtesy. Everything good in the current version came from someone telling me I was wrong about something I was sure of. The Bitcoin plank was my favorite idea in the paper. It's gone because the objection was better than my defense.</p>
+  <p>That's how this is supposed to work.</p>
+
+  <div class="cta">
+    <p>Read the full white paper — and the referee report that tore the first version apart.</p>
+    <div class="cta-buttons">
+      <a class="btn" href="assets/post-industrial-localism-v2.1-white-paper.pdf" target="_blank" rel="noopener">Download the White Paper (v2.1)</a>
+      <a class="btn secondary" href="assets/post-industrial-localism-referee-report.pdf" target="_blank" rel="noopener">Download the Referee Report</a>
+    </div>
+  </div>
+</main>
+
+<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+
+</body>
+</html>
