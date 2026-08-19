@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q-Day and the Archive: What Retrospective Decryption Can and Cannot Do</title>
+<meta name="description" content="Does Q-Day mean governments finally read the criminals' mail? A test of harvest-now-decrypt-later against the technical, historical, and legal record.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Q-Day and the Archive: What Retrospective Decryption Can and Cannot Do">
+<meta property="og:description" content="A popular claim holds that Q-Day means governments finally decrypt the criminals' mail. Testing that claim against the physics, the VENONA precedent, and the statute of limitations gives a stranger, more interesting answer.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/q-day-and-the-archive/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/q-day-and-the-archive/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Q-Day and the Archive: What Retrospective Decryption Can and Cannot Do">
+<meta name="twitter:description" content="Does Q-Day mean governments finally read the criminals' mail? A test of harvest-now-decrypt-later against the technical, historical, and legal record.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/q-day-and-the-archive/assets/cover.png">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#2563eb; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#60a5fa; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#0b1220 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:1.9rem; line-height:1.25; margin:0 0 6px;}
+  .dek{font-size:1.05rem; color:var(--muted); font-style:italic; margin:0 0 10px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
+  h2{font-size:1.35rem; margin:44px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  h3{font-size:1.08rem; margin:28px 0 10px; color:var(--fg);}
+  p{margin:0 0 18px;}
+  ul,ol{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:32px 0;}
+  strong{color:var(--fg);}
+  em{color:var(--fg);}
+  a{color:var(--accent); word-break:break-word;}
+  .abstract{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:8px; padding:20px 22px; margin:0 0 32px; font-size:.98rem;
+  }
+  .abstract p{margin:0 0 12px;}
+  .abstract p:last-child{margin-bottom:0;}
+  blockquote{
+    margin:0 0 18px; padding:14px 20px; border-left:3px solid var(--accent);
+    background:var(--card); border-radius:0 8px 8px 0; font-style:italic;
+  }
+  blockquote p{margin:0;}
+  table{width:100%; border-collapse:collapse; margin:0 0 18px; font-size:.88rem; display:block; overflow-x:auto;}
+  th,td{border:1px solid var(--rule); padding:9px 11px; text-align:left; vertical-align:top;}
+  th{background:var(--card); font-weight:600;}
+  .refs{font-size:.85rem; color:var(--muted); padding-left:26px;}
+  .refs li{margin-bottom:10px; word-break:break-word;}
+  .tiers h3{margin-top:22px;}
+  .note{
+    background:var(--card); border:1px solid var(--rule); border-radius:8px;
+    padding:18px 20px; margin:0 0 18px; font-size:.92rem; color:var(--muted);
+  }
+  .cta{
+    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--card);
+  }
+  .cta p{margin:0 0 14px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Q-Day and the Archive: What Retrospective Decryption Can and Cannot Do"></div>
+
+<main>
+  <p><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>Q-Day and the Archive</h1>
+  <p class="dek">What Retrospective Decryption Can and Cannot Do — a literature review of harvest-now-decrypt-later, and a test of the claim that Q-Day means the government finally reads the criminals' mail.</p>
+  <p class="byline">By Malcolm R. Smith — Savvy Security LLC</p>
+
+  <div class="abstract">
+    <p>A popular framing holds that "Q-Day" — the arrival of a cryptographically relevant quantum computer (CRQC) — will be the day governments finally decrypt the vast archive of intercepted communications they have accumulated from cyber criminals, and that arrests, indictments, and asset seizures will follow in a single cascade.</p>
+    <p>This article treats that framing as a hypothesis and tests it against the technical, historical, and legal record. The conclusion is mixed, and the mix is the interesting part.</p>
+    <p><strong>What survives scrutiny:</strong> Harvest-now-decrypt-later (HNDL) is real, documented, economically trivial for a state actor, and explicitly named in binding U.S. policy as of June 2026. The resource estimates for quantum cryptanalysis have collapsed by roughly two orders of magnitude in fourteen months. Retention rules for encrypted material at U.S. intelligence agencies were built, decades ago, on the explicit assumption that ciphertext should be kept until it can be read.</p>
+    <p><strong>What does not survive scrutiny:</strong> the "single day, total exposure" model. Shor's algorithm breaks key <em>establishment</em>, not bulk encryption. A CRQC will be a scarce, contested, expensive national resource, not a decryption utility. The historical precedent — VENONA — recovered under 3,000 messages out of hundreds of thousands over 37 years, and the government deliberately kept the results out of court to protect the method. Most federal cyber offences carry a five-year limitations period, which means a 2026 conversation decrypted in 2035 is, for prosecution purposes, usually a museum piece. And the actors most likely to be described as sophisticated cyber criminals are, in several respects, migrating to post-quantum cryptography faster than their victims are.</p>
+    <p><strong>Where the hypothesis is strongest, and where it is under-discussed:</strong> blockchain assets. Roughly 30% of circulating Bitcoin sits at addresses whose public keys are already permanently exposed on-chain. That is the one domain in which "Q-Day cracks the criminals' holdings" is not a metaphor. It is arithmetic.</p>
+  </div>
+
+  <h2>1. Framing the question honestly</h2>
+  <p>Before anything else, a definition problem needs to be cleared away, because the popular framing quietly merges three different claims.</p>
+  <p><strong>Claim A (technical).</strong> A sufficiently large fault-tolerant quantum computer running Shor's algorithm will break RSA, Diffie–Hellman, and elliptic-curve cryptography. This is not seriously disputed. It has been settled mathematics since 1994 [1].</p>
+  <p><strong>Claim B (operational).</strong> State actors are currently intercepting and archiving encrypted traffic specifically in order to decrypt it after Claim A comes true. This is well-supported for the general practice and is the stated premise of Western government policy [2][3][4].</p>
+  <p><strong>Claim C (the popular framing).</strong> On some identifiable day, a government will apply that capability across its accumulated archive and read the communications of criminal actors <em>en masse</em>, producing prosecutions.</p>
+  <p>Claim A is physics. Claim B is documented policy and reasonable inference. <strong>Claim C is neither</strong> — it is a folk model built by combining A and B and assuming the combination scales. The scholarly literature on HNDL does not make Claim C, and the sections below explain why.</p>
+  <p>This matters for anyone writing about Q-Day. The strongest version of the argument is not "they will read everything." It is narrower, stranger, and considerably more defensible.</p>
+
+  <h2>2. What quantum computing actually breaks</h2>
+  <p>The single most common error in Q-Day writing is treating "encryption" as one thing.</p>
+  <p>Modern secure communication is a two-layer construction. A <strong>public-key</strong> (asymmetric) algorithm is used to establish a shared secret between two parties who have never met. That shared secret then keys a <strong>symmetric</strong> cipher — nearly always AES — which does the actual bulk encryption of the payload.</p>
+  <p>Quantum computing attacks these two layers very differently.</p>
+
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Primitive</th><th>Quantum attack</th><th>Practical effect</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Key establishment</td><td>RSA, DH, ECDH, ECDSA</td><td><strong>Shor's algorithm</strong> — polynomial time</td><td>Catastrophic. The primitive is broken, not weakened.</td></tr>
+      <tr><td>Bulk encryption</td><td>AES-128 / AES-256</td><td><strong>Grover's algorithm</strong> — quadratic speedup only</td><td>Marginal. AES-256 remains acceptable in NSA's own post-quantum suite [5].</td></tr>
+      <tr><td>Hashing</td><td>SHA-256, SHA-384/512</td><td>Grover / collision search</td><td>Marginal. SHA-384 and SHA-512 remain in CNSA 2.0 [5].</td></tr>
+    </tbody>
+  </table>
+
+  <p>Two consequences follow, and both cut against the folk model.</p>
+  <p><strong>First</strong>, a CRQC does not open an encrypted disk. If a criminal enterprise stores its records in a VeraCrypt or LUKS volume, or a password-protected archive, the key is derived from a passphrase through a key-derivation function and used with AES. There is no public-key operation for Shor to attack. Grover's quadratic speedup against a properly sized symmetric key is not a practical attack — and against a <em>weak passphrase</em>, classical cracking already works today and always did. Quantum computing changes nothing about that category of evidence.</p>
+  <p><strong>Second</strong>, what a CRQC <em>does</em> open is captured <strong>session traffic</strong>, and it does so with unnerving completeness. In TLS 1.3, forward secrecy is provided by ephemeral elliptic-curve Diffie–Hellman. Forward secrecy protects you against <em>later key compromise</em> — it does not protect you against an adversary who recorded the handshake and can subsequently solve the discrete logarithm. A 2026 analysis modelling TLS 1.2, TLS 1.3, QUIC, and SSH found that once the ephemeral key is recoverable, retrospective decryption of a captured session is deterministic rather than probabilistic [6]. Forward secrecy, in the HNDL threat model, is not a defence.</p>
+  <p>So the honest technical statement is this: <strong>Q-Day threatens the wire, not the safe.</strong> It exposes what was transmitted, not what was stored under a passphrase.</p>
+
+  <h2>3. Harvest now, decrypt later: the literature</h2>
+  <p>HNDL — also called store-now-decrypt-later or retrospective decryption — describes an adversary who intercepts ciphertext today and retains it against a future decryption capability [7]. The academic and standards literature has converged on several findings.</p>
+
+  <h3>3.1 The Mosca inequality</h3>
+  <p>The organising framework is Michele Mosca's risk formulation, restated across seven annual editions of the Quantum Threat Timeline Report [8]. Let:</p>
+  <ul>
+    <li><strong>Ld</strong> = the number of years your data must remain confidential (shelf life)</li>
+    <li><strong>Lm</strong> = the number of years your cryptographic migration will take</li>
+    <li><strong>Lq</strong> = the number of years until a CRQC exists</li>
+  </ul>
+  <p>Then:</p>
+  <blockquote><p><strong>If Ld + Lm &gt; Lq, you are already exposed.</strong></p></blockquote>
+  <p>The elegance of this is that it removes the argument about dates. You do not need to know Lq precisely. If your data must stay secret for 15 years and your migration will take 7, then any Lq under 22 years means the exposure has <em>already occurred</em> — the ciphertext is already on someone's tape. This is why standards bodies treat 2030 and 2035 as action deadlines rather than as predictions [9][10].</p>
+
+  <h3>3.2 The economics are trivial for a state</h3>
+  <p>The most useful recent contribution is a 2026 feasibility study that actually costed the harvesting side rather than the decryption side [6]. Its finding is worth stating plainly: retaining intercepted traffic is cheap. Under a deliberately conservative commercial-cloud upper bound, archiving one percent of global traffic runs on the order of $10⁹ per year, with tape-based archival substantially cheaper, and a ten-year retention horizon landing in the $10¹⁰–10¹¹ range even under aggressive price-growth assumptions. For an actor with sunk infrastructure costs, the real figure is lower still.</p>
+  <p>The significance is not the number. It is that <strong>storage cost is not a constraint on HNDL.</strong> Any argument that HNDL "wouldn't be worth it" has to be made on the decryption side, not the collection side.</p>
+
+  <h3>3.3 Long-lived data is the target class</h3>
+  <p>The literature consistently identifies the exposed categories as those with long confidentiality lifetimes: health records, classified diplomatic material, intellectual property, genomic data, financial records, and identity documents [7][11]. One 2026 threat-model paper working from over a hundred primary sources argued that the overwhelming majority of health-sector and government-classified material encrypted today falls inside the retroactive-decryption window [11].</p>
+  <p>Note what is <em>not</em> on that list: operational criminal chatter, which has a short useful life. This is the first hint that the folk model has its target class backwards.</p>
+
+  <h2>4. The timeline has moved, sharply</h2>
+  <p>Between May 2025 and March 2026 the published resource estimates for quantum cryptanalysis fell by roughly two orders of magnitude. This is the strongest available support for urgency, and it deserves precise statement.</p>
+
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Work</th><th>Target</th><th>Physical qubits</th><th>Runtime</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2019</td><td>Gidney &amp; Ekerå [12]</td><td>RSA-2048</td><td>~20,000,000</td><td>8 hours</td></tr>
+      <tr><td>May 2025</td><td>Gidney [13]</td><td>RSA-2048</td><td>&lt;1,000,000</td><td>&lt;1 week</td></tr>
+      <tr><td>Feb 2026</td><td>Webster et al., "Pinnacle" [14]</td><td>RSA-2048</td><td>&lt;100,000</td><td>(qLDPC architecture)</td></tr>
+      <tr><td>Mar 2026</td><td>Babbush et al., Google Quantum AI [15]</td><td>ECDLP-256 (secp256k1)</td><td>&lt;500,000</td><td>~9 minutes</td></tr>
+      <tr><td>Mar 2026</td><td>Cain et al. [16]</td><td>ECDLP P-256</td><td>~10,000–26,000 (neutral atom)</td><td>days</td></tr>
+    </tbody>
+  </table>
+
+  <p>Each of these is a <em>resource estimate under stated assumptions</em> — a 10⁻³ physical error rate, microsecond code cycles, ten-microsecond reaction times — not a demonstration. That distinction is load-bearing and is routinely lost in coverage.</p>
+  <p>Three observations a careful reader should hold onto:</p>
+  <p><strong>The reductions are real but they trade one hard problem for another.</strong> The Pinnacle architecture achieves its order-of-magnitude saving by replacing surface codes with quantum LDPC codes, which demand non-local connectivity, real-time LDPC decoding, and month-scale fault-tolerant stability. Every generation of these papers shrinks the qubit count by making the remaining engineering nastier in ways a single headline number does not capture.</p>
+  <p><strong>Elliptic curves are cheaper to break than RSA — by about 100×.</strong> Google's ECDLP-256 circuits need roughly 70–90 million Toffoli gates versus roughly 6.5 billion for Gidney's RSA-2048 construction [13][15]. This is why the runtime collapses from a week to minutes, and it is why the first cryptographically relevant target is almost certainly elliptic-curve, not RSA.</p>
+  <p><strong>Current hardware is nowhere close.</strong> The best publicly known machines in mid-2026 operate in the low thousands of physical qubits, and none is fault-tolerant at scale. The gap to even the most optimistic threshold remains several orders of magnitude in qubit count and considerably more in sequential error-correction depth.</p>
+
+  <h3>4.1 What the experts actually say</h3>
+  <p>The longest-running formal survey is the Quantum Threat Timeline Report, whose seventh edition (dated March 2026) polled 26 international experts. Averaged estimates put the probability of a CRQC within ten years at 28–49% depending on interpretation, and within fifteen years at 51–70% [8]. The authors characterise the threat as looming and the timeline as having accelerated relative to prior editions.</p>
+  <p>One methodological caveat is worth surfacing, because it cuts <em>toward</em> urgency rather than away from it: the survey closed before the Pinnacle, Google ECDLP, and Cain results were published. An annual opinion survey ages in ways a capability measurement does not, and in this instance the technical inputs shifted materially after the estimate was fixed.</p>
+
+  <h3>4.2 The indicator worth watching</h3>
+  <p>Google's own paper contains the most useful forecasting heuristic in the recent literature, and it inverts the usual assumption. A public demonstration of Shor's algorithm against even a 32-bit elliptic curve should not be read as a wake-up call to begin migrating. It should be read as evidence that migration has <strong>already failed</strong>, because the distance from 32-bit to 256-bit may be traversed faster than any deployment cycle can respond [15].</p>
+  <p>That is a far better basis for writing about Q-Day than any calendar date.</p>
+
+  <h2>5. The archive: what the retention rules actually permit</h2>
+  <p>Here the folk model is on its strongest documentary footing, and it deserves to be stated fairly rather than dramatically.</p>
+  <p>United States intelligence retention rules were written, decades before anyone worried about quantum computing, on the explicit premise that encrypted material should be kept until it can be read.</p>
+  <p>The minimization procedures governing Section 702 of the Foreign Intelligence Surveillance Act — disclosed in 2013 — carve out encrypted communications from ordinary destruction requirements. The relevant provision permits retention of enciphered material, or material reasonably believed to carry concealed meaning, for the duration of any period during which it remains useful to cryptanalysis [17][18]. Read plainly, "for as long as it takes to break it" is a period with no defined terminus. Outside commentators reached that interpretation in 2013, and legal analysts examining the language concluded the breadth appeared deliberate rather than accidental [17].</p>
+  <p>Three further points make the picture more concrete:</p>
+  <ul>
+    <li>The Intelligence Authorization Act for FY2015 established retention guidelines for material collected under Executive Order 12333 and included an exception permitting indefinite retention of incidentally collected encrypted communications — writing the loophole into statute rather than leaving it in agency procedure [17].</li>
+    <li>Declassified FBI Section 702 procedures include an explicit modification to destruction requirements allowing retention of encrypted raw FISA data where it is needed for cryptanalysis or deciphering [19].</li>
+    <li>Ordinary Section 702 retention runs two to five years depending on collection programme; the encryption exception is one of the most consequential extensions of that baseline, and its significance grows in direct proportion to how much traffic is encrypted by default — which is now nearly all of it [20].</li>
+  </ul>
+  <p>On infrastructure: the NSA's Utah Data Center at Camp Williams is a real, roughly $1.2 billion facility. Its capacity has been the subject of wildly divergent public estimates, from exabytes to yottabytes; the credible market-based analyses cluster in the low single-digit to low double-digit exabyte range, and the more extravagant figures do not survive scrutiny [21][22]. And the FY2013 intelligence budget justification, disclosed in 2013, referred to investment in "groundbreaking cryptanalytic capabilities" — a phrase that launched a decade of speculation and which Bruce Schneier, at the time, read with considerable skepticism, noting that mathematics remains the strongest component of any cryptosystem and that implementation flaws, key compromise, and endpoint access are where real capability lives [23].</p>
+  <p><strong>The honest reading.</strong> The legal architecture for HNDL exists and predates the quantum concern. The storage exists. The stated intent to invest in cryptanalysis exists. What does <em>not</em> exist in the public record is any evidence of a programme aimed at retrospectively decrypting criminal communications specifically, nor any official statement resembling the Q-Day framing. The framework is general-purpose foreign-intelligence architecture. Reading a criminal-prosecution programme into it is an inference the documents do not support.</p>
+
+  <h2>6. The historical precedent: VENONA</h2>
+  <p>There is exactly one well-documented instance of a Western government running a decades-long harvest-now-decrypt-later operation to completion. It is the single most instructive case study available, and it is almost never cited in Q-Day writing.</p>
+  <p>Beginning in 1939 the U.S. Army collected encrypted Soviet diplomatic cables sent commercially from Soviet missions in the United States. The traffic used a two-part cipher over one-time pads — theoretically unbreakable. No serious cryptanalytic effort was mounted until February 1943, when Colonel Carter Clarke, worried that Stalin might negotiate separately with Germany, ordered the Signal Intelligence Service to try [24].</p>
+  <p>The break came not from mathematics but from an operational error: Soviet one-time pad material had been reused, which opened the traffic to statistical attack [25]. The first partial recovery came in late 1946 — seven years after collection began. Decryption continued message by message through the 1950s, 1960s, and into the 1970s. The programme did not terminate until October 1980, forty-one years after the first intercept [24].</p>
+  <p>The numbers are the lesson. Out of hundreds of thousands of intercepted cables, fewer than 3,000 were partially or wholly decrypted [24][25]. Recovery rates varied enormously by year — peaking near 49% for some 1944 traffic and collapsing to around 1.5% for 1945 after Soviet procedures changed [26]. Even successful decrypts were frequently fragmentary, with substantial portions remaining unrecovered and analysts forced to infer meaning from partial text [26].</p>
+  <p>And then the part that matters most for the folk model.</p>
+  <p>VENONA identified Soviet penetration of the Manhattan Project, the State Department, the Treasury, and the OSS. It named agents. And the government <strong>did not use it in court</strong>. Prosecuting on VENONA material would have required disclosing in open proceedings how the decryption was achieved, revealing the one-time-pad reuse to Moscow and ending the programme's productivity. In the Rosenberg case, prosecutors built on co-conspirator testimony that VENONA had independently corroborated, while the decrypts themselves stayed classified [27]. Theodore Hall, identified through VENONA-linked material in the late 1940s, was interviewed twice by the FBI, denied everything, and was never prosecuted — not because of doubt about his guilt, but because prosecution would have burned the source. He lived freely, later acknowledged his espionage, and died in Cambridge in 1999 [28].</p>
+  <p>In February 1956 the FBI produced what appears to be the only government analysis ever prepared on whether VENONA decrypts could serve as prosecutorial evidence [29]. The material was declassified in July 1995 — fifteen years after the programme ended and half a century after the events it described [26].</p>
+  <p><strong>Four transferable findings:</strong></p>
+  <ol>
+    <li>Retrospective decryption is <strong>selective</strong>, not comprehensive. Under 3,000 of hundreds of thousands.</li>
+    <li>It is <strong>slow</strong>. Decades, not a day.</li>
+    <li>It produces <strong>fragments</strong>, not clean transcripts.</li>
+    <li>Its output tends to be <strong>too sensitive to prosecute with</strong>. The state chose method-protection over conviction, repeatedly and deliberately.</li>
+  </ol>
+  <p>Every one of these cuts directly against Claim C.</p>
+
+  <h2>7. The modern precedent: EncroChat, Sky ECC, ANOM</h2>
+  <p>The nearest thing to an actual "Q-Day for criminals" already happened — and it was not cryptanalysis.</p>
+  <p>Between 2020 and 2021 European and allied law enforcement comprehensively compromised three encrypted phone networks marketed to organised crime. In the EncroChat operation, the French cybercrime unit C3N delivered an implant via a software update to EncroChat handsets worldwide, which then transmitted device memory contents to investigators — a fact recorded in the English Court of Appeal's judgment in <em>A, B, D &amp; C v R</em> [2021] EWCA Crim 128 [30]. Sky ECC was penetrated through comparable infrastructure-side methods. ANOM was not compromised at all: it was operated by the FBI from the outset.</p>
+  <p>The operations produced millions of messages, thousands of arrests, and major seizures. They also produced five years of unresolved litigation, and this is the part the Q-Day framing needs to reckon with.</p>
+  <p>The Court of Justice of the European Union ruled on the EncroChat material in <em>M.N.</em> on 30 April 2024, the first supranational judgment on the platform, addressing the conditions under which the material may be used as evidence and imposing requirements on transfer between member states [31]. National courts diverged sharply on lawfulness and admissibility [32][33]. Scholars have framed the central dispute as whether the operations constituted targeted interception in a criminal investigation or mass surveillance conducted by intelligence means — with Articles 7 and 8 of the EU Charter and Article 8 ECHR engaged either way [33][34]. In May 2026 the Court of Appeal of Basel-Stadt held that Sky ECC evidence failed on four separate grounds of admissibility. In the same month, a former head of Spain's UDEF testified in Spain's National Court that it was routine practice to disguise the origin of intercepted messages by presenting them as foreign-agency tip-offs — an allegation of systematic parallel construction, which, if established, would compound the disclosure problems already surrounding this evidence class [35].</p>
+  <p><strong>The lesson is not that retroactive exploitation of criminal communications is impossible.</strong> It plainly is possible; it has been done at scale. The lesson is that the <em>cryptanalytic</em> route is the least attractive path to it, and that even the endpoint-compromise route — faster, cheaper, and far better understood — generated half a decade of admissibility litigation and continues to generate it. A quantum decryption route would inherit every one of those problems and add novel ones: unprecedented provenance questions, a method the state would have overwhelming incentive to protect, and no established forensic standard for validating a quantum-derived plaintext.</p>
+
+  <h2>8. Five structural objections to the "Q-Day for cyber criminals" model</h2>
+  <p>Pulling the threads together, the folk model faces five independent obstacles. Any one of them would weaken it substantially; together they largely dismantle it in its strong form.</p>
+
+  <h3>8.1 The ciphertext is the wrong ciphertext</h3>
+  <p>As set out in §2, Shor breaks key establishment. The evidence prosecutors most want in a cyber case — the contents of a seized server, a forum database, a wallet file, an encrypted archive — is overwhelmingly protected by symmetric cryptography with a passphrase-derived key. Q-Day does not touch it. Conversely the material Q-Day <em>does</em> unlock, captured session traffic, is the material law enforcement is least likely to have systematically archived for domestic criminal purposes, and most likely to face the sharpest legal challenge if it did.</p>
+
+  <h3>8.2 Sophisticated targets are migrating faster than their victims</h3>
+  <p>This is the objection that most surprises people.</p>
+  <p>Signal deployed PQXDH for initial key agreement in 2023, protecting session establishment against HNDL. On 2 October 2025 it deployed the Sparse Post-Quantum Ratchet (SPQR), forming the Triple Ratchet, extending post-quantum forward secrecy and post-compromise security across the entire lifetime of a conversation rather than just its initiation — designed with PQShield, NYU, and AIST, published at Eurocrypt 2025 and USENIX Security 2025, and formally analysed by Cryspen [36][37][38]. Apple shipped PQ3 for iMessage in early 2024. The rollout was silent, automatic, and backward-compatible.</p>
+  <p>Criminal enterprises that use commodity secure messengers therefore received post-quantum protection for their forward traffic <em>by default</em>, on a timeline years ahead of most enterprise and government systems. Traffic harvested before those cutovers remains exposed. Traffic after them does not. The HNDL window on new criminal communications is narrowing on its own, without anyone deciding it should.</p>
+
+  <h3>8.3 A CRQC will be scarce, contested, and expensive</h3>
+  <p>The first machines capable of cryptographically relevant Shor computations will be national-scale instruments, and their queue will be set by counterintelligence priorities, not fraud caseloads. Nation-state diplomatic and military traffic outranks ransomware negotiation logs by an enormous margin.</p>
+  <p>Even the optimistic architectures imply real per-target cost. Google's ECDLP-256 estimate is minutes of runtime — but on a machine of roughly 500,000 fault-tolerant physical qubits with continuous magic-state production [15]. Gidney's RSA-2048 estimate is under a week of exclusive occupancy of a sub-million-qubit machine [13]. The neutral-atom path trades qubit count for runtime measured in days to weeks [16]. None of that resembles a bulk decryption service, and VENONA's under-3,000-of-hundreds-of-thousands ratio is the correct mental model for how such a resource gets allocated.</p>
+
+  <h3>8.4 Legal decay</h3>
+  <p>This is the objection least discussed and possibly the most decisive.</p>
+  <p>The general federal limitations period for non-capital offences is five years from completion of the offence, under 18 U.S.C. § 3282 [39]. The Computer Fraud and Abuse Act specifies no limitations period of its own, so CFAA prosecutions fall under that five-year default [40]. Wire fraud is likewise five years, extended to ten where a financial institution is affected under 18 U.S.C. § 3293 [41]. Courts have generally declined to apply a discovery rule that would restart the clock when a concealed offence is uncovered [42].</p>
+  <p>Apply that arithmetic to the Q-Day scenario. Traffic intercepted in 2026 and decrypted in, say, 2034 describes conduct eight years stale. For most cyber offences, prosecution is already time-barred. Continuing-offence and conspiracy doctrines, tolling for fugitives, and longer periods for particular offence classes provide real exceptions — but they are exceptions, and they require the conduct or the conspiracy to extend into the window, not merely to be <em>discovered</em> within it.</p>
+  <p>There is a second-order problem on top of the first. Even where charges remain live, the government must establish provenance and integrity of the plaintext, survive discovery on the method, and satisfy a court that a quantum-derived decryption is reliable — the entire fight that EncroChat has been generating since 2020, with a novel and highly classified technique substituted for a software implant. The VENONA calculus reappears: an intelligence agency asked to burn a strategic cryptanalytic capability to make a fraud case will decline.</p>
+  <p><em>(I am not a lawyer, and none of the above is legal advice; these are statutory provisions and the general doctrines around them, not an analysis of any particular case.)</em></p>
+
+  <h3>8.5 Adversaries do not announce</h3>
+  <p>The folk model implicitly assumes Q-Day will be visible. There is no reason to expect that. A state that achieves cryptanalytic capability has overwhelming incentive to conceal it — precisely the VENONA logic. The rational expectation is not a day of revelations but a period, possibly a long one, in which the capability exists and its effects are deniable, indirect, and attributed to other sources. If Q-Day is announced, it will be announced by a vendor.</p>
+
+  <h2>9. Where the hypothesis is right — and stronger than its proponents realise</h2>
+  <p>The steelman version of the Q-Day-against-criminals thesis is not about reading messages. It is about assets.</p>
+
+  <h3>9.1 Blockchain: the one place the arithmetic is literal</h3>
+  <p>Elliptic-curve cryptography secures essentially every major blockchain, and a public key on-chain is a <em>permanently published</em> Shor target. There is no forward secrecy, no rotation, no expiry.</p>
+  <p>The exposure has been quantified repeatedly and the figures are large. A 2026 Glassnode analysis found approximately 6.04 million BTC — about 30.2% of issued supply — with public keys already exposed on-chain, split between roughly 1.92 million BTC of structural exposure in Pay-to-Public-Key outputs and roughly 4.12 million BTC of operational exposure from address reuse [43]. The BIP-361 proposal documented over 34% of circulating supply having revealed a public key permanently on-chain as of 1 March 2026 [44]. Google's whitepaper identified roughly 6.9 million BTC vulnerable to at-rest attack, of which up to 2.3 million sit dormant and are therefore especially attractive targets [15][45]. There is genuine dispute about the magnitude: CoinShares argues the strictly structural P2PK exposure is closer to 1.7 million BTC (about 8% of supply), that most of it sits in tens of thousands of small individual outputs which would take an implausibly long time to unlock one by one, and that broader 25–30% figures overstate risk that address hygiene can mitigate [46].</p>
+  <p>Critically, at-rest attacks against already-exposed keys do not require a fast machine. They require only that the public key be known. That makes them feasible on the slow neutral-atom path as well as the fast superconducting one [45][16] — which is to say, they are the <em>first</em> cryptographically relevant attack likely to become viable, ahead of RSA by one to two orders of magnitude in cost [16].</p>
+  <p>Now connect that to criminal proceeds. Ransomware payments, darknet market revenues, and laundered flows sit substantially in cryptocurrency. Where those holdings are in addresses with exposed public keys — and dormant holdings, which include a great deal of unrecovered criminal proceeds, are disproportionately in exactly that category — a CRQC does not merely read a conversation about the money. It derives the private key and can move the funds.</p>
+  <p>This is the version of the thesis that holds. Not "the government reads the criminals' mail," but "the government, or whoever gets there first, can potentially take the criminals' money." That is a far more interesting article than the one usually written, and it comes with an uncomfortable corollary: the capability is not law-enforcement-specific. Whoever builds the machine first can do this, and their motives are not guaranteed to be prosecutorial.</p>
+
+  <h3>9.2 The policy record has caught up</h3>
+  <p>The second place the thesis is vindicated is in the abandonment of official ambiguity. HNDL is now named in binding U.S. policy.</p>
+  <p>On 22 June 2026 the White House issued Executive Order 14412, <em>Securing the Nation Against Advanced Cryptographic Attacks</em>, alongside EO 14413, <em>Ushering in the Next Frontier of Quantum Innovation</em> [47][48][49]. EO 14412 sets hard deadlines — high-value assets and high-impact systems must complete migration to post-quantum key establishment by December 2030, with 2031 gates for further categories, and it directs NIST and CISA to publish minimum elements for a federal Cryptographic Bill of Materials by March 2027 [50]. OMB Memorandum M-26-15, <em>Execution of the Migration to Post-Quantum Cryptography</em>, followed on 24 June — two days later, despite the order allowing ninety — laying out a five-phase timeline running to 2035, requiring agency migration plans by October 2026, and superseding M-23-02 as operative civilian guidance [51][52]. The Department of War PQC Strategy of 23 June set parallel 2030/2031 gates for defence systems, with National Security Systems governed separately under NSM-10 and CNSA 2.0 [52].</p>
+  <p>The technical baselines are already fixed. NIST IR 8547 proposes deprecating RSA, ECDSA, ECDH, and finite-field DH after 2030 and disallowing them after 2035 [9]. CNSA 2.0 specifies ML-KEM-1024, ML-DSA-87, AES-256, and SHA-384/512, with new National Security System acquisitions expected to be compliant from 1 January 2027, networking equipment at exclusive use by 2030, and operating systems, browsers, and cloud services by 2033 [5][53].</p>
+  <p>Every one of these documents is justified in whole or in part by HNDL. That is the vindication of Claim B: governments are not merely aware of retrospective decryption, they are restructuring federal IT procurement around the premise that adversaries are doing it now.</p>
+
+  <h2>10. What a rigorous Q-Day forecast looks like</h2>
+  <p>If you want to write or think about Q-Day defensibly, the following practices distinguish rigorous treatment from the alternative.</p>
+  <p><strong>Use the inequality, not the date.</strong> Ld + Lm &gt; Lq is falsifiable against your own data and your own migration plan. "Q-Day is in 2030" is not.</p>
+  <p><strong>Cite resource estimates as estimates.</strong> Every figure in §4 depends on a stated error rate, cycle time, and reaction time. Strip those assumptions and the number becomes a slogan.</p>
+  <p><strong>Distinguish qubit count from engineering difficulty.</strong> Pinnacle's 100,000 is not simply "ten times easier" than Gidney's million. It is a different and in some respects harder machine.</p>
+  <p><strong>Watch capability, not calendars.</strong> The 32-bit ECDLP demonstration heuristic from [15] is the best available leading indicator, and it is the only one that arrives with a built-in interpretation.</p>
+  <p><strong>Separate the three claims.</strong> A, B, and C above have entirely different evidence bases. Conflating them is the single most common failure mode in this literature.</p>
+  <p><strong>Track what the migration actually protects.</strong> Post-quantum key establishment protects <em>future</em> traffic. It does nothing for ciphertext already collected. This is why the accumulated pre-quantum archive is, in the words of the 2026 feasibility study, an unavoidable liability that grows with every day of delay [6].</p>
+
+  <h2>11. Conclusion</h2>
+  <p>The Q-Day framing that circulates most widely — one day, one capability, the archive opened, the criminals exposed — is not what the evidence supports, and it is not what the scholarly literature claims.</p>
+  <p>What the evidence supports is stranger and slower. Retention rules built decades ago on the premise that ciphertext should be kept until it can be read. Storage economics that make indefinite retention a rounding error for a state. Resource estimates falling by two orders of magnitude in fourteen months while the hardware remains three or more orders of magnitude away. A historical precedent that recovered under three thousand messages in forty-one years and then declined to prosecute with them. A modern precedent that achieved everything Q-Day is imagined to achieve, by entirely conventional means, and has been litigating admissibility ever since. A five-year limitations period that quietly voids most of the prosecutorial upside. And, off to one side and largely unremarked, roughly a third of all Bitcoin sitting at addresses with permanently published public keys, waiting for whoever builds the machine.</p>
+  <p>Q-Day is unlikely to be a day. It is more likely to be a decade in which some things quietly stop being secret, most of them not the things anyone expected, and during which nobody with the capability has any reason to say so.</p>
+  <p>The people best positioned to act on that are not law enforcement. They are everyone whose data has a shelf life longer than their migration plan.</p>
+
+  <hr>
+
+  <h2>References</h2>
+  <ol class="refs">
+    <li>Shor, P.W. (1997). Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer. <em>SIAM Journal on Computing</em> 26(5), 1484–1509. arXiv: quant-ph/9508027</li>
+    <li>Palo Alto Networks Unit 42. <em>Harvest Now, Decrypt Later (HNDL)</em>. <a href="https://www.paloaltonetworks.com/cyberpedia/harvest-now-decrypt-later-hndl" target="_blank" rel="noopener">paloaltonetworks.com</a></li>
+    <li>Cloud Security Alliance Labs (2026). <em>AI Infrastructure and Post-Quantum: Harvest Now, Decrypt Later v1</em>. <a href="https://labs.cloudsecurityalliance.org/research/ai-infrastructure-post-quantum-harvest-now-decrypt-later-v1/" target="_blank" rel="noopener">labs.cloudsecurityalliance.org</a></li>
+    <li>FedTech Magazine (July 2026). <em>Harvest Now, Decrypt Later: A Federal Quantum Threat</em>. <a href="https://fedtechmagazine.com/article/2026/07/harvest-now-decrypt-later-quantum-threat-federal-agencies-perfcon" target="_blank" rel="noopener">fedtechmagazine.com</a></li>
+    <li>NSA. <em>Commercial National Security Algorithm Suite 2.0</em> (CNSA 2.0), Sept. 2022 and subsequent FAQ revisions. Summary: <a href="https://www.encryptionconsulting.com/education-center/what-is-cnsa-2-0/" target="_blank" rel="noopener">encryptionconsulting.com</a></li>
+    <li><em>On the Practical Feasibility of Harvest-Now, Decrypt-Later Attacks</em> (2026). arXiv:2603.01091. <a href="https://arxiv.org/pdf/2603.01091" target="_blank" rel="noopener">arxiv.org/pdf/2603.01091</a></li>
+    <li><em>Post-Quantum Security: Origin, Fundamentals, and Adoption</em> (2024). arXiv:2405.11885. <a href="https://arxiv.org/pdf/2405.11885" target="_blank" rel="noopener">arxiv.org/pdf/2405.11885</a></li>
+    <li>Mosca, M. &amp; Piani, M. (March 2026). <em>Quantum Threat Timeline Report 2025</em>. Global Risk Institute / evolutionQ. <a href="https://globalriskinstitute.org/publication/quantum-threat-timeline-report-2025b/" target="_blank" rel="noopener">globalriskinstitute.org</a></li>
+    <li>NIST (Nov. 2024). <em>NIST IR 8547 ipd: Transition to Post-Quantum Cryptography Standards</em>. <a href="https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8547.ipd.pdf" target="_blank" rel="noopener">nvlpubs.nist.gov</a></li>
+    <li>NIST. FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA), August 2024.</li>
+    <li><em>Harvest Now, Decrypt Later: A Time-Dependent Threat Model and Migration Framework for Post-Quantum Cryptography</em> (2026). <a href="https://www.researchgate.net/publication/400298687" target="_blank" rel="noopener">researchgate.net</a></li>
+    <li>Gidney, C. &amp; Ekerå, M. (2021). How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits. <em>Quantum</em> 5, 433. <a href="https://quantum-journal.org/papers/q-2021-04-15-433/" target="_blank" rel="noopener">quantum-journal.org</a></li>
+    <li>Gidney, C. (2025). <em>How to factor 2048 bit RSA integers with less than a million noisy qubits</em>. arXiv:2505.15917. <a href="https://arxiv.org/abs/2505.15917" target="_blank" rel="noopener">arxiv.org/abs/2505.15917</a></li>
+    <li>Webster, P., Berent, L., Chandra, O., Hockings, E.T., Baspin, N., Thomsen, F., Smith, S.C. &amp; Cohen, L.Z. (2026). <em>The Pinnacle Architecture: Reducing the cost of breaking RSA-2048 to 100,000 physical qubits using quantum LDPC codes</em>. arXiv:2602.11457. <a href="https://arxiv.org/abs/2602.11457" target="_blank" rel="noopener">arxiv.org/abs/2602.11457</a></li>
+    <li>Babbush, R. et al., Google Quantum AI with Ethereum Foundation and Stanford (March 2026). <em>Securing Elliptic Curve Cryptocurrencies against Quantum Vulnerabilities: Resource Estimates and Mitigations</em>. <a href="https://research.google/blog/safeguarding-cryptocurrency-by-disclosing-quantum-vulnerabilities-responsibly/" target="_blank" rel="noopener">research.google</a></li>
+    <li>Cain, M., Xu, Q., King, R., Picard, L., Levine, H., Endres, M., Preskill, J., Huang, H.-Y. &amp; Bluvstein, D. (2026). <em>Shor's algorithm is possible with as few as 10,000 reconfigurable atomic qubits</em>. arXiv:2603.28627. <a href="https://arxiv.org/pdf/2603.28627" target="_blank" rel="noopener">arxiv.org/pdf/2603.28627</a></li>
+    <li>Erwin, M. (2015). <em>The Latest Rules on How Long NSA Can Keep Americans' Encrypted Data Look Too Familiar</em>. Just Security / Stanford CIS. <a href="https://www.justsecurity.org/19308/congress-latest-rules-long-spies-hold-encrypted-data-familiar/" target="_blank" rel="noopener">justsecurity.org</a></li>
+    <li>NSA Section 702 Minimization Procedures (2016). ODNI. <a href="https://www.dni.gov/files/documents/icotr/51117/2016_NSA_Section_702_Minimization_Procedures_Sep_26_2016.pdf" target="_blank" rel="noopener">dni.gov</a></li>
+    <li>Lawfare. <em>18 Documents ODNI Released: Section 702 Summaries</em>. <a href="https://www.lawfaremedia.org/article/18-documents-odni-released-section-702-summaries" target="_blank" rel="noopener">lawfaremedia.org</a></li>
+    <li>Just Security (2016). <em>Correcting the Record on Section 702, Part II</em>. <a href="https://www.justsecurity.org/33111/correcting-record-section-702-prerequisite-meaningful-surveillance-reform-part-ii/" target="_blank" rel="noopener">justsecurity.org</a></li>
+    <li>TechCrunch (2013). <em>The NSA's Massive Utah Data Center Won't Store Anything Close To Yottabytes Of Data</em>. <a href="https://techcrunch.com/2013/07/24/the-nsas-massive-utah-data-center-wont-store-anything-close-to-yottabytes-of-data" target="_blank" rel="noopener">techcrunch.com</a></li>
+    <li>NPR (2013). <em>Booting Up: New NSA Data Farm Takes Root In Utah</em>. <a href="https://www.npr.org/blogs/alltechconsidered/2013/09/23/225381596/" target="_blank" rel="noopener">npr.org</a></li>
+    <li>Schneier, B. (2013). <em>The NSA's Cryptographic Capabilities</em>. <a href="https://www.schneier.com/blog/archives/2013/09/the_nsas_crypto_1.html" target="_blank" rel="noopener">schneier.com</a></li>
+    <li><em>Is Harvest Now, Decrypt Later Real? The Evidence</em> (2026) — VENONA chronology. <a href="https://postquantum.com/post-quantum/is-harvest-now-decrypt-later-real/" target="_blank" rel="noopener">postquantum.com</a></li>
+    <li>NSA/CIA VENONA historical materials; see also summary at <a href="https://www.ebsco.com/research-starters/politics-and-government/venona-cables-are-declassified" target="_blank" rel="noopener">ebsco.com</a></li>
+    <li>VENONA decryption-rate and declassification records, July 1995 release (DCI Deutch). Compiled overview: <a href="https://grokipedia.com/page/Venona_project" target="_blank" rel="noopener">grokipedia.com</a></li>
+    <li>Analysis of the prosecutorial decision not to introduce VENONA material. <a href="https://revealedhisthq.com/venona-project-fatal-soviet-code-blunder/" target="_blank" rel="noopener">revealedhisthq.com</a></li>
+    <li>On Theodore Hall and the choice of secrecy over prosecution. <a href="https://ivovichev.com/venona-decrypts-soviet-espionage-mccarthyism-cold-war" target="_blank" rel="noopener">ivovichev.com</a></li>
+    <li>Belmont, A. (1 Feb. 1956). FBI internal analysis of VENONA reliability for prosecutorial use — the only known government assessment of its kind.</li>
+    <li><em>A, B, D &amp; C v R</em> [2021] EWCA Crim 128 (England and Wales Court of Appeal, Criminal Division), on EncroChat implant evidence. Summary: <a href="https://www.saunders.co.uk/news/encrochat-cases/" target="_blank" rel="noopener">saunders.co.uk</a></li>
+    <li>CJEU, <em>M.N.</em> (EncroChat), Case decided 30 April 2024, on Directive 2014/41/EU and use of EncroChat material as evidence.</li>
+    <li><em>Encrochat and Sky ECC Data as Evidence in Criminal Proceedings in Light of the CJEU Decision</em>. <em>European Journal of Crime, Criminal Law and Criminal Justice</em> 33(3) (2025). <a href="https://brill.com/view/journals/eccl/33/3/article-p235_002.xml" target="_blank" rel="noopener">brill.com</a></li>
+    <li>Oerlemans, J.-J. &amp; Royer, S. (2023). <em>The future of data-driven investigations in light of the Sky ECC operation</em>. <a href="https://journals.sagepub.com/doi/10.1177/20322844231212661" target="_blank" rel="noopener">journals.sagepub.com</a></li>
+    <li><em>EncroChat, Sky ECC and Regulation (EU) 2023/1543: towards new standards of digital evidence</em> (2025). <a href="https://www.researchgate.net/publication/398774381" target="_blank" rel="noopener">researchgate.net</a></li>
+    <li>Computer Weekly (May 2026). <em>Spanish police 'systematically' hid cryptophone intercepts from courts, claims ex chief</em>. <a href="https://www.computerweekly.com/news/366643318/" target="_blank" rel="noopener">computerweekly.com</a></li>
+    <li>Signal (2 Oct. 2025). <em>Signal Protocol and Post-Quantum Ratchets</em>. <a href="https://signal.org/blog/spqr/" target="_blank" rel="noopener">signal.org</a></li>
+    <li>PQShield (2025). <em>Protocol Signal and Post-Quantum Security</em> — Eurocrypt 2025 and USENIX Security 2025 results underlying the Triple Ratchet. <a href="https://pqshield.com/diving-into-signals-new-pq-protocol/" target="_blank" rel="noopener">pqshield.com</a></li>
+    <li>Schneier, B. (2025). <em>Signal's Post-Quantum Cryptographic Implementation</em>. <a href="https://www.schneier.com/blog/archives/2025/10/signals-post-quantum-cryptographic-implementation.html" target="_blank" rel="noopener">schneier.com</a></li>
+    <li>18 U.S.C. § 3282(a) — five-year limitations period for non-capital federal offences.</li>
+    <li>On the CFAA's reliance on the § 3282 default. <a href="https://legalclarity.org/the-computer-fraud-and-abuse-acts-statute-of-limitations/" target="_blank" rel="noopener">legalclarity.org</a></li>
+    <li>U.S. DOJ Justice Manual, Criminal Resource Manual 968 — <em>Defenses: Statute of Limitations</em>; 18 U.S.C. § 3293. <a href="https://www.justice.gov/archives/jm/criminal-resource-manual-968-defenses-statute-limitations" target="_blank" rel="noopener">justice.gov</a></li>
+    <li>On the general absence of a discovery rule in federal criminal limitations analysis, and on continuing-offence and conspiracy doctrine.</li>
+    <li>Glassnode (2026) analysis of on-chain public-key exposure, via <a href="https://www.spark.money/research/post-quantum-cryptography-bitcoin-threat" target="_blank" rel="noopener">spark.money</a></li>
+    <li>BIP-361 documentation of exposed-public-key supply as of 1 March 2026.</li>
+    <li>Discussion of at-rest versus on-spend quantum attacks on exposed keys following the March 2026 papers. <a href="https://medium.com/coinmonks/quantum-breakthroughs-in-2026-implications-for-bitcoin-security-and-the-ethereum-ecosystem-4a9acd836165" target="_blank" rel="noopener">medium.com</a></li>
+    <li>CoinShares. <em>Quantum Vulnerability in Bitcoin: A Manageable Risk</em> — the dissenting estimate. <a href="https://coinshares.com/insights/research-data/quantum-vulnerability-in-bitcoin-a-manageable-risk/" target="_blank" rel="noopener">coinshares.com</a></li>
+    <li>Executive Order 14412, <em>Securing the Nation Against Advanced Cryptographic Attacks</em> (22 June 2026).</li>
+    <li>Executive Order 14413, <em>Ushering in the Next Frontier of Quantum Innovation</em> (22 June 2026). <a href="https://www.govinfo.gov/app/details/DCPD-202600418" target="_blank" rel="noopener">govinfo.gov</a></li>
+    <li>Covington &amp; Burling, <em>Trump Administration Releases Two Executive Orders on Quantum</em>. <a href="https://www.insideprivacy.com/cybersecurity-2/trump-administration-releases-two-executive-orders-on-quantum/" target="_blank" rel="noopener">insideprivacy.com</a></li>
+    <li>Open Policy, <em>Twin Executive Orders Tackle U.S. Quantum Innovation and Resilience</em> — on CBOM requirements and 2030 HVA deadlines. <a href="https://www.openpolicy.co/resources/twin-executive-orders-tackle-u-s-quantum-innovation-and-resilience" target="_blank" rel="noopener">openpolicy.co</a></li>
+    <li>OMB Memorandum M-26-15, <em>Execution of the Migration to Post-Quantum Cryptography</em> (24 June 2026).</li>
+    <li><em>US Federal PQC Mandate After June 2026</em>. <a href="https://postquantum.com/post-quantum/us-federal-pqc-mandate-2026/" target="_blank" rel="noopener">postquantum.com</a></li>
+    <li>Encryption Consulting, <em>NIST IR 8547 and SP 800-131A Timeline</em>. <a href="https://www.encryptionconsulting.com/education-center/nist-ir-8547-sp-800-131a-algorithm-transitions/" target="_blank" rel="noopener">encryptionconsulting.com</a></li>
+  </ol>
+
+  <hr>
+
+  <h2>A note on epistemic status</h2>
+  <p>Sources in this article fall into four tiers of reliability, and readers should weigh them accordingly.</p>
+  <div class="tiers">
+    <p><strong>Tier 1 — primary and authoritative.</strong> Peer-reviewed papers and arXiv preprints from named researchers ([1], [12]–[16]), NIST and NSA standards documents ([5], [9], [10]), executive orders and OMB memoranda ([47], [48], [51]), declassified government procedures ([18], [19]), and court judgments ([30], [31]). These carry the argument.</p>
+    <p><strong>Tier 2 — reputable secondary analysis.</strong> Law-firm and academic commentary on the 2026 executive orders, the Global Risk Institute expert survey ([8]), peer-reviewed legal scholarship on EncroChat ([32]–[34]), and Schneier's contemporaneous analysis ([23], [38]).</p>
+    <p><strong>Tier 3 — specialist trade press and aggregators.</strong> Several sources in the reference list are industry blogs and quantum-sector trade publications. They are useful for chronology and for locating primary papers, and they are cited here largely for that purpose. Where a claim rests only on Tier 3, I have said so or attributed it to the specific outlet.</p>
+    <p><strong>Tier 4 — contested figures.</strong> The Bitcoin exposure numbers in §9.1 are genuinely disputed, ranging from roughly 8% to over 34% of supply depending on whether one counts structural P2PK exposure only, or includes operational exposure from address reuse. I have presented both the high and low estimates rather than picking one. The Utah Data Center capacity figures are likewise unresolved and the extreme claims should be discounted.</p>
+  </div>
+
+  <div class="note">
+    <p><strong>Claims I could not substantiate, and which I therefore do not make:</strong> that any government has a programme specifically aimed at retroactive decryption of criminal communications; that any official has articulated anything resembling the Q-Day framing tested here; or that a cryptographically relevant quantum computer currently exists. The first two are absent from the public record. The third is contradicted by it.</p>
+    <p style="margin-bottom:0"><strong>Post-cutoff material.</strong> Sections 4 and 9.2 rely on developments from February through June 2026 that I verified by search rather than recall. Anything published after mid-August 2026 is not reflected here, and given the pace of the last fourteen months, that gap may matter.</p>
+  </div>
+
+</main>
+
+<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+
+</body>
+</html>
