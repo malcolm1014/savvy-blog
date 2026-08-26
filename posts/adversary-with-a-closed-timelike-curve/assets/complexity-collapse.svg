@@ -1,0 +1,38 @@
+<svg width="1000" height="440" viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="panelbg3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f1a30"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="440" rx="12" fill="url(#panelbg3)"/>
+
+  <!-- nested complexity classes, without CTC -->
+  <text x="250" y="40" fill="#94a3b8" font-size="15" text-anchor="middle" letter-spacing="1">WITHOUT CTC ACCESS</text>
+  <ellipse cx="250" cy="230" rx="220" ry="160" fill="none" stroke="#334155" stroke-width="2"/>
+  <text x="250" y="90" fill="#64748b" font-size="16" text-anchor="middle">PSPACE</text>
+  <ellipse cx="250" cy="245" rx="150" ry="110" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <text x="250" y="150" fill="#93c5fd" font-size="16" text-anchor="middle">BQP</text>
+  <ellipse cx="250" cy="260" rx="80" ry="60" fill="#111c33" stroke="#60a5fa" stroke-width="2.5"/>
+  <text x="250" y="255" fill="#e5e7eb" font-size="18" text-anchor="middle" font-weight="700">P</text>
+  <text x="250" y="278" fill="#94a3b8" font-size="12.5" text-anchor="middle">classical crypto lives here</text>
+
+  <!-- arrow -->
+  <line x1="500" y1="230" x2="600" y2="230" stroke="#93c5fd" stroke-width="3" marker-end="url(#arrowc)"/>
+  <defs>
+    <marker id="arrowc" markerWidth="12" markerHeight="12" refX="9" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,7 L10,3.5 z" fill="#93c5fd"/>
+    </marker>
+  </defs>
+  <text x="550" y="215" fill="#93c5fd" font-size="13" text-anchor="middle">CTC access</text>
+  <text x="550" y="255" fill="#93c5fd" font-size="13" text-anchor="middle">(Aaronson–Watrous)</text>
+
+  <!-- collapsed class, with CTC -->
+  <text x="780" y="40" fill="#fca5a5" font-size="15" text-anchor="middle" letter-spacing="1">WITH CTC ACCESS</text>
+  <circle cx="780" cy="230" r="160" fill="#1c1024" stroke="#ef4444" stroke-width="2.5"/>
+  <text x="780" y="225" fill="#fecaca" font-size="26" text-anchor="middle" font-weight="700">P = BQP = PSPACE</text>
+  <text x="780" y="255" fill="#fca5a5" font-size="13.5" text-anchor="middle">classical and quantum computers</text>
+  <text x="780" y="275" fill="#fca5a5" font-size="13.5" text-anchor="middle">become equally, enormously powerful</text>
+
+  <text x="500" y="410" fill="#64748b" font-size="13.5" text-anchor="middle">A CTC-assisted machine solves everything in PSPACE — the entire hardness stack under deployed cryptography collapses at once.</text>
+</svg>

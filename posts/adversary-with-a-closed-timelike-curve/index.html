@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Adversary With a Closed Timelike Curve</title>
+<meta name="description" content="What theoretical physics actually says about time that folds back — and why it should interest anyone who thinks in threat models.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Adversary With a Closed Timelike Curve">
+<meta property="og:description" content="Your adversary has access to the past. Not logs of it — the past itself. A survey of what mathematical physics has established about backward-in-time influence, organized around the question a security researcher would ask: what does it break, and what stops it?">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/adversary-with-a-closed-timelike-curve/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/adversary-with-a-closed-timelike-curve/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Adversary With a Closed Timelike Curve">
+<meta name="twitter:description" content="What theoretical physics actually says about time that folds back — and why it should interest anyone who thinks in threat models.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/adversary-with-a-closed-timelike-curve/assets/cover.png">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#2563eb; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#60a5fa; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#0b1220 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:1.9rem; line-height:1.25; margin:0 0 6px;}
+  .dek{font-size:1.05rem; color:var(--muted); font-style:italic; margin:0 0 10px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
+  h2{font-size:1.35rem; margin:44px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  h3{font-size:1.08rem; margin:28px 0 10px; color:var(--fg);}
+  p{margin:0 0 18px;}
+  ul,ol{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:32px 0;}
+  strong{color:var(--fg);}
+  em{color:var(--fg);}
+  a{color:var(--accent); word-break:break-word;}
+  .lede{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:8px; padding:20px 22px; margin:0 0 32px; font-size:.98rem;
+  }
+  .lede p{margin:0 0 12px;}
+  .lede p:last-child{margin-bottom:0;}
+  blockquote{
+    margin:0 0 18px; padding:14px 20px; border-left:3px solid var(--accent);
+    background:var(--card); border-radius:0 8px 8px 0; font-style:italic;
+  }
+  blockquote p{margin:0;}
+  figure{margin:28px -20px; padding:0 20px;}
+  figure img{width:100%; height:auto; display:block; border-radius:10px; border:1px solid var(--rule); background:#0b1220;}
+  figcaption{font-size:.85rem; color:var(--muted); text-align:center; margin-top:10px; padding:0 8px;}
+  .refs{font-size:.85rem; color:var(--muted); padding-left:26px;}
+  .refs li{margin-bottom:10px; word-break:break-word;}
+  .note{
+    background:var(--card); border:1px solid var(--rule); border-radius:8px;
+    padding:18px 20px; margin:0 0 18px; font-size:.92rem; color:var(--muted);
+  }
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Adversary With a Closed Timelike Curve"></div>
+
+<main>
+  <p><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>The Adversary With a Closed Timelike Curve</h1>
+  <p class="dek">What theoretical physics actually says about time that folds back — and why it should interest anyone who thinks in threat models.</p>
+  <p class="byline">By Malcolm R. Smith — Savvy Security LLC</p>
+
+  <div class="lede">
+    <p>Here is a threat model nobody writes up: your adversary has access to the past. Not to logs of the past. To the past. They can send one qubit backward along a loop in spacetime and receive it as an input to the computation that produced it. Assume nothing else — no superior algorithms, no implementation bugs, no side channels, no insider. Just that one capability.</p>
+    <p>The security consequences are catastrophic and well-characterized in the peer-reviewed literature. That is the interesting part. This is not a fringe topic. It has theorems.</p>
+    <p>What follows is a survey of what mathematical physics has established about backward-in-time influence, organized around the question a security researcher would ask: <em>what does it break, and what stops it?</em></p>
+  </div>
+
+  <h2>1. General relativity does not forbid it</h2>
+  <p>Start with the geometry, because that is where the strongest result sits.</p>
+  <p>Einstein's field equations admit exact solutions containing <strong>closed timelike curves</strong> — worldlines that return to their own past without ever exceeding the speed of light. Gödel found the first in 1949, a rotating universe. Others followed: van Stockum's rotating dust cylinder, Tipler's infinite rotating cylinder, the region inside a Kerr black hole's inner horizon, Morris–Thorne traversable wormholes, Alcubierre-type warp geometries.</p>
+  <p>The mechanism is usually one of two things. Either light cones progressively tip over due to rotation about a symmetry axis until the "future" direction curves back around, or the solution violates an energy condition — requires matter with properties no observed substance has.</p>
+
+  <figure>
+    <img src="assets/light-cone-tipping.svg" alt="Diagram of light cones tipping progressively along a rotating spacetime until one edge points into the past, closing a loop.">
+    <figcaption>In solutions like Gödel's rotating universe, light cones tilt further and further along a closed path until one edge of the cone points backward in time — a closed timelike curve, with nothing ever moving faster than light.</figcaption>
+  </figure>
+
+  <p>That second clause is the load-bearing one. Every known CTC solution requires something we have never seen: infinite cylinders, negative energy density, rotation rates far exceeding anything cosmological observation supports. The equations permit these geometries. The universe has not been observed to supply the ingredients.</p>
+  <p>Stephen Hawking proposed the <strong>chronology protection conjecture</strong> in 1992 — that quantum effects diverge at the boundary of a would-be time machine and destroy it before it forms. Physics, he suggested, is safe for historians.</p>
+  <p>The conjecture remains unproven, and there is a structural reason it may be unprovable with current tools. Matt Visser's "reliability horizon" argument shows that the point where semiclassical quantum gravity stops being trustworthy always sits <em>outside</em> the chronology horizon. By the time you reach the region where you could check whether the time machine survives, the theory you are using to check has already failed. Visser's own reading: this is not a win for time travel enthusiasts, it is a demand for a full theory of quantum gravity. Counterexample constructions like the Roman ring make the same point from the other direction — no chronology protection theorem restricted to the reliable region can exist.</p>
+  <p>Nobody has closed this door. Nobody has proven it can be opened.</p>
+
+  <h2>2. The grandfather paradox is a solved problem</h2>
+  <p>This is where the field diverges hardest from popular intuition, and where it should start to feel familiar to anyone who has worked with constraint solvers.</p>
+  <p>The classic objection to time travel is logical, not physical: you go back, prevent your own departure, contradiction, therefore impossible. Joseph Polchinski posed the clean version to Kip Thorne — a billiard ball fired into a wormhole at an angle such that it emerges in the past and knocks its younger self off the path that sent it in.</p>
+  <p>Thorne's students Echeverria and Klinkhammer found the resolution in 1991. The ball emerges at a <em>different</em> angle, delivers a glancing blow rather than a full deflection, and that glancing blow adjusts the younger ball's trajectory into exactly the one that produces the glancing blow. The loop closes. No contradiction.</p>
+  <p>More importantly: they went looking for initial conditions admitting <em>no</em> self-consistent extension, and could not find any. Later analysis with Robert Forward showed some trajectories admit <em>infinitely many</em> consistent solutions. The problem was never too few histories. It was underdetermination — the loop does not overconstrain reality, it underconstrains it.</p>
+  <p>Quantum mechanically this becomes a theorem rather than a search. David Deutsch's 1991 model treats a CTC as a fixed-point condition on the density matrix of the looping system:</p>
+  <blockquote><p>ρ_CTC = Tr_CR [ U ( ρ_CR ⊗ ρ_CTC ) U† ]</p></blockquote>
+  <p>Nature must supply a ρ_CTC that reproduces itself after the interaction. Because the map is continuous over a compact convex set, Brouwer's fixed-point theorem guarantees at least one solution always exists. Deutsch noted it need not be unique.</p>
+
+  <figure>
+    <img src="assets/deutsch-fixed-point.svg" alt="Diagram of Deutsch's fixed-point model for closed timelike curves: a chronology-respecting register enters a unitary interaction alongside a CTC register that loops back into itself.">
+    <figcaption>Deutsch's model: the CTC register ρ_CTC is not created and then consumed — it is solved for, so that whatever comes out of the interaction is exactly what was fed back in.</figcaption>
+  </figure>
+
+  <p>Read that as a security property. <strong>Inconsistent histories are not forbidden by a rule that could be circumvented — they have no solution, and therefore zero amplitude.</strong> The grandfather paradox is not prevented. It is unsatisfiable. An attacker cannot construct one for the same reason they cannot construct an integer solution to xⁿ + yⁿ = zⁿ for n > 2.</p>
+  <p>Bennett and Schumacher's alternative model (P-CTCs) reaches consistency differently — by post-selection, discarding the inconsistent branches rather than solving for the fixed point. The two models are not equivalent and make different predictions. That disagreement is live.</p>
+
+  <h2>3. What it breaks</h2>
+  <p>Now the part that matters for this audience.</p>
+  <p><strong>Classical cryptography: gone.</strong> Aaronson and Watrous (<em>Proc. R. Soc. A</em> 465, 2009) proved that a computer with access to Deutschian CTCs has exactly the power of <strong>PSPACE</strong> — every problem solvable with polynomial memory. NP sits inside PSPACE. Factoring, discrete log, lattice problems, hash preimages, the entire hardness stack under every deployed and proposed cryptosystem: all polynomial-time for this adversary.</p>
+  <p><strong>Post-quantum migration does not help.</strong> The same paper's headline result is that CTCs make quantum and classical computing <em>equivalent</em> — both land on PSPACE. There is no quantum-resistant primitive to migrate toward, because the adversary's advantage is not quantum. A classical machine with a time loop is just as strong.</p>
+
+  <figure>
+    <img src="assets/complexity-collapse.svg" alt="Diagram showing complexity classes P, BQP, and PSPACE as nested ellipses without CTC access, collapsing into a single class P equals BQP equals PSPACE with CTC access.">
+    <figcaption>Aaronson and Watrous: CTC access collapses P, BQP, and PSPACE into one class. Migrating from classical to quantum-resistant cryptography does not help — this adversary was never limited by quantumness in the first place.</figcaption>
+  </figure>
+
+  <p><strong>Quantum key distribution: gone.</strong> Brun, Harrington and Wilde (<em>Phys. Rev. Lett.</em> 102, 210402) showed that qubits on closed timelike curves let a party perfectly distinguish any set of quantum states — including non-orthogonal ones. Their stated consequence is that an adversary with CTC access breaks any prepare-and-measure QKD protocol. BB84's security rests on the impossibility of distinguishing non-orthogonal states without disturbance. That impossibility does not survive contact with a time loop. The same result implies violation of the Holevo bound.</p>
+  <p><strong>No-cloning: gone.</strong> Follow-on work (Brun–Wilde–Winter; Ahn–Myers–Ralph–Mann) established that D-CTCs permit cloning of quantum states to arbitrary accuracy as the CTC system's dimension grows, and more generally allow implementation of essentially any continuous nonlinear map on states.</p>
+  <p>Notice what all of these share. The adversary's power comes from <strong>nonlinearity</strong>. CTC-assisted evolution is not a linear map on density matrices, and every quantum-information security proof in existence assumes linearity somewhere.</p>
+
+  <h2>4. The counterargument, which is serious</h2>
+  <p>Bennett, Leung, Smith and Smolin (<em>Phys. Rev. Lett.</em> 103, 170502) pushed back hard, and the objection is one this audience will appreciate because it is fundamentally about <strong>threat model definition</strong>.</p>
+  <p>Their argument: if you present the CTC-assisted computer with a <em>labeled mixture</em> of states to be discriminated — which is the natural adversarial formulation, the one that matches how you would actually specify a security game — the CTC provides no advantage at all. The apparent contradiction with the Brun–Harrington–Wilde result dissolves once you notice that because CTC evolution is nonlinear, the output on a mixture is <em>not</em> the convex combination of outputs on its pure components.</p>
+  <p>They named the error the "linearity trap." The stronger framing from their follow-up work: these results have not been shown to dramatically speed up computation <em>when computation is defined in a natural, adversarial way</em>.</p>
+  <p>This is a dispute about whether the security game was specified correctly. It has not been settled. Anyone citing "CTCs break QKD" without citing this rebuttal is quoting half a literature.</p>
+
+  <h2>5. The zero-capacity covert channel</h2>
+  <p>Set aside exotic geometry entirely. There is a second, quieter body of work arguing that backward-in-time influence is already present in ordinary quantum mechanics, in flat spacetime, with no wormhole required.</p>
+  <p>The <strong>two-state vector formalism</strong> (Watanabe 1955; Aharonov, Bergmann and Lebowitz 1964) holds that a forward-evolving quantum state underdetermines a system — you need a backward-evolving state as well for a complete specification. The <strong>Wheeler–Feynman</strong> and <strong>transactional</strong> approaches take seriously that Maxwell's equations admit advanced as well as retarded solutions, and that the Feynman propagator is an equally weighted sum of both. The most technically developed modern work is Wharton and Argaman's <em>Reviews of Modern Physics</em> colloquium (92, 021002), which shows Bell's theorem does not exclude models where mediating parameters depend on measurement settings in their future — models that describe events "all-at-once" rather than unfolding forward, and that dissolve the usual tension between quantum mechanics and relativity.</p>
+  <p>There is even an argument that this is forced. Price contended that any time-symmetric ontology must be retrocausal; Leifer and Pusey formalized it under a weaker assumption they call λ-mediation. Tim Maudlin argues the central proof is fatally flawed. Also unsettled.</p>
+  <p>Here is the part worth internalizing, and it is the deepest structural fact in the whole field:</p>
+  <p><strong>Every one of these models hides the retrocausal influence in variables you cannot access.</strong></p>
+  <p>They have to. Wood and Spekkens showed that any causal model reproducing quantum correlations while respecting no-signalling must violate faithfulness — the backward influence has to be <em>fine-tuned</em> so that it cancels exactly at the level of observable statistics. Shrapnel and Costa's no-go theorem tightened the screws further on classical-ontology retrocausal accounts.</p>
+  <p>Translate that into the native language of this audience. These models posit a channel from future to past that provably carries <strong>zero bits of capacity at the observable layer</strong>. The influence exists in the ontology. The bandwidth is identically zero, and it is zero by structural necessity rather than by engineering accident, because any nonzero capacity would immediately yield superluminal signalling and break relativity.</p>
+  <p>If you have ever assessed a covert channel and concluded the leak was real but the capacity was provably nil, you have already reasoned about this exact structure.</p>
+  <p>The philosophical objection has the same shape. The <strong>bilking argument</strong>: if C retrocausally causes earlier E, then having observed E, simply arrange that C never happens. Every serious retrocausal model survives bilking by putting the influence somewhere the experimenter cannot reach in to intervene. Unreachable is the entire load-bearing property.</p>
+
+  <h2>6. What this does not say</h2>
+  <p>Two disciplinary hygiene notes, because both errors are endemic.</p>
+  <p><strong>The delayed-choice quantum eraser does not demonstrate retrocausality.</strong> This is the experiment everyone reaches for and it does not show what it is claimed to show. The <em>total</em> dataset — every detection, unsorted — contains no interference pattern. The pattern appears only within subsets selected by the idler measurement, and those subsets interfere constructively in one and destructively in another, cancelling exactly when recombined. The physics is post-selection and correlation, structurally no stranger than a Bell test. Nothing in the past changed. The sorting key changed. Sean Carroll's treatment and Tabish Qureshi's analysis are both accessible and both blunt about this.</p>
+  <p><strong>And the crucial one: consistency is not revision.</strong> In every mathematically rigorous framework surveyed here — Novikov self-consistency, Deutsch fixed points, all-at-once retrocausal models — the future never <em>changes</em> the past. There is one history. It is globally consistent. It is solved as a whole rather than computed forward from initial conditions.</p>
+  <p>The past was always going to include the future's contribution. Nothing was overwritten, because there was never a prior version to overwrite.</p>
+  <p>Emily Adlam's work on laws-as-constraints (<em>Found. Phys.</em> 52, 28) gives this its cleanest formulation: laws that apply atemporally to an entire history at once, rather than as an update rule stepping a state forward. A global constraint satisfied by the whole, not a loop executed in order.</p>
+  <p>Which is, if you want the analogy, less like a program and more like a solver returning the single assignment that satisfies every clause simultaneously — including the clauses that reference variables the naive execution order would have called "later."</p>
+
+  <hr>
+
+  <h2>Primary sources</h2>
+  <p>All available free on arXiv unless noted.</p>
+
+  <h3>Geometry and causality</h3>
+  <ul class="refs">
+    <li>Luminet, <em>Closed Timelike Curves, Singularities and Causality: A Survey from Gödel to Chronological Protection</em> — arXiv:2101.08592. Best single entry point.</li>
+    <li>Lobo, <em>Closed timelike curves and causality violation</em> — arXiv:1008.1127.</li>
+    <li>Hawking, <em>Chronology Protection Conjecture</em>, Phys. Rev. D 46, 603 (1992).</li>
+    <li>Visser, <em>A reliability horizon for semiclassical quantum gravity</em> — arXiv:gr-qc/9702041; and <em>Traversable wormholes: the Roman ring</em> — arXiv:gr-qc/9702043.</li>
+  </ul>
+
+  <h3>Computation and security</h3>
+  <ul class="refs">
+    <li>Aaronson &amp; Watrous, <em>Closed Timelike Curves Make Quantum and Classical Computing Equivalent</em> — arXiv:0808.2669.</li>
+    <li>Brun, Harrington &amp; Wilde, <em>Localized closed timelike curves can perfectly distinguish quantum states</em> — arXiv:0811.1209.</li>
+    <li>Bennett, Leung, Smith &amp; Smolin, <em>Can closed timelike curves or nonlinear quantum mechanics improve quantum state discrimination or help solve hard problems?</em> — arXiv:0908.3023. <strong>Read this alongside the two above.</strong></li>
+    <li>Deutsch, <em>Quantum mechanics near closed timelike lines</em>, Phys. Rev. D 44, 3197 (1991).</li>
+    <li>Bartkiewicz et al., <em>Closed timelike curves and the second law of thermodynamics</em> — arXiv:1711.08334. Clean comparison of D-CTC vs P-CTC.</li>
+  </ul>
+
+  <h3>Quantum foundations</h3>
+  <ul class="refs">
+    <li>Wharton &amp; Argaman, <em>Colloquium: Bell's Theorem and Locally-Mediated Reformulations of Quantum Mechanics</em> — arXiv:1906.04313. The serious modern treatment.</li>
+    <li>Leifer &amp; Pusey, <em>Is a time symmetric interpretation of quantum theory possible without retrocausality?</em> — arXiv:1607.07871; with Maudlin's rebuttal, arXiv:1707.08641.</li>
+    <li>Adlam, <em>Laws of Nature as Constraints</em> — arXiv:2109.13836.</li>
+    <li>Stanford Encyclopedia of Philosophy, <em>Retrocausality in Quantum Mechanics</em>. The best-organized bibliography on the topic anywhere.</li>
+  </ul>
+
+  <hr>
+
+  <div class="note">
+    <p style="margin-bottom:0"><strong>A note on sourcing.</strong> Every citation above is to peer-reviewed work or to arXiv preprints by established researchers in the field. Where the literature disagrees — and on the security-relevant results it disagrees sharply — both sides are cited. Check the primary sources rather than this summary.</p>
+  </div>
+
+</main>
+
+<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+
+</body>
+</html>
