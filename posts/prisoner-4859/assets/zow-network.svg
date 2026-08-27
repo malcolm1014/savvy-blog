@@ -1,0 +1,105 @@
+<svg width="1000" height="560" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#11151c"/>
+      <stop offset="100%" stop-color="#1a1610"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="560" rx="10" fill="url(#bg2)"/>
+
+  <text x="30" y="42" font-family="Helvetica,Arial,sans-serif" font-size="15" fill="#b08d57" letter-spacing="2" font-weight="700">ZOW CELL ARCHITECTURE, 1940–43</text>
+  <text x="30" y="66" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#8a8378">Isolated five-man cells (“pi&#261;tki”) with no lateral knowledge of one another, each routed to a single privileged node</text>
+
+  <!-- five isolated "piatki" clusters, left column -->
+  <g id="clusters">
+    <!-- helper: a cluster is a center dot with 4 members around it -->
+    <g transform="translate(120,140)">
+      <circle r="46" fill="none" stroke="#3a3530" stroke-width="1" stroke-dasharray="2 6"/>
+      <circle cx="0" cy="0" r="6" fill="#e7e0d3"/>
+      <circle cx="-30" cy="-18" r="5" fill="#8a8378"/>
+      <circle cx="30" cy="-18" r="5" fill="#8a8378"/>
+      <circle cx="-30" cy="18" r="5" fill="#8a8378"/>
+      <circle cx="30" cy="18" r="5" fill="#8a8378"/>
+      <text x="0" y="72" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#8a8378">CELL A</text>
+    </g>
+    <g transform="translate(120,290)">
+      <circle r="46" fill="none" stroke="#3a3530" stroke-width="1" stroke-dasharray="2 6"/>
+      <circle cx="0" cy="0" r="6" fill="#e7e0d3"/>
+      <circle cx="-30" cy="-18" r="5" fill="#8a8378"/>
+      <circle cx="30" cy="-18" r="5" fill="#8a8378"/>
+      <circle cx="-30" cy="18" r="5" fill="#8a8378"/>
+      <circle cx="30" cy="18" r="5" fill="#8a8378"/>
+      <text x="0" y="72" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#8a8378">CELL B</text>
+    </g>
+    <g transform="translate(120,440)">
+      <circle r="46" fill="none" stroke="#3a3530" stroke-width="1" stroke-dasharray="2 6"/>
+      <circle cx="0" cy="0" r="6" fill="#e7e0d3"/>
+      <circle cx="-30" cy="-18" r="5" fill="#8a8378"/>
+      <circle cx="30" cy="-18" r="5" fill="#8a8378"/>
+      <circle cx="-30" cy="18" r="5" fill="#8a8378"/>
+      <circle cx="30" cy="18" r="5" fill="#8a8378"/>
+      <text x="0" y="72" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#8a8378">CELL C</text>
+    </g>
+  </g>
+
+  <!-- explicit "no lateral link" marks between clusters -->
+  <g stroke="#5b2b2b" stroke-width="2">
+    <line x1="120" y1="196" x2="120" y2="234" stroke-dasharray="1 6"/>
+    <line x1="120" y1="346" x2="120" y2="384" stroke-dasharray="1 6"/>
+  </g>
+  <g fill="#8a4b4b" font-family="Helvetica,Arial,sans-serif" font-size="10" letter-spacing="1">
+    <text x="132" y="218">&#10005; no contact</text>
+    <text x="132" y="368">&#10005; no contact</text>
+  </g>
+
+  <!-- Pilecki node, routing point -->
+  <g transform="translate(310,290)">
+    <circle r="14" fill="#b08d57"/>
+    <text x="0" y="-24" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="14" fill="#e7e0d3" font-weight="700">4859</text>
+  </g>
+
+  <!-- routing lines: each cluster to Pilecki, then to privileged nodes -->
+  <g stroke="#665a45" stroke-width="1.6" fill="none" opacity="0.85">
+    <path d="M166,140 C220,140 250,200 300,283"/>
+    <path d="M166,290 C230,290 260,290 296,290"/>
+    <path d="M166,440 C220,440 250,380 300,297"/>
+  </g>
+
+  <!-- privileged nodes, right column -->
+  <g font-family="Helvetica,Arial,sans-serif">
+    <g transform="translate(560,90)">
+      <rect x="0" y="-24" width="360" height="48" rx="6" fill="#1c2128" stroke="#b08d57" stroke-width="1.4"/>
+      <text x="18" y="-2" font-size="15" fill="#f2ede3" font-weight="700">Hospital admissions desk</text>
+      <text x="18" y="16" font-size="11.5" fill="#8a8378">Controls who is treated, recorded, or eliminated</text>
+    </g>
+    <g transform="translate(560,180)">
+      <rect x="0" y="-24" width="360" height="48" rx="6" fill="#1c2128" stroke="#b08d57" stroke-width="1.4"/>
+      <text x="18" y="-2" font-size="15" fill="#f2ede3" font-weight="700">Camp registry</text>
+      <text x="18" y="16" font-size="11.5" fill="#8a8378">Falsified professions and diagnoses on intake cards</text>
+    </g>
+    <g transform="translate(560,270)">
+      <rect x="0" y="-24" width="360" height="48" rx="6" fill="#1c2128" stroke="#b08d57" stroke-width="1.4"/>
+      <text x="18" y="-2" font-size="15" fill="#f2ede3" font-weight="700">Labor assignment desk</text>
+      <text x="18" y="16" font-size="11.5" fill="#8a8378">Arbeitsdienst — the single largest survival factor</text>
+    </g>
+    <g transform="translate(560,360)">
+      <rect x="0" y="-24" width="360" height="48" rx="6" fill="#1c2128" stroke="#b08d57" stroke-width="1.4"/>
+      <text x="18" y="-2" font-size="15" fill="#f2ede3" font-weight="700">Surveyors’ commando</text>
+      <text x="18" y="16" font-size="11.5" fill="#8a8378">Worked outside the wire — liaison to the local population</text>
+    </g>
+    <g transform="translate(560,450)">
+      <rect x="0" y="-24" width="360" height="48" rx="6" fill="#1c2128" stroke="#b08d57" stroke-width="1.4"/>
+      <text x="18" y="-2" font-size="15" fill="#f2ede3" font-weight="700">Concealed weapons cache</text>
+      <text x="18" y="16" font-size="11.5" fill="#8a8378">Beneath the construction office barracks</text>
+    </g>
+  </g>
+
+  <g stroke="#665a45" stroke-width="1.6" fill="none" opacity="0.85">
+    <path d="M324,283 C420,220 480,120 558,90"/>
+    <path d="M324,286 C420,240 480,200 558,180"/>
+    <path d="M324,290 C420,290 480,280 558,270"/>
+    <path d="M324,296 C420,330 480,350 558,360"/>
+    <path d="M324,299 C420,380 480,430 558,450"/>
+  </g>
+
+</svg>
