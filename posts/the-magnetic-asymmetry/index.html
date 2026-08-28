@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Magnetic Asymmetry</title>
+<meta name="description" content="Why lightning cannot bend your clocks but can still destroy your timeline — the breakdown asymmetry between air's electric-field ceiling and its unbounded magnetic field, worked through to Kerberos, TLS, and GNSS timing security.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Magnetic Asymmetry">
+<meta property="og:description" content="Lightning cannot alter the rate of your clocks — the physics forbids it by a factor of 10³¹. But it can alter what your clocks report, through a magnetic field the atmosphere has no way to limit. Why, quantitatively, and what it means for Kerberos, TLS, and GNSS timing.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-magnetic-asymmetry/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/the-magnetic-asymmetry/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Magnetic Asymmetry">
+<meta name="twitter:description" content="Lightning cannot alter the rate of your clocks — the physics forbids it by a factor of 10³¹. But it can alter what your clocks report. Why, quantitatively, and what it means for Kerberos, TLS, and GNSS timing.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-magnetic-asymmetry/assets/cover.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+
+<style>
+  html, body { margin: 0; padding: 0; background: #ece7dc; }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  a { color: #0f5f5c; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:hover { color: #8a3c14; }
+  sup a { text-decoration: none; }
+  .hero { background: #17170f url('assets/cover.png') center/cover no-repeat; aspect-ratio: 1200/630; width: 100%; }
+  footer.site { color: #6b6752; font-size: .85rem; text-align: center; padding: 30px 20px 50px; font-family: 'IBM Plex Mono', monospace; letter-spacing: .04em; background: #ece7dc; }
+  .eqbox { background: #fbf9f2; border: 1px solid #d9d2bc; border-left: 3px solid #0f5f5c; padding: 18px 26px; margin: 18px 0; overflow-x: auto; }
+  .eqbox.rust { border-left-color: #8a3c14; }
+  .dtable { width: 100%; border-collapse: collapse; margin: 18px 0 26px; font-size: 15px; }
+  .dtable th, .dtable td { border-bottom: 1px solid #cfc8b6; padding: 9px 14px; text-align: left; }
+  .dtable th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #6b6752; font-weight: 600; background: #efe9db; }
+  .dtable td { font-family: 'IBM Plex Mono', monospace; font-size: 14.5px; }
+  .pill { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 8px; }
+  .pill-out { background: #e5dcc2; color: #6b4a12; }
+  .pill-open { background: #d6e5e0; color: #0f5f5c; }
+  .pill-warn { background: #f0d9cf; color: #8a3c14; }
+  .bolt-ornament { display: block; margin: 56px auto; width: 46px; height: 80px; }
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Magnetic Asymmetry — a lightning bolt striking a Tesla coil, with a chart contrasting air's capped electric field against lightning's uncapped magnetic field"></div>
+
+<article style="background: #f7f4ec; color: #17170f; font-family: Spectral, Georgia, serif; padding: 64px 0 96px; min-height: 100vh;">
+
+  <div style="max-width: 1180px; margin: 0 auto; padding: 0 40px; box-sizing: border-box;">
+
+    <p style="margin: 0 0 22px;"><a href="../../" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #0f5f5c; text-decoration: none;">&larr; All articles</a></p>
+
+    <header style="border-bottom: 3px double #17170f; padding-bottom: 28px; margin-bottom: 40px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #5c5a4a; border-bottom: 1px solid #cfc8b6; padding-bottom: 14px; margin-bottom: 30px;">
+        <span>Savvy Security LLC &nbsp;·&nbsp; Electromagnetic Security Series</span>
+        <span>Working Paper No. 08 &nbsp;·&nbsp; August 2026</span>
+      </div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #8a3c14; margin-bottom: 20px;">Electromagnetic Physics · Time-Synchronisation Security</div>
+      <h1 style="font-size: 74px; line-height: 0.98; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 22px; max-width: 20ch;">The Magnetic Asymmetry</h1>
+      <p style="font-size: 25px; line-height: 1.4; font-weight: 300; font-style: italic; color: #3d3b2c; margin: 0 0 30px; max-width: 56ch;">Why lightning cannot bend your clocks — but can still destroy your timeline.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: baseline; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; line-height: 1.7; color: #3d3b2c;">
+        <div>
+          <div style="color: #8a8465; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;">Prepared by</div>
+          <div style="font-weight: 600;">Malcolm R. Smith</div>
+          <div>Savvy Security LLC</div>
+        </div>
+        <div>
+          <div style="color: #8a8465; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;">Organising incident</div>
+          <div>Google, St. Ghislain, 13 Aug 2015</div>
+          <div>Four strikes, one utility grid</div>
+        </div>
+        <div>
+          <div style="color: #8a8465; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;">Evidence base</div>
+          <div>~30 cited sources</div>
+          <div>Physics, IEC standards, security</div>
+        </div>
+      </div>
+    </header>
+
+    <section style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 56px; margin-bottom: 64px; align-items: start;">
+      <div>
+        <h2 style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #8a3c14; margin: 0 0 18px; font-weight: 600;">Abstract</h2>
+        <p style="font-size: 19px; line-height: 1.62; margin: 0 0 18px; text-wrap: pretty;">On 13 August 2015, four lightning strikes hit the utility grid feeding Google's St. Ghislain data centre in Belgium. Around five percent of persistent disks in the <code>europe-west1-b</code> zone experienced read or write failures over the following days, and a small fraction of customer data was permanently lost. The lightning never touched the building.</p>
+        <p style="font-size: 19px; line-height: 1.62; margin: 0 0 18px; text-wrap: pretty;">This article uses that event as its organising question: <strong>through what channel does an atmospheric discharge reach a digital system?</strong> The answer, worked out quantitatively, produces a result with an unexpectedly sharp edge. Lightning has essentially zero ability to alter the <em>rate</em> of a clock — the gravitational effect is smaller than the security-relevant threshold by a factor of 10³¹. But it has an enormous ability to alter the <em>reported value</em> of a clock, governed by a fundamental asymmetry in how air treats electric and magnetic fields.</p>
+        <p style="font-size: 19px; line-height: 1.62; margin: 0; text-wrap: pretty;">That asymmetry is the spine of this article. It explains why lightning is a magnetic phenomenon, why magnetic coupling is what actually breaks infrastructure, and why the same physics that makes lightning harmless to spacetime makes it dangerous to time synchronisation.</p>
+      </div>
+      <aside style="background: #17170f; color: #f2eee2; padding: 32px 30px; box-sizing: border-box;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #c9b98d; margin-bottom: 20px;">Six findings</div>
+        <ol style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.55; display: grid; gap: 14px;">
+          <li><strong style="font-weight: 600;">Air caps E, never B.</strong> Electric field breakdown ceilings electrical energy density at 39.8 J/m³ forever. The magnetic field has no analogous limit.</li>
+          <li><strong style="font-weight: 600;">The crossover is disturbingly low.</strong> Past 10 mT, a channel stores more energy magnetically than air can ever hold electrically — reached at 50 kA, one metre out.</li>
+          <li><strong style="font-weight: 600;">Faraday's law has no small constant.</strong> A 200 T/s field derivative through a 1 m² loop yields 200 volts, full stop — no contact required.</li>
+          <li><strong style="font-weight: 600;">Gravity's coupling constant is c⁴.</strong> ≈ 8×10³³. Lightning's gravitational time-shift is 1.7 billion times below the best clock measurement ever made.</li>
+          <li><strong style="font-weight: 600;">The operative gap is 10³¹.</strong> That's lightning's inductive reach over its gravitational reach, measured against Kerberos's 300‑second skew tolerance.</li>
+          <li><strong style="font-weight: 600;">St. Ghislain proves the threat model.</strong> The strikes hit the utility grid, not the facility. Damage is a coupling problem, not a proximity problem.</li>
+        </ol>
+      </aside>
+    </section>
+
+    <!-- FIGURE 1 -->
+    <figure style="margin: 0 0 72px; border-top: 3px double #17170f; border-bottom: 1px solid #cfc8b6; padding: 30px 0 22px;">
+      <figcaption style="margin-bottom: 22px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #8a3c14; margin-bottom: 10px; font-weight: 600;">Figure 1</div>
+        <div style="font-size: 27px; line-height: 1.25; font-weight: 600; max-width: 40ch; margin-bottom: 12px;">Energy density: the electric ceiling versus the uncapped magnetic field</div>
+        <div style="font-size: 15.5px; line-height: 1.55; color: #4a4738; max-width: 88ch;">Logarithmic vertical scale, joules per cubic metre. The dashed line is air's absolute electric-energy ceiling — 39.8 J/m³, reached at dry-air breakdown (3 MV/m) and never exceeded, in any configuration, ever. The bars are the magnetic energy density at four real lightning geometries, computed from B = μ₀I/2πr and u_B = B²/2μ₀.</div>
+      </figcaption>
+      <svg viewBox="0 0 1600 660" style="width: 100%; height: auto; display: block; font-family: 'IBM Plex Mono', monospace;" role="img" aria-label="Logarithmic bar chart comparing air's fixed electric energy ceiling of 39.8 joules per cubic metre against lightning's uncapped magnetic energy density at increasing proximity to the channel">
+        <line x1="120" y1="560" x2="1560" y2="560" stroke="#17170f" stroke-width="1.5" />
+        <line x1="120" y1="495.75" x2="1560" y2="495.75" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="431.5" x2="1560" y2="431.5" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="367.25" x2="1560" y2="367.25" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="303" x2="1560" y2="303" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="238.75" x2="1560" y2="238.75" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="174.5" x2="1560" y2="174.5" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="110.25" x2="1560" y2="110.25" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="46" x2="1560" y2="46" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="120" y1="46" x2="120" y2="560" stroke="#17170f" stroke-width="1.5" />
+
+        <g font-size="13" fill="#6b6752" text-anchor="end">
+          <text x="108" y="564">10</text>
+          <text x="108" y="499.75">100</text>
+          <text x="108" y="435.5">1 000</text>
+          <text x="108" y="371.25">10 000</text>
+          <text x="108" y="307">100 000</text>
+          <text x="108" y="242.75">1 000 000</text>
+          <text x="108" y="178.5">10 000 000</text>
+          <text x="108" y="114.25">100 000 000</text>
+        </g>
+        <text x="20" y="300" font-size="13" fill="#8a3c14" transform="rotate(-90 20 300)" text-anchor="middle" letter-spacing="0.16em">JOULES PER M³ (LOG)</text>
+
+        <!-- ceiling reference line -->
+        <line x1="120" y1="521.4" x2="1560" y2="521.4" stroke="#8a3c14" stroke-width="2" stroke-dasharray="8 6" />
+        <text x="210" y="503" font-size="14" fill="#8a3c14" text-anchor="start">u_E ceiling — 39.8 J/m³, fixed forever</text>
+
+        <!-- bars -->
+        <rect x="210" y="550.0" width="140" height="10.0" fill="#c8dfda" stroke="#0f5f5c" stroke-width="2" />
+        <rect x="530" y="521.4" width="140" height="38.6" fill="#0f5f5c" />
+        <rect x="850" y="229.3" width="140" height="330.7" fill="#a8562a" />
+        <rect x="1170" y="100.9" width="140" height="459.1" fill="#8a3c14" />
+
+        <g font-size="15" font-weight="600" fill="#17170f" text-anchor="middle">
+          <text x="280" y="536">14.3</text>
+          <text x="600" y="508">39.8</text>
+          <text x="920" y="216">1.40×10⁶</text>
+          <text x="1240" y="88">1.40×10⁸</text>
+        </g>
+
+        <g font-size="13.5" fill="#5c5a4a" text-anchor="middle" letter-spacing="0.03em">
+          <text x="280" y="584">10 m out</text>
+          <text x="280" y="600" fill="#8a8465">300 kA stroke</text>
+          <text x="600" y="584">1 m out</text>
+          <text x="600" y="600" fill="#8a8465">50 kA — the crossover</text>
+          <text x="920" y="584">Channel edge</text>
+          <text x="920" y="600" fill="#8a8465">30 kA, median stroke</text>
+          <text x="1240" y="584">Channel edge</text>
+          <text x="1240" y="600" fill="#8a8465">300 kA, extreme stroke</text>
+        </g>
+      </svg>
+      <div style="display: flex; flex-wrap: wrap; gap: 26px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5c5a4a;">
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 16px; height: 16px; background: #c8dfda; border: 2px solid #0f5f5c; display: inline-block;"></span> Below the electric ceiling</span>
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 16px; height: 16px; background: #0f5f5c; display: inline-block;"></span> At the crossover, by definition</span>
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 16px; height: 16px; background: #8a3c14; display: inline-block;"></span> Inside the channel — millions of times over</span>
+      </div>
+      <div style="margin-top: 18px; font-size: 14px; line-height: 1.5; color: #6b6752; max-width: 100ch;">Channel-edge figures use Rakov's channel-radius estimate of 0.32 cm at peak power. Full derivation in Appendix A.</div>
+    </figure>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">I. Two questions that sound identical</h2>
+      <div style="columns: 2; column-gap: 48px; font-size: 18px; line-height: 1.62;">
+        <p style="margin: 0 0 16px; text-wrap: pretty;">There is a question that gets asked in a physics register and a question that gets asked in a security register, and they use nearly the same words.</p>
+        <p style="margin: 0 0 16px;"><strong>The physics question:</strong> does a massive electromagnetic discharge alter the rate at which nearby clocks tick? <strong>The security question:</strong> does a massive electromagnetic discharge alter the time that nearby systems believe it is? The first is about the metric tensor. The second is about oscillators, GNSS receivers, NTP daemons, and Kerberos tickets. They have wildly different answers, and the gap between those answers is the most interesting quantity in this article.</p>
+        <p style="margin: 0;">The physics answer is <em>yes, by about 4.5 × 10⁻³⁰</em>. The security answer is <em>yes, by up to hours</em>. That is a ratio of roughly 10³¹ — and understanding why the gap is so vast requires understanding what lightning is actually made of.</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">II. The breakdown ceiling: why lightning is a magnetic event</h2>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.06em; color: #5c5a4a; margin: 0 0 30px;">The central physical result of the article — a hard constraint air places on one field and conspicuously fails to place on the other.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;"><strong>Air has a maximum electric field. It has no maximum magnetic field.</strong> Dry air at sea level breaks down at approximately 3 × 10⁶ V/m. Push harder and the air ionises: it stops being a dielectric and becomes a conductor. This is not a practical limitation, it is a phase transition — the electric field <strong>cannot</strong> be sustained above this value in atmosphere, because exceeding it destroys the medium's ability to hold it. That puts a hard ceiling on electric-field energy density:</p>
+
+      <div class="eqbox">$$u_E^{\max} = \tfrac{1}{2}\varepsilon_0 E_{bd}^2 = \tfrac{1}{2}(8.854\times10^{-12})(3\times10^6)^2 = 39.8\ \text{J/m}^3$$</div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;"><strong>Forty joules per cubic metre. That is the most electrical energy air can store, anywhere, ever.</strong> Now consider the magnetic field. Air is essentially non-magnetic (μᵣ ≈ 1) and has no analogous saturation mechanism:</p>
+
+      <div class="eqbox rust">$$u_B = \frac{B^2}{2\mu_0}, \qquad B = \frac{\mu_0 I}{2\pi r}$$</div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 24px;">There is no ceiling. Push more current and B rises without limit, bounded only by the current the channel can carry.</p>
+
+      <h3 style="font-size: 22px; margin: 0 0 12px;">The crossover is disturbingly low</h3>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">Set the two densities equal and solve. The condition is elegant:</p>
+      <div class="eqbox">$$\frac{B^2}{2\mu_0} = \frac{\varepsilon_0 E^2}{2} \;\Longrightarrow\; \boxed{B = E/c} \;\Longrightarrow\; B_{\text{cross}} = \frac{3\times10^6}{2.998\times10^8} = 10.0\ \text{mT}$$</div>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 20px;"><strong>Ten millitesla.</strong> Any current configuration producing more than 10 mT is storing more energy magnetically than air is physically capable of storing electrically. And the current required is unimpressive:</p>
+
+      <table class="dtable">
+        <tr><th>Distance from channel</th><th>Current for B = 10 mT</th></tr>
+        <tr><td>0.1 m</td><td>5.0 kA</td></tr>
+        <tr><td>1.0 m</td><td>50 kA</td></tr>
+        <tr><td>10 m</td><td>500 kA</td></tr>
+      </table>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 24px;">A median lightning return stroke carries 30 kA; extremes exceed 300 kA. Inside the channel it is not close: using Rakov's channel-radius estimate of 0.32 cm at peak power, a 30 kA stroke reaches 1.875 T at the channel edge — a magnetic energy density <strong>35,000×</strong> the electric ceiling. A 300 kA stroke reaches nearly 19 T — comparable to a research-grade superconducting magnet — at <strong>3,500,000×</strong> the ceiling. See Figure 1.</p>
+
+      <div style="background: #ece6d6; padding: 28px 32px; margin: 0 0 20px; border-left: 5px solid #8a3c14;">
+        <p style="font-size: 18px; line-height: 1.6; margin: 0;"><strong>Why this is causally necessary, not coincidental.</strong> A lightning channel exists <em>because</em> the electric field exceeded breakdown. The instant it does, the field collapses — that is what breakdown means — and the stored electrostatic energy converts into current. Current produces B. <strong>Lightning is not an electrical event that happens to have a magnetic component. Lightning is the mechanism by which the atmosphere converts an electric field it cannot hold into a magnetic field it has no way to limit.</strong> Every downstream consequence in this article follows from that sentence.</p>
+      </div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0;">There is a supporting structural point from the field-decomposition literature. The electric field of a return stroke separates into electrostatic, induction, and radiation components. The magnetic field has only <strong>two</strong> components — induction and radiation. There is no magnetostatic term, because there are no magnetic monopoles to produce one. The magnetic field of lightning is therefore <em>entirely</em> a dynamic quantity: it exists only while charge is moving or accelerating. It cannot sit still. And a field that cannot sit still is a field that is always changing — which is precisely what Faraday's law converts into voltage in someone else's circuit.</p>
+    </section>
+
+    <svg class="bolt-ornament" viewBox="0 0 120 220" aria-hidden="true">
+      <polygon points="74,0 24,132 54,132 21,220 102,101 66,101 96,0" fill="#17170f" stroke="#0f5f5c" stroke-width="3"/>
+    </svg>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">III. What an unlimited magnetic field does to infrastructure</h2>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.06em; color: #5c5a4a; margin: 0 0 30px;">Faraday's law is the entire attack surface.</p>
+
+      <div class="eqbox">$$\mathcal{E} = -\frac{d\Phi_B}{dt} = -\frac{d}{dt}\int \mathbf{B}\cdot d\mathbf{A}$$</div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">Note what this does <em>not</em> depend on: contact, proximity to the strike point, or any conductive path. It depends on <strong>loop area</strong> and <strong>rate of change</strong>. Any closed conductive loop is a receiving antenna, and modern infrastructure is built almost entirely out of accidental loops — a cable run and its return path, a ground loop between two racks, a patch panel, the perimeter of a server chassis.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">Measured peak current derivatives for return strokes cluster around 100 kA/μs (10¹¹ A/s); rocket-triggered lightning studies at Kennedy Space Center recorded a maximum of 411 kA/μs. For a straight conductor:</p>
+
+      <div class="eqbox rust">$$\frac{dB}{dt} = \frac{\mu_0}{2\pi r}\frac{dI}{dt}, \qquad \mathcal{E} = -A\frac{dB}{dt}\ \text{(1 m² loop)}$$</div>
+    </section>
+
+    <!-- FIGURE 2 -->
+    <figure style="margin: 0 0 60px; border-top: 3px double #17170f; border-bottom: 1px solid #cfc8b6; padding: 30px 0 22px;">
+      <figcaption style="margin-bottom: 22px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #8a3c14; margin-bottom: 10px; font-weight: 600;">Figure 2</div>
+        <div style="font-size: 27px; line-height: 1.25; font-weight: 600; max-width: 46ch; margin-bottom: 12px;">Induced voltage in a 1 m² wiring loop, no physical connection required</div>
+        <div style="font-size: 15.5px; line-height: 1.55; color: #4a4738; max-width: 88ch;">Log–log axes. Solid teal is a typical return-stroke derivative (100 kA/μs); dashed rust is the Kennedy Space Center record (411 kA/μs). The shaded band marks the 1.2–3.3 V operating range of ordinary logic-level electronics — note that even ten kilometres out, the induced transient is brushing the top of that band.</div>
+      </figcaption>
+      <svg viewBox="0 0 1600 540" style="width: 100%; height: auto; display: block; font-family: 'IBM Plex Mono', monospace;" role="img" aria-label="Log-log line chart of induced EMF in a one square metre loop versus distance from the lightning channel, for two current derivatives">
+        <rect x="150" y="405.5" width="1350" height="46.2" fill="#f0d9cf" opacity="0.55" />
+        <line x1="150" y1="500" x2="150" y2="40" stroke="#17170f" stroke-width="1.5" />
+        <line x1="150" y1="500" x2="1500" y2="500" stroke="#17170f" stroke-width="1.5" />
+        <line x1="150" y1="395" x2="1500" y2="395" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="150" y1="290" x2="1500" y2="290" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="150" y1="185" x2="1500" y2="185" stroke="#cfc8b6" stroke-width="1" />
+        <line x1="150" y1="80" x2="1500" y2="80" stroke="#cfc8b6" stroke-width="1" />
+
+        <g font-size="13" fill="#6b6752" text-anchor="end">
+          <text x="138" y="504">1 V</text>
+          <text x="138" y="399">10 V</text>
+          <text x="138" y="294">100 V</text>
+          <text x="138" y="189">1 000 V</text>
+          <text x="138" y="84">10 000 V</text>
+        </g>
+        <text x="1508" y="425" font-size="12.5" fill="#8a3c14">logic-level range</text>
+
+        <g font-size="13.5" fill="#5c5a4a" text-anchor="middle">
+          <text x="250" y="524">10 m</text>
+          <text x="650" y="524">100 m</text>
+          <text x="1050" y="524">1 km</text>
+          <text x="1450" y="524">10 km</text>
+        </g>
+
+        <!-- 100 kA/us series -->
+        <polyline points="250,113.4 650,218.4 1050,323.4 1450,428.4" fill="none" stroke="#0f5f5c" stroke-width="3" />
+        <g fill="#f7f4ec" stroke="#0f5f5c" stroke-width="3">
+          <circle cx="250" cy="113.4" r="7" /><circle cx="650" cy="218.4" r="7" />
+          <circle cx="1050" cy="323.4" r="7" /><circle cx="1450" cy="428.4" r="7" />
+        </g>
+        <g font-size="14" font-weight="600" fill="#0f5f5c">
+          <text x="270" y="105">2 000 V</text>
+          <text x="670" y="210">200 V</text>
+          <text x="1070" y="315">20 V</text>
+          <text x="1330" y="420">2.0 V</text>
+        </g>
+
+        <!-- 411 kA/us series -->
+        <g stroke="#8a3c14" stroke-width="3" stroke-dasharray="9 7">
+          <line x1="250" y1="48.9" x2="650" y2="153.9" />
+          <line x1="650" y1="153.9" x2="1050" y2="258.9" />
+          <line x1="1050" y1="258.9" x2="1450" y2="363.9" />
+        </g>
+        <g fill="#8a3c14">
+          <circle cx="250" cy="48.9" r="7" /><circle cx="650" cy="153.9" r="7" />
+          <circle cx="1050" cy="258.9" r="7" /><circle cx="1450" cy="363.9" r="7" />
+        </g>
+        <g font-size="14" font-weight="600" fill="#8a3c14">
+          <text x="270" y="40">8 220 V</text>
+          <text x="670" y="145">822 V</text>
+          <text x="1070" y="250">82.2 V</text>
+          <text x="1290" y="356">8.22 V</text>
+        </g>
+      </svg>
+      <div style="display: flex; flex-wrap: wrap; gap: 26px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5c5a4a;">
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 26px; height: 3px; background: #0f5f5c; display: inline-block;"></span> Typical return stroke, 100 kA/μs</span>
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 26px; height: 0; border-top: 3px dashed #8a3c14; display: inline-block;"></span> KSC record derivative, 411 kA/μs</span>
+        <span style="display: flex; align-items: center; gap: 9px;"><span style="width: 16px; height: 16px; background: #f0d9cf; display: inline-block;"></span> Logic-level operating range, 1.2–3.3 V</span>
+      </div>
+    </figure>
+
+    <section style="margin-bottom: 60px;">
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;"><strong>A one-square-metre wiring loop a kilometre from a strike sees tens of volts.</strong> Logic-level electronics operate at 1.2–3.3 V. The induced transient exceeds the operating voltage of every digital component in a modern data centre by an order of magnitude, from a strike a kilometre away, with no physical connection whatsoever.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">For structures that <em>are</em> struck, the inductive drop along the down conductor is worse still. At roughly 1 μH per metre of straight conductor:</p>
+      <div class="eqbox">$$V = L\frac{dI}{dt} = (10^{-6})(10^{11}) = 100\ \text{kV per metre}$$</div>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 28px;">At the record derivative, 411 kV per metre. A ten-metre run develops megavolts across it — which is why lightning protection systems are designed around bonding and equipotentialisation rather than "conducting the current safely away." There is no safely away. There is only making sure everything rises together.</p>
+
+      <div style="background: #17170f; color: #f2eee2; padding: 30px 32px; margin: 0 0 28px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #c9b98d; margin-bottom: 14px;">Why St. Ghislain lost data</div>
+        <p style="font-size: 17px; line-height: 1.6; margin: 0;">Google's own clarification is the important detail: the strikes hit the <strong>local utility grid</strong>, not the facility. The coupling path ran through the power infrastructure, not through the building's lightning protection. Battery backup engaged, but some storage systems proved susceptible to extended or repeated battery drain, and writes in flight at the moment of disruption were unrecoverable. <strong>Lightning damage is a coupling problem, not a proximity problem. Your threat model needs to include conductors you do not own.</strong></p>
+      </div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">This is not an analogy the author is inventing. The <strong>IEC 61000</strong> series treats high-power electromagnetics as a defined threat class, with IEC 61000-2-13 specifying representative radiated and conducted HPEM environments for civil facilities and IEC 61000-4-36 giving immunity test methods. <strong>Intentional Electromagnetic Interference (IEMI)</strong> is the deliberate version, defined by URSI as the malicious generation of electromagnetic energy to disrupt, confuse, or damage electronic systems — and a Tesla coil is, in essence, the benchtop version of that generator: a resonant transformer built to push exactly the uncapped magnetic quantity this section describes to its practical limit.</p>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0;">The crucial property of IEMI, and the reason it belongs in a security article: it produces effects on cyber-physical systems <strong>without requiring software access or network reachability</strong>. It couples analogue energy into equipment and cables. An air gap is not a defence against a magnetic field. Lightning is the naturally occurring instance of this threat class — the free, unclassified, globally distributed test case for exactly the coupling physics that IEMI weaponises, occurring roughly fifty times per second, worldwide, for free.</p>
+    </section>
+
+    <svg class="bolt-ornament" viewBox="0 0 140 200" aria-hidden="true">
+      <ellipse cx="70" cy="60" rx="52" ry="16" fill="none" stroke="#0f5f5c" stroke-width="5"/>
+      <line x1="70" y1="76" x2="70" y2="94" stroke="#17170f" stroke-width="5"/>
+      <rect x="26" y="94" width="88" height="86" fill="none" stroke="#17170f" stroke-width="4"/>
+      <g stroke="#8a3c14" stroke-width="3"><line x1="32" y1="108" x2="108" y2="108"/><line x1="32" y1="123" x2="108" y2="123"/><line x1="32" y1="138" x2="108" y2="138"/><line x1="32" y1="153" x2="108" y2="153"/><line x1="32" y1="168" x2="108" y2="168"/></g>
+      <line x1="70" y1="8" x2="70" y2="44" stroke="#8a3c14" stroke-width="3" stroke-dasharray="4 4"/>
+    </svg>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">IV. The relativistic parallel: lightning as a particle accelerator</h2>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.06em; color: #5c5a4a; margin: 0 0 30px;">The magnetic story has a relativistic twin that reaches digital systems through an entirely different door.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">The luminous return-stroke front propagates at roughly 1 × 10⁸ m/s — about a third of light speed:</p>
+      <div class="eqbox">$$\beta = 0.334, \qquad \gamma = 1.0608$$</div>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">A genuine <strong>6% time dilation</strong> for the co-moving frame. Not a rounding error — twenty-eight orders of magnitude larger than anything gravitational lightning produces. Above the return stroke sits something larger: in sufficiently strong fields, electrons gain energy from the field faster than atmospheric drag removes it — the <strong>relativistic runaway electron avalanche</strong> (RREA). The cascade produces electrons at tens of MeV which bremsstrahlung into gamma rays, observed from orbit as <strong>terrestrial gamma-ray flashes</strong> (TGFs). For a 40 MeV electron:</p>
+      <div class="eqbox rust">$$\gamma = 1 + \frac{40}{0.511} = 79.3, \qquad \beta = 0.99992$$</div>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;"><strong>A clock riding that electron runs seventy-nine times slow.</strong> Thunderstorms are natural particle accelerators reaching energies that required purpose-built facilities to achieve in a laboratory.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">And they flip bits. Tavani et al. (2013) modelled TGF exposure to aircraft electronics and found that <strong>secondary neutrons</strong>, produced by gamma-ray photoproduction in the airframe itself, contribute substantially to single-event effects in critical semiconductors — with fluxes calculated to be orders of magnitude above the natural cosmic-ray background, delivered within milliseconds. Single-event upsets from atmospheric neutrons are a long-established avionics failure mode; the TGF result adds a source that is <em>transient, intense, and correlated with thunderstorms</em>.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0;">So the same storm reaches your systems by two independent routes: <strong>magnetic</strong> — dB/dt couples into loops, induces voltage, destroys or disrupts hardware — and <strong>nuclear</strong> — relativistic electrons produce gammas produce neutrons produce bit flips in memory, with no electrical coupling at all. Both are real. Both are measured. Neither has anything to do with spacetime curvature.</p>
+    </section>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">V. The gravitational term, and why it is a dead end</h2>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; letter-spacing: 0.06em; color: #5c5a4a; margin: 0 0 30px;">For completeness — and because the calculation contains one genuinely surprising result.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">A superbolt at the extreme upper tail might release 10¹² J. Its mass-equivalent is 1.11 × 10⁻⁵ kg — eleven milligrams. At one metre, the fractional clock-rate shift from that alone is 8.3 × 10⁻³³. But charge enters the metric with the opposite sign. The Reissner–Nordström solution for a charged mass:</p>
+      <div class="eqbox">$$-g_{tt} = 1 - \frac{2GM}{rc^2} + \frac{GQ^2}{4\pi\varepsilon_0 r^2c^4}$$</div>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">The charge term is <strong>positive</strong>. It enters against the mass term — the surrounding electromagnetic field energy reduces the effective gravitating mass enclosed within radius r. Charge gravitationally repels. For an extreme 350 C flash at 1 m, the charge term works out to 9.10 × 10⁻³⁰ versus the mass term's 1.65 × 10⁻³². <strong>The charge term is 550 times larger and points the other way.</strong> The net first-order result is that a lightning channel makes nearby clocks run marginally <em>fast</em>: about <strong>4.549 × 10⁻³⁰ fractional</strong>.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;"><em>The honest caveat:</em> Reissner–Nordström describes a static, spherically symmetric, isolated charge in vacuum. A lightning channel is transient, filamentary, embedded in a conducting atmosphere, and — decisively — <strong>charge-neutralising</strong>. It moves charge between cloud and ground; the coupled system's monopole moment barely changes. The figure above is an upper bound on an idealisation. The real number is smaller.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">The best optical clock measurement to date achieved a fractional frequency uncertainty of 7.6 × 10⁻²¹ (Bothwell et al., <em>Nature</em> 2022). <strong>Lightning's gravitational signature is 1.7 × 10⁹ times below the best measurement ever made</strong> — not below the practical floor, below the record, by nine orders of magnitude.</p>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0;">And on resonance: Schumann resonances are real global standing waves in the Earth–ionosphere cavity, continuously driven by the roughly fifty flashes per second worldwide, fundamental at 7.83 Hz. But the stored electromagnetic energy across the <em>entire planetary cavity</em> is, at the high end of two disagreeing estimates, about 3.6 micrograms of mass-equivalent — roughly one-third of a single lightning flash, spread across the whole Earth. Resonance amplifies field amplitude at a driving frequency. It does not amplify stress-energy, and there is no term in the Einstein–Maxwell equations coupling cavity mode structure to curvature. A resonant cavity redistributes energy; it does not create it.</p>
+    </section>
+
+    <section style="margin-bottom: 60px; background: #ece6d6; padding: 40px 40px 36px; border-left: 5px solid #0f5f5c;">
+      <h2 style="font-size: 34px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 18px;">VI. Two coupling constants</h2>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 20px; max-width: 92ch;">Both halves of this article are stories about <strong>coupling</strong>. That is the structural insight, and it is where the numbers become interpretable rather than merely large. Ask, for each mechanism, what converts lightning's energy into an effect on a target.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+        <div style="background: #17170f; color: #f2eee2; padding: 26px 28px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #c9b98d; margin-bottom: 12px;">Gravitational coupling</div>
+          <div style="font-size: 22px; margin-bottom: 10px;">$$\frac{\Delta\tau}{\tau} \sim \frac{GU}{rc^4}$$</div>
+          <div style="font-size: 34px; font-weight: 700; line-height: 1; margin-bottom: 8px;">c⁴ ≈ 8 × 10³³</div>
+          <p style="font-size: 14.5px; line-height: 1.5; margin: 0;">Every joule is divided by a number with thirty-four digits before it becomes curvature. No amount of resonance, focusing, or cleverness changes a constant.</p>
+        </div>
+        <div style="background: #0f5f5c; color: #f2eee2; padding: 26px 28px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #cfe8e4; margin-bottom: 12px;">Inductive coupling</div>
+          <div style="font-size: 22px; margin-bottom: 10px;">$$\mathcal{E} = -\frac{d\Phi_B}{dt}$$</div>
+          <div style="font-size: 34px; font-weight: 700; line-height: 1; margin-bottom: 8px;">unity — no constant at all</div>
+          <p style="font-size: 14.5px; line-height: 1.5; margin: 0;">Tesla per second times square metres gives volts, directly. A 200 T/s derivative through a 1 m² loop gives 200 volts, full stop.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 20px 0 0; max-width: 92ch;"><strong>That is the whole article in two equations.</strong> And now the asymmetry from Part II closes the loop: because air caps E at 3 MV/m but does not cap B, and because a discharge is definitionally the conversion of capped electric energy into uncapped magnetic energy, lightning is <em>specifically optimised</em> to deliver energy through the coupling channel that has no small constant in it. Lightning is a machine for routing atmospheric energy around the one bottleneck that would have made it harmless.</p>
+    </section>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">VII. What this means for time-dependent security</h2>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 24px;">Nothing above lets lightning change how fast a clock ticks. But security systems do not depend on how fast clocks tick. They depend on what clocks <strong>report</strong> — a hardware and protocol question, wide open to exactly the coupling mechanisms established above. Time is a load-bearing security primitive:</p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 30px; margin: 0 0 30px;">
+        <div style="border-top: 1px solid #cfc8b6; padding-top: 12px;"><strong>Kerberos</strong> enforces a maximum clock skew, conventionally 300 seconds, specifically to prevent replay attacks. Exceed it and authentication fails wholesale. Roll a clock <em>backwards</em> and previously expired tickets may become reusable.</div>
+        <div style="border-top: 1px solid #cfc8b6; padding-top: 12px;"><strong>TLS / PKI</strong> binds every certificate to a validity window. A system that believes it is at a time before a revocation event may treat CRL or OCSP data as irrelevant.</div>
+        <div style="border-top: 1px solid #cfc8b6; padding-top: 12px;"><strong>TOTP</strong> second factors drift out of sync and fail outright.</div>
+        <div style="border-top: 1px solid #cfc8b6; padding-top: 12px;"><strong>Log correlation</strong> across hosts becomes meaningless if timestamps disagree — corrupting incident response and forensic reconstruction long after the storm has passed.</div>
+      </div>
+
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 16px;">Put the two numbers side by side:</p>
+      <div class="eqbox">$$\frac{\text{Kerberos skew tolerance}}{\text{lightning gravitational offset, 1 s flash}} = \frac{300\ \text{s}}{4.5\times10^{-30}\ \text{s}} \approx 6.6\times10^{31}$$</div>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 28px;">Lightning would need to be <strong>10³¹ times more effective</strong> at bending spacetime before its gravitational effect reached the smallest threshold any security protocol cares about. Meanwhile a lightning-induced power transient can knock a GNSS-disciplined grandmaster into holdover in microseconds — a TCXO-based time server drifts on the order of 10 ms/day in holdover, an OCXO roughly 1–10 μs/24 h, rubidium 100–500 ns/24 h. <strong>The gap between what lightning does gravitationally and what it does to your actual timing stack is thirty-one orders of magnitude. The physics is a curiosity. The engineering is a Tuesday.</strong></p>
+
+      <h3 style="font-size: 22px; margin: 0 0 14px;">The realistic attack and failure paths, ranked</h3>
+      <ol style="font-size: 17.5px; line-height: 1.6; padding-left: 22px; display: grid; gap: 12px; margin: 0 0 30px;">
+        <li><strong>Power transient → GNSS receiver reset → holdover → accumulating skew.</strong> Common, boring, well-documented. Damage scales with outage length and holdover-oscillator quality.</li>
+        <li><strong>Induced surge → hardware destruction on timing infrastructure.</strong> The 200 V figure at 1 km should be sobering for anyone with a rooftop GNSS antenna and a long cable run.</li>
+        <li><strong>GNSS spoofing during the confusion.</strong> Coherent spoofing slowly walks a receiver's clock to an attacker-chosen offset while the server reports normal operation; a storm-induced outage is excellent cover for reacquisition onto a spoofed signal.</li>
+        <li><strong>NTP manipulation during reacquisition.</strong> Legacy NTP is trust-by-wire and lacks source authentication, making timeshifting attacks straightforward when a client is scrambling for a reference.</li>
+        <li><strong>TGF-induced single-event upsets.</strong> Rare, and mostly relevant at altitude, but real and non-zero.</li>
+      </ol>
+
+      <h3 style="font-size: 22px; margin: 0 0 14px;">Defensive implications</h3>
+      <ul style="font-size: 17.5px; line-height: 1.6; padding-left: 22px; display: grid; gap: 10px; margin: 0;">
+        <li><strong>Minimise loop area.</strong> Induced EMF is proportional to enclosed area — the single highest-leverage physical control, and free at design time.</li>
+        <li><strong>Bond both ends of cable shields.</strong> Grounding both ends substantially reduces induced response; multi-layer shields outperform single (roughly 14.6–20.0 dB in one study).</li>
+        <li><strong>Prefer shielded twisted-pair</strong> for communication runs — it consistently outperforms alternatives under LEMP coupling.</li>
+        <li><strong>Specify holdover for the worst day, not the average one.</strong> The relevant question is your maximum credible GNSS outage.</li>
+        <li><strong>Treat holdover entry as a security event, not just an availability event</strong> — it is the moment your time source becomes attackable.</li>
+        <li><strong>Extend the threat model to conductors you do not own.</strong> St. Ghislain was hit through the utility grid.</li>
+        <li><strong>Monitor GNSS observables, not just lock status.</strong> Carrier-to-noise, satellite counts, direction of arrival — lock status alone says nothing about whether you are locked to the right thing.</li>
+      </ul>
+    </section>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">VIII. What the math constrains, and what it leaves open</h2>
+      <p style="font-size: 18px; line-height: 1.6; margin: 0 0 30px; max-width: 100ch;">"The math rules this out" and "the math is silent on this" are very different claims, and both get made carelessly. Here is the shape of the constraint, stated precisely.</p>
+
+      <div style="display: grid; gap: 20px;">
+        <div style="display: grid; grid-template-columns: 160px 1fr; gap: 26px; border-top: 1px solid #cfc8b6; padding-top: 20px;">
+          <div><span class="pill pill-out">Ruled out</span></div>
+          <p style="font-size: 17.5px; line-height: 1.6; margin: 0;">Gravitational time dilation from lightning at any level relevant to any system, biological or digital. This is not an engineering limit better instruments might overcome — the 1/c⁴ suppression is a coupling constant of nature. Nine orders of magnitude below the best measurement ever performed is not a gap that closes. Resonance does not rescue it: amplifying field amplitude in a cavity does not amplify stress-energy, and the entire global Schumann cavity holds at most a fraction of a single flash.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 160px 1fr; gap: 26px; border-top: 1px solid #cfc8b6; padding-top: 20px;">
+          <div><span class="pill pill-warn">Constrained, not eliminated</span></div>
+          <p style="font-size: 17.5px; line-height: 1.6; margin: 0;">The Reissner–Nordström result is real, and the <em>sign</em> is the interesting part: charge acts against mass in the metric. In an astrophysical regime with large net non-neutralising charge, that term is not negligible — it is negligible <em>for lightning</em> specifically because lightning neutralises. The return stroke's γ = 1.06 is a real relativistic correction that matters for propagation and field-derivative modelling; nobody is bending time with it, but it is not zero.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 160px 1fr; gap: 26px; border-top: 1px solid #cfc8b6; padding-top: 20px;">
+          <div><span class="pill pill-open">Genuinely open</span></div>
+          <p style="font-size: 17.5px; line-height: 1.6; margin: 0 0 10px;">TGF single-event effect rates at ground level and altitude are poorly bounded — Tavani's group explicitly called for dedicated measurement campaigns that remain incomplete. Correlated timing-infrastructure failure during storms is, as far as I can determine, <strong>unstudied as a security phenomenon</strong> — colocating a GNSS-disciplined time server with a triggered-lightning facility (Camp Blanding, Florida; the Säntis tower, Switzerland) is a straightforward, cheap, publishable experiment nobody appears to have run. The gradual-spoofing-during-storm-recovery attack is plausible from first principles with no published characterisation. And loop-area auditing of real data-centre topologies against measured LEMP environments — the engineering models exist; systematic application to modern high-density racks does not.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 16px; line-height: 1.6; margin: 24px 0 0; color: #4a4738;"><strong>The null result worth stating plainly:</strong> optical clocks colocated with lightning research facilities could in principle look for anomalous frequency shifts. The predicted signal is 10⁹ times below current sensitivity, so a null result is guaranteed and scientifically uninformative. A <em>positive</em> result would falsify general relativity — a strong reason to expect it will not happen. Stating the falsification condition and its expected outcome is what separates a physical argument from a plausible-sounding one.</p>
+    </section>
+
+    <section style="margin-bottom: 60px;">
+      <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">Conclusion</h2>
+      <div style="columns: 2; column-gap: 48px; font-size: 18px; line-height: 1.62;">
+        <p style="margin: 0 0 16px; text-wrap: pretty;">Lightning is the atmosphere's method for converting an electric field it cannot hold into a magnetic field it cannot limit. Air breaks down at 3 MV/m, capping electric energy density at 40 J/m³ forever; the magnetic field has no such ceiling, and at one metre from an ordinary 50 kA stroke it has already won. Inside the channel it wins by a factor of a million.</p>
+        <p style="margin: 0 0 16px;">That asymmetry determines everything downstream. Magnetic energy reaches the outside world through Faraday's law, whose coupling constant is one. Field energy reaches spacetime through general relativity, whose coupling constant contains c⁴. Lightning is therefore spectacularly effective at the first and utterly powerless at the second — and the ratio between those two capabilities, measured against the smallest threshold any security protocol enforces, is 10³¹.</p>
+        <p style="margin: 0;">For a security audience the operational summary is short. <strong>No adversary and no storm will ever alter the rate of your clocks.</strong> The physics forbids it at a level that is not negotiable. But the reported value of your clocks sits behind a GNSS receiver, an oscillator, a power supply, and several kilometres of conductor you do not control — and all four are wide open to a magnetic field that nothing in the atmosphere knows how to limit. <strong>The threat to your timeline was never relativistic. It was always inductive.</strong></p>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 60px; border-top: 3px double #17170f; padding-top: 30px;">
+      <h2 style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #8a3c14; margin: 0 0 22px; font-weight: 600;">Appendix — Key parameters</h2>
+      <table class="dtable">
+        <tr><th>Quantity</th><th>Value</th><th>Note</th></tr>
+        <tr><td>c</td><td>2.99792458 × 10⁸ m/s</td><td>exact</td></tr>
+        <tr><td>ε₀</td><td>8.8541878128 × 10⁻¹² F/m</td><td>CODATA</td></tr>
+        <tr><td>μ₀</td><td>1.25663706212 × 10⁻⁶ H/m</td><td>CODATA</td></tr>
+        <tr><td>Air breakdown field</td><td>~3 × 10⁶ V/m</td><td>dry air, STP</td></tr>
+        <tr><td>Typical / extreme peak current</td><td>30 kA / 300 kA</td><td>median CG / extreme</td></tr>
+        <tr><td>Mean / max peak dI/dt</td><td>122 kA/μs / 411 kA/μs</td><td>triggered-lightning; KSC record</td></tr>
+        <tr><td>Return stroke speed</td><td>~1 × 10⁸ m/s</td><td>⅓ c</td></tr>
+        <tr><td>Channel radius at peak power</td><td>~0.32 cm</td><td>Rakov</td></tr>
+        <tr><td>RREA electron energy</td><td>up to ~40 MeV</td><td>TGF observations</td></tr>
+        <tr><td>Global flash rate</td><td>~50/s</td><td>&nbsp;</td></tr>
+        <tr><td>Conductor self-inductance</td><td>~1 μH/m</td><td>straight run</td></tr>
+        <tr><td>Kerberos default skew</td><td>300 s</td><td>krb5.conf clockskew</td></tr>
+        <tr><td>OCXO / rubidium holdover drift</td><td>1–10 μs / 100–500 ns per 24 h</td><td>&nbsp;</td></tr>
+        <tr><td>Best clock fractional uncertainty</td><td>7.6 × 10⁻²¹</td><td>Bothwell et al. 2022</td></tr>
+      </table>
+      <p style="font-size: 14.5px; line-height: 1.6; color: #6b6752; max-width: 100ch; margin: 0;"><strong>Assumptions and weaknesses:</strong> the Reissner–Nordström result assumes a static, spherically symmetric, isolated, vacuum charge — a lightning channel satisfies none of these, so §V's figure is a bounding idealisation, further weakened by CG-flash charge neutralisation. Treating a ~5 km channel as a point source at 1 m is geometrically wrong but does not change the order of magnitude. The uniform-B-over-loop-area assumption in the Faraday calculation is valid for loops small compared to r and overestimates for large loops close in. Humidity, altitude, and particulates lower the 3 MV/m breakdown figure, which strengthens rather than weakens the asymmetry argument. Superbolt energy figures are poorly constrained. The two Schumann-cavity energy estimates disagree by seven orders of magnitude; the argument is constructed to survive either.</p>
+    </section>
+
+    <section style="border-top: 3px double #17170f; padding-top: 30px;">
+      <h2 style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: #8a3c14; margin: 0 0 22px; font-weight: 600;">Sources</h2>
+      <ol style="margin: 0; padding-left: 24px; columns: 2; column-gap: 48px; font-size: 14.5px; line-height: 1.55; color: #35332a;">
+        <li style="margin-bottom: 11px;">Rakov, V. A. &amp; Uman, M. A. <em>Lightning: Physics and Effects</em>. Cambridge University Press.</li>
+        <li style="margin-bottom: 11px;">Rakov, V. A. "Parameters of Rocket-Triggered Lightning." University of Florida.</li>
+        <li style="margin-bottom: 11px;">Rakov, V. A. &amp; Rachidi, F. (2009). <em>IEEE Trans. EMC</em>. — channel radius and input energy per unit length.</li>
+        <li style="margin-bottom: 11px;">Cooray, V. et al. "A Novel Interpretation of the Electromagnetic Fields of Lightning Return Strokes." <em>Atmosphere</em> 10(1), 22 (2019).</li>
+        <li style="margin-bottom: 11px;">Rachidi, F. et al. "Current and electromagnetic field associated with lightning return strokes to tall towers." <em>IEEE Trans. EMC</em>.</li>
+        <li style="margin-bottom: 11px;">Nucci, C. A. et al. "Lightning Electromagnetic Field Coupling to Overhead Lines." <em>IEEE Trans. EMC</em>.</li>
+        <li style="margin-bottom: 11px;">Zhou et al. "Lightning inductive coupling characteristics of parallel cables." <em>IET Science, Measurement &amp; Technology</em> (2023).</li>
+        <li style="margin-bottom: 11px;">"Affection of shielding methods on the characteristics for cable coupled to lightning impulse magnetic field." <em>Electric Power Systems Research</em> (2023).</li>
+        <li style="margin-bottom: 11px;">IEC 61000-2-13 — HPEM radiated and conducted environments for civil facilities.</li>
+        <li style="margin-bottom: 11px;">IEC 61000-4-36 — IEMI immunity test methods.</li>
+        <li style="margin-bottom: 11px;">Giri, D. V. &amp; Tesche, F. M. — IEMI classification and bandratio taxonomy.</li>
+        <li style="margin-bottom: 11px;">FERC Meta-R-323, "Intentional Electromagnetic Interference (IEMI) and Its Impact on the U.S. Power Grid."</li>
+        <li style="margin-bottom: 11px;">Dwyer, J. R. "The relativistic feedback discharge model of terrestrial gamma ray flashes." <em>J. Geophys. Res.</em></li>
+        <li style="margin-bottom: 11px;">Tavani, M. et al. "Possible effects on avionics induced by terrestrial gamma-ray flashes." <em>Nat. Hazards Earth Syst. Sci.</em> 13, 1127 (2013).</li>
+        <li style="margin-bottom: 11px;">Taber, A. &amp; Normand, E. "Single event upset in avionics." <em>IEEE Trans. Nucl. Sci.</em> 40, 120 (1993).</li>
+        <li style="margin-bottom: 11px;">JEDEC JESD89 — measurement and reporting of terrestrial cosmic-ray-induced soft errors.</li>
+        <li style="margin-bottom: 11px;">Bothwell, T. et al. "Resolving the gravitational redshift across a millimetre-scale atomic sample." <em>Nature</em> 602, 420 (2022).</li>
+        <li style="margin-bottom: 11px;">Aeppli, A. et al. "Clock with 8 × 10⁻¹⁹ Systematic Uncertainty." <em>Phys. Rev. Lett.</em> 133, 023401 (2024).</li>
+        <li style="margin-bottom: 11px;">McGrew, W. F. et al. "Atomic clock performance enabling geodesy below the centimetre level." <em>Nature</em> 564, 87 (2018).</li>
+        <li style="margin-bottom: 11px;">Misner, Thorne &amp; Wheeler, <em>Gravitation</em>, §§23, 31–33.</li>
+        <li style="margin-bottom: 11px;">Wald, R. M. <em>General Relativity</em>, Ch. 6.</li>
+        <li style="margin-bottom: 11px;">RFC 5905 — NTPv4 specification.</li>
+        <li style="margin-bottom: 11px;">IEEE 1588 — Precision Time Protocol.</li>
+        <li style="margin-bottom: 11px;">MIT Kerberos / Oracle documentation — <code>clockskew</code> default of 300 s and its replay-prevention rationale.</li>
+        <li style="margin-bottom: 11px;">Microsoft, "Maximum tolerance for computer clock synchronization."</li>
+        <li style="margin-bottom: 11px;">Mumtaz, A. &amp; Singh, M. "TRICK: Time and Range Integrity ChecK using LEO Satellites for Securing GNSS." arXiv:2511.05100.</li>
+        <li style="margin-bottom: 11px;">Google Cloud Status, incident report for <code>europe-west1-b</code>, 13 August 2015, and subsequent clarification that the strikes hit the utility grid rather than the facility.</li>
+      </ol>
+      <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid #cfc8b6; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; color: #6b6752; display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+        <span>Prepared for publication on behalf of Malcolm R. Smith · Savvy Security LLC</span>
+        <span>Figures compiled August 2026 · numbers dated to their sources</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+<footer class="site">Savvy Security LLC &middot; Malcolm R. Smith</footer>
+
+</body>
+</html>
