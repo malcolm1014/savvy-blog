@@ -53,7 +53,12 @@
   .pill-out { background: #e5dcc2; color: #6b4a12; }
   .pill-open { background: #d6e5e0; color: #0f5f5c; }
   .pill-warn { background: #f0d9cf; color: #8a3c14; }
-  .bolt-ornament { display: block; margin: 56px auto; width: 46px; height: 80px; }
+  .photo-figure { margin: 56px auto; max-width: 620px; }
+  .photo-figure.wide { max-width: 980px; }
+  .photo-figure img { width: 100%; display: block; border: 1px solid #cfc8b6; }
+  .photo-figure figcaption { margin-top: 14px; font-size: 14px; line-height: 1.55; color: #5c5a4a; }
+  .photo-figure .peye { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #8a3c14; font-weight: 600; display: block; margin-bottom: 8px; }
+  .photo-figure .pcred { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #8a8465; display: block; margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -224,9 +229,14 @@
       <p style="font-size: 18px; line-height: 1.6; margin: 0;">There is a supporting structural point from the field-decomposition literature. The electric field of a return stroke separates into electrostatic, induction, and radiation components. The magnetic field has only <strong>two</strong> components — induction and radiation. There is no magnetostatic term, because there are no magnetic monopoles to produce one. The magnetic field of lightning is therefore <em>entirely</em> a dynamic quantity: it exists only while charge is moving or accelerating. It cannot sit still. And a field that cannot sit still is a field that is always changing — which is precisely what Faraday's law converts into voltage in someone else's circuit.</p>
     </section>
 
-    <svg class="bolt-ornament" viewBox="0 0 120 220" aria-hidden="true">
-      <polygon points="74,0 24,132 54,132 21,220 102,101 66,101 96,0" fill="#17170f" stroke="#0f5f5c" stroke-width="3"/>
-    </svg>
+    <figure class="photo-figure">
+      <img src="assets/eiffel-lightning-1902.jpg" alt="Black and white photograph from 1902 of a lightning bolt with multiple branches striking the tip of the Eiffel Tower at night" loading="lazy">
+      <figcaption>
+        <span class="peye">Historical photograph</span>
+        One of the earliest surviving photographs of lightning striking man-made infrastructure — the Eiffel Tower, Paris, 9:20 p.m., 3 June 1902. Grounded steel structures are preferential strike points precisely because they lower the local breakdown path; everything Part II derives about the channel that forms is the same physics visible here.
+        <span class="pcred">Photo: Gabriel Loppé (1825–1913), published in Camille Flammarion's <em>Thunder and Lightning</em> (1906). Public domain — author died more than 70 years ago; source: Wikimedia Commons.</span>
+      </figcaption>
+    </figure>
 
     <section style="margin-bottom: 60px;">
       <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">III. What an unlimited magnetic field does to infrastructure</h2>
@@ -326,13 +336,14 @@
       <p style="font-size: 18px; line-height: 1.6; margin: 0;">The crucial property of IEMI, and the reason it belongs in a security article: it produces effects on cyber-physical systems <strong>without requiring software access or network reachability</strong>. It couples analogue energy into equipment and cables. An air gap is not a defence against a magnetic field. Lightning is the naturally occurring instance of this threat class — the free, unclassified, globally distributed test case for exactly the coupling physics that IEMI weaponises, occurring roughly fifty times per second, worldwide, for free.</p>
     </section>
 
-    <svg class="bolt-ornament" viewBox="0 0 140 200" aria-hidden="true">
-      <ellipse cx="70" cy="60" rx="52" ry="16" fill="none" stroke="#0f5f5c" stroke-width="5"/>
-      <line x1="70" y1="76" x2="70" y2="94" stroke="#17170f" stroke-width="5"/>
-      <rect x="26" y="94" width="88" height="86" fill="none" stroke="#17170f" stroke-width="4"/>
-      <g stroke="#8a3c14" stroke-width="3"><line x1="32" y1="108" x2="108" y2="108"/><line x1="32" y1="123" x2="108" y2="123"/><line x1="32" y1="138" x2="108" y2="138"/><line x1="32" y1="153" x2="108" y2="153"/><line x1="32" y1="168" x2="108" y2="168"/></g>
-      <line x1="70" y1="8" x2="70" y2="44" stroke="#8a3c14" stroke-width="3" stroke-dasharray="4 4"/>
-    </svg>
+    <figure class="photo-figure wide">
+      <img src="assets/tesla-coil-spark.jpg" alt="Photograph of a homemade 4 kVA Tesla coil discharging bright violet streamer arcs from its toroid terminal to a grounded rod and to the ceiling of a workshop" loading="lazy">
+      <figcaption>
+        <span class="peye">Photograph</span>
+        A 4 kVA Tesla coil discharging — the benchtop version of the IEMI generator described above. The toroid at the top is a capacitive load, not the source; the energy is stored and dumped by the resonant primary/secondary pair beneath it, the same L·dI/dt relationship this section derives for a lightning channel, just deliberately tuned instead of atmospheric.
+        <span class="pcred">Photo: Arne Groh, 2007. Licensed CC BY-SA 3.0; source: Wikimedia Commons.</span>
+      </figcaption>
+    </figure>
 
     <section style="margin-bottom: 60px;">
       <h2 style="font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; border-bottom: 1px solid #17170f; padding-bottom: 14px;">IV. The relativistic parallel: lightning as a particle accelerator</h2>
@@ -507,7 +518,8 @@
         <li style="margin-bottom: 11px;">Mumtaz, A. &amp; Singh, M. "TRICK: Time and Range Integrity ChecK using LEO Satellites for Securing GNSS." arXiv:2511.05100.</li>
         <li style="margin-bottom: 11px;">Google Cloud Status, incident report for <code>europe-west1-b</code>, 13 August 2015, and subsequent clarification that the strikes hit the utility grid rather than the facility.</li>
       </ol>
-      <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid #cfc8b6; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; color: #6b6752; display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+      <p style="font-size: 14px; line-height: 1.6; color: #6b6752; max-width: 100ch; margin: 26px 0 0;"><strong>Photographs:</strong> the Eiffel Tower lightning strike (1902) is a public-domain historical photograph by Gabriel Loppé, sourced via Wikimedia Commons. The Tesla coil discharge photograph is © 2007 Arne Groh, licensed CC BY-SA 3.0, also via Wikimedia Commons. The cover photograph is a public-domain NOAA/National Severe Storms Laboratory image credited to C. Clark. Neither photograph illustrates an event or apparatus discussed elsewhere in this article's text; both are included as representative documentation of the physical phenomena described.</p>
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #cfc8b6; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.7; color: #6b6752; display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
         <span>Prepared for publication on behalf of Malcolm R. Smith · Savvy Security LLC</span>
         <span>Figures compiled August 2026 · numbers dated to their sources</span>
       </div>
