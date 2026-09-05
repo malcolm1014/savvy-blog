@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Church That Went Underground</title>
+<meta name="description" content="Eighteen centuries of Christian operational security — the codes, the stones, the hiding places, and the one lesson the modern surveillance state has already made obsolete.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Church That Went Underground">
+<meta property="og:description" content="Eighteen centuries of Christian operational security — the codes, the stones, the hiding places, and the one lesson the modern surveillance state has already made obsolete.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-church-that-went-underground/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/the-church-that-went-underground/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Church That Went Underground">
+<meta name="twitter:description" content="Eighteen centuries of Christian operational security — the codes, the stones, the hiding places, and the lesson the surveillance state has made obsolete.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-church-that-went-underground/assets/cover.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f3ede0; --fg:#221c14; --muted:#6b5f49; --rule:#dcd0b3;
+    --accent:#7c2020; --accent2:#8a6a1f; --card:#faf6ea;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#16130f; --fg:#e9e0c9; --muted:#a39370; --rule:#3a3123; --accent:#d3766f; --accent2:#c9a24a; --card:#1e1a13; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Spectral',Georgia,'Times New Roman',serif;
+    line-height:1.7; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0c0a08 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:740px; margin:0 auto; padding:44px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem; letter-spacing:.05em;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:.78rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.3rem; line-height:1.18; margin:0 0 12px; font-weight:600;}
+  .dek{font-size:1.12rem; color:var(--muted); font-style:italic; margin:0 0 14px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 8px; font-family:'IBM Plex Mono',monospace; letter-spacing:.02em;}
+  .readtime{color:var(--muted); font-size:.8rem; margin:0 0 32px; font-family:'IBM Plex Mono',monospace; letter-spacing:.04em; text-transform:uppercase;}
+  h2{font-size:1.55rem; margin:56px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:600;}
+  .partlabel{display:block; font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.14em; color:var(--accent2); text-transform:uppercase; margin:0 0 4px;}
+  h3{font-size:1.18rem; margin:34px 0 10px; color:var(--fg); font-weight:600;}
+  .secnum{color:var(--accent2); font-family:'IBM Plex Mono',monospace; font-weight:600; margin-right:8px;}
+  p{margin:0 0 18px;}
+  ul,ol{margin:0 0 18px; padding-left:24px;}
+  li{margin-bottom:8px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:40px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent); word-break:break-word; text-decoration-color:var(--rule);}
+  small-caps, .sc{font-variant:small-caps;}
+  table{width:100%; border-collapse:collapse; margin:0 0 22px; font-size:.9rem;}
+  th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700; font-family:'IBM Plex Mono',monospace;}
+  .tablewrap{overflow-x:auto; margin:0 0 22px;}
+  .tablewrap table{margin:0; min-width:480px;}
+
+  .abstract{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:2px; padding:22px 24px; margin:0 0 20px; font-size:1rem;
+  }
+  .abstract p{margin:0 0 12px;} .abstract p:last-child{margin-bottom:0;}
+
+  .note{
+    background:var(--card); border:1px solid var(--rule); border-radius:2px;
+    padding:18px 22px; margin:0 0 22px; font-size:.95rem; color:var(--muted);
+  }
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .sidebar{
+    background:var(--card); border:1px solid var(--accent2); border-radius:2px;
+    padding:20px 24px; margin:22px 0 28px; font-size:.94rem;
+  }
+  .sidebar .eyebrow{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin-bottom:10px;}
+  .sidebar h4{margin:0 0 10px; font-size:1.02rem;}
+  .sidebar ul{margin:0; padding-left:20px;}
+  .sidebar li{margin-bottom:6px;}
+  .sidebar dl{margin:0;}
+  .sidebar dt{font-style:italic; color:var(--fg); margin-top:8px;}
+  .sidebar dd{margin:0 0 4px 0; color:var(--muted);}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border:1px solid var(--rule);}
+  figcaption{font-size:.84rem; color:var(--muted); margin:10px 0 30px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.03em; margin-top:4px; color:var(--muted);}
+
+  blockquote{
+    margin:0 0 18px; padding:4px 22px; border-left:3px solid var(--accent);
+    font-style:italic;
+  }
+  blockquote p{margin:0;}
+
+  .pullquote{
+    margin:10px 0 34px; padding:24px 10px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.5rem; line-height:1.4; color:var(--fg); text-align:center; font-weight:500;
+  }
+  .pullquote cite{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-style:normal; margin-top:14px;}
+
+  .qgrid{display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin:26px 0 34px;}
+  .qcard{background:var(--card); border:1px solid var(--rule); border-top:3px solid var(--accent); padding:22px 24px; display:flex; flex-direction:column;}
+  .qcard blockquote{border:none; padding:0; margin:0 0 14px; font-size:1.05rem; line-height:1.5;}
+  .qname{font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-top:auto;}
+  .qcite{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); margin-top:4px;}
+  @media (max-width:640px){ .qgrid{grid-template-columns:1fr;} }
+
+  .toc{
+    background:var(--card); border:1px solid var(--rule); border-radius:2px;
+    padding:22px 26px; margin:0 0 36px;
+  }
+  .toc .eyebrow{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin-bottom:12px;}
+  .toc ol{margin:0; padding-left:20px; columns:1; font-size:.92rem;}
+  .toc li{margin-bottom:7px;}
+  .toc a{color:var(--fg); text-decoration:none; border-bottom:1px dotted var(--rule);}
+  .toc a:hover{color:var(--accent); border-bottom-color:var(--accent);}
+  @media (min-width:640px){ .toc ol{columns:2; column-gap:28px;} }
+
+  .lessons{list-style:none; margin:0 0 24px; padding:0; counter-reset:lesson;}
+  .lessons li{counter-increment:lesson; position:relative; padding:12px 0 12px 46px; border-top:1px solid var(--rule);}
+  .lessons li:last-child{border-bottom:1px solid var(--rule);}
+  .lessons li::before{content:counter(lesson); position:absolute; left:0; top:11px; font-family:'IBM Plex Mono',monospace; font-weight:700; color:var(--accent2); font-size:1.1rem; width:32px; text-align:right;}
+
+  .signoff{font-style:italic; color:var(--muted);}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Church That Went Underground — cover image"></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>The Church That Went Underground</h1>
+  <p class="dek">Eighteen centuries of Christian operational security — the codes, the stones, the hiding places, and the one lesson the modern surveillance state has already made obsolete.</p>
+  <p class="byline">By Malcolm R. Smith — Savvy Security LLC</p>
+  <p class="readtime">Twelve parts &middot; thirty-five sections &middot; a long read, best taken in pieces</p>
+
+  <figure>
+    <img src="assets/01-fumie.jpg" alt="A fumie, the bronze stepping-on plaque used to detect hidden Christians in Edo-period Japan">
+    <figcaption>A <em>fumie</em> — the bronze &ldquo;stepping-on picture&rdquo; Edo-period officials used to detect Christians. It could not be defeated by a clever answer, because it did not ask a question.<span class="credit">Photo: ColBase / National Museums Japan, via Wikimedia Commons, CC BY 4.0</span></figcaption>
+  </figure>
+
+  <div class="abstract">
+    <p>Somewhere in a village in Kyushu, in the early 1700s, officials arrive and assemble the population in the road.</p>
+    <p>They set down a small bronze plaque. Cast into it is the face of Christ, or of the Virgin holding her child. One by one, every man, woman, and child in the village is required to step on it.</p>
+    <p>This is the <em>fumie</em>, the &ldquo;stepping-on picture,&rdquo; and it is one of the most effective instruments of religious detection ever devised. It cannot be defeated by a clever answer, because it does not ask a question. It cannot be defeated by a forged document, because it does not check papers. It measures something a person cannot easily control: the half-second of hesitation before the foot comes down. Those who refused, and those who merely faltered, were taken away. Refusal could mean being suspended head-down in a pit until you recanted or died.</p>
+    <p>The villagers stepped on the image. Then they walked home, and in the privacy of their houses, they said prayers of confession for what they had just done.</p>
+    <p>They kept doing this for two hundred and fifty years.</p>
+  </div>
+
+  <p>I spend my working life thinking about how information survives contact with a hostile adversary. I am also a Christian. For a long time those two facts sat in separate compartments, until I started reading the history of the persecuted church and realized I was reading, over and over, a set of case studies in operational security. Some brilliant. Some catastrophic. Almost all of them older than the field that would eventually give them names.</p>
+
+  <p>What follows is that history. It is not the version most of us grew up with, because a good deal of the version we grew up with turns out to be nineteenth-century romance rather than evidence. The real story is stranger, harder, and considerably more useful.</p>
+
+  <p>It is also longer than one sitting. Take it in pieces.</p>
+
+  <div class="toc">
+    <span class="eyebrow">Contents</span>
+    <ol>
+      <li><a href="#part1">Part I — First, Know Who Is Actually Hunting You</a></li>
+      <li><a href="#part2">Part II — Going Underground for Real</a></li>
+      <li><a href="#part3">Part III — The Symbol Layer</a></li>
+      <li><a href="#part4">Part IV — Hiding in Plain Sight</a></li>
+      <li><a href="#part5">Part V — Actual Cryptography</a></li>
+      <li><a href="#part6">Part VI — Meeting in Secret</a></li>
+      <li><a href="#part7">Part VII — Keeping the Data Alive</a></li>
+      <li><a href="#part8">Part VIII — What Nearly Killed Them Was Not Persecution</a></li>
+      <li><a href="#part9">Part IX — Taking the Cross</a></li>
+      <li><a href="#part10">Part X — Was Any of This Even Allowed?</a></li>
+      <li><a href="#part11">Part XI — Why None of the Old Tools Work Anymore</a></li>
+      <li><a href="#part12">Part XII — What They Chose to Protect</a></li>
+    </ol>
+  </div>
+
+  <h2 id="part1"><span class="partlabel">Part I</span>First, Know Who Is Actually Hunting You</h2>
+
+  <h3><span class="secnum">1.</span>The most important sentence in this entire history</h3>
+  <p>Every security decision descends from one question: what can the adversary actually do?</p>
+  <p>The early church's answer survives in a remarkable document. Around AD 110, Pliny the Younger, governor of Bithynia-Pontus, wrote to the Emperor Trajan for guidance. He admits he has never presided over a trial of Christians and does not know the procedure. Eighty years after the crucifixion, an experienced Roman governor has no playbook.</p>
+  <p>He describes what he has done. People were <em>denounced</em> to him. He asked them three times whether they were Christians and executed those who persisted. Then an anonymous document circulated naming many more, and things began to spiral. Some of those named denied ever having been Christians. Others admitted they had been but had stopped, some twenty-five years earlier.</p>
+  <p>Trajan's reply is the governing text. He approves the procedure, declines to issue any general rule, and adds the decisive instruction: Christians are <strong>not to be sought out</strong>. If denounced and proven, punish them. But anyone who denies being a Christian and proves it by worshipping the gods is to be pardoned, regardless of past suspicion.</p>
+
+  <div class="pullquote">&ldquo;Conquirendi non sunt.&rdquo; They are not to be hunted down.<cite>Emperor Trajan, rescript to Pliny the Younger, c. AD 110</cite></div>
+
+  <p>Sit with what that means. The Roman state had no discovery program. No dragnet, no systematic search, no intelligence collection tasked against Christians. The trigger was a neighbour with a grudge. The exit was cheap and universally available. Trajan even ruled out anonymous accusations as a basis for prosecution. And because Roman governors operated with enormous personal discretion under <em>cognitio extra ordinem</em>, the threat level in any given province was largely a function of one man's temperament.</p>
+  <p>Now here is the part that surprised me most, and that reorganized how I read everything else.</p>
+  <p><strong>Against that adversary, hiding is the wrong move.</strong></p>
+  <p>Concealment is expensive. It cripples the thing the church existed to do, which was preach in public and grow. And furtiveness is exactly what makes neighbours suspicious, and neighbours were the entire attack surface. A congregation that behaved like a secret society would have <em>increased</em> its risk of the one thing that actually got people killed.</p>
+  <p>So the early church did something that looks, to modern eyes, like negligence, and was in fact a correct threat assessment. It stayed visible. It kept good relations with its neighbours. It occupied recognized social categories. It accepted that individual believers would occasionally be lost, and it designed for the survival of the network rather than the survival of the node.</p>
+  <p>The scholar Larry Hurtado, who spent a career on the earliest Christian manuscripts and material culture, put it bluntly: when Roman authorities wanted to arrest Christians, they found it easy enough, because Christians did not conceal who they were or where they could be found.</p>
+  <p>Which brings us to the catacombs.</p>
+
+  <h3><span class="secnum">2.</span>The myth we all inherited</h3>
+
+  <figure>
+    <img src="assets/02-catacomb.jpg" alt="A gallery of loculi burial niches in a Roman catacomb">
+    <figcaption>A gallery of loculi in the San Giovanni Catacombs, Syracuse — the same style of burial site used across the Roman world, a place for memorial meals, not a covert meeting hall. The authorities knew exactly where these were.<span class="credit">Photo: Sibeaster, Wikimedia Commons, public domain</span></figcaption>
+  </figure>
+
+  <p>The picture is vivid and almost entirely wrong. Believers slipping through torchlit tunnels beneath Rome, celebrating a forbidden liturgy among the bones, sentries at the entrance.</p>
+  <p>The evidence does not support it. L. Michael White argues that Christians went into the catacombs the way their pagan neighbours did, to hold memorial meals with their dead. Catacomb burial was not distinctively Christian and was practised widely in Rome. Britannica states flatly that there is no substance to the belief in catacombs as secret meeting places, noting that conditions underground would have made regular assembly impractical. And the decisive point: <strong>the authorities knew perfectly well where the catacombs were.</strong> A hiding place whose location is on file is not a hiding place.</p>
+  <p>What survives scrutiny is real and worth keeping. The catacombs were burial sites, and places for funeral feasts and Eucharistic celebration connected with the martyrs and the dead. And during acute persecution, their intricate layouts and their connections to sand quarries and open country did provide usable refuge and escape routes.</p>
+  <p>That distinction matters more than it appears. A tunnel network with unregistered exits into open country is enormously valuable when soldiers are at the door. It is nearly useless for weekly worship. The catacombs were an emergency egress asset, not a covert operating environment, and confusing the two is the same error as treating your disaster-recovery site as production.</p>
+  <p>But hold that thought. Because a few hundred miles east, Christians built something that genuinely was a covert operating environment, and they built it deep.</p>
+
+  <h2 id="part2"><span class="partlabel">Part II</span>Going Underground for Real</h2>
+
+  <h3><span class="secnum">3.</span>Derinkuyu</h3>
+
+  <figure>
+    <img src="assets/03-derinkuyu.jpg" alt="Interior of the Derinkuyu underground city, Cappadocia, Turkey">
+    <figcaption>Derinkuyu, Cappadocia — the largest excavated underground city in Turkey, eighteen levels descending roughly eighty-five metres. It could shelter as many as twenty thousand people, together with their livestock and food stores.<span class="credit">Photo: Wolfgang Moroder, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <p>In 1963, a man in the Turkish town of Derinkuyu was renovating his house and knocked through a wall. Behind it was a room he had never seen. Behind that was a tunnel.</p>
+  <p>What he had opened was the largest excavated underground city in Turkey: eighteen levels descending roughly eighty-five metres, some two hundred and eighty feet, into soft volcanic tuff. It is estimated to have sheltered as many as twenty thousand people together with their livestock and food stores.</p>
+  <p>This is not a cave. It is a city, engineered for siege:</p>
+  <ul>
+    <li><strong>Wine and oil presses, stables, cellars, storerooms, wells and cisterns, communal kitchens, dormitories.</strong> Food production and water independent of the surface.</li>
+    <li><strong>Fifty-two ventilation shafts</strong> carrying air to the deepest levels, with a stable interior temperature.</li>
+    <li><strong>Chapels and liturgical spaces on multiple levels</strong>, with vertical staircases connecting the third and fourth levels to a further church on the fifth.</li>
+    <li><strong>A large barrel-vaulted room believed to have served as a religious school.</strong></li>
+    <li><strong>Rolling stone doors</strong>: massive discs with a small central hole, rolled across passages to seal them during a raid, operable only from the inside.</li>
+  </ul>
+  <p>Look at that list again and notice what is missing from a bunker. Bunkers store people. Derinkuyu stored a <em>civilization</em>. The presses and the stables mean the community could feed itself indefinitely. The chapels mean it could worship. And the school means it could <strong>teach its children</strong>, which is the only thing that actually gets a faith across a generational boundary.</p>
+  <p>Whoever designed this understood that the goal was not to survive the raid. The goal was to still exist, recognizably, on the far side of it.</p>
+  <p>The rolling stone doors deserve their own note. They are an access control operable only from the defended side, and they work by forcing an attacker into single file through a chokepoint. A control that trades throughput for security. Every firewall administrator has made that trade.</p>
+
+  <h3><span class="secnum">4.</span>Who was down there</h3>
+  <p>The honest answer is: a lot of people, over a very long time, and the record is layered rather than tidy.</p>
+  <p>The excavation is generally credited in origin to the Phrygians, around the eighth to seventh centuries BC. Some accounts hold that early Christians fleeing Roman persecution in the second to fourth centuries expanded it, pointing to the chapels and to crosses carved into the walls. Others place the major expansion in the middle Byzantine period, as refuge from Umayyad and Abbasid raids during the Arab&ndash;Byzantine wars. The defensible statement is that Cappadocia's underground cities were long-lived, repeatedly reused refuge infrastructure whose Christian phases are unquestionably real, even where the earliest Christian dating is not securely established.</p>
+  <p>What is not in dispute is the long tail. After the region fell to the Ottomans, the local Christian population used these places as <em>kataphygia</em>, the Cappadocian Greek word for refuges, against periodic waves of persecution. And the Christians of Cappadocia were not one people. They included both Greeks and <strong>Armenians</strong>, and both communities used the underground refuges into the early twentieth century as they sought shelter from Ottoman oppression. Armenians are listed among the cultures associated with Derinkuyu, alongside the Phrygians, Byzantines, and Cappadocian Greeks.</p>
+  <p>And we have an eyewitness for how this worked, which is rare and precious.</p>
+  <p>Richard MacGillivray Dawkins, a Cambridge linguist, was in Cappadocia between 1909 and 1911 studying the Greek-speaking natives. He recorded that in 1909, <strong>when news arrived of the massacres at Adana, much of the population of the village of Axo took refuge in the underground chambers and would not sleep above ground for several nights.</strong></p>
+  <p>Read that with the dates in mind. The Adana massacres of 1909 were the slaughter of Armenian Christians. The mechanism Dawkins describes is a Christian community receiving word that Christians elsewhere were being killed, and going underground within hours, into refuges their ancestors had been digging and maintaining for something like a thousand years. This is a threat-intelligence feed and an incident-response plan, running in a village with no electricity.</p>
+  <p>The last chapter is what gives it weight. Ottoman persecution of the empire's Christian populations intensified through the 1910s and culminated in the Armenian Genocide and the parallel destruction of Greek and Assyrian Christian communities. For the Armenians of Anatolia the refuges were not enough. A genocide is not a raid, and no amount of provisioning outlasts a state that intends your permanent erasure. The Cappadocian Greeks were compelled to leave in the 1923 population exchange. The tunnels were abandoned around 1924, sealed and forgotten, until a man knocked through his own wall thirty-nine years later.</p>
+  <p>There is something almost unbearable in the fact that Derinkuyu was rediscovered by accident. A refuge that had held a Christian population for centuries went dark not because an enemy found it but because there was no longer anyone above it who remembered the way in.</p>
+
+  <h3><span class="secnum">5.</span>Lalibela: a replica of an unreachable site</h3>
+
+  <figure>
+    <img src="assets/04-lalibela.jpg" alt="Aerial view of Bete Giyorgis, the rock-cut cross-shaped church at Lalibela, Ethiopia">
+    <figcaption>Bete Giyorgis, Lalibela — carved downward into a Greek cross. From ground level, only the roof is visible. It was conceived as a New Jerusalem after the real one became unreachable in 1187.<span class="credit">Photo: Harri J&auml;rvel&auml;inen (Hulivili), Wikimedia Commons, CC BY 2.0</span></figcaption>
+  </figure>
+
+  <p>Eight hundred miles to the south, Ethiopian Christians solved a different problem with the same geology.</p>
+  <p>In the Ethiopian highlands, eleven medieval monolithic churches were carved from volcanic rock, attributed to King Gebre Mesqel Lalibela in the twelfth and thirteenth centuries and inscribed by UNESCO in 1978.</p>
+  <p>They were not built. They were <strong>excavated downward</strong>. Workers cut trenches into the bedrock and sculpted each church from the living stone, removing everything that was not church, an estimated 40,000 cubic metres of rock, including columns, arches, and drainage systems, with no added masonry. The churches fall into two clusters connected by subterranean passageways and carved wadis, one group ringed by a trench eleven metres deep.</p>
+  <p>The eleventh, Bete Giyorgis, the House of Saint George, stands alone. It is carved in the shape of a Greek cross, roughly fifteen metres tall, on a stepped platform inside a sunken courtyard. <strong>From ground level, only the roof is visible.</strong> From above, it becomes clear not only that the church is cross-shaped but that Greek crosses have been carved into its roof as well. It has three doors and twelve windows, each crowned by a cross and floral motif in relief, plus nine false windows carved into the exterior that do not open into the interior at all.</p>
+  <p>And the reason for the whole complex: it was conceived as a <strong>New Jerusalem</strong> in the Ethiopian highlands after Saladin's capture of Jerusalem in 1187 made pilgrimage to the Holy Land increasingly difficult. A rock-cut stream named the Jordan divides the site into earthly and heavenly Jerusalem, with churches positioned to recreate the sacred geography. It remains a living pilgrimage site, with daily Ethiopian Orthodox services eight centuries on.</p>
+  <p><strong>This is a failover site for a sacred geography whose primary became unreachable.</strong> When access to Jerusalem was lost, a functional replica was constructed elsewhere with the topology preserved: named streets, a Jordan, the relative positions of the holy places. Not metaphor. Stated design intent.</p>
+  <p>Two details are worth an engineer's attention. The cross of Bete Giyorgis is <strong>invisible from the approach and legible only from above</strong>, a viewing-angle-dependent disclosure whose full form was available to a perspective almost nobody in the twelfth century could occupy. And the nine false windows are decoys: features that present as functional and open into nothing.</p>
+  <p>Set Lalibela beside Derinkuyu and the pattern is unmistakable. Both are subtractive architecture in volcanic rock. Both descend rather than rise. Both preserve worship <em>and</em> the transmission of worship. One was built to survive a raid. The other to survive the loss of a homeland.</p>
+
+  <h2 id="part3"><span class="partlabel">Part III</span>The Symbol Layer</h2>
+
+  <h3><span class="secnum">6.</span>Why the cross is everywhere, and what that actually means</h3>
+  <p>Before we get to Christian symbols, we have to deal with a fact that gets used badly in both directions.</p>
+  <p>The cross demonstrably predates Christianity and appears in cultures that never met.</p>
+  <p>This is not a hostile claim. The <em>Catholic Encyclopedia</em> concedes plainly that the sign of the cross, in its simplest form of two lines crossing at right angles, greatly antedates the introduction of Christianity in both East and West, going back to a very remote period of human civilization. The 1910 <em>Britannica</em> observed that owing to the simplicity of its form the cross has served as both religious symbol and ornament from the dawn of civilization.</p>
+  <p>The specifics:</p>
+  <p><strong>The sun cross</strong>, an equilateral cross inside a circle, appears throughout prehistoric cultures, especially the European Neolithic through Bronze Age. Rock carvings at Madsebakke on Bornholm, Denmark, dating to roughly 1800&ndash;500 BCE, show multiple sun crosses with cup marks. Nineteenth-century scholarship read the cross-in-circle as the wheel of the sun god's chariot. The same figure is the Egyptian hieroglyph for village.</p>
+  <p><strong>The chakana</strong>, the Andean cross, is a stepped cross with a central opening, carved in stone at Machu Picchu and Chan Chan and woven into textiles across the Andes. Its name comes from Quechua <em>chaka</em>, bridge or crossing. It is associated with the Southern Cross constellation and maps four cardinal directions onto the fourfold division of Tawantinsuyu, with Cusco at the centre. It belongs to an Andean tradition older than the Inca.</p>
+  <p><strong>The Kongo cosmogram</strong>, <em>dikenga</em> or <em>yowa</em>, is a cross within a circle at the core of Kongo religion. It depicts the physical and spiritual worlds, the vertical line connecting them, the horizontal Kal&ucirc;nga line, and the rotating sun. The rising, peaking, setting, and absence of the sun are the &ldquo;four moments of the sun,&rdquo; corresponding to four stages of life: conception, birth, maturity, death. The meeting point of the two lines is the most powerful point, and it is where the person stands.</p>
+  <p><strong>The swastika</strong> appears in the Ukrainian Palaeolithic, Bronze Age Iraq, India, and Hopi Arizona, usually with solar or auspicious associations.</p>
+
+  <h4 style="margin:28px 0 8px; font-size:1rem; font-weight:600;">The scholarly answer, and why it is better than the alternative</h4>
+  <p>The mainstream explanation is independent invention, and the reasoning is not a shrug.</p>
+  <p>The anthropologist Clark Wissler argued that similar geometric designs, including swastikas, could arise among peoples without contact because there is a <strong>limited set of geometric solutions</strong> to decorating a surface. Mainstream archaeologists favour independent development unless evidence of contact is incontrovertible, and independent origin remains a strong null hypothesis requiring hard proof to displace.</p>
+  <p>Look at the four cases and the convergence explains itself. The sun's daily arc and annual path divide the horizon into four cardinal points marked by solstices and equinoxes: a central disk intersected by equidistant arms. The chakana encodes four directions. The dikenga encodes four moments of the sun. The sun cross encodes the solar wheel. These are not one symbol travelling. They are <strong>four independent encodings of the same observation</strong>, made by people who all lived under the same sky and all noticed that it has four quarters and a centre.</p>
+  <p>The alternative theory has a name and a record. <strong>Hyperdiffusionism</strong> held that virtually all major cultural innovations came from a single ancient source, usually Egypt, and spread by diffusion. It was promoted in the early twentieth century by the anatomist Grafton Elliot Smith, who attributed pyramids, mummification, megaliths, and even maize cultivation in the Americas to Egyptian mariners. It drew immediate rebuttal and was obsolete by mid-century. The objections are the ones to apply to any similar claim: no empirical support, reliance on coincidental similarity over material evidence, failure to allow for independent invention, and divergent technique under superficial resemblance. Egyptian pyramids use stepped cores with casing; Mesoamerican ones use talud-tablero platforms without ramps. Same silhouette, different engineering. Independent invention is demonstrable elsewhere: agriculture arose separately in the Americas with entirely different crops. And Alice Kehoe has criticized the whole school as a grossly racist ideology that underrates the capacity of non-European societies for innovation.</p>
+  <p>That last point deserves emphasis. The claim that the chakana or the dikenga must derive from an Old World source is not a neutral hypothesis. It carries an assumption about who is capable of inventing things.</p>
+
+  <h4 style="margin:28px 0 8px; font-size:1rem; font-weight:600;">The security framing</h4>
+  <p>Here is why this section belongs in an article about operational security rather than in a footnote.</p>
+  <p><strong>The cross is a low-entropy token.</strong> Two strokes. The space of distinguishable two-stroke figures a human can draw, remember, and reproduce is very small. When many independent populations sample from a very small space, collisions are not surprising. They are the expected outcome. Finding the same two-stroke figure in Denmark, Peru, and the Congo is about as evidentiary as finding the same four-digit PIN in two unrelated databases.</p>
+  <p>And this is the setup for everything that follows. <strong>Low entropy is fatal for a key and ideal for a cover.</strong> A symbol common enough to appear independently everywhere is a symbol that raises no anomaly when it appears. Keep that in mind for the next three sections, because it is the whole reason the early Christian symbol set worked.</p>
+
+  <div class="pullquote">Low entropy is fatal for a key and ideal for a cover.</div>
+
+  <h3><span class="secnum">7.</span>The cross that wasn't there</h3>
+  <p>Here is a fact about the pre-Constantinian church that surprises most Christians.</p>
+  <p><strong>They did not display the cross.</strong></p>
+  <p>The material record notes &ldquo;the almost total absence from Christian monuments of the period of persecutions of the plain, unadorned cross,&rdquo; except in disguised form. During this period the cross is seldom seen except disguised as an anchor, a trident, or a ship's mast. One catacomb image shows two fish with what appears to be a trident, probably a disguise for the cross.</p>
+  <p>What they displayed instead was a vocabulary. Christian symbols are first mentioned in writing by Clement of Alexandria around AD 200, in <em>Paedagogus</em> 3.11, where he advises on suitable imagery for seal rings. The material record from before 313 is consistent:</p>
+  <ul>
+    <li><strong>The Good Shepherd</strong>, a beardless youth carrying a lamb, the most common of the images, borrowed directly from the classical <em>criophorus</em> or ram-bearer and probably not understood as a portrait of the historical Jesus.</li>
+    <li><strong>The Orant</strong>, a figure standing with arms raised, symbolizing the soul at peace, frequent near burials.</li>
+    <li><strong>The anchor</strong>, hope and steadfastness, from Hebrews 6:19. Its vertical shaft and crossbar closely resemble a cross, allowing a cross-like shape to be displayed without detection.</li>
+    <li><strong>The dove</strong>, often with an olive branch: the Holy Spirit, peace.</li>
+    <li><strong>The peacock and the phoenix</strong>, immortality and resurrection, the peacock resting on the ancient belief that its flesh did not decay.</li>
+    <li><strong>Jonah, Daniel in the lions' den, Orpheus charming the animals</strong>: narrative types for death and deliverance.</li>
+    <li><strong>The Chi-Rho</strong>, the monogram of Christ, present in the catacombs before it was ever imperial.</li>
+  </ul>
+  <p>Two things stand out. The bare cross is missing. And most of the vocabulary was borrowed: the Good Shepherd, the peacock, the phoenix, and the vine came from Greco-Roman motifs and were given new meanings. The Good Shepherd's familiar classical look concealed its Christian meaning. The fish was the exception, not borrowed.</p>
+  <p>A caution is required here, and it is the same one that applies to the catacombs. Popular sources routinely assert that these symbols existed so believers could recognize each other while outsiders stayed ignorant. Hurtado, White, and Graydon Snyder are all skeptical of the broader &ldquo;secretive early Christianity&rdquo; picture, and that skepticism applies here too. What the evidence supports without controversy is the <em>material fact</em>: the pre-313 vocabulary is dominated by borrowed, ambiguous, dual-readable motifs, and the bare cross is largely absent until after legalization. Whether an individual believer chose an anchor to evade detection or simply because the anchor was the conventional motif is not recoverable from a tomb slab.</p>
+  <p>But the <em>system</em> has a clear property regardless of individual motive. <strong>The pre-Constantinian symbol set was optimized for deniability, and it changed the moment deniability stopped being necessary.</strong> The bare cross appears when the threat disappears. That correlation is the strongest available evidence that the earlier ambiguity was doing work.</p>
+
+  <h3><span class="secnum">8.</span>The fish, honestly</h3>
+
+  <figure>
+    <img src="assets/05-ichthys.jpg" alt="The Licinia Amias funerary stele, third century Rome, showing a fish, an anchor, and the Ichthys inscription">
+    <figcaption>The Licinia Amias funerary stele, early third century, Rome — a fish and an anchor carved beside the inscription &ldquo;&Iota;&Chi;&Theta;&Upsilon;&Sigma; &Zeta;&Omega;&Nu;&Tau;&Omega;&Nu;&rdquo; (&ldquo;fish of the living&rdquo;). Its security property was not that outsiders couldn't read it; it's that nothing about it looked like an attempt at concealment.<span class="credit">Photo: Marie-Lan Nguyen, Wikimedia Commons, public domain</span></figcaption>
+  </figure>
+
+  <p>The Greek word &Iota;&Chi;&Theta;&Upsilon;&Sigma; means &ldquo;fish,&rdquo; and its five letters form an acrostic: <em>I&#275;sous Christos, Theou Huios, S&#333;t&#275;r</em> &mdash; Jesus Christ, Son of God, Saviour. It appears in Christian art and literature from the second century, becomes common by the late second, and spreads widely in the third and fourth. Clement of Alexandria advised Christians on seal-ring imagery including fish and doves. Augustine spells the acrostic out in full in <em>The City of God</em>, by which point it had long been standard teaching. The symbol turns up in the Catacombs of Saint Sebastian and Priscilla.</p>
+  <p>All of that is solid.</p>
+  <p>The part everyone remembers, the traveller who scratches one arc in the dust and waits for a stranger to complete the second, is not. That story rests on an argument from silence, and more recent scholarship has doubted it.</p>
+  <p>Here is the thing: <strong>the real explanation is better than the legend.</strong> The fish was in wide pagan use long before Christians took it up. It carried no distinctive marking. A believer could wear it, carve it, or set it on a tomb without anyone finding it remarkable. Unlike the cross, the fish attracted little suspicion.</p>
+  <p>That is not a cipher. It is low-observable in-group signalling: a token semantically dense to insiders and unremarkable to everyone else. Its security property is not that outsiders cannot read it. Its security property is that <strong>nothing about it looks like an attempt at concealment.</strong></p>
+  <p>And notice how gracefully it degrades. If an outsider learns what the fish means, the symbol is not compromised, because it was never carrying a secret. It carried an identity. Compare that with a code word, which is worthless the moment it is broken. The fish was still doing its job in the fourth century, two hundred years after Clement wrote the meaning down in a book anyone could buy.</p>
+  <p>This is the low-entropy principle from the previous section, working exactly as designed.</p>
+
+  <h3><span class="secnum">9.</span>The stone that says who you are</h3>
+
+  <figure>
+    <img src="assets/06-khachkar.jpg" alt="The Goshavank khachkar, an intricately carved Armenian cross-stone from 1291">
+    <figcaption>The Goshavank khachkar, carved in 1291 by the master Poghos — one of roughly fifty thousand standing in Armenia alone. UNESCO inscribed the <em>craftsmanship</em>, not any single stone, because masters still train apprentices who can regenerate what is lost.<span class="credit">Photo: Inna, Flickr, CC BY 2.0, via Wikimedia Commons</span></figcaption>
+  </figure>
+
+  <p>Not every Christian symbol was designed to be ambiguous. Some were designed to be unmistakable, and that is a different security posture with a different failure mode.</p>
+  <p>A <strong>khachkar</strong> is a carved memorial stele bearing a cross, from the Armenian <em>khach</em> (cross) and <em>kar</em> (stone). Standard examples run 1.5 to 2 metres tall, carved from Armenian volcanic tuff. The earliest dated example is from 879 CE, with the classical tradition running from the ninth through thirteenth centuries. Roughly 50,000 stand in Armenia alone, with examples in more than sixty countries. In 2010 UNESCO inscribed &ldquo;Armenian cross-stones art: symbolism and craftsmanship of khachkars&rdquo; on the Representative List of Intangible Cultural Heritage.</p>
+  <p>They served as grave markers, as commemorations of victories or the completion of a church, and as petitions for protection from natural disaster. The cross signifies Christ's sacrifice and resurrection, and it is also apotropaic, a guard against malevolent forces.</p>
+  <p>The iconography is layered. Alongside the cross come rosettes, interlaces, and botanical motifs. The Armenian eternity symbol, an interlocking chain pattern, is among the most distinctive elements, and it <strong>predates Christianity in Armenia</strong>, appearing in pre-Christian Armenian art. The khachkar tradition absorbed older forms into a new religious context, growing more complex century by century. The Goshavank khachkar, carved in 1291 by the master Poghos, carries an exceptionally long inscription recording its donors, which makes it a documentary source on medieval Armenian social and economic life as well as an artwork.</p>
+  <p>For a security audience, four properties:</p>
+  <p><strong>It is a distributed identity assertion.</strong> Not one monument but fifty thousand, spread across a landscape and a diaspora. There is no single instance whose destruction removes the claim.</p>
+  <p><strong>It carries provenance metadata in-band.</strong> Inscriptions name donors, occasions, dates. The Goshavank stone is, functionally, a signed record attached to the artifact.</p>
+  <p><strong>The craft, not the object, is the unit of preservation.</strong> UNESCO inscribed the <em>craftsmanship</em>, and the committee's stated rationale was that the symbolism and craftsmanship are transmitted from generation to generation and continuously recreated. A tradition where masters still train apprentices can regenerate lost stones. That is the difference between backing up files and preserving the ability to rebuild the system.</p>
+  <p><strong>It is deliberately non-covert.</strong> Unlike everything else in this article, the khachkar hides nothing. It is a large stone object in the open air announcing exactly who put it there.</p>
+  <p>Which brings the corresponding vulnerability.</p>
+
+  <h3><span class="secnum">10.</span>Djulfa: when the adversary attacks the symbol layer</h3>
+
+  <figure>
+    <img src="assets/07-djulfa.jpg" alt="The Djulfa cemetery of khachkars, photographed in 1915, decades before its destruction">
+    <figcaption>The Djulfa (Old Jugha) cemetery, photographed in 1915 by Aram Vruyr — once the world's largest collection of khachkars, over ten thousand stones. Azerbaijani forces destroyed what remained in December 2005; officials denied the site had ever existed.<span class="credit">Photo: Aram Vruyr, 1915, public domain, via Wikimedia Commons</span></figcaption>
+  </figure>
+
+  <p>Old Jugha, known in Azerbaijani as Djulfa, in the Nakhchivan exclave near the Iranian border, held what is recorded as the world's largest collection of khachkars. Over 10,000, based on the testimony of the seventeenth-century traveller Alexander Rhodes.</p>
+  <p>The destruction was phased. Construction of a railroad in the late nineteenth century destroyed thousands of the fifteenth- and sixteenth-century stones. Over 1,000 more were purged in 1998 and 2002. Then, in December 2005, an Iranian border patrol alerted the Prelate of Northern Iran's Armenian Church that the cemetery was under attack. Bishop Nshan Topouzian and his driver filmed from across the Araxes as more than 100 Azerbaijani soldiers with sledgehammers, dump trucks, and cranes destroyed the remaining 2,000 khachkars. The bishop conducted a memorial service on the Iranian bank while the destruction continued across the river.</p>
+  <p>Azerbaijan denied it. In 1998 it dismissed the claims outright. Officials later maintained not merely that the site had not been disturbed but that it had never existed, and that Nakhchivan was never Armenian. The European Parliament sought a fact-finding mission and was denied entry. A US ambassador was likewise refused access.</p>
+  <p><strong>This is where it becomes a case study in forensics.</strong></p>
+  <p>Because on-site investigation was barred, the American Association for the Advancement of Science, through its Geospatial Technologies and Human Rights Project, turned to satellite imagery. Analysts compared a September 2003 QuickBird image against one from May 2009. The 2003 image shows rocky, uneven terrain and, critically, <strong>the shadows cast by the khachkars themselves</strong>. The 2009 image shows a flat landscape, new dirt roads traversing the site, and no shadows. AAAS concluded the evidence was consistent with ground observers' reports of destruction and levelling by earth-moving equipment. A 1982 KH-9 Hexagon image shows the intact cemetery as a distinctive stippled surface. The team located the site using a map hand-drawn from local knowledge, and Cornell's Adam Smith has noted that geolocation is the hardest methodological problem in this kind of heritage forensics.</p>
+  <p>Four observations transfer directly to anyone doing detection work.</p>
+  <p><strong>Shadow as signal.</strong> The analysts did not detect the stones. They detected the <em>shadows the stones cast</em>, then the absence of those shadows. When you cannot observe the asset, observe its effects. This is side-channel analysis applied to cultural heritage.</p>
+  <p><strong>Denial of access is itself evidence.</strong> Barring the European Parliament and a US ambassador is a behaviour, and behaviours are observable even when facts are not.</p>
+  <p><strong>Attacking the symbol layer is a recognized strategy.</strong> An adversary who cannot reach a population can still attack the artifacts anchoring its claim to a place.</p>
+  <p><strong>Phased destruction defeats naive monitoring.</strong> Three waves across seven years, each individually deniable. Anyone who has hunted slow exfiltration rather than a single large transfer knows the shape.</p>
+
+  <div class="pullquote">The analysts did not detect the stones. They detected the shadows the stones cast, then the absence of those shadows.</div>
+
+  <h3><span class="secnum">11.</span>The credential you cannot confiscate</h3>
+  <p>Set against the khachkar, which is a large permanent object, is the oldest Christian identity marker of all, and the one with the opposite properties.</p>
+  <p>This is open doctrine, published and free to read. The <em>Catechism of the Catholic Church</em> &sect;1667 defines sacramentals as sacred signs bearing a resemblance to the sacraments. The sign of the cross is treated not as merely symbolic but as an efficacious sign. The Catechism calls it the characteristic mark of the baptized (&sect;1235) and grounds it in the most ancient layer of tradition as the primary gesture of Christian self-identification (&sect;2157).</p>
+  <p>The historical depth is documented. Tertullian, writing around 200&ndash;204 in <em>De Corona</em> chapter 3, describes the practice with a casualness indicating an already established custom: at every forward step and movement, at every going in and out, when putting on clothes and shoes, when bathing, at table, when lighting the lamps, on couch, on seat, in all the ordinary actions of daily life, Christians trace the sign on the forehead. Basil said the Apostles taught the marking of those who put their hope in the Lord. Cyprian testified to it as a witness of faith. The gesture was initially made with the thumb on the forehead. In the thirteenth century Innocent III directed the three-fingered form from forehead to breast and right shoulder to left; by the fourteenth the Western form had inverted.</p>
+  <p>The scriptural frame is the seal. Ezekiel 9:4 has the Lord commanding a mark on the foreheads of those who grieve over the abominations of Jerusalem. Revelation 7:3 has the servants of God sealed on their foreheads before harm comes.</p>
+  <p><strong>This is a bodyborne, gestural credential with no artifact.</strong></p>
+  <ul>
+    <li>It requires no object, so there is nothing to find, no possession offence, no seizure.</li>
+    <li>It leaves no residue. Performance and erasure are the same event.</li>
+    <li>It can be made invisibly, on the breast or in the mind.</li>
+    <li>It is verifiable by any Christian and needs no issuing authority beyond baptism.</li>
+    <li>It cannot be revoked or confiscated. Only refused.</li>
+  </ul>
+  <p>Now set it against the <em>fumie</em> from the opening of this article and the symmetry is exact. The <em>fumie</em> was a compelled physical act designed to force the body to betray the conscience. The sign of the cross is a voluntary physical act by which the conscience claims the body. Both regimes understood the same thing: when documents and objects can be seized, <strong>the body becomes the last available medium.</strong></p>
+
+  <h2 id="part4"><span class="partlabel">Part IV</span>Hiding in Plain Sight</h2>
+  <p>Going underground is the dramatic option. It is also the rare one. The technique that carried the faith through the longest and hardest suppressions was subtler and far more counterintuitive.</p>
+  <p><strong>Don't hide. Look like something the adversary already tolerates.</strong></p>
+
+  <h3><span class="secnum">12.</span>Maria Kannon</h3>
+
+  <figure>
+    <img src="assets/08-maria-kannon.jpg" alt="A Maria Kannon statue — a Buddhist Kannon figure secretly venerated as the Virgin Mary by Japan's Hidden Christians">
+    <figcaption>A Maria Kannon: a genuine Buddhist devotional statue that also carried a Christian payload. The statues were Kannon. The prayers were to the Virgin Mary.<span class="credit">Photo: PHGCOM, 2008, CC BY-SA 3.0, via Wikimedia Commons — Paris Foreign Missions Society</span></figcaption>
+  </figure>
+
+  <p>Return to the Japanese village and the <em>fumie</em>.</p>
+  <p>Christianity was banned in Japan in 1614. The Jesuit mission had made something like three hundred thousand converts. Now the entire structure was outlawed, the clergy expelled or killed, and the population placed under recurring compulsory testing.</p>
+  <p>The communities that survived are the <em>Kakure Kirishitan</em>, the Hidden Christians. They did not go into caves. They went into the local temple.</p>
+  <p>They presented publicly as devotees of Buddhism, participating fully in the visible religious life of their villages while remaining a coherent group underneath. And at the back of their household Buddhist altars, they placed statues of Kannon, the bodhisattva of mercy, who in China and Japan had taken on a compassionate feminine form, frequently depicted holding a child.</p>
+
+  <div class="pullquote">The statues were Kannon. The prayers were to the Virgin Mary.</div>
+
+  <p>Later observers named these figures <em>Maria Kannon</em>. The Hidden Christians themselves did not use that name, which is itself good practice: a name is an artifact, and artifacts leak.</p>
+  <p>I want to be precise about why this worked, because it is the deepest single idea in this history.</p>
+  <p>This is not encryption. Nothing is scrambled. It is not a cipher, a code, or a puzzle. <strong>It is steganography in the strict sense</strong>, a covert payload carried inside a genuine, legitimate object of the host culture. An inspector who opens the household shrine finds a household shrine. There is no anomaly to detect, no residue of concealment, nothing that says <em>something has been hidden here</em>. The cover is not a disguise draped over the truth. The cover is real.</p>
+  <p>Compare encryption, which announces itself. Ciphertext says: here is a secret, and someone went to trouble over it. In a village under recurring inspection, that announcement is the whole danger. The Hidden Christians solved the problem by never generating the signal.</p>
+
+  <div class="pullquote">The cover is not a disguise draped over the truth. The cover is real.</div>
+
+  <h3><span class="secnum">13.</span>The cross on the lotus</h3>
+
+  <figure>
+    <img src="assets/09-nestorian-stele.jpg" alt="The Nestorian Stele, an 8th-century Chinese Christian monument, Forest of Steles Museum, Xi'an">
+    <figcaption>The Nestorian Stele, erected in Chang'an in 781 &mdash; a cross resting on a lotus flower among Chinese cloud motifs. It was buried for centuries and unearthed in near-perfect condition.<span class="credit">Photo: Wikimedia Commons, public domain reproduction of a public-domain artwork</span></figcaption>
+  </figure>
+
+  <p>The same operation, done openly, nine hundred years earlier and in the opposite direction.</p>
+  <p>The Nestorian Stele, properly the Monument Commemorating the Propagation of the Luminous Religion in the Middle Kingdom, is a limestone block 279 cm tall, erected in the imperial capital of Chang'an, modern Xi'an, on 7 January 781. Its text, composed by the monk Jingjing (Adam in Syriac) with calligraphy by L&uuml; Xiuyan, runs 1,756 Chinese characters plus about seventy words of Syriac. It records that the Church of the East arrived under the missionary Alopen and received recognition from Emperor Taizong in 635.</p>
+  <p>At the top of the tablet, among swirling clouds, is a <strong>cross resting on a lotus flower</strong>, an adaptation of Buddhist iconography in which the lotus pedestal is the seat of the gods.</p>
+  <p>Then it disappears. The stele is thought to have been buried around 845, during the anti-Buddhist persecution that also swept up Christians, Zoroastrians, and others. Chinese writings on stone and metal monuments as far back as 1064 do not mention it, so the burial is placed between 781 and 1064. It stayed buried until it was unearthed near Xi'an between roughly 1623 and 1625.</p>
+  <p>The recovery details are extraordinary. After nearly eight centuries underground it came up in <strong>near-perfect condition</strong>. News of the find reached Hangzhou, where many Jesuits and Chinese Christians were hiding after recent persecutions. A Jesuit, likely Nicholas Trigault, translated the inscription into Latin; French and Italian followed; Edward Gibbon and Athanasius Kircher eventually wrote about it. The stele now stands in the Forest of Steles Museum in Xi'an.</p>
+  <p>This artifact does three jobs at once.</p>
+  <p><strong>Symbolic inculturation, performed publicly.</strong> A cross seated on a lotus among Chinese cloud motifs, with Syriac alongside Chinese, is deliberate local encoding of a foreign payload. The same operation as <em>Maria Kannon</em>, run by a confident community rather than a hunted one.</p>
+  <p><strong>Offline cold storage.</strong> Facing active persecution, the community took its most important monument off-line, literally underground, where it could not be seized, defaced, or reinterpreted. The medium was chosen for durability, not accessibility.</p>
+  <p><strong>The archival trade-off at full scale.</strong> It survived because it was inaccessible, and it was inaccessible for eight hundred years. Nobody read it. Nobody was edified by it. The community that buried it died out. Then it came back intact and reshaped Western understanding of Christian history in Asia. Availability and durability are in tension, and 781 made the right call &mdash; but only because someone eventually dug.</p>
+
+  <h3><span class="secnum">14.</span>Gregory's instruction</h3>
+  <p>The most striking thing about this technique is that at one point the Church wrote it down as policy.</p>
+  <p>In 601, Pope Gregory the Great wrote to Abbot Mellitus, then on his way to join Augustine of Canterbury in Britain. The letter survives in Gregory's Register (11.56) and was later incorporated by Bede into the <em>Ecclesiastical History</em>. It has been in print for thirteen centuries.</p>
+  <p>Gregory instructs that <strong>the temples of the idols should not be destroyed</strong>, only the idols inside them. Water is to be blessed and sprinkled in the temples, altars constructed, relics deposited. If the temples are well built, they should be converted from the worship of demons to the service of the true God. The reasoning is explicit: when the people see their temples are not being destroyed, they may put error from their hearts and, knowing the true God, resort more freely and familiarly to the places they are accustomed to. Since they are used to killing many oxen in sacrifice, they should be given a solemnity of a changed kind, building huts of branches around the converted temples on the dedication day or the feast of the martyrs whose relics rest there, and celebrating with religious feasting.</p>
+
+  <blockquote><p>One who strives to climb to the summit ascends by steps or paces, not by leaps.</p></blockquote>
+
+  <p>Gregory leaves the matter to Augustine's discretion according to conditions of time and place. Oxford Reference notes the letter is permissive rather than prescriptive. And a caution: it is frequently over-read. It says nothing about converting pagan feast days into Christian ones, though it is constantly cited as proof of exactly that.</p>
+  <p><strong>This is documented, top-level policy to preserve the physical infrastructure and the population's existing behaviour while replacing the payload.</strong> Keep the site. Keep the gathering. Keep the feast. Change what it means.</p>
+  <p>It is the <em>Maria Kannon</em> strategy with the polarity reversed. There, Christians hid a Christian payload inside a Buddhist carrier under persecution. Here, a missionary church openly installs a Christian payload into a pagan carrier from a position of strength. Same mechanism, opposite power relation. Gregory's stated rationale is migration cost: hardened minds cannot be cut away from everything at once, and people return more willingly to familiar places. Any engineer who has kept the old interface while swapping the backend has run Gregory's playbook.</p>
+  <p>It is also the direct answer to why crosses appear at so many ancient holy sites. In a great many cases they appear there because a bishop was told to put them there.</p>
+
+  <h3><span class="secnum">15.</span>The house church, and a recent correction</h3>
+  <p>The Christian building at Dura-Europos in Syria, dated by a plaster inscription to 232/233, has for nearly a century been the canonical <em>domus ecclesiae</em>, a private house adapted for worship. Its layout was ordinary local domestic architecture: a square central courtyard with rooms around it, entered from the street by a modest door. The assembly hall was made by knocking down the wall between two adjacent rooms; another room became a baptistery with what may be the earliest surviving Christian paintings. Yale's own account notes that a converted house church typically showed no exterior change.</p>
+  <p>That reading is now under direct challenge. A 2024 study in the <em>Journal of Roman Archaeology</em> by Camille Leon Angelo and Joshua Silver compared the building against other houses at Dura-Europos, examined how the renovations altered the flow of natural light, and argued that after conversion it was almost certainly not domestic in form or function, calling the entire <em>domus ecclesiae</em> category into question.</p>
+  <p>If they are right, the camouflage was thinner than assumed: a residential frontage over an obviously non-residential interior. Perimeter concealment with nothing behind it. Anyone who has audited a network with a hardened edge and a flat interior knows that shape.</p>
+
+  <h2 id="part5"><span class="partlabel">Part V</span>Actual Cryptography</h2>
+  <p>Everything so far has been signalling and camouflage. The Church also did real cryptography, for fifteen hundred years, with mixed results.</p>
+
+  <h3><span class="secnum">16.</span>The scribes' mark</h3>
+  <p>Here the ground is firm, and the evidence is papyrological rather than devotional.</p>
+  <p>Early Christian manuscripts carry a distinctive convention. Certain key words are written in abbreviated form under a horizontal overstroke. Scholars call these the <em>nomina sacra</em>, the sacred names. The earliest and most consistent are God, Lord, Jesus, and Christ; the practice later expanded to Son, Father, Spirit, and even David, Moses, heaven, and Jerusalem.</p>
+  <p>Hurtado's crucial observation: these manuscripts have wide margins, generous line spacing, and normal letter size. <strong>The abbreviation was not saving space.</strong> It was a deliberate visual convention, purely graphic. Unlike Jewish practice with the divine name, there is no sign it signalled a different pronunciation.</p>
+  <p>The related device is the staurogram, the Greek <em>tau</em> and <em>rho</em> combined, used in the earliest instances specifically where the text refers to the cross or the crucifixion. It appears in three of the oldest gospel papyri, whose differing scribal hands show copyists working independently of each other.</p>
+  <p>For anyone who has verified a package signature this should feel familiar. The <em>nomina sacra</em> are a <strong>provenance marker on the church's most important data</strong>. Cheap to apply, cheap to check, not secret in the slightest, and very hard to fake convincingly at scale because it is a cluster of habits rather than a single mark. A Christian handed an unfamiliar codex could tell in seconds whether it came from inside the community's copying tradition.</p>
+  <p>That independent copyists in separated cities converged on the same convention tells us something else: the network was healthy. Conventions propagate cleanly through networks that are actually connected. Remember that, because later we are going to watch what happens when a network is cut.</p>
+
+  <h3><span class="secnum">17.</span>Speaking in code, and what it is actually for</h3>
+  <p>The clearest case of deliberate covert language in Christian scripture is the use of &ldquo;Babylon&rdquo; for Rome.</p>
+  <p>1 Peter 5:13 sends greetings from &ldquo;the church in Babylon.&rdquo; Reading this as a veiled reference to Rome is the oldest interpretation, supported by the early Fathers, essentially unchallenged until Erasmus, and favoured by the large majority of scholars today. It matches Revelation, which uses &ldquo;Babylon&rdquo; the same way, and it matches Jewish apocalyptic literature where Babylon-for-Rome was already established. Revelation's reference to the seven hills makes the target unmistakable to any contemporary reader. Tertullian simply calls Rome Babylon.</p>
+  <p>As tradecraft, how good is this? Against a literate, determined adversary, close to useless. Any Roman official who read Revelation and reached the seven hills would know exactly which city was meant.</p>
+  <p>But that is measuring against the wrong threat. Remember Trajan: prosecution required a denunciation, and the accuser had to make a case. What the code word buys is not secrecy. It is <strong>evidentiary friction.</strong> No sentence in the document says &ldquo;Rome.&rdquo; Making a treason case now requires arguing interpretation instead of pointing at text. Against an adversary who needs a prosecutable accusation, raising the cost of the accusation is a well-matched control.</p>
+  <p>The number 666 in Revelation 13:18, widely read as encoding a form of Nero's name through Hebrew letter values, works the same way. Trivial for the initiated. Ambiguous under hostile reading. Deniable.</p>
+
+  <h3><span class="secnum">18.</span>The checksum that failed</h3>
+  <p>This is my favourite discovery in the entire research, and it should be required reading for anyone who has watched a good design die in deployment.</p>
+  <p>The church had a genuine authentication problem. A cleric travelling between cities needed to prove his standing to a bishop who had never seen him. The answer was the letter of commendation, in the Latin West the <em>litterae formatae</em>, by which one bishop certified an ecclesiastic's orthodoxy and character to another. The practice descends from the apostolic era: Paul commends Phoebe in Romans 16 and refers to letters of recommendation in 2 Corinthians 3.</p>
+  <p>Forgery was the obvious risk. The countermeasure was not obvious at all.</p>
+  <p>In these letters, Greek letters stood in for numerals. To prevent fraud, the letter had to contain a specified series of characters whose numerical values, <strong>summed, would establish the document's origin.</strong> The required elements were the initials of the three Divine Persons, of the Pope, of the writer, of the recipient, of the city where it was written, plus the letter of the liturgical cycle and the word &Alpha;&Mu;&Eta;&Nu;.</p>
+  <p>Translate that. A check value computed over a defined field set &mdash; sender, recipient, issuing authority, place of origin, and a time-varying element &mdash; using the numeric values of Greek letters. The recipient recomputes the sum and compares.</p>
+
+  <div class="pullquote">That is a message authentication code. In roughly the fifth century.</div>
+
+  <p>The tradition attributing the rule to the Council of Nicaea should be treated with caution, and the sources themselves hedge it. But the mechanism is attested in surviving documents, and Carolingian examples are still being found and studied.</p>
+  <p><strong>And it failed.</strong> Not to cryptanalysis. The <em>Catholic Encyclopedia</em> records the collapse without ceremony: the writers were poorly instructed. A surviving letter from the Church of Metz contains an error of addition, and it is not an isolated case. Early medieval collections show mistakes were frequent, and within a short time the control became, in effect, illusory.</p>
+  <p>Every element of a modern incident post-mortem is there. A sound design. An operator population that did not understand the mechanism it was executing. No way to distinguish a miscomputed checksum from a forged one, which meant the only choices were rejecting valid letters or accepting everything, and institutions always drift toward accepting everything. Then silent decay into ceremony: a step everyone still performed and nobody still verified.</p>
+  <p>Fifteen hundred years ago the church built a cryptographic control and lost it to arithmetic errors and inadequate training. I have watched the identical failure this decade.</p>
+
+  <div class="sidebar">
+    <span class="eyebrow">Sixteen centuries early &mdash; a MAC by any other name</span>
+    <h4>What the <em>litterae formatae</em> check value actually covered</h4>
+    <ul>
+      <li>Initials of the three Divine Persons</li>
+      <li>Initial of the reigning Pope</li>
+      <li>Initial of the writer (the issuing bishop)</li>
+      <li>Initial of the recipient</li>
+      <li>Initial of the city where the letter was written</li>
+      <li>The letter of the liturgical cycle (a time-varying element)</li>
+      <li>The word &ldquo;&Alpha;&Mu;&Eta;&Nu;&rdquo; (Amen)</li>
+    </ul>
+    <p style="margin:12px 0 0; font-size:.88rem;">Sum the numeric values, compare on receipt. Sender, recipient, issuing authority, place of origin, and a freshness field &mdash; the field set of a modern authentication token, five hundred years before al-Kindi wrote the first surviving treatise on cryptanalysis.</p>
+  </div>
+
+  <h3><span class="secnum">19.</span>The papal cipher service</h3>
+
+  <figure>
+    <img src="assets/15-argenti.jpg" alt="A Renaissance manuscript page of cipher-decryption rules">
+    <figcaption>Cicco Simonetta's cipher-decryption rules, a Renaissance manuscript of the same tradition the papal cipher secretaries Giovanni Battista and Matteo Argenti worked in a century later &mdash; homophonic substitution, code groups, nulls, and deliberate traps designed to mislead a cryptanalyst rather than merely conceal from him.<span class="credit">Manuscript: BNF Codex 1595; digitization by Augusto Buonafalce, via Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <p>The Church's cryptographic operation was not incidental. It was professional, sustained, and at the leading edge of its era.</p>
+  <p>The driver was diplomatic. Popes needed secure communication with their nuncios, the permanent papal representatives at the major European courts, and they employed cipher secretaries whose designs were state-of-the-art, comparable to those of the Republic of Venice.</p>
+  <p>The landmark scholarly source is Aloys Meister's 1906 study of secret writing in the service of the papal curia. Meister collected keys from Vatican libraries and archives, including the papers of Giovanni Battista Argenti and his nephew Matteo, the influential papal cipher secretaries of the later sixteenth and early seventeenth centuries. He identified at least twelve types of ciphers using digits, and that covered only a subset of the keys in his appendices. He also documented a <strong>high degree of professionalization, with extensive training in both the creation and the cryptanalysis of ciphers.</strong></p>
+  <p>The Argentis are the central figures. Giovanni Battista served Sixtus V and Gregory XIV; his nephews Matteo and Marcello succeeded him; the family held the post until 1605. Antonio Elio, who trained Giovanni Battista, was himself elevated to Bishop of Pola, then Vicar of St. Peter's, and finally Patriarch of Jerusalem. That is a cryptographer's career path, and it says something about how the institution valued the work.</p>
+  <p>The technical substance was serious. The Argenti nomenclators are described as the most sophisticated of the Renaissance, coupling a substitution alphabet reported at 391 symbols with code groups, nulls, and <strong>deliberate traps</strong>. A nomenclator combines several simpler systems into one composite scheme. Homophonic substitution, multiple symbols per plaintext letter, flattens the frequency distribution that would otherwise betray the message. After his dismissal in 1605, Matteo compiled a roughly 135-page manual summarizing the best of Renaissance practice, and he understood cryptanalysis as well as design.</p>
+  <p><strong>And they were broken.</strong> In one recorded episode, the papal side complained to the pope that the French had solved a Vatican nomenclator, and accused them of using black magic to do it. The French cryptanalyst was Fran&ccedil;ois Vi&egrave;te. The pope's own cryptanalyst was Argenti, who knew exactly how good Vi&egrave;te was.</p>
+  <p>Modern work continues. A 2020 study in <em>Cryptologia</em> reports research in the Vatican archives across 2014 and 2015, where the Prefect directed the team to a structured index containing folders of encrypted letters from the French, Spanish, and Portuguese sections of the Secretariat of State. Alvarez has described the nineteenth century, when after a long period of inertia Vatican cipher clerks slowly adopted newer polyalphabetic techniques.</p>
+  <p>Three points.</p>
+  <p><strong>The Church had real crypto doctrine.</strong> Homophones, nulls, code groups, and deliberate traps are not naive constructions. The traps in particular are notable: material designed to mislead a cryptanalyst rather than merely conceal from him.</p>
+  <p><strong>Accusing the attacker of magic is a failure mode.</strong> When the pope's correspondents attributed Vi&egrave;te's success to black magic, they were doing what defenders still do: treating a successful attack as impossible rather than as evidence the design was weaker than believed. Argenti, the professional, knew better.</p>
+  <p><strong>Institutional inertia is a cryptographic risk.</strong> A &ldquo;long period of inertia&rdquo; before adopting polyalphabetic ciphers describes an organization running deprecated cryptography for decades because nothing had visibly broken. Same pathology as the <em>litterae formatae</em>.</p>
+
+  <h3><span class="secnum">20.</span>The abbot who named steganography</h3>
+
+  <figure>
+    <img src="assets/14-trithemius.jpg" alt="A page from Trithemius's Polygraphia or Steganographia, foundational 16th-century cryptography texts">
+    <figcaption>Johannes Trithemius's foundational cryptography &mdash; a Benedictine abbot who built a cipher whose ciphertext read as devotional prayer, then hid a book about hiding messages inside a book that looked like sorcery. It cost him three centuries on the Index.<span class="credit">Photo: Daderot, Wikimedia Commons, CC0 &mdash; National Cryptologic Museum</span></figcaption>
+  </figure>
+
+  <p>Johannes Trithemius (1462&ndash;1516) was a German Benedictine abbot, historian, and one of the leading intellectuals of his day.</p>
+  <p>His <em>Polygraphiae libri sex</em> was composed around 1508 and published at Basel in 1518, two years after his death. It is credited as <strong>the first printed book on cryptography.</strong> Its core was the <em>tabula recta</em>, a 26&times;26 grid in which each row is the alphabet shifted one position left of the row above. Encrypting each successive plaintext letter from a successive row produces the first known polyalphabetic method. The significance is structural: the cipher al-Kindi had dismantled in Baghdad around 850 was a single substitution alphabet vulnerable to frequency counting. The tabula recta gives each position its own alphabet, defeating that attack by design. The table became the standard reference tool for later polyalphabetic systems, including the Vigen&egrave;re.</p>
+  <p><em>Polygraphia</em> also contained the <strong>Ave Maria cipher</strong>: a system replacing each plaintext letter with a word drawn from Latin prayers, so the output read to any casual observer as a devotional poem. Trithemius supplied nearly a hundred pages of correspondence tables between plaintext letters and pious phrases.</p>
+  <p>Stop on that. A Benedictine abbot built a cipher whose ciphertext is indistinguishable from prayer. <strong>The encryption and the camouflage operate simultaneously.</strong> The message is both encrypted and hidden inside a carrier that is not merely innocuous but positively pious in the observer's own value system. It is the <em>Maria Kannon</em> principle, executed as a formal system with lookup tables, in Europe, three hundred years earlier.</p>
+  <p>Then there is <em>Steganographia</em>, written around 1499, circulated in manuscript, published at Frankfurt in 1606. Trithemius coined the word &ldquo;steganography.&rdquo; The book presents itself as a treatise on transmitting messages by summoning spirits, complete with magical language, rituals, and invocations.</p>
+  <p>It was <strong>placed on the Index Librorum Prohibitorum in 1609 and remained there until 1900.</strong> Trithemius was accused of practising black magic and the suspicion dogged his reputation for centuries.</p>
+  <p>The magic was the cover. By 1606 the first two volumes had been shown to be about steganography and cryptography. The third and most arcane-looking volume resisted decipherment until 1998, when Jim Reeds, a mathematician at AT&amp;T, cracked the underlying cipher. Consecutive columns of the tables generate passages that read as innocent Latin prayers.</p>
+  <p>Trithemius hid a book about hiding messages inside a book that appeared to be about summoning spirits. The steganography was recursive.</p>
+  <p><strong>It also failed on its own terms, and the failure is the lesson.</strong> The purpose of a cover is to avoid attracting attention. Trithemius's cover attracted three centuries of exactly the wrong attention, got him branded a demonologist, and put the work on a banned list. <strong>A cover object drawn from a category the adversary finds alarming is worse than no cover at all.</strong> He chose occultism in an era when the Church was actively hunting occultists. The Church could not distinguish cryptography from demonology, and so it banned its own abbot's foundational work on secret writing for 291 years.</p>
+
+  <div class="pullquote">The Church could not distinguish cryptography from demonology, and so it banned its own abbot's foundational work on secret writing for 291 years.</div>
+
+  <h3><span class="secnum">21.</span>Two things that are not ciphers</h3>
+  <p>Since this section is about codes, two corrections belong here, because both circulate widely and both are wrong.</p>
+  <p><strong>Cistercian numerals.</strong> Frequently presented as a secret Catholic code, including under that headline by the <em>National Catholic Register</em>. The system is real and remarkable: developed by the Cistercian order in the early thirteenth century, just as Arabic numerals were arriving in northwestern Europe, it is more compact than either Arabic or Roman numerals. A single glyph can represent any integer from 1 to 9,999. Digits attach to a vertical stave, position indicating place value, one digit per quadrant. Nine base shapes, mirrored across two axes, generate everything. The idea derives from a two-place system introduced to the order by John of Basingstoke, archdeacon of Leicester, apparently based on a twelfth-century English shorthand. About two dozen manuscripts survive, from England to Italy and Normandy to Sweden.</p>
+  <p><strong>And the numbers were not used for arithmetic, fractions, or accounting.</strong> They were used for years, foliation, divisions of texts, the numbering of notes, lists, indexes and concordances, arguments in Easter tables, and the lines of a musical staff. This is a compact positional notation for indexing. It was used for exactly the sort of dry apparatus nobody needs to hide. Its opacity to modern eyes is an artifact of obsolescence, not design intent. The nineteenth century called them &ldquo;ciphers,&rdquo; and that one word has done a great deal of damage.</p>
+  <p><strong>The Vatican Secret Archives.</strong> The institution now called the Vatican Apostolic Archive was established as a separate entity from the Vatican Library by Paul V in 1612 as the <em>Archivum Secretum Apostolicum Vaticanum</em>. It holds roughly 600 collections across about 85 kilometres of shelving, including a two-story reinforced-concrete bunker and climate-controlled rooms for the most precious material, among it the acts of the Galileo trial.</p>
+  <p>The word is the problem. <em>Secretum</em> derives from <em>secernere</em>, to separate or set apart. It denoted the pope's private collection, reserved to the pontiff and authorized officials, not concealed material. On 22 October 2019 Francis issued a <em>motu proprio</em> renaming it the Vatican Apostolic Archive, stating that &ldquo;secretum&rdquo; had lost its true meaning and, associated with the modern sense of &ldquo;secret,&rdquo; had acquired the prejudicial implication of something hidden and reserved to a few, contrary to what the archive always was and intended to be. Leo XIII opened it to qualified scholars of any faith or nationality in 1881. Roughly 1,200 to 1,500 researchers are admitted a year.</p>
+  <p>The honest version includes the counterpoint: parts genuinely do remain classified in the modern sense. Material dated after 1958, and the private records of church figures after 1922, are actively withheld, and critics argue the restrictions impede scholarship.</p>
+  <p>A naming decision made in 1612 created four centuries of unintended threat perception. The actual access-control posture was reasonable and reasonably transparent. The <em>label</em> implied something else entirely, and the label is what the public responded to. Anyone who has watched an internal system called &ldquo;shadow&rdquo; or &ldquo;black&rdquo; acquire a reputation it did not earn will recognize the failure. The remedy was to rename the system, and it took 407 years.</p>
+
+  <h2 id="part6"><span class="partlabel">Part VI</span>Meeting in Secret</h2>
+
+  <h3><span class="secnum">22.</span>Sentries on the hilltops</h3>
+
+  <figure>
+    <img src="assets/10-mass-rock.jpg" alt="An Irish Mass rock near Keem Bay, Achill Island — a natural boulder used as a hidden altar">
+    <figcaption>A Mass rock near Keem Bay, Achill Island. You cannot confiscate a rock, and destroying one accomplishes nothing, because there are hundreds.<span class="credit">Photo: The Banner, Wikimedia Commons, CC BY-SA 3.0 NL</span></figcaption>
+  </figure>
+
+  <p>Under the Irish penal laws, roughly the 1690s through the 1750s with precedents going back to Cromwell, Catholic worship was suppressed. Bishops were banished, priests required to register, and <strong>priest hunters</strong> employed to find those who did not.</p>
+  <p>The response was to abandon fixed infrastructure entirely.</p>
+  <p>Mass was celebrated on natural rock outcrops and earth-fast boulders serving as altars, sited in remote hills, woodland, and bogland. The priest moved between communities in disguise. Word of a gathering spread quietly through trusted people. Families walked miles before dawn. And <strong>sentries were posted on the surrounding high ground to watch for soldiers and priest hunters.</strong></p>
+  <p>Three things stand out.</p>
+  <p><strong>There was no asset to seize.</strong> You cannot confiscate a rock, and destroying one accomplishes nothing, because there are hundreds. The community traded permanence and convenience for the elimination of a high-value static target. Ephemeral infrastructure, arrived at by necessity.</p>
+  <p><strong>Detection was built into the liturgy.</strong> The posted sentry is a monitoring control with a defined alerting path, staffed as a standing part of the gathering rather than an afterthought.</p>
+  <p><strong>They left a trail anyway.</strong> The Irish place names preserve the entire network: <em>Carraig an Aifrinn</em>, Mass rock. <em>Clais an Aifrinn</em>, Mass ravine. <em>Faill an Aifrinn</em>, Mass cliff. <em>Gleann an Aifrinn</em>, Mass glen. A community that scattered its worship across hundreds of unmarked sites still <em>named</em> them, and the names entered the permanent record. Operational security that defeats a contemporary adversary can still leave a durable trace. Metadata outlives the operation.</p>
+
+  <div class="sidebar">
+    <span class="eyebrow">Glossary</span>
+    <h4>The Mass-rock place names that gave the network away</h4>
+    <dl>
+      <dt>Carraig an Aifrinn</dt><dd>Mass rock</dd>
+      <dt>Clais an Aifrinn</dt><dd>Mass ravine</dd>
+      <dt>Faill an Aifrinn</dt><dd>Mass cliff</dd>
+      <dt>Gleann an Aifrinn</dt><dd>Mass glen</dd>
+    </dl>
+  </div>
+
+  <p>Alongside this ran the hedge schools, clandestine classes taught outdoors behind hedges or in secluded barns, often by fugitive priests, because the same laws that banned the Mass also barred Catholic education. Again: the real target was never the weekly gathering. It was the transmission to the children.</p>
+
+  <h3><span class="secnum">23.</span>The device redesigned for concealment</h3>
+  <p>The same penal laws forbade Catholic devotional objects, and that produced something a hardware engineer will appreciate.</p>
+  <p>The <em>Paidr&iacute;n Beag</em>, the Little Rosary or Irish penal rosary, is a <strong>single-decade rosary</strong>: ten beads, one Pater bead, a finger ring often resembling ancient Celtic ring money, and a distinctive penal crucifix. The crucifix is long and thin specifically so it can be concealed up a sleeve. In use, the crucifix is hidden in the sleeve or palm while the ring goes over the thumb for the first decade; the ring moves to the next finger for the next decade, and so on until all five are complete.</p>
+  <p>The penal crucifix carries a compressed symbol set, the instruments of the Passion in miniature: a hammer for the nails, a halo for the crown of thorns, a jug for the Last Supper, cords for the scourging, the spear, the three nails, marks along the side of the corpus indicating a ladder (both the ladder of the crucifixion and a metaphor for ascent), the five wounds, and INRI.</p>
+
+  <div class="sidebar">
+    <span class="eyebrow">Hardware threat-model response</span>
+    <h4>Every change to the penal rosary is a concealment optimization</h4>
+    <ul>
+      <li><strong>Reduce form factor.</strong> Five decades to one, so it fits in a palm.</li>
+      <li><strong>Move state into a register.</strong> The finger ring holds the position the missing four decades of beads used to hold. The device got smaller by externalizing state onto the operator's hand.</li>
+      <li><strong>Reshape for the concealment channel.</strong> Shorter crucifix arms, long and thin, sized for a sleeve.</li>
+      <li><strong>Compress the symbol dictionary.</strong> The full Passion iconography packed into a miniature glyph set on one small object.</li>
+    </ul>
+  </div>
+
+  <p>Set this beside the sign of the cross and you have the fundamental trade of this entire article. The penal rosary is an artifact: seizable, evidentiary, and possession of it was itself the offence. The gesture is not.</p>
+
+  <h3><span class="secnum">24.</span>The man who built the hiding places</h3>
+  <p>England under Elizabeth I and James I was a genuinely adversarial environment, and it produced the most sophisticated physical-security work in this history.</p>
+  <p>It was high treason, punishable by death, to be a Catholic priest in England. Sheltering one was itself a capital offence. Margaret Clitherow was pressed to death in 1586 for refusing to plead to a charge of harbouring two priests at York.</p>
+
+  <div class="sidebar">
+    <span class="eyebrow">Sixteenth-century differential analysis</span>
+    <h4>How a pursuivant found a hide without ever finding it</h4>
+    <p style="margin:0;">The state fielded professionals: <strong>pursuivants</strong>, priest hunters who collected tips and searched exhaustively, sometimes for weeks. They would measure a house's footprint from the outside and again from the inside to see whether the figures agreed. They would count the windows from outside and again from within. They would tap walls listening for hollowness, and tear up floorboards. The pursuivant did not need to find the hiding place. He only needed to find the <strong>discrepancy that proves one exists.</strong></p>
+  </div>
+
+  <p>Against that, the recusant community produced a specialist. Nicholas Owen was the son of an Oxford carpenter, apprenticed to a joiner, a very short man and later physically disabled. He joined the Jesuits as a lay brother and spent the better part of two decades building hides across the Midlands and beyond.</p>
+  <p>His discipline reads like an operations manual:</p>
+  <ul>
+    <li>He <strong>worked alone, at night, by candlelight.</strong></li>
+    <li>He used a <strong>pseudonym, &ldquo;Little John.&rdquo;</strong> Few knew his real identity.</li>
+    <li>He built into fireplaces, walls, attics, staircases, under floors and behind wainscoting. He used false chimney flues. At Baddesley Clinton he converted a <strong>sewer</strong>.</li>
+    <li>Larger hides took the form of a small apartment or chapel where Mass could be said and vestments stored, so a priest could retreat there in an emergency.</li>
+    <li>Crucially: <strong>other building alterations were sometimes carried out at the same time</strong>, so the construction work itself would not signal what was happening. Cover traffic. The hide built inside a larger volume of ordinary noise.</li>
+    <li>Hides were provisioned with food, drink, and basic sanitation, because a priest might have to stay still and silent for days. The control was designed against the <em>duration</em> of the search, not merely its occurrence.</li>
+    <li>And he <strong>never told anyone where they were.</strong> He was architect and builder both, and the information lived in one place only.</li>
+  </ul>
+  <p>That one place was a human being. After the Gunpowder Plot, Owen was captured &mdash; taken, with awful aptness, in one of his own hides &mdash; and tortured to death on the rack in the Tower of London in 1606. He did not give up the names of the Jesuits or the locations of the hides.</p>
+  <p>He was right about the design. Many of his hides went undiscovered for centuries.</p>
+  <p>I find Owen hard to write about dispassionately, because the engineering and the cost are the same fact. He understood that he was a single point of failure, and he hardened <em>himself</em> rather than distributing the information. It worked. The network held. And it could only work because the custodian had decided, in advance, what he would do when they came for him. That is not a model that transfers to systems staffed by people who have not made that choice.</p>
+  <p>His counterpart in the north, the Jesuit Richard Holtby, was never caught and died peacefully in 1640.</p>
+
+  <h2 id="part7"><span class="partlabel">Part VII</span>Keeping the Data Alive</h2>
+
+  <h3><span class="secnum">25.</span>Diocletian attacks the archive</h3>
+  <p>In February 303, Diocletian's first edict ordered churches demolished, and scriptures and liturgical books surrendered and burned. In North Africa the enforcement was severe; officials demanded that clergy hand over their books, often under torture.</p>
+  <p>Christians responded in three ways, and all three are recognizable.</p>
+  <p><strong>Some refused.</strong> Felix, bishop of Thibiuca, was arrested on the very day the decree was posted in his city for refusing to surrender any books, and could not be broken by close confinement. Secundus of Tigisis, senior bishop of Numidia, answered the search party with the phrase that named the era: he was a Christian and a bishop, not a <em>traditor</em>, not one who hands over.</p>
+
+  <div class="pullquote">A Christian and a bishop &mdash; not a <em>traditor</em>. Not one who hands over.<cite>Secundus of Tigisis, to the Diocletianic search party, 303 AD</cite></div>
+
+  <p><strong>Some ran a deception operation, and it worked.</strong> Mensurius, bishop of Carthage, removed the genuine scriptures to his own house and left a quantity of <strong>heretical writings</strong> in their place. The persecutors seized these and asked for nothing more. When the trick was later reported, the proconsul declined to search the bishop's private house.</p>
+  <p>That is textbook decoy design, and the choice of decoy is the elegant part. Mensurius handed the persecutors material he was perfectly happy to see burned. Full apparent value to the attacker, negative value to the defender. The seizure closed the search, which was the whole objective. The load-bearing element was the proconsul's refusal to reopen it, and that was outside Mensurius's control.</p>
+  <p><strong>And some complied.</strong> Those who surrendered the books were branded <em>traditores</em>, a term that expanded to cover those who gave up sacred vessels and, worst of all, those who betrayed fellow believers.</p>
+
+  <h3><span class="secnum">26.</span>Why the edict failed</h3>
+  <p>The critical observation is what the church did <em>not</em> do. It did not centralize, encrypt, or restrict its scriptures. It copied them relentlessly and dispersed them everywhere, in a preferred format &mdash; the codex &mdash; that was cheap, portable, and easily concealed on a person.</p>
+  <p>Diocletian's edict was a <strong>denial-of-availability attack against a massively replicated distributed dataset</strong>, and it failed for the reason such attacks generally fail: there were more copies than the adversary could reach. Every seizure at Cirta or Carthage was a local event against a global corpus.</p>
+  <p>The trade is stark and worth stating plainly. <strong>The church accepted near-total loss of confidentiality on its core data in exchange for extreme durability.</strong> Anyone could read the Gospels. No one could delete them. Given an adversary who wanted the texts destroyed rather than exfiltrated, that was the correct allocation of effort, and it is the single most consequential security decision in this entire history.</p>
+
+  <h3><span class="secnum">27.</span>Build the reference copy first</h3>
+  <p>Armenia offers the constructive version of the same insight.</p>
+  <p>Armenia adopted Christianity as a state religion in 301, traditionally the first nation to do so, under Tiridates and through Gregory the Illuminator. But the conversion was top-down. The king converted and commanded, with mass baptisms, and for roughly a century the liturgy continued in Greek.</p>
+  <p>The fix was a new writing system. Around 405, Mesrop Mashtots, working with Catholicos Sahak Partev and with royal support, produced an alphabet of 36 letters designed for the phonetics of Armenian, because the Greek, Syriac, and Persian scripts then in inconsistent use were inadequate for translating scripture. The goal was explicitly both linguistic and spiritual: give the people the text in their own tongue. The Bible translation that followed is known as the Queen of Translations. The script's original intention was to spread and entrench Christianity, and it did.</p>
+  <p>And then the sentence that matters most: the greatest progress came after the invention of the alphabet and the translation of scripture and liturgy, and <strong>the Armenian Church is considered to have provided a structure for the preservation of Armenian identity in the absence of Armenian political independence.</strong></p>
+  <p>Hold that. We are coming back to it in Part VIII, because it is the exact control case for the worst failure in this article.</p>
+
+  <h3><span class="secnum">28.</span>Samizdat: the same architecture, industrialized</h3>
+  <p>The twentieth century rebuilt Diocletian's problem with typewriters.</p>
+  <p>The Soviet state held an information monopoly. Religious writing could only reach the public through channels the state controlled. Against that, believers of every Christian confession, especially from the 1960s onward, turned to <em>samizdat</em>, self-publishing: the clandestine reproduction and circulation of banned material.</p>
+  <p>The methods were deliberately primitive. Typewriting onto carbon paper. Manual copying by hand. Microfilm. Documents passed hand to hand in small editions to keep exposure low. No printing plant to raid, no press to seize, nothing requiring a supply chain the state could interdict.</p>
+  <p>The propagation rule is the part that matters. <strong>Copies were made a few at a time, and whoever received a copy was expected to make more.</strong></p>
+  <p>That is peer-to-peer replication with an obligation to seed. There is no central node whose seizure stops distribution, because every recipient is also a distributor. It is the architecture that defeated Diocletian, rebuilt from carbon paper.</p>
+  <p>The operators also understood compartmentalization explicitly. The Adventist samizdat operation in Lvov, organized by pastor Nikolay Zhukalyuk in 1967, was structured as <strong>three separate, independent groups that did not know of each other.</strong> A cell structure, adopted for exactly the reason cell structures exist.</p>
+  <p>It was not enough. In November 1973 Zhukalyuk and Liya Polishchuk, who coordinated the largest group, were arrested. Searches followed at the homes of Adventist leaders across the country, and large quantities of literature were confiscated. Their trial ran seven months.</p>
+  <p>The lesson is not that compartmentalization failed. It is that <strong>compartmentalization bounds the blast radius; it does not prevent the incident.</strong> A security service with national reach and a single foothold can run parallel operations against multiple cells. Cell structure buys survivability, not immunity, and anyone who sells it as immunity is lying.</p>
+  <p>Then there is the human layer, which in this history is always the last and strongest control.</p>
+  <p>In 1974 the KGB arrested Nijol&#279; Sad&ucirc;nait&#279; for typing carbon copies of the underground <em>Chronicle of the Catholic Church in Lithuania</em>. She was interrogated, tortured, and convicted in a closed trial: three years in a strict-regime labour camp, followed by three years of Siberian exile.</p>
+  <p><strong>She never gave up the names of her fellow dissidents.</strong></p>
+  <p>Her account of those years was smuggled out to the West and published. The title translates as <em>Radiance in the Gulag</em>.</p>
+  <p>Nicholas Owen on the rack in 1606 and Nijol&#279; Sad&ucirc;nait&#279; in a KGB interrogation room in 1974 are separated by three hundred and sixty-eight years, two languages, and two entirely different technological worlds. They are doing precisely the same thing, for precisely the same reason, with precisely the same asset, which is not a document or a building but the location of other people.</p>
+
+  <h2 id="part8"><span class="partlabel">Part VIII</span>What Nearly Killed Them Was Not Persecution</h2>
+  <p>Here is the finding that changed how I think about my own work.</p>
+  <p>In two separate cases, Christian communities survived enormous external pressure and were then nearly destroyed by something else. In both cases the fatal problem was <strong>integrity</strong>, not secrecy.</p>
+
+  <h3><span class="secnum">29.</span>When the church could not agree who to trust again</h3>
+  <p>When the Diocletianic persecution ended, the North African church faced a question it could not answer: <strong>what is the standing of a leader who complied under duress?</strong></p>
+  <p>The dispute crystallized around ordination. One of the men who consecrated Caecilian as bishop of Carthage, Felix of Aptunga, was accused of having been a <em>traditor</em>. An assembly at Cirta around 305 demanded an inquiry into the conduct of bishops during the persecution. Mensurius was attacked for the decoy stratagem. Seventy Numidian bishops met at Carthage under the influence of Donatus and elected a rival bishop.</p>
+  <p>The Donatist position was that a sacrament's validity depended on the moral integrity of the minister. Ordinations and baptisms performed by tainted clergy were void. They rebaptized those baptized in the rival communion, and they challenged the validity of the entire episcopal line descending from Felix of Aptunga.</p>
+  <p>The result was two parallel lines of succession, each convinced it was the true church, contesting each other's buildings, martyrs, and legitimacy, and it lasted until the Arab conquest.</p>
+  <p><strong>This is certificate chain repudiation after a suspected root compromise.</strong></p>
+  <p>The question is exactly the modern one: if a signing authority may have been compromised at time T, is everything it issued after T invalid? And are the credentials issued by <em>those</em> credentials also invalid, recursively, forever?</p>
+  <p>The Donatists answered yes. The answer was rigorous, internally consistent, and unfalsifiable, and it fragmented the North African church for three centuries, because it left no procedure by which trust could ever be rebuilt. The catholic party answered no, locating validity in the office rather than the officeholder, which is functionally a decision to root trust institutionally so that individual compromise does not cascade. That preserved continuity at the price of admitting that some genuinely compromised credentials would remain valid.</p>
+  <p>Neither answer is free. But the maximalist position has been run at scale, and the result is on the record.</p>
+
+  <div class="pullquote">The persecution did not break the African church. The argument about revocation afterward did.</div>
+
+  <h3><span class="secnum">30.</span>The slow corruption of a perfect covert channel</h3>
+  <p>Which brings us back to Japan, and to the most sobering case in this history.</p>
+  <p>By any confidentiality measure, the Hidden Christians succeeded beyond reason. They evaded an active, instrumented, population-wide detection program for two hundred and fifty years. At least seven generations kept the faith, taught it to their children in secret, and lived outwardly ordinary lives with the sword permanently over them.</p>
+  <p>On 17 March 1865, a small group walked into the newly consecrated &Omacr;ura Church in Nagasaki and asked the French priest, Fr. Petitjean, whether they might see the statue of Santa Maria.</p>
+  <p>But what came up out of the ground was not quite what had gone down.</p>
+  <p>Across those centuries the tradition had been transmitted orally, with no Eucharist, no confession, no ordination. The record shows measurable <strong>doctrinal drift</strong>: the Trinity conflated with Buddhist-influenced triads, the Maria Kannon figures venerated in ways that departed from Nicene formulation. Scholarly judgments range from treating the result as an invalid imitation to framing it neutrally as an indigenized hybrid tradition. The 1865 rediscovery was followed by fresh persecution: some 3,300 hidden Christians at Urakami were arrested, forced through apostasy rituals, and exiled to Tsushima, Hokkaid&#333;, and the San'in region, where cold, hunger, and disease killed many.</p>
+  <p>Why did the drift happen? The mechanism is specifiable, and this is the most important paragraph in the article.</p>
+  <p>They had <strong>no authoritative reference copy</strong>, no scripture. They had <strong>no authenticating authority</strong>, no clergy, no functioning succession. They had <strong>no error-correction channel</strong>, no contact with the wider church for a quarter of a millennium. The transmission medium was <strong>oral</strong>, which is lossy by nature. And the cover object exerted <strong>semantic pressure on the payload</strong>: because the carrier was a genuine Buddhist devotional form rather than an inert wrapper, meaning bled from the carrier into the message across seven generations.</p>
+  <p>That last point is the one I cannot stop thinking about. <strong>The covert channel was not neutral with respect to what it carried.</strong> Given enough iterations, the disguise became partly constitutive of the thing disguised.</p>
+
+  <div class="pullquote">The covert channel was not neutral with respect to what it carried.</div>
+
+  <p>Now set Japan next to Armenia and the comparison does the work of a hundred pages of theory.</p>
+  <p>Both faced civilizational pressure: centuries without political independence, repeated conquest, eventually genocide. Armenia had a purpose-built script, a canonical translation, a continuous clergy, and fifty thousand stones repeating the same symbol across the landscape. Japan had none of those. <strong>Armenia's identity survived. Japan's drifted.</strong></p>
+  <p>That is not luck. It is the difference between a system with an authoritative reference and error correction, and a system running for 250 years on institutional memory alone.</p>
+  <p>Nothing in modern practice runs that long, so the analogy is imperfect. But anyone maintaining a system whose documentation is gone, whose original architects have left, and whose canonical reference no longer exists, while the thing keeps running on memory, is conducting the same experiment on a shorter clock. Uncorrected drift in long-duration transmission without an authoritative reference is not a risk to be managed. It is a certainty. The only variable is the rate.</p>
+
+  <h2 id="part9"><span class="partlabel">Part IX</span>Taking the Cross</h2>
+  <p>Christians have also fought wars in defense of the faith. The history is real, it is varied, and the Church's own current doctrine treats a good deal of it as wrong. All three facts belong here.</p>
+
+  <h3><span class="secnum">31.</span>Avarayr, 451: the defeat that won</h3>
+
+  <figure>
+    <img src="assets/12-avarayr.jpg" alt="The statue of Vardan Mamikonian in Yerevan, Armenia, commemorating the Battle of Avarayr">
+    <figcaption>Vardan Mamikonian, sculpted in Yerevan &mdash; the general who lost the Battle of Avarayr in 451 and, in doing so, made continued religious suppression too expensive to sustain. It took thirty-three more years, but the Treaty of Nvarsak secured Armenian religious rights.<span class="credit">Photo: Arthur Chapman, Wikimedia Commons, CC BY 2.0</span></figcaption>
+  </figure>
+
+  <p>The Sasanian shah Yazdegerd II moved to compel Armenian nobles to convert to Zoroastrianism. When news of the compulsion reached Armenia a mass revolt broke out, and the nobility, led by the <em>sparapet</em> Vardan Mamikonian, joined it.</p>
+  <p>On 26 May 451, on the Avarayr Plain in Vaspurakan, a Christian Armenian army met a Sasanian force including the Immortals and war elephants. Vardan's army was defeated. The supporters of Vasak of Syunik deserted during the battle, and Vardan died with nine generals and much of the Armenian nobility. Casualty figures give roughly 3,544 Sasanian dead against 1,036 Armenian: heavier losses for the victors.</p>
+  <p>Yazdegerd, alarmed by the Persian losses, withdrew his troops and imprisoned Vasak. Armenian resistance continued for decades under Vardan's nephew Vahan Mamikonian, and in 484 the <strong>Treaty of Nvarsak</strong> secured recognition of Armenian religious rights and autonomy, with a general amnesty and permission to build new churches.</p>
+  <p>It is described as one of the first battles fought in defense of the Christian faith, a pyrrhic victory for Persia and a moral victory for the Armenians. Vardan is a national hero, venerated as a saint and martyr, and the events are recorded by the Armenian historians Yeghishe and Ghazar Parpetsi.</p>
+  <p><strong>Avarayr is a cost-imposition defense.</strong> The defenders lost the engagement and won the objective, because they made continued suppression more expensive than it was worth. Thirty-three years of subsequent resistance converted a battlefield defeat into a treaty. Anyone who thinks about deterrence rather than prevention recognizes this: the goal was never to win the fight but to change the adversary's cost calculus permanently. It took three decades.</p>
+
+  <h3><span class="secnum">32.</span>The pivot: when the hidden sign became a battle standard</h3>
+
+  <figure>
+    <img src="assets/13-labarum.jpg" alt="A gold coin of Constantine I showing Victory with a Chi-Rho Christogram">
+    <figcaption>A solidus of Constantine I, Antioch mint, c. 335&ndash;336 &mdash; Victory bearing the Chi-Rho. Both contemporary accounts of the Milvian Bridge agree the sign was not widely understandable as denoting Christ. Within a generation, the ambiguity that made it safe was the first thing discarded.<span class="credit">Photo: Classical Numismatic Group, Inc. (cngcoins.com), Wikimedia Commons, CC BY-SA 2.5</span></figcaption>
+  </figure>
+
+  <p>On the evening of 27 October 312, before the Battle of the Milvian Bridge, Constantine reported a vision leading him to fight under the protection of the Christian God.</p>
+  <p>The two contemporary accounts differ, and the difference matters. Lactantius, writing around 315 and closer to the event, describes a dream in which Constantine was commanded to mark the heavenly sign on his soldiers' shields, and describes that sign as a <strong>staurogram</strong>, a cross with its upper end rounded in a P-like fashion, rather than the Chi-Rho. Eusebius, in the <em>Life of Constantine</em>, describes a sign appearing above the sun in daylight, followed by a dream, and explicitly identifies the Chi-Rho. Eusebius describes the resulting standard: a long gold-overlaid spear forming a cross by means of a transverse bar, topped with a wreath of gold and precious stones. Historians hold the two accounts can hardly be reconciled, though popular memory has merged them.</p>
+  <p>The <em>labarum</em> was the resulting military standard bearing the Chi-Rho, used in Constantine's later wars against Licinius. Its first imperial appearance is on a silver coin of about 317, proving he used the sign by then, though not prominently.</p>
+  <p>And here is the detail that makes this the hinge of the whole story: <strong>both Lactantius and Eusebius agree the sign was not widely understandable as denoting Christ</strong>, although among Christians it was already in use in the catacombs to mark and decorate tombs.</p>
+  <p>At the Milvian Bridge, a token legible to insiders and opaque to outsiders was carried at the head of an imperial army. That is the moment the in-group marker became state infrastructure, and for a brief period it was both at once: an ambiguous sign on the shields of soldiers, meaningful to the Christians among them and merely decorative to everyone else. Dual-use, at scale, in public.</p>
+  <p>Within a generation the ambiguity was gone, and so was the need for it. The anchor gave way to the cross. This is what it looks like when a covert channel is promoted to a public protocol: the property that made it safe, its ambiguity, is the first thing discarded.</p>
+
+  <h3><span class="secnum">33.</span>The cross as uniform</h3>
+  <p>The crusading movement is generally dated from the Council of Clermont in 1095, where Urban II proclaimed an armed expedition in support of Eastern Christians under Muslim rule, framed as a penitential pilgrimage. Alexios I Komnenos had sought aid against Turkoman incursions; Urban saw an opportunity to reassert papal authority and offered spiritual rewards. Jonathan Riley-Smith characterizes it as a revolutionary appeal linking warfare to pilgrimage. The theological scaffolding combined classical just war theory, biblical precedent, and Augustine on legitimate violence.</p>
+  <p>The mechanism is the point here. Participants pledged themselves by <strong>taking the cross</strong>: attaching a cloth cross to their outer garments while pronouncing a vow aloud. The two acts together made the votary a <em>cruce signatus</em>, &ldquo;one signed with the cross.&rdquo; Failure to fulfil the vow could bring excommunication.</p>
+  <p>Two scholarly cautions belong in any responsible treatment. Edward Peters notes that contemporaries called the First Crusade a journey and its participants pilgrims; many called themselves <em>peregrini</em>, and the name and much of the apparatus, including the formal bestowing of the cross and crusader privileges, developed later, some of it nearly a century after the event. And reactions in the West were more ambivalent than the popular picture suggests, even among some who took the cross, reflecting the Church's long-standing ambiguity about violence. Motivations were mixed: indulgences, material gain, feudal obligation, kinship, and social pressure alongside piety.</p>
+  <p>The cloth cross is a <strong>wearable credential binding an individual to a vow with an enforcement mechanism attached</strong>. It converts a religious symbol into a uniform, an identifier, and a contract marker simultaneously. That is a profound repurposing of the same two strokes that a third-century Christian would only display disguised as an anchor.</p>
+
+  <h3><span class="secnum">34.</span>Viva Cristo Rey</h3>
+  <p>The modern case is documented well enough that no romanticism is required.</p>
+  <p>Mexico's 1917 Constitution contained anticlerical provisions; President Plutarco El&iacute;as Calles enforced them aggressively. The Calles Law, issued 14 June 1926 and effective 31 July, required priests to register with civil authorities, capped clergy numbers, banned public worship outside registered churches, outlawed religious processions, forbade priests to wear clerical dress in public or comment on politics, criminalized taking religious vows, deported foreign clergy, and seized all ecclesiastical property, with sanctions for officials who failed to enforce it.</p>
+  <p>The Mexican bishops responded by <strong>suspending public worship</strong> nationwide effective 1 August 1926, after consultation with the Holy See, in a country over 90 percent Catholic. Three bishops went into hiding; the rest went into exile. For the first time in more than four hundred years, no priest in Mexico offered Mass.</p>
+  <p>Peaceful resistance came first: boycotts, petitions, publicity, aid to those who lost their livelihoods. When it failed, armed rebellion followed, formally from 1 January 1927 in northern Jalisco, concentrated in rural west-central Mexico, fought largely as guerrilla warfare. The fighters were the <em>Cristeros</em>, from their battle cry <strong>&ldquo;&iexcl;Viva Cristo Rey!&rdquo;</strong> They went into battle wearing scapulars and singing hymns, believing that those who died would be martyrs.</p>
+  <p>In November 1927 Father Miguel Agust&iacute;n Pro was summarily executed on false charges. <strong>He extended his arms in the form of a cross and cried &ldquo;Viva Cristo Rey&rdquo; as he was shot.</strong></p>
+
+  <div class="pullquote">&ldquo;&iexcl;Viva Cristo Rey!&rdquo;<cite>Fr. Miguel Agust&iacute;n Pro, arms extended in the form of a cross, before the firing squad &mdash; November 1927</cite></div>
+
+  <p>Public worship resumed on 28 June 1929 at the Basilica of Our Lady of Guadalupe. But Cristeros who did not relocate were taken prisoner and executed after the agreement. The anticlerical provisions were not substantially relaxed until the 1980s.</p>
+  <p>Note the sequence, because it maps almost point for point onto the doctrine in the next section: peaceful means first, exhausted; then hierarchy-level withdrawal of the service rather than compliance; then armed resistance; then a negotiated settlement followed by the elimination of those who had resisted.</p>
+  <p>And note Fr. Pro's final act. With every object confiscated and every institution closed, he used his own body as the symbol. It is the same reduction as the sign of the cross, at the last possible moment.</p>
+
+  <h3><span class="secnum">35.</span>What the Church now teaches</h3>
+  <p>Any honest treatment has to state the current doctrine, because it constrains everything above.</p>
+  <p><em>Catechism</em> &sect;2309 sets out the conditions for legitimate defense by military force, all of which must hold simultaneously:</p>
+
+  <div class="sidebar">
+    <span class="eyebrow">Catechism of the Catholic Church, &sect;2309</span>
+    <h4>The four conditions for legitimate defense by force, all required at once</h4>
+    <ul>
+      <li>The damage inflicted by the aggressor must be lasting, grave, and certain.</li>
+      <li>All other means of ending it must have been shown impractical or ineffective.</li>
+      <li>There must be serious prospects of success.</li>
+      <li>The use of arms must not produce evils graver than the evil to be eliminated, with the power of modern weapons weighing very heavily.</li>
+    </ul>
+  </div>
+
+  <p>The Catechism calls these the traditional elements of just war doctrine and assigns evaluation to the prudential judgment of those responsible for the common good. &sect;2308 obliges all citizens and governments to work for the avoidance of war. <em>Gaudium et Spes</em> &sect;79, quoted in the Catechism, permits legitimate defense once all peace efforts have failed, and adds the distinction that undertaking military action for the just defense of a people is one thing and seeking the subjugation of other nations is another. &sect;2312 holds that the moral law remains permanently valid during armed conflict. The conditions are expressly limited to defensive action after other options are exhausted.</p>
+  <p>And then the reckoning. On the Day of Pardon in Lent 2000, in St Peter's Basilica, John Paul II asked pardon for the divisions among Christians, <strong>for the use of violence that some have committed in the service of truth</strong>, and for attitudes of mistrust and hostility toward followers of other religions. The homily named no specific groups, but &ldquo;violence in the service of truth&rdquo; is widely understood to refer to the treatment of heretics under the Inquisition, the Crusades, and forced conversions.</p>
+  <p>I am not going to adjudicate Clermont here. What I will say is that the resulting position is more credible than either apologetics or condemnation: an institution that has articulated a demanding standard and has publicly conceded that it failed to meet it.</p>
+
+  <h2 id="part10"><span class="partlabel">Part X</span>Was Any of This Even Allowed?</h2>
+  <p>A Christian writing about Christian operational security has to confront something uncomfortable: <strong>the church never agreed that any of it was legitimate.</strong></p>
+  <p>The text at issue is Matthew 10:23: when they persecute you in one town, flee to the next.</p>
+  <p>Tertullian, in <em>On Flight in Persecution</em>, argued that this applied only to the apostles' original mission and did not license flight in his own day. His reasoning is uncompromising:</p>
+  <p>If persecution comes from God, being told to evade it by the one who sent it makes no sense. Refusal of martyrdom is denial. A man's own safety testifies that he fell while getting out of persecution's way. Whoever flees is the one who fears, and whoever fears is the one who has not loved. He extends the argument even to <em>purchased</em> safety, citing a man named Rutilius who fled repeatedly and bought his security with money, and was seized, tortured, and burned anyway, which Tertullian took as a punishment for the fleeing.</p>
+  <p>He classed flight as a weaker form of apostasy.</p>
+  <p>That is a direct assault on everything in this article. In Tertullian's framing, Owen's hides, Mensurius's substituted books, the anchor, the code words, the Maria Kannon, the penal rosary &mdash; all of it is a species of denial. The position deserves to be stated at full strength rather than waved away. Tertullian himself neither fled nor was martyred, which complicates rather than settles it.</p>
+  <p>Clement of Alexandria, Origen, and Cyprian read the verse the other way, as still binding and as justifying withdrawal. All three escaped persecution by departing. Cyprian later accepted martyrdom; Origen suffered under torture. None denied that confession and martyrdom were central.</p>
+  <p>Cyprian is the case that speaks most directly to anyone who has weighed their own continuity against their own courage. He withdrew into hiding during the Decian persecution and was attacked as a bad shepherd for it. He governed Carthage from concealment, by letter, through the entire crisis. The scholarly reading is that his withdrawal and his eventual martyrdom flow from one consistent conception of a bishop's duty under changing circumstances.</p>
+  <p>The argument in his favour is uncomfortably practical: <strong>a leader's survival is an asset to the community, not merely to himself.</strong> A Cyprian martyred in 250 does not write the letters that hold the Carthaginian church together through the crisis that followed.</p>
+  <p>Then there is the sharpest version of the question, which Elizabethan England forced: <strong>may a Christian deceive an interrogator?</strong></p>
+  <p>The Catholic moral tradition held that lying, speaking falsehood with intent to deceive, is intrinsically evil and never permissible. But it permitted an <em>ambiguous</em> answer, in the hope the questioner would take it wrongly. This is equivocation, or mental reservation. Henry Garnet and Robert Southwell, both Jesuits, wrote treatises on it; Garnet's was published secretly around 1595.</p>
+  <p>The doctrine carried real conditions. It required a just cause, such as protecting innocents from tyrannical interrogation. The words had to admit a true interpretation. And it was <strong>forbidden in formal oaths, or where the questioner had explicitly demanded no equivocation</strong>, which forecloses exactly the situation where deception would be most useful.</p>
+  <p>The record is emphatic about motive. Southwell and Garnet practised mental reservation under torture not to save themselves, since their deaths were already certain, but <strong>to protect other believers.</strong> Southwell was accused at trial of having told a witness it was permissible to lie under oath to conceal a priest; he answered that this was not what he said, that an oath requires justice, judgement, and truth &mdash; and the rest of his answer is lost, because a judge shouted him down. He was executed in 1595, Garnet in 1606. The prosecutor Edward Coke called the doctrine open and broad lying, and monstrous.</p>
+  <p>I do not think this one resolves. Operational security requires that you not tell your adversary the truth. Christian ethics forbids lying. Equivocation is the attempt to hold both, and serious people, including serious Christians, have concluded it either succeeds or is sophistry. Pascal took the second view, and the doctrine's reputation has never recovered from its later invocation to cover institutional wrongdoing.</p>
+  <p>What I will say is this: the men who developed it were tortured to death without betraying anyone. That does not prove the doctrine right. It does establish that they were not using it for their own convenience.</p>
+
+  <h2 id="part11"><span class="partlabel">Part XI</span>Why None of the Old Tools Work Anymore</h2>
+  <p>I want to end in the present, because there is a discontinuity here that should worry anyone who cares about the persecuted church.</p>
+  <p>Christians in China today face something no earlier generation faced. Persecution under Xi Jinping combines conventional coercion with mass surveillance: extensive CCTV, facial recognition, artificial intelligence, big-data analysis, social-credit scoring. Worshippers at state-approved churches use an app carrying biometric and personal data to enter. Services are recorded, and sermon content analysed and censored. Following the October 2025 raids on Zion Church, at least eighteen pastors and staff were charged with <strong>illegal use of information networks</strong>. The network itself is named as the offence.</p>
+  <p>Zion had been banned in 2018 and stripped of its property after its leadership refused to install CCTV cameras inside its own building. That refusal was a security decision, and the right one: they chose to lose the premises rather than accept adversary-controlled instrumentation inside the perimeter. It was also enormously expensive, which is what correct security decisions usually are.</p>
+  <p>But the detail that stopped me cold comes from an interview with a Christian in contact with an underground house church in Xi'an.</p>
+  <p>Chinese believers have long avoided words like &ldquo;church,&rdquo; &ldquo;prayer,&rdquo; and &ldquo;pastor,&rdquo; substituting coded language. That is the oldest technique in this article, the direct descendant of Peter writing &ldquo;Babylon.&rdquo; And it is no longer sufficient. Two members of that congregation became priority surveillance targets, the account says, <strong>because their WeChat chat patterns were flagged.</strong></p>
+  <p>Not their words. Their patterns.</p>
+
+  <div class="pullquote">Not their words. Their patterns.</div>
+
+  <p>Understand what that means. The code words worked. Nobody had to break them. The adversary never needed to read the content at all, only to observe who talks to whom, how often, at what hours, in what bursts, and how the graph changes when something happens.</p>
+  <p>That is the discontinuity, and it invalidates most of eighteen centuries of accumulated practice. <strong>Every content-layer control in this article is defeated by an adversary who never reads the content.</strong> The acrostic, the anchor, the substituted book, the disguised statue, the veiled place name, the Ave Maria cipher &mdash; all of them assume the adversary's power lies in comprehension. A modern surveillance state does not need to comprehend. It observes the shape of the network directly, and the shape is generated by the very act of being a community.</p>
+  <p>And the countermeasures are largely closed off. Facebook, WhatsApp, Signal, Telegram and the rest are inaccessible. VPN apps are absent from domestic stores, searching for one is itself risky, using one is illegal, and people have been arrested for it. WeChat, through which contact, work, payments, and appointments all flow, is owned by a Chinese company, and the government can see every message and every group.</p>
+  <p>Trajan's Christians could be visible because nobody was watching the graph. The Hidden Christians could hide a payload inside a real Buddhist altar because nobody was correlating who visited whose house. Those assumptions are gone.</p>
+
+  <h2 id="part12"><span class="partlabel">Part XII</span>What They Chose to Protect</h2>
+  <p>If I had to compress eighteen centuries into one observation, it would be this.</p>
+  <p><strong>The early church chose availability over confidentiality, and it was right.</strong></p>
+  <p>It did not encrypt the scriptures. It copied them relentlessly, in a cheap portable format, and pushed them everywhere it could reach. Anyone could read the Gospels. That was the point. When Diocletian ordered every copy burned, he was attacking a massively replicated distributed dataset, and he failed for the reason such attacks always fail: there were more copies than he could reach.</p>
+  <p>They accepted near-total loss of confidentiality on their most important data in exchange for extreme durability. Given an adversary who wanted the texts <em>destroyed</em> rather than <em>stolen</em>, that was the correct trade, and it is the single most consequential security decision in this history.</p>
+  <p>Everything else follows from that priority. The controls that lasted were the ones that protected transmission: the scribal marks that let you verify a manuscript's lineage, the letters that let a stranger be vouched for, the underground school at Derinkuyu, the hedge school behind the Irish hedge, Mesrop's alphabet, the fifty thousand stones, the seven generations of Japanese parents teaching children prayers in a language none of them understood anymore.</p>
+
+  <h3 style="margin-top:44px;">Sixteen things I would take from this history into a threat model</h3>
+  <ol class="lessons">
+    <li><strong>Threat model determines technique.</strong> Roman-era Christians correctly assessed a reactive adversary and declined to invest in concealment. Tokugawa-era Christians correctly assessed an instrumented one and invested heavily. Neither would have survived using the other's playbook.</li>
+    <li><strong>Availability beats confidentiality</strong> when the adversary wants destruction rather than exfiltration.</li>
+    <li><strong>Social camouflage outperforms technical obfuscation.</strong> The controls with the best survival records worked by occupying a category the adversary already tolerated. Nothing about them looked like security. That was the point.</li>
+    <li><strong>Integrity failures did the real damage.</strong> Persecution did not break the North African church; the revocation dispute afterward did.</li>
+    <li><strong>Cryptographic controls fail at the operator, not the algorithm.</strong></li>
+    <li><strong>Compartmentalization bounds damage; it does not prevent it.</strong></li>
+    <li><strong>The human is the key store</strong>, and this only works when the human has consented in advance.</li>
+    <li><strong>Successful operational security still leaves durable artifacts.</strong> Mass rocks left their names. The hidden Christians left statues in museums. The samizdat operators left KGB case files.</li>
+    <li><strong>Long-duration covert channels are not semantically neutral.</strong> Over enough generations, the disguise reshapes what it disguises.</li>
+    <li><strong>A symbol's security value is inversely related to its entropy.</strong> Low entropy is fatal for a key and ideal for a cover.</li>
+    <li><strong>Inculturation runs both directions and is the same mechanism.</strong> Maria Kannon, the cross on the lotus, and Gregory's temple policy are one technique under three power relations.</li>
+    <li><strong>The cover category must be one the adversary tolerates.</strong> Trithemius chose occultism during an occult panic and spent three centuries on the Index.</li>
+    <li><strong>Adversaries attack the symbol layer when they cannot reach the people</strong>, and the countermeasure that works is remote observation of secondary effects.</li>
+    <li><strong>The last available medium is the body.</strong></li>
+    <li><strong>Build the reference copy before you need it.</strong> Armenia did. Japan could not.</li>
+    <li><strong>The modern shift from content to metadata invalidates most of the historical toolkit.</strong></li>
+  </ol>
+
+  <p>They were not, in the end, trying to keep a secret. They were trying to keep something alive, which is a harder problem and a different one. Secrets only have to survive until they stop mattering. A faith has to arrive intact in a generation that has not been born yet.</p>
+
+  <div class="pullquote">Secrets only have to survive until they stop mattering. A faith has to arrive intact in a generation that has not been born yet.</div>
+
+  <p>The Hidden Christians teach us how nearly that can be done and how much is lost along the way. The Donatists teach us that the thing most likely to destroy a community is not the enemy at the door but the argument about who can still be trusted afterward. Derinkuyu, eighty-five metres down and dark for forty years, teaches us that the most sophisticated refuge ever built by a persecuted church still required someone above ground who remembered the way in.</p>
+  <p>Djulfa teaches us that when they can no longer reach the people, they come for the stones, and that a shadow on a satellite image can testify when no one is permitted to stand on the ground.</p>
+  <p>And Nicholas Owen and Nijol&#279; Sad&ucirc;nait&#279;, three and a half centuries apart, teach us the thing every security architect eventually learns and would rather not: in the end, past all the design, there is a person who knows where everyone is, and everything depends on what they decide to do about it.</p>
+
+  <h3 style="margin-top:52px;">Voices from the record</h3>
+  <p>Six statements from the people who actually lived this, in their own words, spanning eighteen centuries and four continents.</p>
+
+  <div class="qgrid">
+    <div class="qcard">
+      <blockquote>&ldquo;Conquirendi non sunt.&rdquo; They are not to be hunted down.</blockquote>
+      <div class="qname">Emperor Trajan</div>
+      <div class="qcite">Rescript to Pliny the Younger, c. AD 110</div>
+    </div>
+    <div class="qcard">
+      <blockquote>Whoever flees is the one who fears, and whoever fears is the one who has not loved.</blockquote>
+      <div class="qname">Tertullian</div>
+      <div class="qcite"><em>On Flight in Persecution</em>, c. 203&ndash;213</div>
+    </div>
+    <div class="qcard">
+      <blockquote>A Christian and a bishop &mdash; not a <em>traditor</em>. Not one who hands over.</blockquote>
+      <div class="qname">Secundus of Tigisis</div>
+      <div class="qcite">To the Diocletianic search party, 303</div>
+    </div>
+    <div class="qcard">
+      <blockquote>One who strives to climb to the summit ascends by steps or paces, not by leaps.</blockquote>
+      <div class="qname">Pope Gregory the Great</div>
+      <div class="qcite">Letter to Abbot Mellitus, 601</div>
+    </div>
+    <div class="qcard">
+      <blockquote>&iexcl;Viva Cristo Rey!</blockquote>
+      <div class="qname">Fr. Miguel Agust&iacute;n Pro</div>
+      <div class="qcite">Before the firing squad, arms extended as a cross &mdash; November 1927</div>
+    </div>
+    <div class="qcard">
+      <blockquote>For the use of violence that some have committed in the service of truth&hellip;</blockquote>
+      <div class="qname">Pope John Paul II</div>
+      <div class="qcite">Day of Pardon homily, St Peter's Basilica, Lent 2000</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>A Note on Sources and Method</h3>
+  <div class="note">
+    <p>This article is built on two research white papers with full citations, covering roughly 380 sources. Where scholarship is divided I have said so. Three things commonly asserted about this history do not survive scrutiny and are treated accordingly above: routine secret worship in the catacombs, the fish as a covert recognition handshake, and the Sator square as an early Christian cryptogram. Two more are corrected in the text: Cistercian numerals were an indexing notation rather than a code, and the Vatican's &ldquo;secret&rdquo; archive is a translation problem rather than a conspiracy.</p>
+    <p>I have tried throughout to separate what is attested from what is contested from what is folklore, because the analytic value of this history lies entirely in what actually happened.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith writes on operational security, surveillance, and the history of persecuted communities for Savvy Security LLC.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
