@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Still Standing</title>
+<meta name="description" content="A practical, working survival guide for anyone experiencing homelessness, housing instability, or reentry on Florida's Nature Coast — Hernando and Pasco County, written for people who intend to work their way out.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Still Standing: A Working Survival Guide for Hernando and Pasco County, Florida">
+<meta property="og:description" content="A practical resource guide for anyone experiencing homelessness, housing instability, or reentry on Florida's Nature Coast — written for people who intend to work their way out. Keep a phone. Keep clean. Keep earning daily. Keep applying. Keep people around you.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/hernando-pasco-survival-guide/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/hernando-pasco-survival-guide/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Still Standing: A Working Survival Guide for Hernando and Pasco County, Florida">
+<meta name="twitter:description" content="A practical resource guide for anyone experiencing homelessness, housing instability, or reentry on Florida's Nature Coast — written for people who intend to work their way out.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/hernando-pasco-survival-guide/assets/cover.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f5f9fa; --fg:#132a33; --muted:#4d6672; --rule:#d7e4e7;
+    --accent:#0e7a8c; --accent2:#c76b1f; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0c1618; --fg:#e3edef; --muted:#8fa8b0; --rule:#1f363c; --accent:#4fc3d9; --accent2:#e5934f; --card:#122226; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'IBM Plex Sans',-apple-system,Helvetica,Arial,sans-serif;
+    line-height:1.65; font-size:16.5px;
+  }
+  .serif{font-family:'Source Serif 4',Georgia,serif;}
+  .hero{
+    background:#08191c url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:40px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.78rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-family:'Source Serif 4',Georgia,serif; font-size:2.15rem; line-height:1.2; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 14px; font-family:'Source Serif 4',Georgia,serif;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 32px; font-family:'IBM Plex Mono',monospace;}
+  h2{font-family:'Source Serif 4',Georgia,serif; font-size:1.6rem; margin:52px 0 16px; padding-bottom:10px; border-bottom:3px solid var(--accent); font-weight:700;}
+  h3{font-size:1.15rem; margin:30px 0 10px; color:var(--fg); font-weight:700;}
+  h4{font-size:1rem; margin:22px 0 8px; color:var(--accent); font-weight:700;}
+  p{margin:0 0 16px;}
+  ul,ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:36px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent); word-break:break-word;}
+  table{width:100%; border-collapse:collapse; margin:0 0 20px; font-size:.88rem;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700; font-family:'IBM Plex Mono',monospace; background:var(--card);}
+  tr:nth-child(even) td{background:color-mix(in srgb, var(--card) 60%, var(--bg));}
+  .tablewrap{overflow-x:auto; margin:0 0 20px; border:1px solid var(--rule); border-radius:8px;}
+  .tablewrap table{margin:0; min-width:460px;}
+  .tablewrap th:first-child, .tablewrap td:first-child{padding-left:14px;}
+
+  .abstract{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:8px; padding:20px 22px; margin:0 0 20px; font-size:1rem;
+  }
+  .abstract p{margin:0 0 12px;} .abstract p:last-child{margin-bottom:0;}
+
+  .note{
+    background:var(--card); border:1px solid var(--rule); border-radius:8px;
+    padding:16px 20px; margin:0 0 20px; font-size:.92rem; color:var(--muted);
+  }
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .callout{
+    background:color-mix(in srgb, var(--accent2) 10%, var(--card)); border:1px solid var(--accent2);
+    border-radius:8px; padding:18px 22px; margin:22px 0 26px; font-size:.96rem;
+  }
+  .callout .eyebrow{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin-bottom:8px;}
+
+  figure{margin:26px 0 8px;}
+  figure img{width:100%; display:block; border-radius:8px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.5;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  blockquote{
+    margin:0 0 18px; padding:14px 20px; border-left:3px solid var(--accent2);
+    background:var(--card); border-radius:0 8px 8px 0; font-style:italic;
+  }
+  blockquote p{margin:0;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 10px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    font-family:'Source Serif 4',Georgia,serif; font-size:1.35rem; line-height:1.4; color:var(--fg); text-align:center; font-style:italic;
+  }
+  .pullquote cite{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-style:normal; margin-top:14px;}
+
+  .toc{
+    background:var(--card); border:1px solid var(--rule); border-radius:8px;
+    padding:20px 24px; margin:0 0 32px;
+  }
+  .toc .eyebrow{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:10px;}
+  .toc ol{margin:0; padding-left:20px; columns:1; font-size:.9rem;}
+  .toc li{margin-bottom:6px;}
+  .toc a{color:var(--fg); text-decoration:none; border-bottom:1px dotted var(--rule);}
+  .toc a:hover{color:var(--accent); border-bottom-color:var(--accent);}
+  @media (min-width:640px){ .toc ol{columns:2; column-gap:28px;} }
+
+  .signoff{font-style:italic; color:var(--muted);}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Still Standing — cover image"></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Community Resource Feature</p>
+  <h1>Still Standing</h1>
+  <p class="dek">A working survival guide for Hernando and Pasco County, Florida — for anyone experiencing homelessness, housing instability, or reentry on the Nature Coast, written for people who intend to work their way out.</p>
+  <p class="byline">By Malcolm R. Smith — Savvy Security LLC</p>
+
+  <figure>
+    <img src="assets/01-weeki-wachee.jpg" alt="The entrance fountain at Weeki Wachee Springs State Park, Hernando County, Florida">
+    <figcaption>Weeki Wachee Springs, Hernando County — the Nature Coast this guide is written for.<span class="credit">Photo: Leonard J. DeFrancisci, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <blockquote><p>&ldquo;Success is to be measured not so much by the position that one has reached in life as by the obstacles which he has overcome while trying to succeed.&rdquo;<br>&mdash; Booker T. Washington, <em>Up From Slavery</em> (1901, public domain)</p></blockquote>
+
+  <h3 style="margin-top:36px;">Why this guide exists</h3>
+  <p>Most &ldquo;homeless resource&rdquo; lists are a phone directory with no strategy attached. They tell you where the food is, but not how to string a week together. They don't tell you that a gym membership is a shower plan. They don't tell you which employers will actually look past a record. They don't tell you that the county will waive the fee on your state ID if you bring the right letter.</p>
+  <p>This guide is built around a working system, not just a list. The core idea is simple:</p>
+
+  <div class="pullquote">Keep a phone. Keep clean. Keep earning daily. Keep applying. Keep people around you.</div>
+
+  <p>Everything below supports one of those five things.</p>
+
+  <div class="note">
+    <p><strong>A note on accuracy:</strong> every phone number, address, and schedule here was pulled from official county, sheriff's office, health department, and organizational sources current as of September 2026. Hours change constantly at small nonprofits and churches. <strong>Call before you go.</strong> A wasted bus fare is a real cost when you're counting quarters.</p>
+  </div>
+
+  <div class="toc">
+    <span class="eyebrow">Contents</span>
+    <ol>
+      <li><a href="#p1">1. The System</a></li>
+      <li><a href="#p2">2. Your First Three Calls</a></li>
+      <li><a href="#p3">3. Documents First</a></li>
+      <li><a href="#p4">4. Food: The Weekly Map</a></li>
+      <li><a href="#p5">5. Showers, Laundry &amp; Staying Presentable</a></li>
+      <li><a href="#p6">6. Clothes for Work</a></li>
+      <li><a href="#p7">7. Gig Work and Daily Pay</a></li>
+      <li><a href="#p8">8. Second Chance Employment</a></li>
+      <li><a href="#p9">9. Merchandising and Retail</a></li>
+      <li><a href="#p10">10. Remote and AI-Assisted Work</a></li>
+      <li><a href="#p11">11. Church, Community &amp; Unposted Jobs</a></li>
+      <li><a href="#p12">12. Transportation</a></li>
+      <li><a href="#p13">13. Shelter and Housing</a></li>
+      <li><a href="#p14">14. Health Care Without Insurance</a></li>
+      <li><a href="#p15">15. Mental Health, Recovery &amp; Crisis</a></li>
+      <li><a href="#p16">16. Veterans</a></li>
+      <li><a href="#p17">17. A Weekly Rhythm That Works</a></li>
+      <li><a href="#p18">18. Master Phone List</a></li>
+    </ol>
+  </div>
+
+  <h2 id="p1">Part 1 &mdash; The System</h2>
+  <p>Before the lists, here's the framework that makes the lists useful.</p>
+
+  <h3>1. The phone is the job</h3>
+  <p>A working phone number and an email address are the two things that separate &ldquo;unemployed&rdquo; from &ldquo;unreachable.&rdquo; Recruiters do not leave three voicemails. A prepaid plan in the $15&ndash;$45/month range with an unlocked Android device is, functionally, your office. It is your job board, your alarm clock, your navigation, your timecard on gig apps, and the number on your resume.</p>
+  <p>If money gets thin, <strong>cut something else before you cut the phone.</strong></p>
+  <p>Free and low-cost phone options listed in the Hernando County resource guide:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Service</th><th>Phone</th><th>Notes</th></tr>
+    <tr><td>Lifeline (federal phone cost assistance)</td><td>800-234-9473</td><td>Income-based discount program</td></tr>
+    <tr><td>Assurance Wireless</td><td>888-898-4888</td><td>assurancewireless.com</td></tr>
+    <tr><td>SafeLink Wireless</td><td>800-723-3546</td><td>safelinkwireless.com</td></tr>
+  </table></div>
+  <p>Public libraries in both counties offer free WiFi and computer use &mdash; including printing resumes. The Hernando County Public Library system has four branches (Brooksville main, East and West Brooksville, Spring Hill). Pasco County libraries also sell GoPasco bus passes at select branches.</p>
+
+  <figure>
+    <img src="assets/03-library.jpg" alt="Interior hallway of a public library">
+    <figcaption>A public library — free WiFi, computer access, and printing. Not this branch specifically, but the resource is the same in every Hernando and Pasco County library.<span class="credit">Photo: Bobjgalindo, Wikimedia Commons, CC BY-SA</span></figcaption>
+  </figure>
+
+  <h3>2. The gym is the shower</h3>
+  <p>This is the single most underrated move in the playbook. A $15&ndash;$25/month gym membership buys you a hot shower, a locker, a bathroom with a mirror to shave in, air conditioning, WiFi, a place to charge devices, and &mdash; critically &mdash; a legitimate reason to be somewhere at 5 a.m. that nobody questions.</p>
+  <p>Showing up to a merchandising shift clean and pressed is worth more than any line on a resume. Details are in Part 5.</p>
+
+  <h3>3. Daily pay beats a paycheck</h3>
+  <p>When you're unhoused, a two-week pay cycle is a trap. Work that pays same-day or next-day &mdash; merchandising gigs, staffing agencies, gig platforms, and employers using earned-wage-access apps &mdash; lets you convert labor into food, fare, and phone credit immediately. It also means a bad week doesn't compound into a catastrophic month.</p>
+
+  <h3>4. Merchandising and retail are the fastest doors</h3>
+  <p>Retail merchandising, resets, and stocking are the highest-probability work for someone in your position, and here's why:</p>
+  <ul>
+    <li><strong>Background checks are often lighter</strong> than warehouse, healthcare, or anything cash-handling or licensed</li>
+    <li><strong>No prior experience required</strong> &mdash; most postings explicitly say training is provided</li>
+    <li><strong>Daytime hours</strong> in stores that are on bus routes</li>
+    <li><strong>Independent work</strong> &mdash; you're handed a planogram and left alone</li>
+    <li><strong>It scales into supervision</strong> &mdash; reset team lead, then territory manager</li>
+  </ul>
+  <p>It's not glamorous. It is reliable, and it stacks.</p>
+
+  <h3>5. Community is not optional</h3>
+  <p>The strongest predictor of getting out is not how hard you work. It's how many people know your name and know you're reliable. Co-ops, churches, recovery meetings, and volunteer shifts are where informal job leads live &mdash; the ones that never get posted. Part 11 covers this in detail.</p>
+
+  <h2 id="p2">Part 2 &mdash; Your First Three Calls</h2>
+  <p>If you are reading this and just became homeless, or are about to be, make these calls in this order.</p>
+
+  <h3>Call 1: Dial 2-1-1</h3>
+  <p>Free, 24/7, and it's the front door to everything else.</p>
+  <ul>
+    <li><strong>Hernando:</strong> dial 211, or United Way of Hernando at (352) 688-2026</li>
+    <li><strong>Pasco:</strong> dial 211, or Crisis Center of Tampa Bay Pasco line at (877) 211-9274</li>
+  </ul>
+
+  <h3>Call 2: Get on the housing list (Coordinated Entry)</h3>
+  <p>You cannot get into most housing programs without a formal housing assessment on file. This is the gatekeeper. Do it early, because the list moves slowly.</p>
+  <ul>
+    <li><strong>Hernando County &mdash; Mid Florida Homeless Coalition:</strong> (352) 860-2308. They are the lead agency for the four-county Continuum of Care (FL-520: Citrus, Hernando, Lake, Sumter). Call to schedule a housing assessment. Email: info@midflhc.org</li>
+    <li><strong>Pasco County &mdash; Coalition for the Homeless of Pasco County:</strong> (727) 842-8605, 5652 Pine Street, New Port Richey. Case management, resources, and referrals are offered Monday, Wednesday, and Friday from 10 a.m. to 2 p.m., with financial and housing assistance when funding is available.</li>
+    <li><strong>Hernando County Housing &amp; Supportive Services:</strong> (352) 540-4338, 621 W. Jefferson St., Brooksville. They run a homelessness assistance intake and eligibility assessment.</li>
+    <li><strong>Veterans (either county):</strong> National Call Center for Homeless Veterans, (877) 424-3838. Also St. Vincent de Paul CARES &mdash; veterans (727) 484-6905, non-veterans (727) 756-1952.</li>
+  </ul>
+
+  <h3>Call 3: CareerSource Pasco Hernando &mdash; ask for Reentry</h3>
+  <p>If you have a record, this is your most valuable phone call in the region. Details in Part 8.</p>
+  <ul>
+    <li><strong>Reentry line:</strong> (727) 484-3400 ext. 3023 | reentry@careersourcepascohernando.com</li>
+  </ul>
+
+  <h2 id="p3">Part 3 &mdash; Documents First</h2>
+  <p>Nothing works without ID. Not a job, not a bank account, not a shelter bed, not a gig app signup.</p>
+
+  <figure>
+    <img src="assets/02-courthouse.jpg" alt="The historic Hernando County Courthouse in Brooksville, Florida">
+    <figcaption>The Hernando County Courthouse, Brooksville — county government is where the free-ID waiver and benefits applications ultimately run through.<span class="credit">Photo: Daniel Wilton, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <h3>Florida ID card &mdash; free if you're homeless</h3>
+  <p>Florida waives the ID card fee entirely for people experiencing homelessness. This is the single highest-value bureaucratic fact in this guide.</p>
+  <p><strong>What you need:</strong></p>
+  <ol>
+    <li>A <strong>homeless certification letter</strong> from a homeless shelter, public assistance agency, halfway house, local school district homeless education liaison, or DCF Homeless Youth Certification</li>
+    <li>The letter must be <strong>dated within 90 days</strong> of when you apply, and must be presented every time</li>
+    <li>Original documents proving legal name, lawful presence, and Social Security number</li>
+  </ol>
+  <p><strong>Important limits:</strong> the waiver applies to the <strong>ID card, not a driver license</strong>. A no-fee homeless ID cannot be renewed or replaced online or by mail &mdash; you have to go in person.</p>
+  <p>If you don't qualify for the full waiver but are at or below 100% of the federal poverty level, a reduced-fee ID (around $6.25) is available with poverty-level certification.</p>
+  <p><strong>Where to get the certification letter in Hernando:</strong> People Helping People, Jericho Road Ministries, Daystar, the Salvation Army, or Hernando County Health &amp; Human Services.<br>
+  <strong>In Pasco:</strong> Coalition for the Homeless of Pasco County, Metropolitan Ministries, The Volunteer Way, or Be A Light Mission.</p>
+  <p><strong>Where to apply:</strong> Hernando County Tax Collector driver license offices, or an FLHSMV service center. Call ahead to confirm they'll accept your specific certification letter and ask which form they want (the state uses a homeless certification form &mdash; ask for it by name when you call).</p>
+
+  <h3>Birth certificate and Social Security card</h3>
+  <ul>
+    <li><strong>Social Security card replacement:</strong> Social Security Administration, (800) 772-1213. Free.</li>
+    <li><strong>Birth certificate:</strong> if born in Florida, through the Florida Department of Health. DOH-Hernando: (352) 540-6800. There is a fee, but caseworkers at the organizations above can sometimes cover it.</li>
+    <li><strong>The Volunteer Way Moon Lake Mission</strong> (Pasco), 10008 Moon Lake Road, New Port Richey, (727) 815-0433, Mon&ndash;Fri 10 a.m.&ndash;2 p.m., helps specifically with ID verification, SNAP applications, Medicare/Medicaid, and job search.</li>
+    <li><strong>Homeless Helping Homeless</strong> in Tampa, (813) 415-3586, 801 East St. Clair Street, provides birth certificate help, free showers, storage, WiFi and phone services, bus passes, and hygiene kits &mdash; worth the trip if you're stuck.</li>
+  </ul>
+
+  <h3>Benefits</h3>
+  <ul>
+    <li><strong>ACCESS Florida (SNAP / food stamps / Medicaid / cash assistance):</strong> (866) 762-2237 or myflfamilies.com. You do <strong>not</strong> need a permanent address to receive SNAP.</li>
+    <li><strong>Hernando County ACCESS Florida application help:</strong> (352) 540-4338</li>
+    <li><strong>Food stamp line:</strong> (888) 356-3281</li>
+  </ul>
+
+  <h2 id="p4">Part 4 &mdash; Food: The Weekly Map</h2>
+  <p>This is the part people need most, so it's organized by <strong>day of the week</strong> rather than alphabetically. Cross-reference against the master list below and confirm by phone.</p>
+
+  <figure>
+    <img src="assets/04-food-pantry.jpg" alt="A volunteer helps load groceries into a car at a community food pantry">
+    <figcaption>A food-pantry volunteer helps load groceries — the same scene repeats at dozens of churches and pantries across Hernando and Pasco every week.<span class="credit">Photo: Preston Keres / USDA, Wikimedia Commons, public domain</span></figcaption>
+  </figure>
+
+  <h3>Hernando County &mdash; by day</h3>
+
+  <h4>Monday</h4>
+  <ul>
+    <li>Holy Cross Lutheran &mdash; (352) 683-9016 &mdash; food, 9:30 a.m.&ndash;12:30 p.m.</li>
+    <li>First United Methodist Church &mdash; (352) 796-3363 &mdash; Mon&ndash;Thu, 8 a.m.&ndash;4 p.m. (if available)</li>
+    <li>Hernando Mentorship &amp; Empowerment &mdash; (284) 444-8027 &mdash; Mon&ndash;Thu, 4&ndash;4:30 p.m.</li>
+  </ul>
+
+  <h4>Tuesday</h4>
+  <ul>
+    <li><strong>People Helping People &mdash; 11:30 a.m. lunch on site</strong>, HELP Center, 1396 Kass Circle, Spring Hill &mdash; (352) 686-4466. Showers 10 a.m.&ndash;1 p.m. Free medical clinic 10 a.m.&ndash;1 p.m.</li>
+    <li>Jericho Road Food Barn &mdash; 1165 Howell Ave, Brooksville &mdash; (352) 799-2912 &mdash; 9 a.m.&ndash;12 p.m. <strong>Valid Hernando County photo ID required.</strong></li>
+    <li>Christian Life Assembly of God &mdash; (352) 597-1139 &mdash; 11 a.m.&ndash;1:30 p.m.</li>
+    <li>Forest Oaks Lutheran Church &mdash; (352) 683-9731 &mdash; 9 a.m.&ndash;12 p.m.</li>
+    <li>Holy Trinity Lutheran &mdash; (352) 796-4066 &mdash; 9&ndash;11:45 a.m.</li>
+    <li>Greater Love Outreach Ministries &mdash; (352) 593-4175 &mdash; 10 a.m.&ndash;1 p.m. (also Thursday)</li>
+    <li>Northcliffe Baptist Church &mdash; (352) 683-5882 &mdash; 2&ndash;4 p.m.</li>
+    <li>Salvation Army &mdash; (352) 796-1186 &mdash; pantry day, 9 a.m.&ndash;11 a.m. <strong>Clothing and toiletries available every day.</strong></li>
+    <li>Calvary Church of the Nazarene &mdash; (352) 683-0587 &mdash; 4th Tuesdays, 10 a.m.&ndash;12 p.m.</li>
+    <li>First Baptist Church of Spring Hill &mdash; (352) 683-2863 &mdash; 4th Tuesdays, 9:30 a.m.&ndash;12 p.m.</li>
+  </ul>
+
+  <h4>Wednesday</h4>
+  <ul>
+    <li>Spring Life Church &mdash; (352) 683-2600 &mdash; 9 a.m.&ndash;2 p.m., <strong>online RSVP required, dine-in only</strong></li>
+    <li>Nativity Lutheran Church &mdash; (352) 597-1456 &mdash; 9:30 a.m.&ndash;12:30 p.m. (also Thu/Fri)</li>
+    <li>Nature Coast Outreach Center &mdash; (352) 584-7764 &mdash; meals Wednesday and Friday; also gives out grocery bags <strong>and tents</strong></li>
+    <li>Bethlehem Baptist Church &mdash; (352) 796-4470 &mdash; 3rd Wednesdays, 5 p.m. dinner and food bag, ages 55+</li>
+  </ul>
+
+  <h4>Thursday</h4>
+  <ul>
+    <li><strong>Daystar Life Center</strong> &mdash; 7120 Hope Hill Road, Brooksville &mdash; (352) 799-5930 &mdash; <strong>food AND clothing</strong>, 9 a.m.&ndash;12:30 p.m. (Their own site lists office/pantry Thursday 9&ndash;1.)</li>
+    <li>Nativity Lutheran &mdash; 9:30 a.m.&ndash;12:30 p.m.</li>
+    <li>Northcliffe Baptist &mdash; 10 a.m.&ndash;12 p.m.</li>
+    <li>Greater Love Outreach &mdash; 10 a.m.&ndash;1 p.m.</li>
+  </ul>
+
+  <h4>Friday</h4>
+  <ul>
+    <li><strong>People Helping People &mdash; 11:30 a.m. lunch, showers 10 a.m.&ndash;1 p.m.</strong></li>
+    <li>Nature Coast Outreach Center &mdash; meals</li>
+    <li>Nativity Lutheran &mdash; 9:30 a.m.&ndash;12:30 p.m.</li>
+    <li><strong>Faith Evangelical Presbyterian Church</strong> &mdash; (352) 796-4969 &mdash; <strong>showers, meals, and clothing, 2nd and 4th Fridays</strong></li>
+  </ul>
+
+  <h4>Saturday</h4>
+  <ul>
+    <li>Grace World Church &mdash; (352) 796-3685 &mdash; 3rd Saturdays, 9&ndash;11 a.m.</li>
+    <li>Calvary Church of the Nazarene &mdash; 3rd Saturdays, 12 p.m.</li>
+  </ul>
+
+  <h4>Sunday</h4>
+  <ul>
+    <li><strong>People Helping People &mdash; 3:30 p.m.</strong></li>
+    <li>Spring Hill Seventh Day Adventist &mdash; (352) 686-1143 &mdash; 2nd and 4th Sundays, 12&ndash;3 p.m.</li>
+  </ul>
+
+  <p><strong>Also in Hernando:</strong> Grace Presbyterian, (352) 683-2082 &mdash; food, clothing, <strong>and bicycles</strong> (see Transportation). Mariner United Methodist, (352) 596-0080. Hernando Hope, (571) 248-8033 &mdash; food and clothing. St. Vincent de Paul, (352) 688-3331 &mdash; Spring Hill residents only, thrift store on site.</p>
+
+  <h3>Pasco County &mdash; by day</h3>
+
+  <h4>Monday&ndash;Friday, daily</h4>
+  <ul>
+    <li><strong>Calvary Chapel</strong> &mdash; 6825 Trouble Creek Rd., New Port Richey &mdash; (727) 376-7733 &mdash; pantry Mon&ndash;Fri 10 a.m.&ndash;1 p.m.</li>
+    <li><strong>Metropolitan Ministries West Pasco</strong> &mdash; 3214/3216 US Hwy 19 N, Holiday &mdash; (727) 937-3268 &mdash; Mon&ndash;Fri 9 a.m.&ndash;5 p.m. &mdash; <strong>three hot meals daily</strong>, plus housing assistance, counseling, GED prep, job training, SNAP help</li>
+    <li><strong>The Volunteer Way Soup Kitchen</strong> &mdash; 10012 Moon Lake Road, New Port Richey &mdash; (727) 815-0433 &mdash; <strong>Mon&ndash;Sat 10 a.m.&ndash;12 p.m.</strong> &mdash; and <strong>free showers plus free clothing Mon&ndash;Fri 9&ndash;11:15 a.m.</strong></li>
+    <li>Our Lady Queen of Peace / St. Vincent de Paul &mdash; 5340 High St., NPR &mdash; (727) 849-7521 &mdash; Mon &amp; Fri 10 a.m.&ndash;12 p.m., Tue &amp; Thu 12&ndash;2 p.m.</li>
+    <li>St. Michael the Archangel / SVdP &mdash; 8020 SR 52, Hudson &mdash; (727) 857-5818 &mdash; Mon&ndash;Thu 1&ndash;3 p.m.</li>
+    <li>Helping Rock Inc. &mdash; 14801 7th Street, Dade City &mdash; (813) 779-5521 &mdash; thrift store and pantry; <strong>food distribution Wednesday and Friday from 10 a.m. until it runs out</strong></li>
+    <li>Christian Social Services &mdash; 5514 Land O' Lakes Blvd. &mdash; (813) 995-0088 &mdash; pantry Tue&ndash;Sat 10 a.m.&ndash;4 p.m.</li>
+  </ul>
+
+  <h4>Monday / Thursday</h4>
+  <ul>
+    <li>St. Thomas Aquinas / SVdP &mdash; 8320 Old County Rd 54, NPR &mdash; (727) 372-8600 &mdash; 9:30&ndash;11 a.m. and 1:30&ndash;3 p.m.</li>
+    <li>Chancey Road Christian Church &mdash; 34921 Chancey Rd., Zephyrhills &mdash; (813) 317-7975 &mdash; campus pantry Mon &amp; Thu 10&ndash;11 a.m.</li>
+    <li>St. James the Apostle / SVdP &mdash; 8400 Monarch Dr., Port Richey &mdash; (727) 852-8580 &mdash; Mon, Thu, Fri 10 a.m.&ndash;12 p.m.</li>
+  </ul>
+
+  <h4>Monday / Wednesday</h4>
+  <ul>
+    <li>St. Peter the Apostle / SVdP &mdash; 12747 Interlaken Rd., Trinity &mdash; (727) 264-8968 &mdash; 10 a.m.&ndash;12 p.m.</li>
+    <li>Community Congregational Church &mdash; 6533 Circle Blvd., NPR &mdash; (727) 849-1943 &mdash; <strong>healthy lunch Mon, Wed, Fri 11 a.m.&ndash;12 p.m.</strong></li>
+  </ul>
+
+  <h4>Tuesday</h4>
+  <ul>
+    <li>Father &amp; Son Love Free Food Pantry &mdash; 21418 Carson Dr., Land O' Lakes &mdash; (813) 846-9993 &mdash; 12&ndash;2 p.m. (also Fri 12&ndash;3 p.m.)</li>
+    <li>Hicks Road Baptist &mdash; 12219 Hicks Rd., Hudson &mdash; (727) 863-5959 &mdash; 10 a.m.&ndash;12:45 p.m. (also Thu), located behind the church</li>
+    <li><strong>Holiday Community Fellowship Church</strong> &mdash; 5144 Sunray Dr., Holiday &mdash; (727) 944-4773 &mdash; <strong>dinner Tue &amp; Thu 5&ndash;6 p.m.</strong></li>
+    <li>King of Kings Lutheran &mdash; 10337 US-19, Port Richey &mdash; (727) 868-5744 &mdash; mobile pantry 2nd Tuesday, 3&ndash;4:30 p.m.</li>
+    <li>Chancey Road mobile pantry @ Shepherd Park &mdash; 4:30&ndash;5:45 p.m.</li>
+  </ul>
+
+  <h4>Wednesday</h4>
+  <ul>
+    <li>Faith Evangelical Lutheran &mdash; 5443 Sunset Rd., NPR &mdash; (727) 849-4418 &mdash; 9&ndash;11:30 a.m. <strong>FL driver license or ID with local address required</strong></li>
+    <li>Hudson First United Methodist &mdash; 13123 US-19, Hudson &mdash; (727) 868-6178 &mdash; <strong>drive-thru pantry 9 a.m.&ndash;12 p.m.</strong></li>
+    <li>First Baptist Church of Hudson &mdash; 7009 Hudson Ave. &mdash; (727) 378-5885 &mdash; 10 a.m.&ndash;12 p.m.</li>
+    <li>Seventh-Day Adventist &mdash; 6424 Trouble Creek Rd., NPR &mdash; 11 a.m.&ndash;1 p.m.</li>
+    <li>Shady Hills Mission Chapel &mdash; 15925 Greenglen Ln., Spring Hill &mdash; (727) 856-2948 &mdash; 9 a.m.&ndash;1 p.m.</li>
+  </ul>
+
+  <h4>Friday</h4>
+  <ul>
+    <li>Gulfview Grace Church &mdash; 6639 Hammock Rd., Port Richey &mdash; (727) 862-7777 &mdash; 8&ndash;11 a.m.</li>
+    <li>Chancey Road mobile pantry @ 1655 Partridge Blvd &mdash; 9:30&ndash;11 a.m.</li>
+  </ul>
+
+  <h4>Saturday</h4>
+  <ul>
+    <li>Pasadena Baptist Church &mdash; 35845 Clinton Ave., Dade City &mdash; (352) 521-0545 &mdash; 8&ndash;10:30 a.m.</li>
+  </ul>
+
+  <p><strong>Also:</strong> Be A Light Mission Service Center, 8425 Arcola Ave., Hudson &mdash; food pantry, clothing pantry, medical assessments, <strong>employment assistance and work programs</strong>. They also maintain a live community resource calendar at bealightmissions.org &mdash; bookmark it.</p>
+  <p>Metropolitan Ministries East Pasco, 13703 17th Street, Dade City, (352) 437-4815 &mdash; rent/utility assistance, food stamp applications, food pantry, <strong>clothing closet</strong>.</p>
+  <p>UF/IFAS Pasco County One Stop Shop, 15029 14th St., Dade City, (352) 521-1254, Mon&ndash;Fri 8 a.m.&ndash;5 p.m. &mdash; food pantry, <strong>bus passes</strong>, and <strong>interview clothes</strong>.</p>
+
+  <h2 id="p5">Part 5 &mdash; Showers, Laundry, and Staying Presentable</h2>
+
+  <h3>Free shower access</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Location</th><th>County</th><th>Schedule</th></tr>
+    <tr><td>People Helping People HELP Center, 1396 Kass Circle, Spring Hill</td><td>Hernando</td><td>Tue &amp; Fri, 10 a.m.&ndash;1 p.m.</td></tr>
+    <tr><td>Faith Evangelical Presbyterian Church, (352) 796-4969</td><td>Hernando</td><td>2nd &amp; 4th Fridays (showers, meals, clothing)</td></tr>
+    <tr><td>The Volunteer Way, 10012 Moon Lake Rd, NPR</td><td>Pasco</td><td>Mon&ndash;Fri, 9&ndash;11:15 a.m. (showers + free clothing)</td></tr>
+    <tr><td>Faith Caf&eacute;, 1340 N Clearview Ave, Tampa, (813) 877-6889</td><td>Hillsborough</td><td>On-site showers, first come first served; Angel Closet Tue/Thu/Sat; off-site laundry 2nd &amp; 4th Saturdays</td></tr>
+  </table></div>
+
+  <figure>
+    <img src="assets/06-gym.jpg" alt="Rows of treadmills in a 24-hour gym">
+    <figcaption>A 24-hour gym is a shower plan, a locker, a charging station, and a legitimate reason to be somewhere at 5 a.m.<span class="credit">Photo: Cobragym1, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <h3>The gym strategy &mdash; cheapest memberships</h3>
+  <p>For daily, reliable, 24-hour access, a gym membership is the most cost-effective hygiene solution available. Nationally, Planet Fitness lists <strong>Classic at $15/month</strong> and the <strong>PF Black Card at $24.99/month</strong>, both subject to an annual fee (commonly $49) and a possible startup fee. Pricing varies by club, so confirm at the location.</p>
+  <p><strong>Why the Black Card is usually the right call for someone unhoused:</strong> it gives access to <strong>all</strong> locations rather than just your home club. If your work territory shifts between Spring Hill, Brooksville, Hudson, and Zephyrhills, one-club access will strand you.</p>
+  <p><strong>24-hour Planet Fitness locations in the area:</strong></p>
+  <div class="tablewrap"><table>
+    <tr><th>Location</th><th>Address</th><th>Phone</th></tr>
+    <tr><td>Spring Hill</td><td>11156 Spring Hill Dr, Spring Hill, FL 34609</td><td>(352) 614-1653</td></tr>
+    <tr><td>Brooksville</td><td>13003 Cortez Blvd, Brooksville, FL 34613</td><td>(352) 600-7701</td></tr>
+    <tr><td>Bayonet Point</td><td>12225 US Hwy 19, Hudson, FL 34667</td><td>(727) 378-7940</td></tr>
+    <tr><td>Holiday</td><td>4637 Sunray Dr, Holiday, FL 34690</td><td>(727) 935-4818</td></tr>
+    <tr><td>Zephyrhills</td><td>7910 Gall Blvd, Zephyrhills, FL 33541</td><td>(813) 355-3684</td></tr>
+  </table></div>
+  <p><strong>Other options:</strong></p>
+  <ul>
+    <li><strong>Anytime Fitness</strong> &mdash; 24/7 keyfob access, roughly $35&ndash;45/month. Locations include 1267 Wendy Ct, Spring Hill and 9573 Commercial Way, Weeki Wachee.</li>
+    <li><strong>YMCA</strong> &mdash; Hernando County YMCA, 1300 Mariner Blvd., Spring Hill, (352) 688-9622. More expensive on paper (typically $40&ndash;65/month), <strong>but the YMCA has income-based financial assistance and scholarship programs.</strong> If you're low income, ask directly for the financial assistance application. Many people don't know to ask.</li>
+    <li><strong>Crunch Fitness</strong> and <strong>YouFit</strong> run promotional tiers in the $10&ndash;$25 range in the Tampa Bay market. Worth a call.</li>
+  </ul>
+  <p><strong>Practical notes:</strong> most gyms require a bank account or debit card for autopay. If you don't have one, open a free account at a credit union first &mdash; several accept a state ID and a small opening deposit. Keep your gym bag minimal so it reads as a gym bag, not luggage.</p>
+
+  <h3>Laundry</h3>
+  <ul>
+    <li>Faith Caf&eacute; (Tampa) &mdash; off-site laundry service, 2nd and 4th Saturdays</li>
+    <li>Nature Coast Ministries and several Hernando churches provide laundry access &mdash; call 211 and ask specifically for &ldquo;laundry assistance&rdquo;</li>
+    <li>Budget option: wash and dry a single load at a laundromat weekly ($5&ndash;8) rather than accumulating. Rotate two work outfits.</li>
+  </ul>
+
+  <h2 id="p6">Part 6 &mdash; Clothes for Work</h2>
+  <p>You need two things: <strong>interview clothes</strong> and <strong>durable work clothes</strong>. They're different problems.</p>
+
+  <figure>
+    <img src="assets/05-thrift-store.jpg" alt="A Salvation Army thrift store storefront">
+    <figcaption>A Salvation Army Thrift Store &mdash; clothing, toiletries, and in Hernando County, free items available every day.<span class="credit">Photo: JGKlein, Wikimedia Commons, public domain</span></figcaption>
+  </figure>
+
+  <h3>Free clothing</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Source</th><th>County</th><th>Details</th></tr>
+    <tr><td><strong>Salvation Army Hernando</strong>, (352) 796-1186</td><td>Hernando</td><td>Clothing and toiletries available <strong>every day</strong></td></tr>
+    <tr><td><strong>Daystar Life Center</strong>, 7120 Hope Hill Rd, Brooksville, (352) 799-5930</td><td>Hernando</td><td>Food and clothing, Thursdays</td></tr>
+    <tr><td><strong>Faith Evangelical Presbyterian</strong>, (352) 796-4969</td><td>Hernando</td><td>Clothing, 2nd &amp; 4th Fridays</td></tr>
+    <tr><td><strong>Grace Presbyterian</strong>, (352) 683-2082</td><td>Hernando</td><td>Food, clothing, bicycles</td></tr>
+    <tr><td>Hernando Hope, (571) 248-8033</td><td>Hernando</td><td>Food and clothing</td></tr>
+    <tr><td><strong>The Volunteer Way</strong>, (727) 815-0433</td><td>Pasco</td><td>Free clothing Mon&ndash;Fri 9&ndash;11:15 a.m.</td></tr>
+    <tr><td><strong>Metropolitan Ministries East Pasco</strong>, (352) 437-4815</td><td>Pasco</td><td>Clothing closet</td></tr>
+    <tr><td><strong>UF/IFAS One Stop Shop</strong>, Dade City, (352) 521-1254</td><td>Pasco</td><td><strong>Interview clothes specifically</strong></td></tr>
+    <tr><td>Be A Light Mission, Hudson</td><td>Pasco</td><td>Clothing pantry</td></tr>
+    <tr><td>Hudson Community Health &amp; Resource Center, 14410 Cobra Way, (352) 518-2000</td><td>Pasco</td><td>Clothing closet, Mon&ndash;Fri 7:30 a.m.&ndash;4 p.m.</td></tr>
+    <tr><td>Faith Caf&eacute; Angel Closet, Tampa, (813) 877-6889</td><td>Hillsborough</td><td>Clothes, blankets, coats, toiletries &mdash; Tue, Thu, Sat</td></tr>
+  </table></div>
+
+  <h3>Cheap thrift stores</h3>
+  <p><strong>Jericho Road Thrift Stores</strong> (Hernando/Pasco) &mdash; four locations, all open <strong>Monday&ndash;Saturday 9 a.m.&ndash;5 p.m.</strong>, with sales up to 70% off, a <strong>monthly 50%-off-everything sale day</strong>, and <strong>15% off for current and former military with ID</strong>:</p>
+  <ul>
+    <li>15000 County Line Road, Spring Hill, FL 34610</li>
+    <li>5260 Commercial Way, Spring Hill, FL 34606</li>
+    <li>31170 Cortez Blvd., Brooksville, FL 34602</li>
+    <li>16479 Wiscon Road, Brooksville, FL 34601</li>
+  </ul>
+  <p><strong>DayStar Thrift Shops</strong> &mdash; Brooksville, behind St. Anthony's off Hope Hill Rd. Open Thursday, Friday, Saturday 9 a.m.&ndash;1 p.m. They run <strong>BOGO Thursdays &mdash; buy one get one free.</strong> For clothing, that's the cheapest hour in the county.</p>
+  <p><strong>Others:</strong> St. Vincent de Paul thrift store (Spring Hill), Helping Rock thrift (Dade City), Daystar Hope Center thrift (15512 Hwy 301, Dade City, Tue&ndash;Thu 9 a.m.&ndash;12 p.m.), Goodwill Suncoast locations throughout both counties.</p>
+
+  <h3>What to actually buy</h3>
+  <p>For merchandising and retail work: <strong>khakis or dark jeans, plain polo shirts in navy/black/gray, closed-toe non-slip shoes, a black belt.</strong> Two of each. That's the uniform for 80% of the work you'll be applying for. Skip the suit unless you're interviewing for an office role &mdash; for retail, an over-dressed applicant reads as a poor fit.</p>
+  <p>Non-slip shoes matter. Many retail and food employers require them, and it's a common reason people lose a first shift.</p>
+
+  <h2 id="p7">Part 7 &mdash; Getting Paid This Week: Gig Work and Daily Pay</h2>
+
+  <h3>The merchandising gig platforms</h3>
+  <p>These let you pick up individual paid shifts and tasks, usually without an interview.</p>
+  <p><strong>Shiftsmart</strong> &mdash; retail merchandising, resets, and various shift work. Background checks are handled by a third party and are <strong>role-dependent &mdash; not every role requires one.</strong> Note the process: you have to <strong>select a shift first</strong>, then submit the background check through onboarding. If no shifts appear, they aren't operating in your area at that moment. Checks can take up to seven days depending on court records and residence history. Instant cash-out is available for a small fee.</p>
+  <p><strong>GigSmart (Get Gigs app)</strong> &mdash; warehouse, construction, food service, retail, delivery, cleaning. <strong>No interviews or resumes required.</strong> Same-day payment through the app. Background checks are <strong>optional per shift</strong> &mdash; they only run when you accept a &ldquo;Verified Shift&rdquo; that requires one, and they're run by Checkr covering SSN trace, sex offender registry, global watchlist, and national criminal database. GigSmart also has a job board for full-time and part-time roles. Includes occupational accident insurance.</p>
+  <p><strong>Instawork</strong> &mdash; hospitality, warehouse, retail. Vets workers across many data points before approval; operates in 60+ cities. Daily pay becomes available once you hit performance thresholds.</p>
+  <p><strong>Others worth having on the phone:</strong> Traba (industrial), Wonolo, Bluecrew, Veryable (industrial), Gigpro (food and beverage).</p>
+  <p><strong>Honest advice on background checks:</strong> a felony does not automatically disqualify you from these platforms, but it depends on the client and the role. Merchandising and warehouse roles tend to be the most accessible; anything involving driving, minors, or cash handling is tighter. Apply to several platforms rather than betting on one.</p>
+
+  <h3>Staffing agencies &mdash; walk in, work tomorrow</h3>
+  <p>These are the old-school version of the same thing and they still work. Several in this area do day labor and next-day placement:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Agency</th><th>Location</th><th>Phone</th></tr>
+    <tr><td>Labor Finders Brooksville</td><td>Brooksville</td><td>(352) 593-9400</td></tr>
+    <tr><td>PeopleReady</td><td>7902 US 19, Port Richey</td><td>(727) 847-4268 (Mon&ndash;Fri 5:30 a.m.&ndash;5:30 p.m.)</td></tr>
+    <tr><td>PeopleReady Hernando</td><td>Hernando</td><td>(352) 796-3264</td></tr>
+    <tr><td>Spherion Staffing</td><td>33 Ponce De Leon Blvd., Brooksville</td><td>(352) 796-6000</td></tr>
+    <tr><td>Express Employment</td><td>6645 Ridge Rd., Port Richey</td><td>(727) 376-8891</td></tr>
+    <tr><td>Integrity Staffing Services</td><td>Hernando</td><td>(352) 678-4019</td></tr>
+    <tr><td>Kelly Services</td><td>Hernando</td><td>(352) 519-1555</td></tr>
+    <tr><td>IR Staffing</td><td>Hernando</td><td>(352) 593-5054</td></tr>
+    <tr><td>Goodwill Temporary Staffing</td><td>Regional</td><td>(727) 577-6411</td></tr>
+  </table></div>
+  <p>Show up early. Labor halls fill in order of arrival, not appointment.</p>
+
+  <h3>Earned wage access</h3>
+  <p>Apps like DailyPay, Payactiv, Branch, and Even let you draw earned wages before payday <strong>if your employer participates.</strong> When you're comparing two otherwise identical job offers, ask in the interview: <em>&ldquo;Do you offer daily or on-demand pay?&rdquo;</em> It is a legitimate question and it separates a workable job from an unworkable one.</p>
+  <p>Many large retail, restaurant, and warehouse employers in the Tampa Bay market now offer some form of it. Ask before you accept.</p>
+
+  <h2 id="p8">Part 8 &mdash; Second Chance Employment</h2>
+  <blockquote><p>&ldquo;Without a struggle, there can be no progress.&rdquo;<br>&mdash; Frederick Douglass, 1857 (public domain)</p></blockquote>
+
+  <h3>CareerSource Pasco Hernando &mdash; start here</h3>
+  <p>This is the region's workforce agency, and it is free. Three offices serve both counties:</p>
+  <div class="tablewrap"><table>
+    <tr><th>Office</th><th>Address</th><th>Phone</th><th>Hours</th></tr>
+    <tr><td>New Port Richey</td><td>4440 Grand Blvd, New Port Richey, FL 34652</td><td>(727) 484-3400</td><td>Mon&ndash;Wed 8&ndash;5, Thu 7:30&ndash;5:30, Fri 8&ndash;5</td></tr>
+    <tr><td>Brooksville / Spring Hill</td><td>16228 Spring Hill Drive, Brooksville, FL 34604</td><td>(352) 200-3020</td><td>Mon&ndash;Fri 8&ndash;5</td></tr>
+    <tr><td>Dade City</td><td>13906 Fifth Street, Dade City, FL 33525</td><td>&mdash;</td><td>Mon&ndash;Fri 8&ndash;5</td></tr>
+  </table></div>
+  <p>Virtual hours run Mon&ndash;Fri 5&ndash;7 p.m. and Saturday 8 a.m.&ndash;5 p.m.</p>
+
+  <p><strong>Ask specifically for these three things:</strong></p>
+
+  <p><strong>1. The Federal Bonding Program.</strong> This is the most important tool most people have never heard of. It provides free fidelity bonding to employers who hire people with criminal backgrounds, poor credit history, no work history, substance abuse history, or a dishonorable discharge. In plain terms: it's a free insurance policy that removes the employer's stated reason for saying no. CareerSource front-line staff are trained to give you the bonding information to hand directly to a prospective employer. <strong>Walk into interviews with this paperwork.</strong> It changes the conversation from &ldquo;we can't risk it&rdquo; to &ldquo;we're covered.&rdquo;</p>
+
+  <div class="pullquote">It changes the conversation from &ldquo;we can't risk it&rdquo; to &ldquo;we're covered.&rdquo;</div>
+
+  <p><strong>2. The Workforce Reentry Program.</strong> Funded by Penny for Pasco and administered by CareerSource Pasco Hernando, this provides reentry assistance to Pasco County residents, specifically targeting people who are homeless, veterans, or formerly incarcerated. Funds go largely toward training tuition, with a faster turnaround than traditional apprenticeships. Services include assessment and training, work maturity, work search registration, marketable skills and certifications, and customized employer training.<br>Contact: <strong>(727) 484-3400 ext. 3023 | reentry@careersourcepascohernando.com</strong></p>
+
+  <p><strong>3. WIOA training funds.</strong> The Workforce Innovation and Opportunity Act pays for occupational training for eligible people with barriers to employment &mdash; explicitly including homeless individuals and ex-offenders. Forklift, CDL, HVAC, welding, CNA, IT certifications. Ask what's on the approved training provider list.</p>
+
+  <p>CareerSource has also historically partnered with the Hernando County Sheriff's Office to train inmates scheduled for release within six months, including Certified Production Technician (MSSC) certification plus Microsoft Office and QuickBooks, with job placement help after release. If you're currently inside or just out, ask about it.</p>
+
+  <p>Also worth knowing: <strong>Eckerd Connects Paxen</strong> operates a reentry program at 16336 Cortez Blvd, Brooksville, (352) 251-7164 &mdash; though it serves youth and young adults only.</p>
+
+  <p><strong>PRIDE Enterprises</strong> &mdash; 1463 Oakfield Drive #126, Brandon, (813) 324-8700 &mdash; works specifically with formerly incarcerated Floridians.</p>
+
+  <h3>Second-chance job boards</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Platform</th><th>What it is</th></tr>
+    <tr><td><strong>Honest Jobs</strong> (honestjobs.com)</td><td>The leading fair-chance platform, founded 2018 by a formerly incarcerated founder. Free for job seekers. You enter your conviction history; <strong>it is not shared with employers.</strong> Their &ldquo;Conflix&rdquo; system analyzes job descriptions against your record and color-codes listings by how likely you are to clear that employer's background check. Over 160,000 justice-involved job seekers on the platform.</td></tr>
+    <tr><td><strong>Employ Florida</strong> (employflorida.com)</td><td>The state's official job bank. Free registration, resume posting, thousands of listings, mobile app. This is where CareerSource job orders live &mdash; including &ldquo;suppressed&rdquo; job orders that aren't posted publicly and require a CareerSource staff referral. <strong>Ask CareerSource to screen you for suppressed job orders.</strong></td></tr>
+    <tr><td><strong>70 Million Jobs</strong></td><td>National second-chance job board</td></tr>
+    <tr><td><strong>Indeed / ZipRecruiter</strong></td><td>Search the literal phrases &ldquo;second chance,&rdquo; &ldquo;fair chance,&rdquo; and &ldquo;felony friendly&rdquo;</td></tr>
+    <tr><td><strong>GigSmart Job Board</strong></td><td>Full and part-time listings alongside the gig shifts</td></tr>
+  </table></div>
+
+  <h3>How to handle the record in an interview</h3>
+  <p>Three sentences, then stop talking:</p>
+  <ol>
+    <li>What happened, plainly and without excuse.</li>
+    <li>How long ago it was and what has changed since.</li>
+    <li>What you've been doing consistently since then.</li>
+  </ol>
+  <p>Then hand them the Federal Bonding information and let the conversation move on. Do not volunteer it before you're asked unless the application asks directly &mdash; and answer honestly when it does, because a discovered lie ends the job, while a disclosed record often doesn't.</p>
+
+  <h3>Employers with track records of fair-chance hiring</h3>
+  <p>Nationally and in Florida, these categories hire the most consistently: <strong>construction, manufacturing, warehousing and distribution, landscaping, restaurant back-of-house, retail merchandising, and staffing agencies.</strong> Goodwill is a mission-driven second-chance employer with on-the-job training. Florida state government uses ban-the-box for state jobs.</p>
+  <p>Be skeptical of websites that publish &ldquo;lists of companies that hire felons.&rdquo; Corporate policies change, and franchise locations set their own rules. <strong>Verify locally, one hiring manager at a time.</strong> The manager in front of you matters more than the corporate policy.</p>
+
+  <h2 id="p9">Part 9 &mdash; Merchandising and Retail: The Fastest Path</h2>
+
+  <div class="pullquote">&ldquo;It is not the critic who counts... The credit belongs to the man who is actually in the arena.&rdquo;<cite>Theodore Roosevelt, &ldquo;Citizenship in a Republic,&rdquo; 1910 (public domain)</cite></div>
+
+  <p>If you take one strategic recommendation from this guide, take this one.</p>
+
+  <h3>Who's hiring in Hernando and Pasco</h3>
+  <p><strong>SAS Retail Services</strong> &mdash; retail merchandiser roles in Brooksville and Spring Hill, recently posted around <strong>$13&ndash;14/hour</strong>. No prior experience required; training and team support provided. Requirements: 18+, able to lift 50 lbs, reliable transportation, comfortable with customers. Benefits available including medical, dental, vision.</p>
+  <p><strong>CROSSMARK</strong> (part of Acosta) &mdash; merchandiser and reset merchandiser roles across Spring Hill, Brooksville, Hudson, Land O' Lakes, and Zephyrhills, in the <strong>$15&ndash;17/hour</strong> range. Founded 1908, 30,000+ associates. What they offer that matters to you: <strong>weekly pay, paid training, paid drive time between stores plus mileage reimbursement, flexible daytime hours with no required nights or weekends,</strong> and benefits including 401(k). Requirements: 18+, available roughly 8 a.m.&ndash;5 p.m., access to a smart device, ability to lift 25 lbs regularly and 50 occasionally, reliable transportation.</p>
+  <p><strong>Also operating in this market:</strong> Acosta, Advantage Solutions, Premium Retail Services, Driveline, SPAR, Jacent, Apollo Retail. Apply to all of them. Reset crews travel, so a company with no Brooksville opening today may have a Spring Hill reset next week.</p>
+
+  <h3>The strategy</h3>
+  <ol>
+    <li><strong>Apply to every merchandising company simultaneously,</strong> not one at a time. They staff by project.</li>
+    <li><strong>Take the reset work.</strong> Resets are large-scale store rearrangements &mdash; tearing down and rebuilding sections to a planogram. They're physical and they're scheduled in bursts, which means overtime and travel pay.</li>
+    <li><strong>Learn to read a planogram fast.</strong> It's the single skill that makes you re-requestable. Once one reset crew lead knows you can follow a plan without supervision, you get called first.</li>
+    <li><strong>Stack it with gig platforms</strong> to fill dead days.</li>
+    <li><strong>After 1&ndash;2 years of experience,</strong> independent contractor reset work pays substantially more &mdash; postings for experienced reset merchandisers with SAS/Acosta/Crossmark/Advantage/Driveline/SPAR backgrounds run well above entry-level rates.</li>
+  </ol>
+  <p>That's a real, documented career ladder that starts with a $14/hour job you can get without experience or a clean record.</p>
+
+  <h2 id="p10">Part 10 &mdash; Remote and AI-Assisted Work: An Honest Assessment</h2>
+  <p>You asked about programming work for someone who can use AI tools well. Here's the truthful version, ordered from most to least accessible.</p>
+
+  <h3>Tier 1: AI training and evaluation work (start here)</h3>
+  <p>These platforms pay people to evaluate, correct, and write training data for AI models. <strong>They reward exactly the skills a strong prompt engineer already has:</strong> careful reading, clear writing, spotting subtle errors in model output, and following detailed rubrics. Most require only a computer and a bank account or PayPal.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Platform</th><th>Reported rates</th><th>Access</th><th>Payment</th></tr>
+    <tr><td><strong>DataAnnotation.tech</strong></td><td>~$20&ndash;40/hr (coding and reasoning tasks pay more)</td><td>US, UK, Canada, Australia, NZ. Onboarding 1&ndash;2 days</td><td>PayPal, weekly</td></tr>
+    <tr><td><strong>Outlier</strong> (Scale AI)</td><td>~$15&ndash;50/hr</td><td>Open in 60+ countries</td><td>PayPal/ACH, weekly</td></tr>
+    <tr><td><strong>Mercor</strong></td><td>Wide range, higher for specialists</td><td>Selective &mdash; ~20-minute AI interview plus assessment, 1&ndash;3 weeks</td><td>Stripe, weekly</td></tr>
+    <tr><td><strong>Handshake AI, Mindrift, Alignerr, Micro1</strong></td><td>Varies</td><td>Varies</td><td>Weekly/biweekly</td></tr>
+  </table></div>
+  <p><strong>Realistic expectations:</strong> most generalists starting out land in the <strong>$15&ndash;25/hour</strong> range, not the headline numbers. Work volume is inconsistent &mdash; queues dry up. Treat this as one income stream stacked on top of merchandising, not a replacement for it. The higher rates go to people with verifiable credentials or genuine coding depth.</p>
+  <p><strong>A Chromebook is sufficient</strong> for most of this work.</p>
+  <div class="callout"><span class="eyebrow">Scam warning</span>Legitimate platforms never charge you to join, never ask you to buy equipment, and never send you a check to deposit. If money flows toward the platform, walk away.</div>
+
+  <h3>Tier 2: Freelance micro-work</h3>
+  <p>Upwork, Fiverr, and Contra. With strong AI-assisted output you can genuinely deliver: content writing, editing, data cleanup, spreadsheet automation, simple website building, SEO work, resume writing, and virtual assistance. The hard part is the first five reviews. Price low, deliver fast, over-communicate, and climb.</p>
+  <p><strong>These are also the platforms where an experience gap or a record does not come up.</strong> Clients see a portfolio and a rating.</p>
+
+  <h3>Tier 3: Arc.dev &mdash; the stretch goal, not the entry point</h3>
+  <p>Be clear-eyed here. <strong>Arc.dev is free for talent</strong> and does connect developers to remote roles at real companies. But their own materials state that candidates who succeed in vetting typically have <strong>5+ years of industry experience</strong>, and that on average <strong>only about 2.3% of candidates pass</strong> their vetting &mdash; profile screening, a communication assessment, and a technical interview or pair-programming session.</p>
+  <p>An AI assistant makes you dramatically more productive as a developer. It does not substitute for the ability to pass a live technical interview with a human engineer. <strong>Arc.dev is a realistic target in year two or three</strong>, after you've built demonstrable work. It is not a realistic answer to &ldquo;I need income this month.&rdquo;</p>
+
+  <h3>The realistic path from prompt engineering to paid technical work</h3>
+  <ol>
+    <li><strong>Months 1&ndash;6:</strong> DataAnnotation / Outlier for income while merchandising pays the bills. Simultaneously build 3&ndash;5 real projects &mdash; a working website, a small tool, an automation &mdash; and put them in public on GitHub.</li>
+    <li><strong>Months 6&ndash;18:</strong> Freelance on Upwork/Fiverr. Small paid builds. Collect reviews. This is your work history.</li>
+    <li><strong>Months 18+:</strong> Junior developer roles, local IT contracts, or Arc.dev vetting with an actual portfolio behind you.</li>
+  </ol>
+  <p>Free training in the meantime: <strong>Pasco-Hernando State College</strong> continuing education, (352) 796-6726. <strong>Suncoast Technical Education Center</strong>, (352) 797-7091. <strong>Hernando Adult Education</strong> for GED and ESOL, (352) 797-7018. <strong>AmSkills</strong>, 4606 Darlington Rd., Holiday, (727) 301-1282 &mdash; technical training, employability assessment, interview coaching. And ask CareerSource whether WIOA funds will cover any of it.</p>
+
+  <h2 id="p11">Part 11 &mdash; Church, Community, and the Jobs Nobody Posts</h2>
+  <p>Most jobs at the level we're discussing are filled by referral, not by application. A hiring manager with three applicants and one personal recommendation hires the recommendation. That means <strong>your network is a material asset</strong>, and building one is work &mdash; real work, on the calendar, same as a shift.</p>
+
+  <div class="pullquote">&ldquo;Alone we can do so little; together we can do so much.&rdquo;<cite>Helen Keller, early 1920s (public domain)</cite></div>
+
+  <h3>Why church specifically works</h3>
+  <p>It isn't about theology. It's about structure and repetition. A congregation gives you:</p>
+  <ul>
+    <li><strong>Weekly reliable contact with employed people</strong> who own businesses, manage stores, and know who's hiring</li>
+    <li><strong>A reference</strong> &mdash; after six months of showing up, a pastor or ministry leader can vouch for your character in a way no former employer will</li>
+    <li><strong>A homeless certification letter</strong> for your free state ID, in many cases</li>
+    <li><strong>Meals, clothing, and material help</strong> without a means test</li>
+    <li><strong>A reason to be somewhere on Sunday</strong> that isn't a parking lot</li>
+  </ul>
+
+  <h3>How to actually do it (this is the part people skip)</h3>
+  <ol>
+    <li><strong>Pick one and stay.</strong> Rotating churches for the food line gets you food. Attending one church for six months gets you a network. Choose based on location &mdash; one you can reach on the bus every week without fail.</li>
+    <li><strong>Volunteer before you ask for anything.</strong> Set up chairs. Work the food pantry. Help in the kitchen. <strong>Serving in a food pantry when you also use food pantries is the single fastest way to change how people see you.</strong> You stop being a client and become a member.</li>
+    <li><strong>Join a small group or a recovery group.</strong> Sunday service is anonymous. Small groups are where relationships form. Grace Family Church in Lutz runs GriefShare (Thursdays 7 p.m.), DivorceCare (Tuesdays 7 p.m.), and Celebrate Recovery (Thursdays 6:30 p.m.) at 22920 SR 54.</li>
+    <li><strong>Tell people specifically what you're looking for.</strong> Not &ldquo;I need a job.&rdquo; Say: <em>&ldquo;I'm looking for merchandising or retail stocking work, I'm available weekday mornings, and I have my own transportation to Spring Hill and Brooksville.&rdquo;</em> Specific requests get referred. Vague ones get sympathy.</li>
+    <li><strong>Be the person who shows up.</strong> Reliability is your entire pitch. Every time you show up when you said you would, you're building the reference that eventually gets you hired.</li>
+  </ol>
+
+  <h3>Places to build community in Hernando and Pasco</h3>
+  <ul>
+    <li><strong>People Helping People HELP Center</strong>, 1396 Kass Circle, Spring Hill &mdash; hosts <strong>AA meetings every weekday evening</strong> and is available for meetings and events</li>
+    <li><strong>Alcoholics Anonymous</strong> &mdash; Hernando (352) 683-4597, West Pasco/Tarpon (727) 847-0777</li>
+    <li><strong>Narcotics Anonymous</strong> &mdash; Hernando (352) 254-4690, Pasco 24-hour (727) 842-2433</li>
+    <li><strong>NAMI Hernando</strong>, 4034 Commercial Way, Spring Hill, (352) 684-0004 &mdash; free support groups, grief support, and <strong>employment assistance</strong></li>
+    <li><strong>NAMI Pasco</strong>, (727) 992-9653</li>
+    <li><strong>Recovery Epicenter Foundation</strong>, Clearwater, (813) 419-7095 &mdash; recovery community organization</li>
+    <li><strong>Zero Hour Life Center</strong>, (352) 765-4943 &mdash; disability application assistance and recovery community</li>
+    <li><strong>Volunteer through United Way of Hernando</strong>, (352) 688-2026 &mdash; volunteer hours are resume lines and references</li>
+    <li><strong>Vincent House</strong>, 11145 Denton Avenue, Hudson, (352) 701-0778 &mdash; vocational skills program for people living with mental health challenges</li>
+  </ul>
+  <p>Even if you're not in recovery, these rooms are full of people who understand hard circumstances and are, as a group, unusually willing to help someone who is trying.</p>
+
+  <h2 id="p12">Part 12 &mdash; Transportation</h2>
+
+  <figure>
+    <img src="assets/07-thebus.jpg" alt="A Hernando County Transit (TheBus) vehicle alongside a paratransit vehicle">
+    <figcaption>TheBus, Hernando County Transit, alongside a paratransit vehicle. A monthly pass pays for itself in 12 round trips at the one-way fare.<span class="credit">Photo: DanTD, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <h3>Hernando County &mdash; TheBus</h3>
+  <p>Nine routes, connecting to Pasco's system on the Purple and Blue routes, running on 60-minute headways. Info: <strong>(352) 754-4444</strong>.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Fare type</th><th>Regular</th><th>Reduced*</th></tr>
+    <tr><td>One-way</td><td>$1.25</td><td>$0.60</td></tr>
+    <tr><td>One-day pass</td><td>$3.00</td><td>$1.50</td></tr>
+    <tr><td><strong>7-day pass</strong></td><td><strong>$10.00</strong></td><td>$5.00</td></tr>
+    <tr><td><strong>31-day pass</strong></td><td><strong>$30.00</strong></td><td>&mdash;</td></tr>
+    <tr><td>Demand response one-way</td><td>$2.50</td><td>&mdash;</td></tr>
+  </table></div>
+  <p style="font-size:.85rem; color:var(--muted);">*Reduced fares require eligibility &mdash; call (352) 754-4444.</p>
+  <p>Pay by cash (<strong>exact change; drivers carry none</strong>), paper monthly pass, or the <strong>Token Transit app</strong> (tokentransit.com/app). Live bus tracking is available online.</p>
+  <p><strong>The math matters:</strong> at $1.25 each way, a 31-day pass pays for itself in 12 round trips. If you're working, buy the monthly.</p>
+  <p><strong>Route 6 (TheBus Ride)</strong> is curb-to-curb micro-transit within a 5-mile radius of downtown Brooksville. Call at least two hours ahead to schedule pickup and drop-off.</p>
+
+  <h3>Pasco County &mdash; GoPasco</h3>
+  <p>Thirteen to fourteen routes, generally 5 a.m.&ndash;8 p.m. weekdays. Info: <strong>(727) 834-3322</strong>, info@GoPasco.com, 8620 Galen Wilson Blvd., Port Richey.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Fare type</th><th>Regular</th><th>Reduced*</th></tr>
+    <tr><td>One-way</td><td>$1.50</td><td>$0.75</td></tr>
+    <tr><td>One-day pass</td><td>$3.75</td><td>$1.85</td></tr>
+    <tr><td><strong>31-day pass</strong></td><td><strong>$37.50</strong></td><td>$18.75</td></tr>
+    <tr><td>20-ride pass</td><td>$25.00</td><td>$12.50</td></tr>
+    <tr><td><strong>US Military &amp; Veterans</strong></td><td colspan="2"><strong>FREE</strong></td></tr>
+  </table></div>
+  <p style="font-size:.85rem; color:var(--muted);">*Reduced fares: 65+, students with valid ID, persons with disabilities, Medicare card holders. A GoPasco reduced-fare photo ID costs $2.50.</p>
+  <p>Passes available by mail, at Pasco County Government Centers, select Pasco County libraries, at the GoPasco office (VISA/MasterCard, $5 minimum), or through the <strong>Token Transit app</strong>. Children 4 and under ride free with a paying adult.</p>
+  <p><strong>Veterans ride free on all GoPasco routes.</strong> If you served, get your documentation in order.</p>
+
+  <h3>Other transportation help</h3>
+  <ul>
+    <li><strong>People Helping People</strong>, (352) 686-4466 &mdash; <strong>bus tokens</strong></li>
+    <li><strong>Grace Presbyterian Church</strong>, (352) 683-2082 &mdash; <strong>bike program</strong>. A working bicycle changes your radius more than anything else on this list.</li>
+    <li><strong>Hernando Mentorship &amp; Empowerment</strong>, (248) 444-8027 &mdash; vouchers and rides when available</li>
+    <li><strong>UF/IFAS One Stop Shop</strong>, Dade City, (352) 521-1254 &mdash; bus passes</li>
+    <li><strong>Medicaid Transportation</strong> &mdash; (352) 799-5177</li>
+    <li><strong>Paratransit / TransHernando</strong> &mdash; registration (888) 802-7483, scheduling (352) 799-1510</li>
+  </ul>
+
+  <h2 id="p13">Part 13 &mdash; Shelter and Housing</h2>
+  <div class="note"><p><strong>Read this section carefully</strong> &mdash; the shelter landscape here has changed and outdated directories will send you to the wrong place.</p></div>
+
+  <h3>Hernando County</h3>
+  <p><strong>Jericho Road Ministries</strong> &mdash; 1090 Mondon Hill Rd. / 11014 N Broad St., Brooksville, <strong>(352) 799-2912</strong>.<br>
+  <strong>Important update:</strong> older listings across the internet describe Jericho Road as a rescue mission offering up to three nights of emergency shelter. <strong>Their own current materials state they do not presently provide overnight emergency shelter and cannot accommodate children.</strong> What they do offer is a <strong>free five-month residential recovery program</strong> at a Men's Center and a Women's Center, open to anyone 18+ willing to commit to the full program. There's no cost. You don't have to be Christian, though the program is faith-based. <strong>You must detox before entry</strong> &mdash; it's not a licensed medical detox. The first three months are education-focused with no outside employment permitted (structured work therapy instead); by month five the goal is employment. Intake requires an application and interview.</p>
+  <p>They also run the <strong>Jericho Road Food Barn</strong> (1165 Howell Ave, Tuesdays 9 a.m.&ndash;12 p.m., Hernando County photo ID required) and four thrift stores.</p>
+
+  <h3>Other Hernando shelter and housing</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Program</th><th>Serves</th><th>Contact</th></tr>
+    <tr><td><strong>Dawn Center</strong></td><td>Domestic violence &mdash; women and children, <strong>accepts pets</strong></td><td>24/7 hotline (352) 686-8430; outreach (352) 592-1288</td></tr>
+    <tr><td><strong>The Life Center</strong></td><td>Women with children under 6 (drug test required)</td><td>(352) 597-0119</td></tr>
+    <tr><td><strong>Joseph's House</strong></td><td>Shelter</td><td>(352) 600-8295, office@jhbv.org</td></tr>
+    <tr><td><strong>Shelter from the Storm</strong></td><td>Males</td><td>(352) 339-4732</td></tr>
+    <tr><td><strong>New Beginnings Youth Shelter</strong></td><td>Unaccompanied youth ages 10&ndash;17</td><td>(352) 540-6015</td></tr>
+    <tr><td>Hernando County Housing Authority</td><td>Section 8</td><td>(352) 754-4160</td></tr>
+    <tr><td>Habitat for Humanity Hernando</td><td>Homeownership</td><td>(352) 754-1159</td></tr>
+    <tr><td>Florida Housing Search</td><td>Rental listings</td><td>(877) 428-8844</td></tr>
+  </table></div>
+
+  <h3>Pasco County</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Program</th><th>Serves</th><th>Contact</th></tr>
+    <tr><td><strong>Coalition for the Homeless of Pasco County</strong></td><td>Case management, financial and housing assistance</td><td>(727) 842-8605, 5652 Pine St., NPR &mdash; Mon/Wed/Fri 10 a.m.&ndash;2 p.m.</td></tr>
+    <tr><td><strong>Metropolitan Ministries West Pasco</strong></td><td>Residential housing, family support, counseling, GED, 3 hot meals daily</td><td>(727) 937-3268, 3214 US 19 N, Holiday</td></tr>
+    <tr><td><strong>Salvation Army Center of Hope</strong></td><td>Transitional</td><td>(727) 847-6321, 8040 Washington St., Port Richey</td></tr>
+    <tr><td><strong>Felicity House</strong></td><td>4-month transitional shelter, single adult women, no kids, <strong>$70/week</strong> &mdash; includes employment and housing services</td><td>(727) 861-4840, Hudson</td></tr>
+    <tr><td><strong>R.O.P.E. Center</strong></td><td>Transitional living, single men and women</td><td>(727) 255-2353, 14121 Water Tower Dr., Hudson</td></tr>
+    <tr><td><strong>ACE Opportunities</strong></td><td>Requires alcohol/drug history; men's home currently split to accept women temporarily</td><td>(727) 776-5336, 6009 High St., NPR</td></tr>
+    <tr><td><strong>Our House Emergency Shelter</strong></td><td>Emergency</td><td>(727) 239-9313, 8608 Frontier Trail, Port Richey</td></tr>
+    <tr><td><strong>Sunrise of Pasco</strong></td><td>Domestic violence &amp; sexual assault</td><td>Hotline (352) 521-3120</td></tr>
+    <tr><td><strong>Salvation Army DV Program</strong></td><td>Domestic violence, employment and relocation help</td><td>Hotline (727) 856-5797</td></tr>
+    <tr><td>Pasco Housing Authority</td><td>Low-income rental housing</td><td>(352) 567-0848</td></tr>
+    <tr><td><strong>BayCare PATH</strong></td><td>Case management for people with serious mental illness experiencing homelessness</td><td>(727) 315-8712</td></tr>
+    <tr><td><strong>You Thrive Florida</strong></td><td>Weatherization, energy assistance, self-sufficiency, first-time homeownership</td><td>(352) 567-0533 / (727) 857-5495 / (888) 802-7483</td></tr>
+  </table></div>
+
+  <h3>Regional</h3>
+  <ul>
+    <li><strong>Homeless Empowerment Program (HEP)</strong>, 1120 N Betty Lane, Clearwater, (727) 442-9041 &mdash; basic needs, health, <strong>workforce development</strong>, self-sufficiency</li>
+    <li><strong>New Beginnings of Tampa</strong>, (813) 971-6961 &mdash; transitional housing for adult men and women</li>
+    <li><strong>Boley Centers</strong>, St. Petersburg, (727) 821-4819 &mdash; safe havens, permanent supported housing, Shelter Plus Care vouchers, <strong>employment services</strong></li>
+    <li><strong>Hope Villages of America</strong>, Clearwater &mdash; housing stability services, (727) 446-5964; food distribution (727) 443-4031</li>
+  </ul>
+
+  <h3>Rent and utility assistance (when funds are available)</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Organization</th><th>Phone</th></tr>
+    <tr><td>Mid Florida Homeless Coalition</td><td>(352) 860-2308</td></tr>
+    <tr><td>United Way of Hernando</td><td>(352) 688-2026</td></tr>
+    <tr><td>Salvation Army Hernando</td><td>(352) 796-1186</td></tr>
+    <tr><td>You Thrive FL</td><td>(888) 802-7483</td></tr>
+    <tr><td>Catholic Charities</td><td>(352) 686-9897</td></tr>
+    <tr><td>Metropolitan Ministries East Pasco</td><td>(352) 437-4815</td></tr>
+    <tr><td>St. Michael the Archangel SVdP (Hudson)</td><td>(727) 857-5818</td></tr>
+  </table></div>
+  <p>These funds run out. Call early in the month, and call more than one.</p>
+
+  <h2 id="p14">Part 14 &mdash; Health Care Without Insurance</h2>
+  <p>Staying healthy is an economic strategy. An untreated infection or a bad tooth costs more shifts than any of these visits cost dollars.</p>
+
+  <h3>Free and low-cost clinics &mdash; Hernando</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Clinic</th><th>Details</th></tr>
+    <tr><td><strong>People Helping People Medical Clinic</strong></td><td>HELP Center, 1396 Kass Circle, Spring Hill &mdash; <strong>Tuesdays 10 a.m.&ndash;1 p.m.</strong>, free for uninsured. Also 209 Ponce de Leon, Brooksville &mdash; <strong>2nd &amp; 4th Wednesdays 1&ndash;4 p.m.</strong></td></tr>
+    <tr><td><strong>Crescent Community Clinic</strong></td><td>(352) 610-9916 &mdash; free chronic health and mental health care for uninsured, indigent, underserved non-elderly Hernando residents</td></tr>
+    <tr><td><strong>Nature Coast Community Health Center (FQHC)</strong> / DOH-Hernando</td><td>(352) 540-6800 &mdash; medical, dental, immunizations, prescription assistance, sliding scale</td></tr>
+    <tr><td><strong>Premier Community Healthcare</strong></td><td>7551 Forest Oaks Blvd., Spring Hill &mdash; (352) 518-2000 &mdash; family medicine, pediatrics, women's health, adult dental</td></tr>
+  </table></div>
+
+  <h3>Free and low-cost clinics &mdash; Pasco</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Clinic</th><th>Details</th></tr>
+    <tr><td><strong>Good Samaritan Health Clinic of Pasco (free clinic)</strong></td><td>5334 Aspen St., NPR &mdash; (727) 848-7789 &mdash; Mon&ndash;Fri 10 a.m.&ndash;5 p.m. &mdash; dental, diagnostics, pharmacy, primary care</td></tr>
+    <tr><td><strong>Premier Community Healthcare</strong></td><td>Multiple Pasco locations, premierhc.org</td></tr>
+    <tr><td><strong>DOH Pasco</strong></td><td>(727) 619-0300 &mdash; family planning, immunizations, WIC, dental. <strong>Free at-home HIV test kits and free condoms at all locations.</strong></td></tr>
+    <tr><td><strong>Evara Health</strong></td><td>(727) 824-8181 &mdash; sliding scale, telehealth available</td></tr>
+    <tr><td><strong>Hudson Community Health &amp; Resource Center</strong></td><td>14410 Cobra Way, Hudson &mdash; (352) 518-2000 &mdash; medical, dental, mental health, <strong>clothing closet and food pantry</strong></td></tr>
+  </table></div>
+
+  <h3>Prescriptions, glasses, dental</h3>
+  <ul>
+    <li><strong>Hernando County prescription assistance</strong> and the free <strong>Coast2Coast Rx</strong> discount card &mdash; (352) 540-4338</li>
+    <li><strong>New Eyes</strong> (new-eyes.org) &mdash; glasses for people in need</li>
+    <li><strong>ReSpectacle</strong> (respectacle.org) &mdash; free used glasses with a prescription, pay shipping only</li>
+    <li><strong>Zenni Optical</strong> &mdash; heavily discounted new glasses</li>
+  </ul>
+
+  <h2 id="p15">Part 15 &mdash; Mental Health, Recovery, and Crisis</h2>
+  <div class="callout"><span class="eyebrow">If you are in danger</span>If you are in immediate danger, call <strong>911</strong>. If you are in crisis, call or text <strong>988</strong>.</div>
+
+  <div class="tablewrap"><table>
+    <tr><th>Resource</th><th>Contact</th></tr>
+    <tr><td><strong>988 Suicide &amp; Crisis Lifeline</strong></td><td>Call or text <strong>988</strong></td></tr>
+    <tr><td>Crisis Center of Tampa Bay</td><td>211 (24/7) &mdash; Pasco line (877) 211-9274</td></tr>
+    <tr><td>Mental Health 24-Hour Crisis Line (Hernando)</td><td>(866) 355-9394</td></tr>
+    <tr><td><strong>BayCare Mobile Response Team</strong> (24/7)</td><td>(352) 467-6529</td></tr>
+    <tr><td>NAMI 24/7 (Hernando)</td><td>(352) 316-7783</td></tr>
+    <tr><td>BayCare Behavioral Health Urgent Care</td><td>(352) 467-6212, Mon&ndash;Fri 8 a.m.&ndash;7 p.m. &mdash; same-day walk-in for people not in immediate crisis</td></tr>
+    <tr><td><strong>Springbrook</strong></td><td>(352) 596-4306 &mdash; 24-hour behavioral health, crisis stabilization</td></tr>
+    <tr><td>SAMHSA National Helpline</td><td>(800) 662-4357</td></tr>
+    <tr><td><strong>Veterans Crisis Line</strong></td><td>988, then press 1</td></tr>
+    <tr><td>Domestic Violence Hotline</td><td>(800) 799-7233</td></tr>
+    <tr><td>National Human Trafficking Hotline</td><td>(888) 373-7888, or text 233733</td></tr>
+  </table></div>
+
+  <h3>Substance use</h3>
+  <ul>
+    <li><strong>Operation PAR</strong> &mdash; 24/7 helpline (888) 727-6398. Locations: 1245 Kass Circle, Spring Hill, (352) 666-5709; 7720 Washington St., Port Richey, (727) 816-1200. Both open Mon&ndash;Fri 5:30&ndash;11:30 a.m., Sat 5:30&ndash;10 a.m. Medication-assisted treatment.</li>
+    <li><strong>Coordinated Opioid Recovery (CORE)</strong> &mdash; Hernando (352) 467-6107; Pasco 24/7 (727) 315-8715</li>
+    <li><strong>Hernando County Community Paramedics</strong> &mdash; (352) 540-0799 &mdash; MAT for opioid use disorder and addiction resource advocacy</li>
+    <li><strong>Hernando Community Coalition</strong> &mdash; (352) 596-8000 &mdash; prevention, Narcan, resource guides</li>
+    <li><strong>BayCare Behavioral Health Community Recovery Center</strong>, 6205 Trouble Creek Rd., NPR, (727) 859-4732 &mdash; <strong>open 24/7</strong></li>
+  </ul>
+
+  <h2 id="p16">Part 16 &mdash; Veterans</h2>
+  <p>If you served, you have access to a parallel system that is faster and better funded than the civilian one. Use it.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Resource</th><th>Contact</th></tr>
+    <tr><td><strong>National Call Center for Homeless Veterans</strong></td><td>(877) 424-3838 &mdash; 24/7</td></tr>
+    <tr><td><strong>HUD-VASH supportive housing</strong></td><td>Call center (877) 424-3838; Pasco (813) 610-4564</td></tr>
+    <tr><td><strong>St. Vincent de Paul CARES</strong></td><td>Veterans (727) 484-6905 / (352) 632-2275 &mdash; emergency housing for veterans available <strong>without</strong> a coalition referral</td></tr>
+    <tr><td>Hernando County Veterans Services</td><td>(352) 754-4033</td></tr>
+    <tr><td>Pasco County Veterans Services</td><td>(727) 834-3282</td></tr>
+    <tr><td>Brooksville VA Clinic</td><td>(352) 597-8287</td></tr>
+    <tr><td>New Port Richey VA Clinic</td><td>7900 Little Rd. &mdash; (727) 869-4100</td></tr>
+    <tr><td>James A. Haley VA Hospital, Tampa</td><td>(813) 972-2000</td></tr>
+    <tr><td>Florida Veterans Legal Helpline</td><td>(866) 486-6161</td></tr>
+    <tr><td>Florida Veterans Support Line</td><td>(844) 693-5838</td></tr>
+    <tr><td><strong>Steps to Recovery</strong> (male veterans only)</td><td>(727) 848-8100, 4507 Mayflower Dr., NPR</td></tr>
+    <tr><td>Liberty Manor (veterans)</td><td>(813) 900-9422</td></tr>
+    <tr><td><strong>GoPasco buses</strong></td><td><strong>Free for veterans</strong></td></tr>
+    <tr><td>Jericho Road Thrift Stores</td><td>15% military discount</td></tr>
+  </table></div>
+  <p>Homeless veterans, plus their spouse and children, are eligible for a <strong>free Florida ID card</strong>.</p>
+
+  <h2 id="p17">Part 17 &mdash; A Weekly Rhythm That Works</h2>
+  <p>A schedule is what keeps homelessness from becoming a lifestyle. Here is a template. Adapt it.</p>
+
+  <p><strong>Every morning, 5:00&ndash;6:30 a.m.</strong><br>Gym. Shower, shave, dress. Charge phone and devices. Check gig apps for same-day shifts. Check email and voicemail.</p>
+
+  <p><strong>Monday</strong><br>Apply day. Library or gym WiFi. Submit 5&ndash;10 applications on Employ Florida, Honest Jobs, and Indeed. Update your resume with anything new. Call two employers you applied to last week &mdash; <strong>calling is the step almost nobody takes, and it works.</strong></p>
+
+  <p><strong>Tuesday</strong><br>Hernando: People Helping People &mdash; lunch, showers, medical clinic if needed, and pick up bus tokens. Jericho Road Food Barn 9&ndash;12. Pasco: pantry day.<br>Afternoon: merchandising shift or gig work.</p>
+
+  <p><strong>Wednesday</strong><br>Work. Evening: church small group, AA/NA, or a recovery meeting. Build the network.</p>
+
+  <p><strong>Thursday</strong><br>Hernando: Daystar for food and clothing, 9 a.m.&ndash;12:30. Their thrift shop BOGO is the same day.<br>Afternoon: work or 2&ndash;3 hours of AI training platform work.</p>
+
+  <p><strong>Friday</strong><br>People Helping People lunch and showers. Nature Coast Outreach meal. 2nd and 4th Fridays: Faith Evangelical Presbyterian for showers, meals, and clothing.<br>Afternoon: work. Cash out earnings. Buy next week's bus pass first, before anything else.</p>
+
+  <p><strong>Saturday</strong><br>Merchandising resets and gig shifts are often available. Otherwise: laundry, restock supplies, 3&ndash;4 hours of skill-building &mdash; a course, a project, a portfolio piece.</p>
+
+  <p><strong>Sunday</strong><br>Church. Volunteer if you can. Rest. Plan the week &mdash; write down where you're going each day and what it costs in fare.</p>
+
+  <p><strong>Monthly</strong></p>
+  <ul>
+    <li>Call Mid Florida Homeless Coalition or the Pasco Coalition to keep your housing assessment active and current</li>
+    <li>Check in with your CareerSource reentry contact</li>
+    <li>Renew your homeless certification letter if it's approaching 90 days old</li>
+  </ul>
+
+  <h2 id="p18">Part 18 &mdash; Master Phone List</h2>
+  <p>Save these in your phone right now, before anything else.</p>
+
+  <h3>Emergency</h3>
+  <div class="tablewrap"><table>
+    <tr><td>Life-threatening emergency</td><td><strong>911</strong></td></tr>
+    <tr><td>Suicide &amp; Crisis Lifeline</td><td><strong>988</strong></td></tr>
+    <tr><td>211 information and referral</td><td><strong>211</strong></td></tr>
+    <tr><td>Hernando 211 / United Way</td><td>(352) 688-2026</td></tr>
+    <tr><td>Pasco crisis line</td><td>(877) 211-9274</td></tr>
+    <tr><td>Poison Control</td><td>(800) 222-1222</td></tr>
+    <tr><td>Domestic violence 24/7 (Hernando)</td><td>(352) 686-8430</td></tr>
+    <tr><td>Domestic violence 24/7 (Pasco)</td><td>(352) 521-3120</td></tr>
+  </table></div>
+
+  <h3>Housing &amp; homelessness</h3>
+  <div class="tablewrap"><table>
+    <tr><td><strong>Mid Florida Homeless Coalition</strong> (Hernando housing assessment)</td><td><strong>(352) 860-2308</strong></td></tr>
+    <tr><td><strong>Coalition for the Homeless of Pasco</strong></td><td><strong>(727) 842-8605</strong></td></tr>
+    <tr><td>Hernando Housing &amp; Supportive Services</td><td>(352) 540-4338</td></tr>
+    <tr><td>Jericho Road Ministries</td><td>(352) 799-2912</td></tr>
+    <tr><td>Metropolitan Ministries West Pasco</td><td>(727) 937-3268</td></tr>
+    <tr><td>Homeless Veterans</td><td>(877) 424-3838</td></tr>
+  </table></div>
+
+  <h3>Food &amp; basics</h3>
+  <div class="tablewrap"><table>
+    <tr><td><strong>People Helping People</strong></td><td><strong>(352) 686-4466</strong></td></tr>
+    <tr><td>Daystar Life Center</td><td>(352) 799-5930</td></tr>
+    <tr><td>The Volunteer Way</td><td>(727) 815-0433</td></tr>
+    <tr><td>Be A Light Mission</td><td>bealightmissions.org</td></tr>
+    <tr><td>Salvation Army Hernando</td><td>(352) 796-1186</td></tr>
+    <tr><td>ACCESS Florida (SNAP/Medicaid)</td><td>(866) 762-2237</td></tr>
+  </table></div>
+
+  <h3>Work</h3>
+  <div class="tablewrap"><table>
+    <tr><td><strong>CareerSource NPR</strong></td><td><strong>(727) 484-3400</strong></td></tr>
+    <tr><td><strong>CareerSource Reentry</strong></td><td><strong>(727) 484-3400 x3023</strong></td></tr>
+    <tr><td>CareerSource Brooksville</td><td>(352) 200-3020</td></tr>
+    <tr><td>Labor Finders Brooksville</td><td>(352) 593-9400</td></tr>
+    <tr><td>PeopleReady Port Richey</td><td>(727) 847-4268</td></tr>
+    <tr><td>Spherion Brooksville</td><td>(352) 796-6000</td></tr>
+  </table></div>
+
+  <h3>Transportation</h3>
+  <div class="tablewrap"><table>
+    <tr><td>TheBus (Hernando)</td><td>(352) 754-4444</td></tr>
+    <tr><td>GoPasco</td><td>(727) 834-3322</td></tr>
+  </table></div>
+
+  <h3>Websites</h3>
+  <ul>
+    <li><strong>employflorida.com</strong> &mdash; state job bank</li>
+    <li><strong>honestjobs.com</strong> &mdash; fair-chance job board</li>
+    <li><strong>careersourcepascohernando.com</strong></li>
+    <li><strong>midfloridahomeless.org</strong></li>
+    <li><strong>pascohomelesscoalition.org</strong></li>
+    <li><strong>bealightmissions.org</strong> &mdash; live Pasco resource calendar</li>
+    <li><strong>phphernando.org</strong></li>
+    <li><strong>tokentransit.com/app</strong> &mdash; bus passes on your phone</li>
+  </ul>
+
+  <hr>
+
+  <h2 style="border-bottom:none; margin-bottom:8px;">Closing</h2>
+  <blockquote><p>&ldquo;You have power over your mind &mdash; not outside events. Realize this, and you will find strength.&rdquo;<br>&mdash; Marcus Aurelius, <em>Meditations</em> (public domain)</p></blockquote>
+
+  <p>There are roughly 200-plus households identified as homeless in Hernando County alone, within a four-county Continuum of Care that counted 767 people in its most recent published point-in-time survey. Those are the people who got counted. The real number &mdash; people in cars, in the woods, on someone's couch, one paycheck from the street &mdash; is considerably higher.</p>
+  <p>If you're one of them: the resources above are real, they're free, and most of them are underused because people don't know they exist. The phone number nobody calls is the one that would have helped.</p>
+
+  <div class="pullquote">Make the calls. Get the ID. Get the shower. Take the $14/hour shift. Show up to the same place every week until people know your name.</div>
+
+  <p><strong>Verify everything before you travel.</strong> Small nonprofits change hours. Churches lose volunteers. Funding runs out mid-month. Ten minutes on the phone saves a wasted afternoon and a bus fare you can't spare.</p>
+
+  <div class="note">
+    <p><em>Compiled from the Hernando County Community Resource Guide (Florida Department of Health&ndash;Hernando, June 2025), the Pasco Sheriff's Office Community Resource Guide (2026), Hernando County Health &amp; Human Services, Mid Florida Homeless Coalition, CareerSource Pasco Hernando, Hernando County Transit and GoPasco, and organizational sources current as of September 2026. This guide is informational and is not legal, medical, or financial advice.</em></p>
+    <p><em>Free to reproduce, print, and distribute.</em></p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith writes on operational security, community resilience, and practical resources for Savvy Security LLC.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
