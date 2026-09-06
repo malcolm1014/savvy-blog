@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Built on Rock and Roll</title>
+<meta name="description" content="Twenty-six years, one moral compass, and a hacker from Hernando County — the story of Malcolm R. Smith, founder of Savvy Security LLC.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Built on Rock and Roll">
+<meta property="og:description" content="Twenty-six years, one moral compass, and a hacker from Hernando County. From a Sub7 trojan at age nine to founding Savvy Security LLC — the story of Malcolm R. Smith.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/built-on-rock-and-roll/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/built-on-rock-and-roll/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Built on Rock and Roll">
+<meta name="twitter:description" content="Twenty-six years, one moral compass, and a hacker from Hernando County — the story of Malcolm R. Smith, founder of Savvy Security LLC.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/built-on-rock-and-roll/assets/cover.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#e9dfc6; --fg:#241d12; --muted:#5c5138; --rule:#241d12;
+    --accent:#6b2712; --card:#f2ead4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#e9dfc6; --fg:#241d12; --muted:#5c5138; --rule:#241d12; --accent:#6b2712; --card:#f2ead4; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Old Standard TT',Georgia,'Times New Roman',serif;
+    line-height:1.6; font-size:18px;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(36,29,18,0.025) 0px, rgba(36,29,18,0.025) 1px, transparent 1px, transparent 3px),
+      radial-gradient(ellipse at center, rgba(255,252,240,0.5) 0%, rgba(120,100,60,0.18) 100%);
+  }
+  a{color:var(--accent);}
+
+  .backlink{ text-align:center; padding:14px 20px 0; font-family:'IM Fell English SC',serif; letter-spacing:.08em; font-size:.85rem; }
+  .backlink a{ text-decoration:none; border-bottom:1px solid var(--accent); }
+
+  .masthead{
+    max-width:900px; margin:18px auto 0; padding:10px 20px 14px; text-align:center;
+    border-top:4px double var(--rule); border-bottom:4px double var(--rule);
+  }
+  .masthead .pubname{
+    font-family:'Rye', serif; font-size:2.6rem; letter-spacing:.03em; margin:8px 0 4px; color:var(--fg);
+  }
+  .masthead .tagline{
+    font-family:'IM Fell English SC', serif; font-size:.82rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+  }
+  .masthead .dateline{
+    display:flex; justify-content:space-between; font-family:'IM Fell English SC', serif; font-size:.78rem;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:8px; padding-top:6px; border-top:1px solid var(--rule);
+  }
+
+  main{max-width:900px; margin:0 auto; padding:0 20px 90px;}
+
+  .headline-block{ text-align:center; padding:30px 0 20px; border-bottom:3px solid var(--rule); margin-bottom:30px; }
+  h1{
+    font-family:'Rye', serif; font-weight:400; font-size:3.1rem; line-height:1.05; margin:0 0 14px;
+    letter-spacing:.01em;
+  }
+  .dek{
+    font-family:'Old Standard TT', serif; font-style:italic; font-size:1.2rem; color:var(--fg); max-width:640px; margin:0 auto 14px;
+    line-height:1.45;
+  }
+  .byline{ font-family:'IM Fell English SC', serif; letter-spacing:.1em; text-transform:uppercase; font-size:.92rem; color:var(--muted); }
+
+  figure{ margin:34px 0; column-span:all; text-align:center; }
+  figure img{
+    max-width:520px; width:100%; display:inline-block; border:10px solid var(--card);
+    outline:1px solid var(--rule); box-shadow:0 2px 10px rgba(0,0,0,.25);
+    filter:sepia(.65) contrast(1.08) brightness(.96) saturate(.65);
+  }
+  figcaption{
+    font-family:'IM Fell English SC', serif; font-size:.85rem; letter-spacing:.03em; color:var(--muted);
+    max-width:520px; margin:12px auto 0; line-height:1.5;
+  }
+  figcaption .credit{ display:block; font-size:.72rem; margin-top:6px; letter-spacing:.02em; opacity:.85; }
+
+  .lede-figure{ column-span:all; }
+  .lede-figure img{ max-width:340px; }
+
+  .body-copy{ column-count:1; }
+  @media (min-width:720px){
+    .body-copy{ column-count:2; column-gap:44px; column-rule:1px solid var(--rule); }
+  }
+
+  h2{
+    font-family:'Rye', serif; font-weight:400; font-size:1.5rem; text-align:center; margin:44px 0 20px;
+    column-span:all; display:flex; align-items:center; gap:16px; color:var(--fg);
+  }
+  h2::before, h2::after{ content:""; flex:1; height:2px; background:var(--rule); }
+
+  p{ margin:0 0 16px; text-align:justify; hyphens:auto; }
+  .body-copy > p:first-of-type::first-letter{
+    font-family:'Rye', serif; font-size:3.6rem; float:left; line-height:.8; padding:6px 8px 0 0; color:var(--accent);
+  }
+
+  blockquote{
+    margin:20px 0; padding:14px 22px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    font-family:'Old Standard TT', serif; font-style:italic; text-align:center; column-span:all;
+  }
+  blockquote p{ margin:0; text-align:center; }
+  blockquote cite{ display:block; font-family:'IM Fell English SC', serif; font-style:normal; letter-spacing:.06em; text-transform:uppercase; font-size:.78rem; margin-top:10px; color:var(--muted); }
+
+  .pullquote{
+    column-span:all; margin:26px 0; padding:20px 10px; border-top:3px double var(--rule); border-bottom:3px double var(--rule);
+    font-family:'Rye', serif; font-size:1.55rem; text-align:center; line-height:1.3; color:var(--accent);
+  }
+
+  hr.ornament{ column-span:all; border:none; text-align:center; margin:34px 0; font-family:serif; font-size:1.3rem; color:var(--muted); }
+  hr.ornament::before{ content:"❧ — ❧"; letter-spacing:.5em; }
+
+  .endmark{ text-align:center; font-family:'Rye', serif; font-size:1.6rem; margin:40px 0 10px; color:var(--accent); }
+  .colophon{
+    max-width:900px; margin:0 auto; padding:20px 20px 10px; text-align:center; border-top:3px double var(--rule);
+    font-family:'IM Fell English SC', serif; font-size:.85rem; color:var(--muted); font-style:italic;
+  }
+  footer{ text-align:center; color:var(--muted); font-family:'IM Fell English SC', serif; letter-spacing:.15em; text-transform:uppercase; font-size:.78rem; padding:20px 20px 44px; }
+</style>
+</head>
+<body>
+
+<p class="backlink"><a href="../../">&larr; All articles</a></p>
+
+<div class="masthead">
+  <div class="tagline">Savvy Security LLC &middot; A Profile</div>
+  <div class="pubname">The Hernando Dispatch</div>
+  <div class="dateline"><span>Brooksville, Florida</span><span>Vol. I &mdash; No. 1</span><span>Price: Free &amp; Open Source</span></div>
+</div>
+
+<main>
+
+  <div class="headline-block">
+    <h1>Built on Rock and Roll</h1>
+    <p class="dek">Twenty-six years, one moral compass, and a hacker from Hernando County.</p>
+    <p class="byline">By Malcolm R. Smith &middot; Savvy Security LLC</p>
+  </div>
+
+  <figure class="lede-figure">
+    <img src="assets/01-portrait.jpg" alt="Portrait of Malcolm R. Smith">
+    <figcaption>Malcolm R. Smith, founder of Savvy Security LLC.</figcaption>
+  </figure>
+
+  <div class="body-copy">
+
+  <p>The last closing ceremony DerbyCon ever held was on September 8th, 2019, at the Marriott in downtown Louisville. Malcolm R. Smith almost missed it.</p>
+  <p>He'd fallen down an escalator the night before &mdash; blackout drunk, alone, and lucky. He woke up bloodied and bruised and made it into the hall just in time to hear the organizers tell a story about &ldquo;an anonymous person&rdquo; who'd taken a bad fall the night before.</p>
+  <p>The whole room laughed. The whole room knew.</p>
+  <p>Nine years earlier, DerbyCon had started as an idea in a Louisville pizza shop. In January of 2019 the founders announced the ninth year would be the last, citing a small but vocal group creating negativity and disruption in the community they'd built. So the laugh Smith walked into wasn't just any laugh. It was one of the last things that room ever did together &mdash; and he was the joke.</p>
+  <p>He tells the story on himself, first, every time. That's the tell. That's the whole man in one anecdote.</p>
+
+  <figure>
+    <img src="assets/02-louisville.jpg" alt="Downtown Louisville, Kentucky skyline">
+    <figcaption>Downtown Louisville, Kentucky &mdash; home of DerbyCon, and the room that laughed at him.<span class="credit">Photo: Ken Lund, Wikimedia Commons, CC BY-SA 2.0</span></figcaption>
+  </figure>
+
+  <h2>The Tools Came First. The Ethics Came Later.</h2>
+
+  <p>In 1999, mobman released Sub7 &mdash; a remote access trojan that let you reach across the internet and into a stranger's computer. Malcolm Smith was nine years old, and his older brother was a criminal black hat hacker.</p>
+  <p>The brother handed it down. He told him to use it sparingly, if at all. It didn't take.</p>
+  <p>&ldquo;I wasn't fully taught the implications of what I was doing,&rdquo; Smith says now. What he did with it was what a nine-year-old does with a loaded thing he doesn't understand: he opened chat boxes people couldn't close. He flipped their screens upside down. He made jokes. Mostly, the person on the other end just powered the machine off and walked away.</p>
+  <p>Nobody got hurt. He knows that, and he's checked the memory more than once.</p>
+  <p>But he was hooked. He learned IRC. He learned AIM. He joined message boards and mailing lists he never read, pirated music, sat in chatrooms talking about systems with people twice his age. He was a kid with access and no framework &mdash; the exact profile the industry now spends millions trying to catch early and redirect.</p>
+  <p>Nobody redirected him. He had to do it himself, and it took him the better part of two decades.</p>
+
+  <figure>
+    <img src="assets/03-gateway2000.jpg" alt="A vintage Gateway 2000 beige tower desktop computer with CRT monitor">
+    <figcaption>A Gateway 2000 desktop system, on display at the Living Computer Museum &mdash; period-correct for the home computer a nine-year-old would have had Sub7 running on in 1999.<span class="credit">Photo: MBlairMartin, Wikimedia Commons, CC BY-SA 4.0</span></figcaption>
+  </figure>
+
+  <h2>The House He Grew Up In</h2>
+
+  <p>Access wasn't the only thing that came early.</p>
+  <p>Smith grew up with mental abuse in the household, and he carried the shape of it out the door with him. He landed in an abusive relationship as a young man. The friends closest to him weren't friends. His circle was tearing him apart and he couldn't see it, because none of it registered as abnormal.</p>
+  <p>&ldquo;I felt like these relationships were normal,&rdquo; he says. &ldquo;And the problem was me.&rdquo;</p>
+  <p>This is the part of the story most people in security leave out of their conference bios. Smith puts it up front, because what happened next doesn't make sense without it.</p>
+
+  <h2>2011: A Dead Laptop and a Woman Named Sarah</h2>
+
+  <p>He was twenty-one, working to get into a shop called Computer Corrections. His boss, Sarah, handed him an Alienware gaming laptop. A customer had spilled soda across the keyboard and it wouldn't boot.</p>
+  <p>Fix it, she said, and you have the job.</p>
+  <p>He took the whole machine apart. Cleaned the motherboard down with isopropyl alcohol. Put it back together. It booted.</p>
+  <p>That's the moment the fifteen-year clock starts &mdash; and it's worth noting that when Smith says he's been in the security community fifteen years, he's counting from here, not from Sub7. Not from the day he got access. From the day somebody paid him to fix something.</p>
+  <p>Sarah has since sold the shop. She still lives in the county.</p>
+
+  <hr class="ornament">
+
+  <h2>2013: Tampa, Then Nashville</h2>
+
+  <p>On June 1st and 2nd, 2013, the first National Day of Civic Hacking ever held took place across more than a hundred locations nationwide. Tampa was one of them, and Malcolm Smith &mdash; twenty-three years old, first conference of his life &mdash; was in the room.</p>
+  <p>He hit it off with the organizer, who became a lifelong contact. That man told him to get himself to Nashville.</p>
+  <p>From October 23rd to 27th, 2013, at the Hotel Preston in Nashville, SkyDogCon ran its lockpick village, its badge hacking, its capture the flag, and its talks. Smith had turned twenty-four nineteen days earlier. He walked in and the conference's founder &mdash; known to everyone in the scene simply as SkyDog &mdash; took him under his wing on the spot.</p>
+  <p>SkyDog asked him a question nobody had asked him before: <em>what do you want to get out of being here?</em></p>
+  <p>Thirteen years later, that relationship is still running. Friends, outreach, small donations toward research, and &mdash; Smith is specific about this being the important part &mdash; emotional support and mentorship. What to do. What <em>not</em> to do. And above all: stay calm.</p>
+  <p>&ldquo;He told me I could do and be anything,&rdquo; Smith says.</p>
+  <p>The security community did a full 180 on him. It taught him he had worth, that he had a good moral compass, and that he was supposed to use it.</p>
+
+  <figure>
+    <img src="assets/05-nashville.jpg" alt="Nashville, Tennessee skyline">
+    <figcaption>Nashville, Tennessee &mdash; home of SkyDogCon, and the Hotel Preston, where a founder asked a twenty-four-year-old what he wanted.<span class="credit">Photo: Quintin Soloviev, Wikimedia Commons, CC BY 4.0</span></figcaption>
+  </figure>
+
+  <h2>The Dog Tags</h2>
+
+  <p>Somewhere in those years, two men Smith had known only as heroes became actual friends: Billy Gardner and Johnny Long.</p>
+  <p>One year Johnny Long couldn't make it to SkyDogCon. He sent dog tags instead, made for Smith, delivered in his absence. Smith wears them everywhere.</p>
+
+  <figure>
+    <img src="assets/04-dogtags.jpg" alt="A pair of military-style dog tags on a chain">
+    <figcaption>Dog tags &mdash; the kind Johnny Long had made for Smith the year he couldn't make it to SkyDogCon. Smith still wears them.<span class="credit">Photo: T.Voekler, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <p>There's a symmetry there that Smith didn't clock until it was pointed out to him. Johnny Long wrote <em>Google Hacking for Penetration Testers</em> &mdash; he is, more or less, the origin point of &ldquo;Google Fu&rdquo; as a serious discipline in security. And Smith's entire method, the thing he's done for twenty-six years, is exactly that: read ferociously, query relentlessly, string information together until it becomes an answer.</p>
+  <p>He wears the tags of the man who wrote the book on the only technique he ever really needed.</p>
+
+  <h2>He Was Never a Programmer. He Says So First.</h2>
+
+  <p>&ldquo;I was always a script kiddie, a repair technician,&rdquo; Smith says. &ldquo;But I knew so much.&rdquo;</p>
+  <p>He knew how systems worked. How hardware worked. How scripts worked and how to run them. What he never did was write them &mdash; and he's clear-eyed about why.</p>
+  <p>He was close enough to the community that by the time he needed a tool, somebody had already built it. He'd just use it.</p>
+  <p>Ask him whether the industry gatekept programming from him and he rejects the premise outright. &ldquo;Nothing was gate kept from me. It was always there, based on my ability to read and learn the material. It was a matter of convenience and being lazy. I'm notorious for loving both.&rdquo;</p>
+  <p>That's an unusually honest answer from a man writing his own profile.</p>
+
+  <h2>Thirty-Four, and the Tool Arrives</h2>
+
+  <p>Then AI hit, and Smith was thirty-four.</p>
+  <p>For a man whose whole craft was querying, prompting, and synthesizing &mdash; twenty-six years of Google Fu with no compiler in sight &mdash; it was the perfect tool arriving at the exact moment the method was ready for it.</p>
+  <p>He's precise about what changed, and it isn't what you'd expect. &ldquo;It's not so much about what I built, but what I discussed,&rdquo; he says. Through those conversations he builds corpora of data and relational queries that make his tools robust and concise. Research, development, debugging, cloud, marketing, sales, management &mdash; one man carrying every function.</p>
+  <p>That's what he means when he calls himself CISO of Savvy Security. Not a title over a team. A description of the range.</p>
+
+  <h2>What He's Actually Shipped</h2>
+
+  <p>Two things are live right now, both free, both open source, both with Savvy Security's name on them.</p>
+  <p><strong>The US Cyber Resource Map</strong> puts over 5,000 US cybersecurity community resources on one interactive map across five regions &mdash; hacker cons, DEF CON groups, 2600 meetings, OWASP chapters, hackerspaces, ham radio clubs, cyber schools, library makerspaces, youth STEM programs, certification testing sites, and government hubs. It's built for students and lifelong learners trying to find their people. Florida gets its own deep-dive.</p>
+  <p>It is, in other words, the map that nine-year-old Malcolm Smith did not have.</p>
+  <p><strong>Path to Freedom</strong> maps homelessness and poverty resources across Florida, county by county &mdash; food pantries, shelters, clothing and thrift vouchers, pet food, transportation, clinics and mental health, free computers and workspace, shower access, and the coordinating agencies that tie them together. It pulls live job listings through CareerOneStop. And it does something most resource maps don't bother to do: where a shelter's address is deliberately unpublished to protect the people inside it, the map says so and gives you the hotline instead.</p>
+  <p>That's a security professional's instinct applied to a humanitarian problem. Threat model first.</p>
+
+  <h2>The Bus App</h2>
+
+  <p>The one in progress is a routing app covering Hernando, Pasco, and Citrus counties.</p>
+  <p>Right now Citrus and Hernando have no reliable app at all. Pasco has one, and it covers only Pasco &mdash; which is not much use to anyone whose life crosses a county line, which is most people's lives.</p>
+  <p>Smith is building the thing that links all three. For free.</p>
+  <p>Ask him who it's for and he doesn't say &ldquo;users.&rdquo; He says: the shift worker. The elderly. The impoverished. The guy without a car. Kids trying to get to the library, or the parks, or the springs.</p>
+  <p>A man pitching universities and federal research partners, quietly building free transit infrastructure for his neighbors, because nobody else was going to.</p>
+
+  <h2>What Savvy Security Is</h2>
+
+  <p>Savvy Security LLC is a research and development firm operating as a private think tank on United States government problems. It is Malcolm Smith and a network of contacts across the security and intelligence communities who will not be named.</p>
+  <p>The current work is pending. Proposals are in motion, and he's closing in &mdash; working alongside local universities and research firms. He'll be under NDA soon enough, and he isn't going to say more than that.</p>
+
+  <hr class="ornament">
+
+  <h2>The Brother</h2>
+
+  <p>He's alive. He's suffering from addiction and paranoid schizophrenia. He believes the system is out to get him, and Smith &mdash; who does not sugarcoat this &mdash; thinks it probably is, because his brother was a notorious criminal and a womanizer who has never stopped.</p>
+  <p>Smith would call the law on him tomorrow if he had proof. He says so plainly and without pleasure.</p>
+  <p>But that isn't where he leaves it. Everything Smith built, he built in the opposite direction from the man who handed him Sub7 in 1999 &mdash; same starting tools, same starting knowledge, opposite compass. The work is public. Anyone can find it.</p>
+  <p>&ldquo;I hope to God he sees what you can do,&rdquo; Smith says, &ldquo;when you get right with Christ and the LAW.&rdquo;</p>
+  <p>That's not hatred. That's a man who still wants his brother back and has stopped expecting it.</p>
+
+  <h2>The Part He Almost Didn't Say</h2>
+
+  <p>Late in a long conversation, buried in a paragraph about management philosophy, Malcolm Smith said this:</p>
+
+  <div class="pullquote">&ldquo;I almost drove away everyone.&rdquo;</div>
+
+  <p>Colleagues. Friends. Family. The woman who is going to be his wife.</p>
+  <p>That's the honest center of this whole story, and it deserves to be said out loud: a kid raised in an abusive house, who found his worth in a community of hackers at twenty-three, did not come out of it repaired. He came out of it <em>working on it</em>. Still is.</p>
+  <p>What security taught him, he says, was to forgive and forget. To take on accountability. To move forward and build relationships with the right people. And to stop keeping score.</p>
+  <p>It shows up in how he runs a team. &ldquo;The worst professional mistake you can make is not seeing your team for what they're worth,&rdquo; he says. People's problems are the company's problems, and they're allowed to bring them to work, because that's human. Tell him what's going on and you'll work through it together.</p>
+  <p>He'll also tell you where he landed on the drinking. Have a drink. Have a good, safe time. Know your limit. Blackout is never the move, and don't live with stress.</p>
+  <p>Then he says the thing that ties it together, and it's the closest he comes to a philosophy:</p>
+
+  <blockquote><p>&ldquo;Community problems are my problems. And when I fix those, I fix myself.&rdquo;</p></blockquote>
+
+  <figure>
+    <img src="assets/07-with-family.jpg" alt="Malcolm R. Smith with a family member">
+    <figcaption>Malcolm R. Smith. &ldquo;Community problems are my problems. And when I fix those, I fix myself.&rdquo;</figcaption>
+  </figure>
+
+  <h2>The Gulf Coast</h2>
+
+  <p>He finally feels like a genuine node on the Gulf Coast of Florida &mdash; one of the most prolific white hats to come out of Hernando County.</p>
+  <p>It took twenty-six years. He was handed the tools at nine and the ethics came later, and the whole arc of his life has been getting them into the right order. There was a brother who showed him exactly what not to be. A boss who bet a job on a soda-soaked laptop. A conference organizer who asked him what he wanted. A hero who sent dog tags when he couldn't come himself. A room in Louisville that laughed at him and was still, unmistakably, <em>his room</em>.</p>
+  <p>And what he'd want you to take from it is not that he's exceptional. It's the opposite.</p>
+  <p>Be consistent. Be persistent. Keep your moral compass pointed the right way and use it. Fix what's broken in front of you, especially when nobody's paying you to.</p>
+  <p>Anyone can make it. He'd know.</p>
+
+  <div class="pullquote">This city was built on rock and roll.</div>
+
+  <figure>
+    <img src="assets/06-hernando-beach.jpg" alt="Aerial view of Hernando Beach, Florida">
+    <figcaption>Hernando Beach, Florida, on the Gulf Coast &mdash; the Nature Coast Smith calls home.<span class="credit">Photo: Wknight94, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  </div><!-- /body-copy -->
+
+  <p class="endmark">&#10022;</p>
+  <p class="colophon"><em>Malcolm R. Smith is the founder of Savvy Security LLC. The US Cyber Resource Map and Path to Freedom are free and open source at malcolm1014.github.io.</em></p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
