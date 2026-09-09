@@ -188,17 +188,17 @@
 
     <p>General relativity says proper time depends on the metric and your worldline — gravitational potential and velocity. That's it. There is no <code>T</code> term in <code>g_μν</code>. A hot clock and a cold clock at the same potential, moving at the same velocity, accumulate <em>identical</em> proper time. Temperature does not slow time down. Full stop.</p>
 
-    <p>Temperature does gravitate, because in GR every form of energy gravitates — heat lands in the stress-energy tensor, and Tolman worked this out in 1930. But the magnitude is a joke: cooling a solid from room temperature to absolute zero changes its gravitational mass by roughly one part in 10¹⁴. Most of what a "cold" object weighs was never thermal. Copper's conduction electrons sit in a degenerate Fermi sea at about 4.2 eV per electron; the entire lattice thermal energy at 300 K is 0.078 eV per atom. Cooling to zero removes about 2% of the internal kinetic energy and leaves the rest — degeneracy energy, binding energy, zero-point motion — untouched and still gravitating.</p>
+    <p>Temperature does gravitate, because in GR every form of energy gravitates — heat lands in the stress-energy tensor, and Tolman worked this out in 1930. But the magnitude is a joke: cooling a solid from room temperature to absolute zero changes its gravitational mass by roughly one part in 10<sup>14</sup>. Most of what a "cold" object weighs was never thermal. Copper's conduction electrons sit in a degenerate Fermi sea at about 4.2 eV per electron; the entire lattice thermal energy at 300 K is 0.078 eV per atom. Cooling to zero removes about 2% of the internal kinetic energy and leaves the rest — degeneracy energy, binding energy, zero-point motion — untouched and still gravitating.</p>
 
     <p>So the spec is boring. Cold things fall the same. Cold clocks tick the same.</p>
 
     <p>Then you build one.</p>
 
-    <h2 class="sec"><span class="idx">[02]</span><span class="txt">The Implementation Leaks, and It Leaks at 5×10⁻¹⁵</span></h2>
+    <h2 class="sec"><span class="idx">[02]</span><span class="txt">The Implementation Leaks, and It Leaks at 5×10<sup>-15</sup></span></h2>
 
     <p>Here's the part I think our community should actually care about.</p>
 
-    <p>The best clocks on Earth are strontium and ytterbium atoms held in optical lattices. Their dominant systematic error — the single largest thing standing between metrologists and better numbers — is the <strong>blackbody radiation Stark shift</strong>. Room-temperature photons from the vacuum chamber walls perturb the atomic energy levels. The shift scales as <code>T⁴</code>, and for strontium at 300 K it's about −2.13 Hz, or 5 parts in 10¹⁵.</p>
+    <p>The best clocks on Earth are strontium and ytterbium atoms held in optical lattices. Their dominant systematic error — the single largest thing standing between metrologists and better numbers — is the <strong>blackbody radiation Stark shift</strong>. Room-temperature photons from the vacuum chamber walls perturb the atomic energy levels. The shift scales as <code>T<sup>4</sup></code>, and for strontium at 300 K it's about −2.13 Hz, or 5 parts in 10<sup>15</sup>.</p>
 
     <figure class="fig">
       <img src="assets/sr-lattice-clock.jpg" alt="JILA's strontium optical lattice clock apparatus in the lab" loading="lazy">
@@ -212,7 +212,7 @@
 
     <p>Sit with that. Physics says temperature has nothing to do with the rate of time. The <em>device that measures time</em> disagrees by five parts in a quadrillion, purely because it's warm.</p>
 
-    <p>For scale: 5×10⁻¹⁵ is the gravitational redshift you'd get by moving the clock about 46 meters up out of Earth's gravity well. The temperature of the room is masquerading as tens of meters of spacetime curvature.</p>
+    <p>For scale: 5×10<sup>-15</sup> is the gravitational redshift you'd get by moving the clock about 46 meters up out of Earth's gravity well. The temperature of the room is masquerading as tens of meters of spacetime curvature.</p>
 
     <p>This is a side channel. Not a metaphor for one — structurally the same thing. The abstraction (proper time) is temperature-invariant. The implementation (an atom in a metal box) is not, because the implementation is made of matter that couples to the environment through channels the abstraction never modeled. If you've ever watched a formally constant-time comparison leak through cache timing on real silicon, you already understand the entire problem.</p>
 
@@ -223,8 +223,7 @@
             <stop offset="0%" stop-color="#6ee7ff" stop-opacity="0.35"/><stop offset="100%" stop-color="#6ee7ff" stop-opacity="0.95"/>
           </linearGradient>
         </defs>
-        <text x="30" y="34" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2" fill="#39ff8f" font-weight="700">FIGURE 2</text>
-        <text x="30" y="58" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#dce8e4" font-weight="600">Blackbody Stark shift, uncooled vs. hardened (log scale)</text>
+        <text x="30" y="42" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#dce8e4" font-weight="600">Blackbody Stark shift, uncooled vs. hardened (log scale)</text>
 
         <!-- axis -->
         <line x1="260" y1="90" x2="260" y2="360" stroke="#1c2723" stroke-width="1"/>
@@ -247,15 +246,15 @@
         <!-- bar 1: Sr room temp, 5e-15 -> x ~ 358+ (log10(5e-15) placement) -->
         <text x="270" y="118" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Sr, room-temperature vacuum chamber</text>
         <rect x="260" y="128" width="103" height="26" fill="url(#barA)"/>
-        <text x="373" y="146" font-family="JetBrains Mono, monospace" font-size="12" fill="#6ee7ff">5×10⁻¹⁵</text>
+        <text x="373" y="146" font-family="JetBrains Mono, monospace" font-size="12" fill="#6ee7ff">5&#215;10<tspan baseline-shift="super" font-size="70%">-15</tspan></text>
 
         <text x="270" y="198" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Sr, cryogenic shield at 95 K (Katori group)</text>
         <rect x="260" y="208" width="313" height="26" fill="url(#barA)"/>
-        <text x="583" y="226" font-family="JetBrains Mono, monospace" font-size="12" fill="#6ee7ff">7.2×10⁻¹⁸</text>
+        <text x="583" y="226" font-family="JetBrains Mono, monospace" font-size="12" fill="#6ee7ff">7.2&#215;10<tspan baseline-shift="super" font-size="70%">-18</tspan></text>
 
-        <text x="270" y="278" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Al⁺ quantum-logic clock (different primitive)</text>
+        <text x="270" y="278" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Al<tspan baseline-shift="super" font-size="70%">+</tspan> quantum-logic clock (different primitive)</text>
         <rect x="260" y="288" width="391" height="26" fill="#39ff8f" fill-opacity="0.85"/>
-        <text x="661" y="306" font-family="JetBrains Mono, monospace" font-size="12" fill="#39ff8f">9.4×10⁻¹⁹</text>
+        <text x="661" y="306" font-family="JetBrains Mono, monospace" font-size="12" fill="#39ff8f">9.4&#215;10<tspan baseline-shift="super" font-size="70%">-19</tspan></text>
 
         <text x="260" y="345" font-family="IBM Plex Sans" font-size="12.5" fill="#7d918b">Cyan: same primitive, shielded harder. Green: different primitive, not vulnerable to begin with.</text>
       </svg>
@@ -269,9 +268,9 @@
     <p>And the mitigations are <em>our</em> mitigations:</p>
 
     <ul>
-      <li><strong>Shield it.</strong> Katori's group ran strontium in a cryogenic enclosure at 95 K, dropping the wall contribution to −21.55 mHz and the total systematic to 7.2×10⁻¹⁸. A 2025 NIST cryogenic ytterbium clock got the BBR Stark uncertainty to 1.7×10⁻²⁰ using a dynamically actuated radiation shield — roughly 40× better than any prior lattice clock. That's defense in depth applied to photons.</li>
+      <li><strong>Shield it.</strong> Katori's group ran strontium in a cryogenic enclosure at 95 K, dropping the wall contribution to −21.55 mHz and the total systematic to 7.2×10<sup>-18</sup>. A 2025 NIST cryogenic ytterbium clock got the BBR Stark uncertainty to 1.7×10<sup>-20</sup> using a dynamically actuated radiation shield — roughly 40× better than any prior lattice clock. That's defense in depth applied to photons.</li>
       <li><strong>Characterize the leak precisely.</strong> Low-emissivity vacuum-compatible materials, in-vacuum thermometry, and measured rather than modeled polarizabilities. You can't shield what you haven't profiled.</li>
-      <li><strong>Or pick a primitive that isn't vulnerable.</strong> The aluminum-ion quantum-logic clock has a tiny differential polarizability, so BBR barely touches it. Its total systematic is 9.4×10⁻¹⁹ and it's dominated by ion <em>motion</em>, not radiation. They didn't harden the implementation; they chose a different algorithm with better constant-time properties. That's the whole argument for constant-time-by-construction over patched-in mitigation, playing out in atomic physics.</li>
+      <li><strong>Or pick a primitive that isn't vulnerable.</strong> The aluminum-ion quantum-logic clock has a tiny differential polarizability, so BBR barely touches it. Its total systematic is 9.4×10<sup>-19</sup> and it's dominated by ion <em>motion</em>, not radiation. They didn't harden the implementation; they chose a different algorithm with better constant-time properties. That's the whole argument for constant-time-by-construction over patched-in mitigation, playing out in atomic physics.</li>
     </ul>
 
     <figure class="fig">
@@ -314,11 +313,11 @@
 
     <p>At 38 pK, the atoms are still moving. Zero-point motion isn't thermal and doesn't cool. Helium famously refuses to freeze at absolute zero under its own vapor pressure for exactly this reason — zero-point energy keeps it liquid until you squeeze it past ~25 bar.</p>
 
-    <p>The clock people have a hard number for this. The aluminum-ion clock, with 3D near-ground-state sideband cooling, still carries a secular-motion time dilation of −1.9(1)×10⁻¹⁸. That's not a cooling failure. That's the floor. No engineering removes it, because it's what the ground state <em>is</em>.</p>
+    <p>The clock people have a hard number for this. The aluminum-ion clock, with 3D near-ground-state sideband cooling, still carries a secular-motion time dilation of −1.9(1)×10<sup>-18</sup>. That's not a cooling failure. That's the floor. No engineering removes it, because it's what the ground state <em>is</em>.</p>
 
     <div class="callout sec">
       <span class="lbl">Security analogy</span>
-      I find this genuinely clarifying rather than depressing, and here's why: <strong>we already monetize this floor.</strong> Hardware entropy sources harvest irreducible quantum and thermal noise precisely because it can't be removed or predicted away. The same fact that caps clock precision at 10⁻¹⁸ is the fact that lets you seed a CSPRNG from physics instead of from <code>time()</code>. There is no zero-entropy state, no perfectly quiet channel, no truly silent system — and half of applied cryptography is built on being glad about it.
+      I find this genuinely clarifying rather than depressing, and here's why: <strong>we already monetize this floor.</strong> Hardware entropy sources harvest irreducible quantum and thermal noise precisely because it can't be removed or predicted away. The same fact that caps clock precision at 10<sup>-18</sup> is the fact that lets you seed a CSPRNG from physics instead of from <code>time()</code>. There is no zero-entropy state, no perfectly quiet channel, no truly silent system — and half of applied cryptography is built on being glad about it.
     </div>
 
     <figure class="fig">
@@ -395,8 +394,7 @@
 
     <figure class="fig">
       <svg viewBox="0 0 900 420" role="img" aria-label="A curve on log-log axes showing achievable temperature decreasing as an inverse power of cooling time, approaching but never reaching zero, analogous to a cryptographic work-factor cost curve">
-        <text x="30" y="34" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2" fill="#39ff8f" font-weight="700">FIGURE 10</text>
-        <text x="30" y="58" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#dce8e4" font-weight="600">Unattainable temperature as a work factor</text>
+        <text x="30" y="42" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#dce8e4" font-weight="600">Unattainable temperature as a work factor</text>
 
         <line x1="90" y1="80" x2="90" y2="360" stroke="#4d5f5a" stroke-width="1.5"/>
         <line x1="90" y1="360" x2="850" y2="360" stroke="#4d5f5a" stroke-width="1.5"/>
@@ -445,11 +443,11 @@
 
     <p>Here's the part that made me most uncomfortable, and it's the one I'd most want this audience to sit with.</p>
 
-    <p>There is a body of published work — A. Dmitriev and collaborators, plus some others — reporting that heated objects <em>weigh less</em>, with a negative temperature coefficient of gravity around 10⁻⁶ per kelvin. Multiple papers. On arXiv. With plots, error analysis, cross-citations, and speculation that this might explain the persistent scatter in measurements of Newton's constant G.</p>
+    <p>There is a body of published work — A. Dmitriev and collaborators, plus some others — reporting that heated objects <em>weigh less</em>, with a negative temperature coefficient of gravity around 10<sup>-6</sup> per kelvin. Multiple papers. On arXiv. With plots, error analysis, cross-citations, and speculation that this might explain the persistent scatter in measurements of Newton's constant G.</p>
 
-    <p>Relativity predicts about 10⁻¹⁴. They're claiming an effect eight orders of magnitude larger.</p>
+    <p>Relativity predicts about 10<sup>-14</sup>. They're claiming an effect eight orders of magnitude larger.</p>
 
-    <p>In 2020, Tajmar, Hentsch and Hutsch ran the controlled version: analytical balance in vacuum, plus a thermogravimetric balance in argon, copper and platinum and alumina, room temperature to over 1000 °C. Result: a 3σ limit below 1.8×10⁻⁸, ruling out every claimed anomaly by more than two orders of magnitude. The anomalies were almost certainly convection — hot samples weighed in open air, thermal plumes rising off them, buoyancy from the heated gas column. Fluid dynamics wearing a gravity costume.</p>
+    <p>In 2020, Tajmar, Hentsch and Hutsch ran the controlled version: analytical balance in vacuum, plus a thermogravimetric balance in argon, copper and platinum and alumina, room temperature to over 1000 °C. Result: a 3σ limit below 1.8×10<sup>-8</sup>, ruling out every claimed anomaly by more than two orders of magnitude. The anomalies were almost certainly convection — hot samples weighed in open air, thermal plumes rising off them, buoyancy from the heated gas column. Fluid dynamics wearing a gravity costume.</p>
 
     <div class="callout">
       <span class="lbl">Why this matters to us</span>
@@ -522,11 +520,11 @@
     <div class="tablewrap">
       <table class="dtable">
         <tr><th>The claim</th><th>The reality</th></tr>
-        <tr><td>Cooling changes how things gravitate</td><td>Yes, by ~10⁻¹⁴. Bounded experimentally at 1.8×10⁻⁸. Six orders from detectability.</td></tr>
+        <tr><td>Cooling changes how things gravitate</td><td>Yes, by ~10<sup>-14</sup>. Bounded experimentally at 1.8×10<sup>-8</sup>. Six orders from detectability.</td></tr>
         <tr><td>Cooling changes how time passes</td><td>No. Temperature isn't in the metric.</td></tr>
-        <tr><td>Cooling changes what a clock <em>reads</em></td><td>Yes, ~5×10⁻¹⁵ for Sr — pure side channel, mitigated to 1.7×10⁻²⁰ cryogenically.</td></tr>
+        <tr><td>Cooling changes what a clock <em>reads</em></td><td>Yes, ~5×10<sup>-15</sup> for Sr — pure side channel, mitigated to 1.7×10<sup>-20</sup> cryogenically.</td></tr>
         <tr><td>You can reach absolute zero</td><td>No. Cost scales as an inverse power of time. It's a work factor.</td></tr>
-        <tr><td>At absolute zero, nothing moves</td><td>Expectation values are static. Zero-point fluctuations aren't. The floor is −1.9×10⁻¹⁸ and it's permanent.</td></tr>
+        <tr><td>At absolute zero, nothing moves</td><td>Expectation values are static. Zero-point fluctuations aren't. The floor is −1.9×10<sup>-18</sup> and it's permanent.</td></tr>
         <tr><td>At absolute zero, time stops</td><td>Proper time: no. <em>Thermal</em> time, under a contested hypothesis: maybe, and nobody's checked properly.</td></tr>
       </table>
     </div>
