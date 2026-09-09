@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Absolute Zero Is a Threat Model</title>
+<meta name="description" content="Absolute zero is the closest thing physics has to our concept of perfect security: a precisely defined, provably unreachable asymptote whose real value is that the cost of approaching it is quantifiable. A tour through atomic clocks, black holes, and entropy floors — read as a security engineer would read them.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Absolute Zero Is a Threat Model">
+<meta property="og:description" content="A hot clock and a cold clock tick at identical rates — general relativity is clear on that. So why does the actual device leak the temperature of the room into the definition of a second? A physicist's tour through side channels, broken 36-year-old proofs, and the entropy floor you can't design away — read the way a security engineer reads everything.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/absolute-zero-is-a-threat-model/assets/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/absolute-zero-is-a-threat-model/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Absolute Zero Is a Threat Model">
+<meta name="twitter:description" content="Perfect security has four properties: precisely defined, organizes a whole field, the cost of approaching it is quantified, and it cannot be reached. Absolute zero has all four. Here's what a security engineer learns from the coldest experiments ever run.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/absolute-zero-is-a-threat-model/assets/cover.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0a0f0d; --panel:#0f1613; --panel2:#0d1310;
+    --ink:#dce8e4; --dim:#7d918b; --dimmer:#4d5f5a;
+    --cyan:#6ee7ff; --cyan-dim:#1c3a42; --cyan-glow:rgba(110,231,255,.18);
+    --green:#39ff8f; --green-dim:#173226; --green-glow:rgba(57,255,143,.16);
+    --rule:#1c2723; --hair:#16201c;
+    --mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+    --sans:'IBM Plex Sans',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);}
+  body{
+    color:var(--ink); font-family:var(--sans); line-height:1.7;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    background-image:
+      radial-gradient(circle, rgba(110,231,255,.10) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position: -4px -4px;
+  }
+  a{color:var(--cyan); text-decoration:none; border-bottom:1px solid var(--cyan-dim);}
+  a:hover{color:var(--green); border-bottom-color:var(--green-dim);}
+  code, .k{font-family:var(--mono);}
+
+  /* ---- corner-bracket "instrument readout" frame ---- */
+  .bracket-frame{position:relative;}
+  .bracket-frame::before, .bracket-frame::after,
+  .bracket-frame .bl::before, .bracket-frame .bl::after{
+    content:""; position:absolute; width:26px; height:26px;
+    border-color:var(--cyan); border-style:solid; opacity:.85;
+  }
+  .bracket-frame::before{ top:-1px; left:-1px; border-width:2px 0 0 2px; }
+  .bracket-frame::after{ top:-1px; right:-1px; border-width:2px 2px 0 0; }
+  .bracket-frame .bl::before{ bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+  .bracket-frame .bl::after{ bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+
+  .hero{
+    background:#05080a url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+    border-bottom:1px solid var(--rule);
+  }
+
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+
+  header.masthead{
+    padding:34px 0 26px; border-bottom:1px solid var(--rule); margin-bottom:44px;
+  }
+  .topline{
+    display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--dim); margin-bottom:22px;
+  }
+  .topline .tag{color:var(--green);}
+  h1.title{
+    font-family:var(--mono); font-weight:800; font-size:44px; line-height:1.08;
+    letter-spacing:-.01em; margin:0 0 14px; color:var(--ink);
+  }
+  h1.title .g{color:var(--cyan);}
+  p.dek{
+    font-size:18px; line-height:1.6; color:var(--dim); font-style:italic; max-width:66ch; margin:0 0 20px;
+  }
+  .byline{
+    font-family:var(--mono); font-size:12px; color:var(--dimmer); letter-spacing:.05em;
+  }
+  .byline b{color:var(--dim); font-weight:600;}
+
+  .back-link{
+    display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--green); margin:26px 0 0; border-bottom:none;
+  }
+  .back-link:before{content:"< ";}
+
+  /* section header, terminal-prompt style */
+  h2.sec{
+    font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.02em;
+    color:var(--ink); margin:64px 0 6px; padding-bottom:14px; border-bottom:1px solid var(--rule);
+    display:flex; align-items:baseline; gap:12px;
+  }
+  h2.sec .idx{ color:var(--green); font-weight:800; }
+  h2.sec .txt{ font-size:26px; letter-spacing:-.01em; }
+  p.subhead{ font-family:var(--mono); font-size:13px; color:var(--dim); margin:0 0 22px; }
+
+  article p{ font-size:17.5px; line-height:1.75; margin:0 0 18px; color:var(--ink); }
+  article ul, article ol{ font-size:17.5px; line-height:1.7; padding-left:22px; margin:0 0 20px; }
+  article li{ margin-bottom:10px; }
+  article strong{ color:#fff; font-weight:700; }
+  article em{ color:var(--dim); }
+
+  .callout{
+    background:var(--panel); border-left:3px solid var(--cyan); padding:18px 24px;
+    margin:26px 0; font-size:17px; line-height:1.65;
+  }
+  .callout.sec{ border-left-color:var(--green); }
+  .callout .lbl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--cyan); display:block; margin-bottom:8px; font-weight:700; }
+  .callout.sec .lbl{ color:var(--green); }
+
+  /* figures */
+  figure.fig{ margin:52px 0; padding:22px; background:var(--panel2); border:1px solid var(--rule); }
+  figure.fig img{ width:100%; display:block; border:1px solid var(--hair); }
+  figure.fig svg{ width:100%; height:auto; display:block; background:#070b09; border:1px solid var(--hair); }
+  figure.fig figcaption{ margin-top:16px; }
+  .fig-num{ font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--green); font-weight:700; display:block; margin-bottom:8px; }
+  .fig-title{ font-size:16.5px; font-weight:600; color:var(--ink); margin-bottom:8px; line-height:1.4; }
+  .fig-body{ font-size:14.5px; line-height:1.6; color:var(--dim); }
+  .fig-credit{ font-family:var(--mono); font-size:11.5px; color:var(--dimmer); margin-top:10px; display:block; }
+  .fig-credit a{ color:var(--dimmer); border-bottom-color:var(--hair); }
+
+  .tablewrap{ overflow-x:auto; margin:28px 0; }
+  table.dtable{ width:100%; border-collapse:collapse; font-size:14.5px; min-width:640px; }
+  table.dtable th, table.dtable td{ border:1px solid var(--rule); padding:12px 16px; text-align:left; vertical-align:top; }
+  table.dtable th{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--green); background:var(--panel); font-weight:700; }
+  table.dtable td{ color:var(--ink); }
+  table.dtable td:first-child{ color:var(--dim); font-family:var(--mono); font-size:13px; }
+
+  .refs{
+    margin-top:70px; padding:26px; background:var(--panel2); border:1px solid var(--rule);
+    font-family:var(--mono); font-size:12.5px; line-height:1.9; color:var(--dim);
+  }
+  .refs .lbl{ display:block; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--cyan); margin-bottom:12px; font-weight:700; }
+
+  footer.site{ color:var(--dimmer); font-size:12.5px; text-align:center; padding:50px 20px 60px; font-family:var(--mono); letter-spacing:.05em; }
+
+  @media (max-width:640px){
+    h1.title{ font-size:32px; }
+    h2.sec .txt{ font-size:21px; }
+    article p, article ul, article ol{ font-size:16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Absolute Zero Is a Threat Model — cover graphic of a thermometer collapsing into circuit traces on a dark terminal background"></div>
+
+<div class="wrap">
+
+  <a class="back-link" href="../../">All articles</a>
+
+  <header class="masthead bracket-frame">
+    <div class="bl"></div>
+    <div class="topline">
+      <span><span class="tag">$</span> Savvy Security LLC &nbsp;·&nbsp; Physics-as-Threat-Model Series</span>
+      <span>Field Notes &nbsp;·&nbsp; September 2026</span>
+    </div>
+    <h1 class="title">Absolute Zero Is <span class="g">a Threat Model</span></h1>
+    <p class="dek">Or: what the coldest experiments ever run have to say about side channels, assumption auditing, and the asymptotes we build careers around.</p>
+    <div class="byline"><b>By Malcolm R. Smith</b> &nbsp;·&nbsp; Savvy Security LLC</div>
+  </header>
+
+  <article>
+
+    <p>Someone in a security Slack I'm in asked, half-joking, whether cooling a machine to absolute zero would stop its clock. The answer is no, and the reason it's no turns out to be more useful to us than a yes would have been.</p>
+
+    <p>I've spent a while in the primary literature on this — relativistic thermodynamics, optical clock metrology, near-extremal black hole thermodynamics — and I came away with a conviction I didn't expect: <strong>absolute zero is the closest thing physics has to our concept of perfect security.</strong> It's a rigorously defined asymptote. It organizes an entire field. It is provably unreachable. And its actual practical value isn't the destination — it's that the <em>cost of approaching it</em> is quantifiable.</p>
+
+    <p>Everything interesting about it lives in the same three places everything interesting in our field lives: the gap between spec and implementation, the assumptions nobody re-audited, and the noise floor you can't design away.</p>
+
+    <h2 class="sec"><span class="idx">[01]</span><span class="txt">The Spec Is Clean. Temperature Isn't in the Metric.</span></h2>
+
+    <p>Start with the thing that gets misreported constantly, because you'll hear it again and it's wrong.</p>
+
+    <p>General relativity says proper time depends on the metric and your worldline — gravitational potential and velocity. That's it. There is no <code>T</code> term in <code>g_μν</code>. A hot clock and a cold clock at the same potential, moving at the same velocity, accumulate <em>identical</em> proper time. Temperature does not slow time down. Full stop.</p>
+
+    <p>Temperature does gravitate, because in GR every form of energy gravitates — heat lands in the stress-energy tensor, and Tolman worked this out in 1930. But the magnitude is a joke: cooling a solid from room temperature to absolute zero changes its gravitational mass by roughly one part in 10¹⁴. Most of what a "cold" object weighs was never thermal. Copper's conduction electrons sit in a degenerate Fermi sea at about 4.2 eV per electron; the entire lattice thermal energy at 300 K is 0.078 eV per atom. Cooling to zero removes about 2% of the internal kinetic energy and leaves the rest — degeneracy energy, binding energy, zero-point motion — untouched and still gravitating.</p>
+
+    <p>So the spec is boring. Cold things fall the same. Cold clocks tick the same.</p>
+
+    <p>Then you build one.</p>
+
+    <h2 class="sec"><span class="idx">[02]</span><span class="txt">The Implementation Leaks, and It Leaks at 5×10⁻¹⁵</span></h2>
+
+    <p>Here's the part I think our community should actually care about.</p>
+
+    <p>The best clocks on Earth are strontium and ytterbium atoms held in optical lattices. Their dominant systematic error — the single largest thing standing between metrologists and better numbers — is the <strong>blackbody radiation Stark shift</strong>. Room-temperature photons from the vacuum chamber walls perturb the atomic energy levels. The shift scales as <code>T⁴</code>, and for strontium at 300 K it's about −2.13 Hz, or 5 parts in 10¹⁵.</p>
+
+    <figure class="fig">
+      <img src="assets/sr-lattice-clock.jpg" alt="JILA's strontium optical lattice clock apparatus in the lab" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 1</span>
+        <div class="fig-title">The instrument that leaks: a strontium optical lattice clock.</div>
+        <div class="fig-body">This is the class of device carrying the argument above — atoms held in a lattice of laser light, read out optically. The abstraction (proper time) doesn't know the room is warm. The apparatus does, because it's built out of atoms sitting in a metal vacuum chamber that radiates like anything else at room temperature does.</div>
+        <span class="fig-credit">Photo: The Ye group and Brad Baxley, JILA (a joint institute of NIST and the University of Colorado Boulder), hosted at <a href="https://www.nist.gov/image/strontium-lattice-optical-atomic-clock" target="_blank" rel="noopener">nist.gov</a> as public information with photo credit requested.</span>
+      </figcaption>
+    </figure>
+
+    <p>Sit with that. Physics says temperature has nothing to do with the rate of time. The <em>device that measures time</em> disagrees by five parts in a quadrillion, purely because it's warm.</p>
+
+    <p>For scale: 5×10⁻¹⁵ is the gravitational redshift you'd get by moving the clock about 46 meters up out of Earth's gravity well. The temperature of the room is masquerading as tens of meters of spacetime curvature.</p>
+
+    <p>This is a side channel. Not a metaphor for one — structurally the same thing. The abstraction (proper time) is temperature-invariant. The implementation (an atom in a metal box) is not, because the implementation is made of matter that couples to the environment through channels the abstraction never modeled. If you've ever watched a formally constant-time comparison leak through cache timing on real silicon, you already understand the entire problem.</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 900 420" role="img" aria-label="Bar chart on a logarithmic scale comparing the blackbody-radiation Stark shift systematic error across three real atomic clocks: room-temperature strontium at 5 times 10 to the minus 15, cryogenic strontium at 95 kelvin at 7.2 times 10 to the minus 18, and the aluminum-ion quantum-logic clock at 9.4 times 10 to the minus 19, spanning roughly four orders of magnitude of mitigation">
+        <defs>
+          <linearGradient id="barA" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6ee7ff" stop-opacity="0.35"/><stop offset="100%" stop-color="#6ee7ff" stop-opacity="0.95"/>
+          </linearGradient>
+        </defs>
+        <text x="30" y="34" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2" fill="#39ff8f" font-weight="700">FIGURE 2</text>
+        <text x="30" y="58" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#dce8e4" font-weight="600">Blackbody Stark shift, uncooled vs. hardened (log scale)</text>
+
+        <!-- axis -->
+        <line x1="260" y1="90" x2="260" y2="360" stroke="#1c2723" stroke-width="1"/>
+        <!-- log scale from 1e-14 (x=260) to 1e-20 (x=840), 6 decades -->
+        <g font-family="JetBrains Mono, monospace" font-size="11" fill="#4d5f5a">
+          <text x="255" y="382" text-anchor="middle">1e-14</text>
+          <text x="358" y="382" text-anchor="middle">1e-15</text>
+          <text x="456" y="382" text-anchor="middle">1e-16</text>
+          <text x="554" y="382" text-anchor="middle">1e-17</text>
+          <text x="652" y="382" text-anchor="middle">1e-18</text>
+          <text x="750" y="382" text-anchor="middle">1e-19</text>
+          <text x="840" y="382" text-anchor="middle">1e-20</text>
+        </g>
+        <g stroke="#16201c" stroke-width="1">
+          <line x1="358" y1="90" x2="358" y2="360"/><line x1="456" y1="90" x2="456" y2="360"/>
+          <line x1="554" y1="90" x2="554" y2="360"/><line x1="652" y1="90" x2="652" y2="360"/>
+          <line x1="750" y1="90" x2="750" y2="360"/>
+        </g>
+
+        <!-- bar 1: Sr room temp, 5e-15 -> x ~ 358+ (log10(5e-15) placement) -->
+        <text x="270" y="118" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Sr, room-temperature vacuum chamber</text>
+        <rect x="260" y="128" width="103" height="26" fill="url(#barA)"/>
+        <text x="373" y="146" font-family="JetBrains Mono, monospace" font-size="12" fill="#6ee7ff">5×10⁻¹⁵</text>
+
+        <text x="270" y="198" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Sr, cryogenic shield at 95 K (Katori group)</text>
+        <rect x="260" y="208" width="313" height="26" fill="url(#barA)"/>
+        <text x="583" y="226" font-family="JetBrains Mono, monospace" font-size="12" fill="#6ee7ff">7.2×10⁻¹⁸</text>
+
+        <text x="270" y="278" font-family="IBM Plex Sans" font-size="14" fill="#dce8e4">Al⁺ quantum-logic clock (different primitive)</text>
+        <rect x="260" y="288" width="391" height="26" fill="#39ff8f" fill-opacity="0.85"/>
+        <text x="661" y="306" font-family="JetBrains Mono, monospace" font-size="12" fill="#39ff8f">9.4×10⁻¹⁹</text>
+
+        <text x="260" y="345" font-family="IBM Plex Sans" font-size="12.5" fill="#7d918b">Cyan: same primitive, shielded harder. Green: different primitive, not vulnerable to begin with.</text>
+      </svg>
+      <figcaption>
+        <span class="fig-num">Figure 2</span>
+        <div class="fig-title">Defense in depth vs. choosing a primitive that isn't vulnerable.</div>
+        <div class="fig-body">Four orders of magnitude separate an unshielded strontium clock from the aluminum-ion clock — and the aluminum-ion result isn't from shielding harder, it's from picking an atom whose energy levels barely respond to blackbody photons at all. Hardening an implementation and choosing a different algorithm are different moves, and this chart is what the difference looks like in practice.</div>
+      </figcaption>
+    </figure>
+
+    <p>And the mitigations are <em>our</em> mitigations:</p>
+
+    <ul>
+      <li><strong>Shield it.</strong> Katori's group ran strontium in a cryogenic enclosure at 95 K, dropping the wall contribution to −21.55 mHz and the total systematic to 7.2×10⁻¹⁸. A 2025 NIST cryogenic ytterbium clock got the BBR Stark uncertainty to 1.7×10⁻²⁰ using a dynamically actuated radiation shield — roughly 40× better than any prior lattice clock. That's defense in depth applied to photons.</li>
+      <li><strong>Characterize the leak precisely.</strong> Low-emissivity vacuum-compatible materials, in-vacuum thermometry, and measured rather than modeled polarizabilities. You can't shield what you haven't profiled.</li>
+      <li><strong>Or pick a primitive that isn't vulnerable.</strong> The aluminum-ion quantum-logic clock has a tiny differential polarizability, so BBR barely touches it. Its total systematic is 9.4×10⁻¹⁹ and it's dominated by ion <em>motion</em>, not radiation. They didn't harden the implementation; they chose a different algorithm with better constant-time properties. That's the whole argument for constant-time-by-construction over patched-in mitigation, playing out in atomic physics.</li>
+    </ul>
+
+    <figure class="fig">
+      <img src="assets/al-ion-trap.jpg" alt="The ion trap for NIST's aluminum-ion quantum-logic clock, shown for scale next to a US quarter coin" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 3</span>
+        <div class="fig-title">The whole trap fits next to a quarter.</div>
+        <div class="fig-body">NIST's ion trap for the aluminum-ion clock — the aluminum ion (and a beryllium or magnesium "logic" ion used to read it out) sits in the slit running down the center, between the electrodes. This is the hardware behind Figure 2's green bar: a different primitive, not a bigger shield.</div>
+        <span class="fig-credit">Photo: J. Koelemeij/NIST, hosted at <a href="https://www.nist.gov/image/ion-trap-nist-aluminum-ion-clock" target="_blank" rel="noopener">nist.gov</a> as public information with photo credit requested.</span>
+      </figcaption>
+    </figure>
+
+    <p>My subjective read: the BBR shift is the most infosec-shaped result in modern metrology, and it's almost never framed that way. The lesson isn't "temperature affects time." The lesson is that <strong>your measurement apparatus is part of your attack surface, and the cleaner your theory is, the easier it is to forget that.</strong></p>
+
+    <h2 class="sec"><span class="idx">[03]</span><span class="txt">The Noise Floor Is Load-Bearing</span></h2>
+
+    <p>You cannot cool your way out of it, either.</p>
+
+    <p>The coldest matter ever produced sat at 38 picokelvin — a rubidium condensate at the Bremen drop tower, collimated with a magnetic lens so its expansion energy was almost nothing, observable for about two seconds. NASA's Cold Atom Lab on the ISS runs comparable ensembles around 50 pK.</p>
+
+    <figure class="fig">
+      <img src="assets/zarm-tower.jpg" alt="Exterior photograph of the ZARM Fallturm Bremen, the 146-metre drop tower at the University of Bremen used for microgravity experiments" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 4</span>
+        <div class="fig-title">The Bremen drop tower — where 38 picokelvin actually happened.</div>
+        <div class="fig-body">146 meters tall, with a 110-meter evacuated drop tube pumped down to about 1/10,000th of an atmosphere before every run. A magnetically-lensed rubidium condensate released in free fall inside this tower, expanding for roughly two seconds of genuine weightlessness, is the coldest matter ever measured. NASA's Cold Atom Lab (Figure 5) runs the same idea continuously, in orbit, instead of for two seconds at a time.</div>
+        <span class="fig-credit">Photo: Jürgen Howaldt, 2016, CC BY-SA 4.0, via <a href="https://commons.wikimedia.org/wiki/File:Fallturm_Bremen_(2016)_-_ZARM-Institutsgeb%C3%A4ude_Ecke_Am_Fallturm_(02).jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+      </figcaption>
+    </figure>
+
+    <figure class="fig">
+      <img src="assets/cold-atom-lab.jpg" alt="NASA astronaut performing maintenance on the Cold Atom Lab hardware inside the International Space Station's Destiny laboratory module" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 5</span>
+        <div class="fig-title">Continuous microgravity beats two seconds of it.</div>
+        <div class="fig-body">NASA astronaut Jonny Kim servicing the Cold Atom Lab aboard the ISS, October 2025. Where a drop tower buys a couple of seconds of free fall per run, an orbiting laboratory buys it continuously — which is exactly why Cold Atom Lab can sustain ultracold ensembles far longer than any ground-based apparatus, even though it doesn't (yet) beat Bremen's single-shot temperature record.</div>
+        <span class="fig-credit">Photo: NASA/Johnson Space Center, public domain (U.S. government work). <a href="https://www.nasa.gov/image-detail/amf-iss073e0817671" target="_blank" rel="noopener">nasa.gov</a>.</span>
+      </figcaption>
+    </figure>
+
+    <p>At 38 pK, the atoms are still moving. Zero-point motion isn't thermal and doesn't cool. Helium famously refuses to freeze at absolute zero under its own vapor pressure for exactly this reason — zero-point energy keeps it liquid until you squeeze it past ~25 bar.</p>
+
+    <p>The clock people have a hard number for this. The aluminum-ion clock, with 3D near-ground-state sideband cooling, still carries a secular-motion time dilation of −1.9(1)×10⁻¹⁸. That's not a cooling failure. That's the floor. No engineering removes it, because it's what the ground state <em>is</em>.</p>
+
+    <div class="callout sec">
+      <span class="lbl">Security analogy</span>
+      I find this genuinely clarifying rather than depressing, and here's why: <strong>we already monetize this floor.</strong> Hardware entropy sources harvest irreducible quantum and thermal noise precisely because it can't be removed or predicted away. The same fact that caps clock precision at 10⁻¹⁸ is the fact that lets you seed a CSPRNG from physics instead of from <code>time()</code>. There is no zero-entropy state, no perfectly quiet channel, no truly silent system — and half of applied cryptography is built on being glad about it.
+    </div>
+
+    <figure class="fig">
+      <img src="assets/trng.jpg" alt="A commercial hardware true random number generator device (Araneus TRNG), a small USB-connected board used to harvest physical noise as cryptographic entropy" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 6</span>
+        <div class="fig-title">Monetizing the floor.</div>
+        <div class="fig-body">A commercial hardware TRNG: a device whose entire job is harvesting the same irreducible physical noise that caps atomic clock precision — thermal and quantum fluctuation nobody can engineer away — and selling it back to you as cryptographic entropy. The noise floor isn't a bug in either field. It's the product in this one.</div>
+        <span class="fig-credit">Photo: Fisuaq, 2018, CC BY 4.0, via <a href="https://commons.wikimedia.org/wiki/File:True_random_number_generator.jpeg" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+      </figcaption>
+    </figure>
+
+    <p>If you've ever argued that "unpredictable" is a physical property and not a software one, absolute zero is your existence proof.</p>
+
+    <h2 class="sec"><span class="idx">[04]</span><span class="txt">The Proof Had a Bug in It for Thirty-Six Years</span></h2>
+
+    <p>This is the section I'd put in front of anyone who writes or reviews security proofs.</p>
+
+    <p>Black holes have a temperature — Hawking temperature, proportional to surface gravity. Push a black hole to its theoretical limit of charge or spin and that temperature goes to zero. These are <em>extremal</em> black holes: genuine T = 0 objects, emitting no Hawking radiation, not evaporating.</p>
+
+    <figure class="fig">
+      <img src="assets/m87.jpg" alt="The Event Horizon Telescope's image of the supermassive black hole at the center of galaxy Messier 87 — a bright ring of glowing gas surrounding a dark central shadow" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 7</span>
+        <div class="fig-title">Not extremal — but the same object the third law is about.</div>
+        <div class="fig-body">The Event Horizon Telescope's 2019 image of the supermassive black hole at the center of galaxy M87 — the first direct visual evidence of a black hole's shadow, and the object class the "third law of black hole mechanics" governs. M87*'s spin is nowhere near the extremal limit this section is actually about, but it's the only black hole humanity has ever photographed directly, which earns it the figure.</div>
+        <span class="fig-credit">Image: Event Horizon Telescope Collaboration, 2019, CC BY 4.0, via <a href="https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+      </figcaption>
+    </figure>
+
+    <p>In 1973 Bardeen, Carter and Hawking conjectured a third law of black hole mechanics: you can't get there in finite time. In 1986 Werner Israel published a proof. The community accepted it. It sat in the textbooks.</p>
+
+    <p>In 2022, Christoph Kehle and Ryan Unger disproved it. Israel's argument rested on an assumption about the behavior of apparent horizons that turned out not to hold. Kehle and Unger built explicit solutions — collapse that forms an exactly Schwarzschild horizon and then, at a later time, an exactly <em>extremal</em> Reissner–Nordström horizon. Finite time. Regular initial data. Arbitrarily smooth. The paper is described in the literature, without hedging, as a definitive disproof.</p>
+
+    <p>Then this year it got worse for the old picture. Crump, Gadioux, Reall and Santos published in <em>Physical Review Letters</em> 136, 171405 (2026) a demonstration in <strong>five-dimensional pure vacuum gravity</strong> — no matter fields at all — that an extremal rotating black hole can form in finite time by absorbing gravitational waves, including from vacuum data containing no initial black hole. The third law isn't just false for a particular matter model. It's false in gravity by itself.</p>
+
+    <p>Three things I take from this:</p>
+
+    <ol>
+      <li><strong>A theorem is a conditional.</strong> It says: given these assumptions, this conclusion. Israel's math wasn't sloppy; his premise about horizon regularity was unexamined. That's not a math failure, it's a threat-modeling failure. Every "provably secure" claim you've ever read is a conditional too, and the assumptions are the attack surface. Random oracle. Honest majority. Trusted setup. Non-adaptive adversary. The proof is fine. The premise is where you get owned.</li>
+      <li><strong>Thirty-six years of consensus is not verification.</strong> It's citation. There's a difference, and our field re-learns it every time a widely deployed primitive turns out to have a paper nobody had actually re-derived.</li>
+      <li><strong>The correct response to a broken proof isn't to abandon the claim.</strong> It's to find the real boundary. McSharry and Reall went on to prove that <em>supersymmetric</em> black holes satisfying a local mass-charge inequality genuinely cannot form this way. A residual third law survives, with the conditions now stated explicitly. That's what a good post-mortem looks like: not "the law is dead," but "here is precisely the regime where it holds and why we previously thought it was broader."</li>
+    </ol>
+
+    <figure class="fig">
+      <img src="assets/hawking-zero-g.jpg" alt="Physicist Stephen Hawking experiencing weightlessness aboard a NASA-affiliated zero-gravity aircraft flight in 2007, floating with a wide smile as attendants secure him" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 8</span>
+        <div class="fig-title">The namesake, briefly weightless by choice.</div>
+        <div class="fig-body">Stephen Hawking during his 2007 zero-gravity flight aboard a modified Boeing 727 — the same Hawking whose 1973 conjecture with Bardeen and Carter is the third law this whole section is about disproving, thirty-six years after the fact. He experienced real, if brief, weightlessness four decades after predicting a law about objects that never radiate at all.</div>
+        <span class="fig-credit">Photo: Jim Campbell/Aero-News Network, 2007, CC BY 3.0, via <a href="https://commons.wikimedia.org/wiki/File:Physicist_Stephen_Hawking_in_Zero_Gravity_NASA.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>. NASA Photo ID KSC-07PD-0958.</span>
+      </figcaption>
+    </figure>
+
+    <h2 class="sec"><span class="idx">[05]</span><span class="txt">Unattainability Is a Work Factor, Not a Wall</span></h2>
+
+    <p>The third law of thermodynamics is the one that actually holds up, and its modern form is the most infosec-legible statement in the whole area.</p>
+
+    <p>Nernst said in 1912 that you can't reach absolute zero in finite steps or finite time. That sat as a physical intuition — supported by the observation that every specific cooling method got less efficient as it went — for over a century without a general proof.</p>
+
+    <figure class="fig">
+      <img src="assets/nernst.jpg" alt="Portrait photograph of physical chemist Walther Nernst, formulator of the third law of thermodynamics" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 9</span>
+        <div class="fig-title">Walther Nernst, who stated the intuition a century before anyone proved it in general.</div>
+        <div class="fig-body">Nernst's 1912 heat theorem sat as an empirically well-supported but formally unproven claim for over a hundred years — every cooling method anyone tried got less efficient as it approached zero, but "every method we've tried" is citation, not proof. Masanes and Oppenheim closed that gap in 2017 (see below).</div>
+        <span class="fig-credit">Photo: Smithsonian Institution, no known copyright restrictions, via <a href="https://commons.wikimedia.org/wiki/File:Walther_Nernst_SI.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+      </figcaption>
+    </figure>
+
+    <p>In 2017 Lluís Masanes and Jonathan Oppenheim finally derived it in general, covering arbitrary cooling processes including ones exploiting quantum mechanics and infinite-dimensional reservoirs. Their framing is explicitly computational: they model the cooling apparatus as a thermal machine constrained the way a universal computer is constrained, and get out a relation between achievable temperature and time.</p>
+
+    <p>The result: <strong>attainable temperature scales as an inverse power of cooling time.</strong> Reaching zero requires infinite steps <em>and</em> an infinite reservoir. Henrik Wilming and Rodrigo Gallego later compressed this into a single inequality using a quantity they call the "vacancy" — a free-energy analogue for cooling that tells you how close to zero you can get for a given budget.</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 900 420" role="img" aria-label="A curve on log-log axes showing achievable temperature decreasing as an inverse power of cooling time, approaching but never reaching zero, analogous to a cryptographic work-factor cost curve">
+        <text x="30" y="34" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2" fill="#39ff8f" font-weight="700">FIGURE 10</text>
+        <text x="30" y="58" font-family="IBM Plex Sans, sans-serif" font-size="18" fill="#dce8e4" font-weight="600">Unattainable temperature as a work factor</text>
+
+        <line x1="90" y1="80" x2="90" y2="360" stroke="#4d5f5a" stroke-width="1.5"/>
+        <line x1="90" y1="360" x2="850" y2="360" stroke="#4d5f5a" stroke-width="1.5"/>
+        <text x="55" y="90" font-family="JetBrains Mono, monospace" font-size="12" fill="#7d918b">T</text>
+        <text x="845" y="380" font-family="JetBrains Mono, monospace" font-size="12" fill="#7d918b">time, cooling budget</text>
+
+        <path d="M 100 100 C 250 220, 400 300, 550 335 C 650 350, 750 357, 840 359"
+              fill="none" stroke="#6ee7ff" stroke-width="3"/>
+
+        <line x1="90" y1="360" x2="850" y2="360" stroke="#39ff8f" stroke-width="2" stroke-dasharray="3 6"/>
+        <text x="700" y="345" font-family="JetBrains Mono, monospace" font-size="13" fill="#39ff8f">T = 0, unreachable — requires infinite time AND an infinite reservoir</text>
+
+        <g font-family="IBM Plex Sans, sans-serif" font-size="13.5" fill="#dce8e4">
+          <circle cx="180" cy="168" r="4" fill="#6ee7ff"/>
+          <text x="192" y="163">modest cooling budget: modest T</text>
+          <circle cx="460" cy="305" r="4" fill="#6ee7ff"/>
+          <text x="330" y="295">large budget: diminishing returns, same shape as key-stretching cost curves</text>
+        </g>
+
+        <text x="100" y="400" font-family="IBM Plex Sans, sans-serif" font-size="13" fill="#7d918b">Masanes &amp; Oppenheim, Nat. Commun. 8, 14538 (2017): attainable temperature scales as an inverse power of cooling time — not "impossible," priced.</text>
+      </svg>
+      <figcaption>
+        <span class="fig-num">Figure 10</span>
+        <div class="fig-title">The same curve shape as every honest security argument.</div>
+        <div class="fig-body">Nobody claims AES-256 can't be brute-forced; we claim it costs more than the universe affords. Masanes and Oppenheim's 2017 general proof gives cooling the identical shape: not a wall at T = 0, a cost curve that never actually reaches it. "Unbreakable" is a marketing word. "Here is the exponent" is an engineering one.</div>
+      </figcaption>
+    </figure>
+
+    <p>That is a work factor. It's not "impossible," it's <em>priced</em>. Which is exactly the shape of every honest security argument we make. Nobody claims AES-256 can't be brute-forced; we claim it costs more than the universe affords. Nobody claims a KDF can't be inverted; we claim the iteration count sets the price. Masanes and Oppenheim did for cooling what key stretching does for password hashing: turned a binary impossibility claim into a cost curve with a tunable parameter.</p>
+
+    <p>I'd argue this is the healthier framing in both fields. "Unbreakable" is a marketing word. "Here is the exponent" is an engineering one.</p>
+
+    <p>There's a subtlety I like even more. Tien Kieu has pointed out that Nernst's heat theorem and the unattainability principle are <em>not the same statement</em> — unattainability follows strictly for quasi-static adiabatic processes, which formally leaves a crack open for non-adiabatic means, and he notes an apparent tension with projective quantum measurement, since a projective measurement onto a ground state produces a pure state. Nobody thinks this is a practical exploit. But it's the right instinct: the conflated statement is stronger than either component, and someone should always be checking whether the stronger version was ever actually proved.</p>
+
+    <figure class="fig">
+      <img src="assets/dilution-fridge.jpg" alt="The interior of a dilution refrigerator at the London Centre for Nanotechnology, showing the gold-plated copper cooling stages used to reach millikelvin temperatures for quantum computing experiments" loading="lazy">
+      <figcaption>
+        <span class="fig-num">Figure 11</span>
+        <div class="fig-title">What "paying the work factor" actually looks like in hardware.</div>
+        <div class="fig-body">The inside of a dilution refrigerator at the London Centre for Nanotechnology — successive gold-plated copper stages, each colder than the last, used to cool quantum devices into the millikelvin range. Every stage is more expensive than the one above it for a smaller temperature gain: the inverse-power cost curve of Figure 10, built out of actual metal.</div>
+        <span class="fig-credit">Photo: UCL Mathematical &amp; Physical Sciences, 2016, CC BY 2.0, via <a href="https://commons.wikimedia.org/wiki/File:Dilution_Refrigerator_(39016294284).jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+      </figcaption>
+    </figure>
+
+    <h2 class="sec"><span class="idx">[06]</span><span class="txt">The arXiv Has a Supply Chain Problem Too</span></h2>
+
+    <p>Here's the part that made me most uncomfortable, and it's the one I'd most want this audience to sit with.</p>
+
+    <p>There is a body of published work — A. Dmitriev and collaborators, plus some others — reporting that heated objects <em>weigh less</em>, with a negative temperature coefficient of gravity around 10⁻⁶ per kelvin. Multiple papers. On arXiv. With plots, error analysis, cross-citations, and speculation that this might explain the persistent scatter in measurements of Newton's constant G.</p>
+
+    <p>Relativity predicts about 10⁻¹⁴. They're claiming an effect eight orders of magnitude larger.</p>
+
+    <p>In 2020, Tajmar, Hentsch and Hutsch ran the controlled version: analytical balance in vacuum, plus a thermogravimetric balance in argon, copper and platinum and alumina, room temperature to over 1000 °C. Result: a 3σ limit below 1.8×10⁻⁸, ruling out every claimed anomaly by more than two orders of magnitude. The anomalies were almost certainly convection — hot samples weighed in open air, thermal plumes rising off them, buoyancy from the heated gas column. Fluid dynamics wearing a gravity costume.</p>
+
+    <div class="callout">
+      <span class="lbl">Why this matters to us</span>
+      <strong>That literature is indistinguishable from real literature at a glance.</strong> Right venue-adjacent, right format, internally consistent, mutually citing. If you searched this topic and read the first three hits, you'd come away believing gravity has a strong temperature dependence. It doesn't. What broke the chain wasn't peer review or venue reputation — it was somebody spending real effort to <em>reproduce it under controlled conditions and publish the null result</em>.
+    </div>
+
+    <p>We have the same problem, differently branded. Typosquatted packages that look like the real package. AI-generated CVE reports that read like triage-ready bug reports. Vendor whitepapers that cite other vendor whitepapers in a closed loop. Reproduction is the only signature verification the epistemic supply chain has, and it's underfunded in physics for exactly the reason it's underfunded here: nobody gets promoted for confirming that the thing works the way we thought.</p>
+
+    <p>While I was digging, I hit a smaller version of the same thing. A 2024 paper on the Tolman–Ehrenfest law in scalar-tensor gravity has an arXiv preprint whose stated conclusion <em>contradicts</em> the published journal version on whether the gravitational scalar field affects thermal equilibrium. Not fraud — a revision. But if you cite the preprint you're citing the opposite of the record. Version pinning isn't just a software hygiene problem.</p>
+
+    <h2 class="sec"><span class="idx">[07]</span><span class="txt">Time as a Derived Value, Not a Primitive</span></h2>
+
+    <p>For the distributed-systems people in the room, this one's for you.</p>
+
+    <p>In 1994 Alain Connes and Carlo Rovelli proposed something called the thermal time hypothesis. The problem it addresses: in a generally covariant theory there's no preferred global time variable, so where does the flow of time come from? Their answer is that time isn't fundamental. Given a state on an algebra of observables, Tomita–Takesaki modular theory hands you a canonical one-parameter flow, and they identify <em>that</em> with physical time. Time is a property of the state, not of the stage.</p>
+
+    <p>Rovelli and Smerlak then derived a lovely consequence. There's a classical result — the Tolman–Ehrenfest effect — that a fluid in equilibrium in a gravitational field is <em>not</em> at uniform temperature: <code>T√g₀₀ = constant</code>, so a column of fluid at equilibrium is hotter at the bottom. They showed this falls straight out of thermal time, with the interpretation that <strong>temperature is the ratio of thermal time to proper time</strong> — the "speed of time."</p>
+
+    <div class="callout sec">
+      <span class="lbl">Security analogy</span>
+      If you think in Lamport timestamps and vector clocks, you've met this idea. There is no global wall clock; there is only causal ordering you reconstruct from the state of the system. Connes and Rovelli are making the physicists' version of that claim, and being more radical about it: not "we can't access the global clock," but "there isn't one, and what you call time is a derived quantity."
+    </div>
+
+    <p>Now push it to absolute zero, which is what I actually set out to do.</p>
+
+    <p>The modular flow needs a <em>faithful</em> state to exist. A gapped pure ground state generically isn't faithful — some operators annihilate it — so the modular Hamiltonian isn't well-defined and the construction degenerates. Under this framework, T = 0 is exactly the limit where emergent thermal time stops being definable. No state, no flow, no ordering. A system with no events has no timeline.</p>
+
+    <p>I want to be careful here, because I checked and this is a genuine gap rather than a settled result: <strong>nobody appears to have explicitly analyzed the β → ∞ limit of the thermal time hypothesis in the primary literature.</strong> There's a real subtlety, because in relativistic QFT the vacuum <em>is</em> cyclic and separating for wedge algebras by Reeh–Schlieder, which is precisely the Bisognano–Wichmann/Unruh structure — so a modular flow does exist for the vacuum restricted to a subregion. That's a property of localization, not of global equilibrium at zero temperature. Whether "thermal time stops at absolute zero" is therefore an open question, not a fact, and the hypothesis itself has serious critics who argue the identification of modular flow with physical time is circular.</p>
+
+    <p>Flagging it as open rather than dressing it up as an answer is the whole point. Which brings me to the last one.</p>
+
+    <h2 class="sec"><span class="idx">[08]</span><span class="txt">Fuzz the Boundary</span></h2>
+
+    <p>The extremal black hole is where the model dies, and it dies <em>only</em> at the boundary.</p>
+
+    <p>Semiclassical gravity handles black holes beautifully across the parameter space. Then you go to exactly extremal — exactly T = 0 — and it falls apart. The near-horizon geometry develops an infinite AdS₂ throat. The Schwarzian mode, the Goldstone mode of the broken near-horizon conformal symmetry, stops being a small correction and starts dominating the path integral. Iliesiu and Turiaci did the calculation properly and Turiaci's conclusion is blunt: without low-energy supersymmetry — that is, in the real world — <strong>extremal black holes at exactly zero temperature do not exist</strong>, because the classical picture breaks down completely before you get there.</p>
+
+    <p>Absolute zero is unattainable for black holes too. Not by a thermodynamic argument. By a quantum one.</p>
+
+    <div class="callout">
+      <span class="lbl">The general lesson</span>
+      The theory is fine in the bulk of its domain. It's wrong at exactly one edge, where a term everyone was treating as negligible becomes the dominant term. If that doesn't sound like an off-by-one at the boundary of a validated input range, I don't know what to tell you. <strong>Boundary conditions are where the bugs are.</strong> Physics is now discovering this in a regime where the boundary is a temperature of zero and the bug is that a black hole doesn't exist.
+    </div>
+
+    <p>One more, briefly, because it punctures an assumption I see in incident response constantly. The Nernst form of the third law says entropy goes to zero at T = 0. It's false for real materials. Water ice retains a residual entropy of about 3.54 J/mol·K at absolute zero, matching Pauling's estimate of <code>k_B ln(3/2)</code>; spin ice and frustrated magnets do the same. The ground state is <em>degenerate</em> — there are exponentially many configurations at minimum energy.</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 640 620" role="img" aria-label="Diagram of a pyrochlore lattice fragment in the spin ice state, showing arrows representing magnetic moments obeying the two-in two-out rule at each tetrahedron vertex, illustrating that the ground state is degenerate rather than unique" style="background:#070b09;">
+        <image href="assets/spin-ice.jpg" x="0" y="0" width="640" height="580" preserveAspectRatio="xMidYMid meet"/>
+      </svg>
+      <figcaption>
+        <span class="fig-num">Figure 12</span>
+        <div class="fig-title">The ground state is not a unique state.</div>
+        <div class="fig-body">A fragment of a pyrochlore lattice in the spin-ice state: magnetic moments (arrows) obeying the "two-in, two-out" rule at every tetrahedron. There isn't one lowest-energy arrangement — there are exponentially many, all tied for minimum energy. That's the residual entropy the Nernst form of the third law says shouldn't exist.</div>
+        <span class="fig-credit">Diagram: Mjpgngras, 2013, CC BY-SA 4.0, via <a href="https://commons.wikimedia.org/wiki/File:Fragment_of_pyrochlore_lattice_in_spin_ice_state.png" target="_blank" rel="noopener">Wikimedia Commons</a>.</span>
+      </figcaption>
+    </figure>
+
+    <div class="callout sec">
+      <span class="lbl">Security analogy</span>
+      Your "restore to known-good" may be a restore to one of an astronomical number of known-good states, and if any of them differ in a way that matters, you have not restored anything you can reason about. Minimum energy is not minimum information.
+    </div>
+
+    <h2 class="sec"><span class="idx">[09]</span><span class="txt">What I Actually Take From This</span></h2>
+
+    <p>Absolute zero is a good asymptote. It's precisely defined, it's the organizing limit of a whole field, the cost of approaching it is quantified, and it cannot be reached. Perfect security has all four properties and we should probably talk about it the same way.</p>
+
+    <p>Here's the summary I'd put on a slide:</p>
+
+    <div class="tablewrap">
+      <table class="dtable">
+        <tr><th>The claim</th><th>The reality</th></tr>
+        <tr><td>Cooling changes how things gravitate</td><td>Yes, by ~10⁻¹⁴. Bounded experimentally at 1.8×10⁻⁸. Six orders from detectability.</td></tr>
+        <tr><td>Cooling changes how time passes</td><td>No. Temperature isn't in the metric.</td></tr>
+        <tr><td>Cooling changes what a clock <em>reads</em></td><td>Yes, ~5×10⁻¹⁵ for Sr — pure side channel, mitigated to 1.7×10⁻²⁰ cryogenically.</td></tr>
+        <tr><td>You can reach absolute zero</td><td>No. Cost scales as an inverse power of time. It's a work factor.</td></tr>
+        <tr><td>At absolute zero, nothing moves</td><td>Expectation values are static. Zero-point fluctuations aren't. The floor is −1.9×10⁻¹⁸ and it's permanent.</td></tr>
+        <tr><td>At absolute zero, time stops</td><td>Proper time: no. <em>Thermal</em> time, under a contested hypothesis: maybe, and nobody's checked properly.</td></tr>
+      </table>
+    </div>
+
+    <p>The theory was never the fragile part. The fragile parts were a 36-year-old proof with an unexamined premise, a measurement apparatus leaking the temperature of the room into the definition of a second, a literature carrying eight-orders-of-magnitude-wrong results that looked exactly like correct results, and a model that works everywhere except at the one boundary everyone was most interested in.</p>
+
+    <p>We know this posture. We just usually apply it to software.</p>
+
+    <div class="refs">
+      <span class="lbl">Primary sources</span>
+      Numbers and claims in this piece trace to primary literature: Tajmar et al., Measurement 172, 108917 (2020); Ushijima et al., Nature Photonics 9, 185 (2015); Brewer et al., PRL 123, 033201 (2019); Deppner et al., PRL 127, 100401 (2021); Chen et al., PRL 118, 053002 (2017); Masanes &amp; Oppenheim, Nat. Commun. 8, 14538 (2017); Wilming &amp; Gallego, PRX 7, 041033 (2017); Kehle &amp; Unger, arXiv:2211.15742 (JEMS 2025); Crump, Gadioux, Reall &amp; Santos, PRL 136, 171405 (2026); Connes &amp; Rovelli, CQG 11, 2899 (1994); Rovelli &amp; Smerlak, CQG 28, 075007 (2011); Turiaci, arXiv:2307.10423; Watanabe &amp; Oshikawa, PRL 114, 251603 (2015). The framings and opinions are mine, and the analogies are analogies — they're meant to carry intuition, not argument.
+    </div>
+
+  </article>
+
+  <a class="back-link" href="../../">All articles</a>
+
+</div>
+
+<footer class="site">Savvy Security LLC · Malcolm R. Smith</footer>
+</body>
+</html>
