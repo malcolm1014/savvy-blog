@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fires and Failure Domains</title>
+<meta name="description" content="The Očhéthi Šakówiŋ (Seven Council Fires) as a security architecture — federation, credential revocation, redundant records, and a namespace attack that has run for two centuries. Featuring Ella Deloria, Crazy Horse, Deskaheh, Chitto Harjo, Charles Edenshaw, and the 2016 Standing Rock encampment.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fires and Failure Domains: The Očhéthi Šakówiŋ as a Security Architecture">
+<meta property="og:description" content="A federation with no root account, credentials that could be revoked, redundant records in a format the adversary never recognized, and a namespace attack still running two centuries later. What defenders can learn from a system that has outlived every government that tried to replace it.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/fires-and-failure-domains/assets/cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/fires-and-failure-domains/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fires and Failure Domains: The Očhéthi Šakówiŋ as a Security Architecture">
+<meta name="twitter:description" content="A federation with no root account, revocable credentials, redundant records in a format the adversary never recognized, and a namespace attack still running two centuries later.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/fires-and-failure-domains/assets/cover.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f5f1e8; --fg:#211c15; --muted:#635a48; --rule:#ddd4bd;
+    --accent:#b5762e; --accent2:#2c4a5e; --card:#faf6ec;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14120d; --fg:#ece6d6; --muted:#ada18a; --rule:#332c1f; --accent:#e0a256; --accent2:#7fa6c2; --card:#1b1811; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0c0a08 url('assets/cover.jpg') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figure.portrait{max-width:380px; margin-left:auto; margin-right:auto;}
+  figure.portrait img{width:100%;}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+  figcaption .addednote{display:block; font-size:.78rem; color:var(--muted); margin-top:6px; font-style:italic;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Fires and Failure Domains — cover image, firelight glowing inside tipis at dusk, Standing Rock, North Dakota"></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Security Architecture</p>
+  <h1>Fires and Failure Domains</h1>
+  <p class="dek">The O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; as a security architecture &mdash; Indigenous federation, adversarial naming, and what defenders can learn from a political system that has outlived every government that tried to replace it.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I</a>
+    <a href="#part2">II</a>
+    <a href="#part3">III</a>
+    <a href="#part4">IV</a>
+    <a href="#part5">V</a>
+    <a href="#part6">VI</a>
+    <a href="#part7">VII</a>
+    <a href="#part8">VIII</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>A Note on the Framing</h3>
+    <p>There is a lazy version of this essay, and it is worth naming so we can avoid it. The lazy version treats a living people as a metaphor &mdash; mines their history for punchy slide-deck analogies, declares the Great Law of Peace &ldquo;basically zero trust,&rdquo; and moves on. That version is both bad history and bad security thinking.</p>
+    <p>The useful version is different. Security architecture is the study of how systems survive sustained, adaptive, well-resourced adversaries over long time horizons. Almost nothing in computing has been tested that way. Most of our field&rsquo;s &ldquo;long-lived systems&rdquo; are forty years old. The O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; has been under continuous, deliberate, state-backed attack for roughly two hundred years &mdash; attacks aimed specifically at its governance layer, its identity layer, its records, and its ability to authenticate its own decisions &mdash; and it is still running.</p>
+    <p>That is a legitimate object of study. The lessons are real. But the subject is a nation of people, not a case study, and the dispossession described below is ongoing rather than historical. Both things are true.</p>
+  </div>
+
+  <h2 id="part1">Part I &mdash; The Architecture</h2>
+  <h3>What the system actually was</h3>
+  <p>O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; means &ldquo;Seven Council Fires.&rdquo; It is the self-designation of a broad alliance of peoples speaking three related Siouan variants, commonly known by the exonym &ldquo;Sioux.&rdquo; The three divisions and their fires:</p>
+  <ul>
+    <li><strong>Dakota (Isáŋyathi / Santee)</strong> &mdash; Mdewakaŋtoŋwaŋ, Waȟpékhute, Waȟpétȟuŋwaŋ, Sisítȟuŋwaŋ. Eastern woodlands, Minnesota lake country, economies built on wild rice, fish, deer, maple.</li>
+    <li><strong>Western Dakota</strong> &mdash; Iháŋktȟuŋwaŋ (Yankton), Iháŋktȟuŋwaŋna (Yanktonai). The prairie transition zone, controlling the pipestone quarries and much of the riverine trade.</li>
+    <li><strong>Lakota (Thítȟuŋwaŋ / Teton)</strong> &mdash; the seventh fire, which subdivided into seven bands of its own: Oglála, Sičháŋǧu, Húŋkpapȟa, Mnikȟówožu, Sihásapa, Itázipčho, Oóhenuŋpa.</li>
+  </ul>
+  <p>Each fire was an <em>oyate</em> &mdash; a people &mdash; with its own leadership, territory, and decision-making. Below that sat the <em>thiy&oacute;&scaron;paye</em>, the extended-kin band that was the real unit of daily life and daily governance. Above it sat a council that convened periodically, most reliably at the summer gatherings, to handle matters common to all.</p>
+  <p>The architectural properties worth noticing:</p>
+
+  <p><strong>No root account.</strong> There was no paramount chief who could bind the whole. Authority was persuasive. A leader who lost the confidence of his people found nobody following him, and people simply left. Ella Deloria, a Yankton scholar who trained under Boas at Columbia and produced the most detailed ethnography of Dakota social life that exists, argued that kinship obligation &mdash; not command &mdash; was the actual operating system, and that its demands governed essentially everything.</p>
+
+  <figure class="portrait">
+    <img src="assets/01-ella-deloria.jpg" alt="Portrait photograph of Ella Cara Deloria, Yankton Dakota ethnographer and linguist">
+    <figcaption>Ella Cara Deloria (1889&ndash;1971), Yankton Dakota ethnographer, linguist, and novelist, photographed circa the 1920s&ndash;30s. Her fieldwork under Franz Boas produced the most detailed surviving account of Dakota social life &mdash; the source for this essay&rsquo;s central claim that kinship obligation, not command, was the operating system.<span class="credit">Photo: Akta Lakota Museum &amp; Cultural Center; public domain (U.S., published before 1971 with no known copyright renewal)</span></figcaption>
+  </figure>
+
+  <p><strong>Separated duties.</strong> Civil leadership (<em>wakíčhuŋza</em>, the shirt-wearers) was distinct from war leadership (<em>blotáhuŋka</em>), and both were distinct from the ceremonial authorities. The <em>akíčhita</em> societies held enforcement power, but only in narrow, time-bounded contexts &mdash; principally the communal buffalo hunt and camp movement, where free-riding could kill everyone. Privilege escalation was scoped and temporary.</p>
+  <p><strong>Revocation was real.</strong> Shirt-wearers could be stripped of the shirt. Crazy Horse was, over a personal scandal. The credential was not permanent and was not property.</p>
+
+  <figure>
+    <img src="assets/02-crazy-horse-memorial.jpg" alt="Crazy Horse Memorial mountain carving in the Black Hills of South Dakota, seen through pine trees">
+    <figcaption>The Crazy Horse Memorial, Black Hills, South Dakota &mdash; carving began in 1948 and continues today. No authenticated photograph of Crazy Horse himself exists; he is reported to have refused to be photographed. The mountain, in the Paha Sapa considered sacred by many Oglala Lakota, remains a genuinely contested project among Lakota people, some of whom see it as honoring him and others as a second appropriation of his likeness and the land itself.<span class="credit">Photo: Jeffreylcooke, Wikimedia Commons, CC BY-SA 4.0</span></figcaption>
+  </figure>
+
+  <p><strong>Redundant, deliberated records.</strong> Each <em>thiy&oacute;&scaron;paye</em> had a designated winter count keeper. Elders met with the keeper to review the year&rsquo;s events and collectively agree which single event best characterized that winter; the keeper then rendered a stylized glyph serving as a mnemonic key for the longer narrative recited during storytelling season. Roughly a hundred winter counts survive, many of them duplicates.</p>
+  <p>Read that again as a systems person. Write operations required community consensus. The stored artifact was an index, not the payload &mdash; the narrative lived in oral performance. Copies were held independently by separate bands with overlapping coverage. The record was self-verifying across keepers, because divergence between counts was visible and discussable. And unlike many other practices, winter-count keeping was never outlawed, so it continued into the twentieth century.</p>
+
+  <div class="pullquote">That is a distributed append-only log with human-in-the-loop consensus, redundancy, separation of index and content, and &mdash; crucially &mdash; a format the adversary never thought to target because he did not recognize it as infrastructure.</div>
+
+  <h2 id="part2">Part II &mdash; Threat Model Shift: What the French and Spanish Actually Did</h2>
+  <p>The popular story is invasion. The accurate story is closer to a supply-chain compromise followed by a pandemic, with the European powers frequently playing as minor pieces inside Indigenous politics rather than as the board itself.</p>
+
+  <h3>Vector one: guns, from the east</h3>
+  <p>The Ojibwe moving west became the conduit in a Great Lakes fur network exchanging interior furs for European kettles, knives, traps, tools, beads, cloth, and guns &mdash; a connection that proved crucial as they entered Dakota homelands. For a period the two peoples were allies and trading partners.</p>
+  <p>It broke over a third party&rsquo;s grievance. In 1739 the son of a French explorer was killed in a skirmish involving a joint French-Cree-Assiniboine party against an allied Dakota-Ojibwe force; the French held the Dakota solely responsible and armed for retribution, forcing the Ojibwe to choose between friendship with the Dakota and their economic relationship with the French. They chose the latter. Pitched battles followed at Sandy Lake (1744), Mille Lacs (1745), the St. Croix (1755), Leech Lake (1760), and Red Lake (1770), and by the 1770s Ojibwe access to French weaponry had pushed the Dakota south.</p>
+  <p>The Dakota were not out-fought so much as out-positioned. The Ojibwe sat closer to the vendor.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>The breach came through the partner integration, not the perimeter. And the trigger was an incident involving neither party directly &mdash; an upstream actor&rsquo;s risk calculus reassigned everyone&rsquo;s alliances. If your security posture depends on a relationship you do not control, you have a dependency, not a defense.</p>
+  </div>
+
+  <h3>Vector two: horses, from the south &mdash; and a correction</h3>
+  <p>The textbook account holds that horses spread north after the 1680 Pueblo Revolt scattered Spanish herds. That account is now wrong, and the correction is itself instructive.</p>
+  <p>A 2023 <em>Science</em> study integrating genomic, isotopic, radiocarbon, and paleopathological evidence identified three horses from North American Indigenous contexts conclusively predating the Pueblo Revolt, and noted that existing models were derived almost exclusively from textual sources written by European observers dating largely to the 18th and 19th centuries. The new data align with Comanche and Shoshone oral accounts, suggesting ancestral Comanche had integrated horse raising, ritual, and transport at least half a century before their southward migration. An Oxford archaeologist not involved in the work said the Pueblo Revolt can now be waved goodbye as an explanation for the horse&rsquo;s spread into the American West.</p>
+  <p>The study was co-authored with Lakota, Comanche, and Pawnee historians and tribal scholars.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>This is a textbook case of an authoritative-looking record being systematically wrong because of sensor placement. European chroniclers only logged what they could see, and everything north of New Mexico was outside their coverage. Two centuries of scholarship inherited that blind spot as fact. Meanwhile the oral tradition &mdash; dismissed as unreliable &mdash; held the correct signal the whole time. If your telemetry only covers the systems you built, your incident timeline is a story about your instrumentation, not about what happened.</p>
+  </div>
+
+  <h3>Vector three: the one that actually decided it</h3>
+  <p>When the 1775&ndash;82 continental outbreak swept the northern Plains for eighteen months from 1780 to 1782, roughly forty percent of the region&rsquo;s Native population died. The semisedentary Arikara, who may have numbered around 24,000 before 1780, lost as much as seventy-five to eighty percent of their people; the Mandan and Hidatsa suffered comparably, while nomadic groups were struck but generally not as hard as those in the static, dense, disease-prone villages on the Missouri.</p>
+  <p>Because it caused far greater losses among the semisedentary villagers than among the more mobile Sioux, the outbreak enabled western Sioux groups to become the most influential Native power on the northeastern Plains by the time the United States purchased the region in 1803.</p>
+  <p>Elizabeth Fenn&rsquo;s <em>Pox Americana</em> (2001) established the continental scope of the epidemic, estimating a minimum of about 130,000 dead across mainland North America and tracing spread northward from Mexico overland rather than from ships.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>This is the single most transferable lesson in the essay, and it is about topology.</p>
+    <p>The Missouri villagers were dense, static, centralized, and highly connected &mdash; they were the trade hubs, which is exactly why the pathogen reached them and exactly why it devastated them. The Lakota were dispersed, mobile, loosely coupled, and organized into semi-autonomous units. Same pathogen. Radically different outcomes. Nobody designed this as a defense; it fell out of the architecture.</p>
+    <p>Density plus connectivity plus homogeneity is efficient right up until the moment it is catastrophic. Segmentation looks like overhead until the day it is the only thing that matters.</p>
+  </div>
+
+  <h3>The Europeans as pieces, not players</h3>
+  <p>The 1720 Villasur expedition is the clearest illustration. Spain sent Lieutenant-General Pedro de Villasur into what is now Nebraska to check New France&rsquo;s growing influence; Pawnee and Otoe warriors attacked, killing 36 of the 40 Spaniards, 10 of their Indigenous allies, and a French guide. It was the deepest official Spanish penetration of the Great Plains, and the defeat ended Spanish exploration of the Nebraska country until 1806.</p>
+  <p>A European imperial probe was annihilated by an Indigenous coalition, and imperial policy retreated for eighty-six years. Both Spain and France spent the eighteenth century as junior partners inside Native diplomatic systems they neither controlled nor fully understood.</p>
+
+  <h3>The result: reinvention, twice</h3>
+  <p>Pekka H&auml;m&auml;l&auml;inen&rsquo;s <em>Lakota America</em> (Yale, 2019) is the essential modern account. It presents an Indigenous empire that controlled extensive territory, commanded expansive trade networks, and frustrated the imperial designs of France, England, Spain, and the United States. The book&rsquo;s central observation is about adaptive capacity: the Lakota reinvented themselves from woodland foragers into a river power dominating the Missouri corridor, then again into an equestrian power on the high plains. H&auml;m&auml;l&auml;inen describes the result as a kinetic empire built on mobile power politics, one that controlled strategic nodes &mdash; river valleys, hunting grounds, corn-producing villages, trading posts, Paȟá Sápa &mdash; rather than controlling people or holding fixed borders.</p>
+  <p>Node control over territorial control. Capability over real estate. The architecture was re-platformed twice under pressure without losing its identity, which is a property most systems never achieve once.</p>
+
+  <h2 id="part3">Part III &mdash; Comparative Architectures</h2>
+  <p>The O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; was not unique in North America, and the comparisons sharpen what was distinctive.</p>
+
+  <figure>
+    <img src="assets/03-wampum-belts.jpg" alt="Historic photograph of Haudenosaunee wampum belts laid flat, showing woven purple and white shell-bead patterns">
+    <figcaption>Haudenosaunee wampum belts, photographed circa 1871&ndash;1907. Belts like these were the Great Law of Peace&rsquo;s constitutional record &mdash; and, as Part IV describes, exactly what Canadian police seized in 1924 when they moved to depose the Six Nations Hereditary Council.<span class="credit">Photo: Smithsonian Institution, Bureau of American Ethnology, via U.S. National Archives (NARA 523577); public domain, U.S. government work</span></figcaption>
+  </figure>
+
+  <p><strong>Haudenosaunee Confederacy</strong> &mdash; the most formally constitutional. Fifty sachem titles under the Great Law of Peace, hereditary within clans, nominated and removable by clan mothers, with a condolence protocol governing succession. Local autonomy on local matters, central council for common concerns, unanimity rather than majority. Daniel Richter&rsquo;s <em>The Ordeal of the Longhouse</em> (1992) and William Fenton&rsquo;s <em>The Great Law and the Longhouse</em> (1998) are the standard treatments. Compared to the O&#269;h&eacute;thi &#352;ak&oacute;wi&#331;, this is more formalized, more explicitly documented in wampum, and more constrained &mdash; the council could still not compel a nation to war.</p>
+  <p><strong>Pueblo systems</strong> &mdash; the longevity champions. Old Oraibi and Acoma are the two oldest continuously inhabited communities in what is now the United States, Oraibi founded around 1100 CE. Governance runs through caciques, kiva societies, and war captains, with the Spanish-era overlay grafted on rather than substituted. Acoma chose to retain its traditional form of governance rather than adopt a U.S.-style constitutional model, with religious leaders retaining decision authority. In 1863 Lincoln presented Pueblo tribes with silver-headed canes commemorating their political and legal right to land and self-government, and the governors keep the canes during their terms.</p>
+  <p>Note what that cane is, architecturally: an adversary&rsquo;s recognition token absorbed into the existing system as a subordinate artifact, rather than the existing system being replaced by it. That is a pattern worth stealing.</p>
+  <p><strong>Muscogee talwa system</strong> &mdash; the ceremonial grounds with their miccos and stomp dance cycle survived removal to Indian Territory and still function, even though the Creek Confederacy as a diplomatic body is gone. The federation died; the nodes persisted.</p>
+
+  <figure class="portrait">
+    <img src="assets/05-chitto-harjo.jpg" alt="Portrait photograph of Chitto Harjo, also known as Crazy Snake, Muscogee Creek leader, wearing a hat and suit">
+    <figcaption>Chitto Harjo &mdash; &ldquo;Crazy Snake&rdquo; &mdash; photographed around 1903. A Muscogee traditionalist leader, he organized armed resistance to the forced allotment of communal land and the dissolution of Muscogee government under the Curtis Act, convening a rival government at Hickory Ground until federal troops broke it up in 1901. He is not named in the essay&rsquo;s text, but he is the emblematic figure of exactly the pattern it describes: a federation dissolved on paper while its people kept refusing to accept the substitute.<span class="credit">Photo by Duncan, via Encyclopedia of Oklahoma History and Culture; public domain (published before 1928)</span></figcaption>
+  </figure>
+
+  <p><strong>Tlingit and Haida clan houses</strong> &mdash; matrilineal moieties, house groups, hereditary names, with the <em>koo.&eacute;ex&rsquo;</em> doing the work of validating titles and discharging obligations. Survived explicit criminalization of the potlatch in Canada from 1885 to 1951, which is to say the state banned the ceremony that performed the accounting and the accounting continued anyway.</p>
+
+  <figure class="portrait">
+    <img src="assets/06-charles-edenshaw.jpg" alt="Studio portrait of Charles Edenshaw, Haida chief and master carver, seated beside carved argillite poles">
+    <figcaption>Charles Edenshaw (Da.a&#7809;iigang), Haida chief and the best-known Haida artist of the late 19th century, in a studio portrait beside his argillite carvings. He assumed the hereditary title Chief Eda&rsquo;nsa in 1885 &mdash; the same year Canada&rsquo;s potlatch ban took effect and stripped the ceremonial role that title was supposed to carry.<span class="credit">Photo: Canadian Museum of History, accession 2001-95; public domain in Canada (photograph predates 1949)</span></figcaption>
+  </figure>
+
+  <p><strong>Oaxaca&rsquo;s <em>usos y costumbres</em></strong> &mdash; the outlier case worth knowing. Since 1995 Mexican state law has recognized customary governance, and roughly seventy percent of Oaxaca&rsquo;s municipalities govern through assembly and cargo systems without political parties. An Indigenous system holding formal legal standing inside a modern state.</p>
+  <p>And the counterexamples. The Natchez, the Powhatan paramountcy, the Mississippian mound centers: hierarchical, centralized, with real coercive authority concentrated at the top. They were also the systems that collapsed fastest and most completely under contact. Decapitation works against a system with a head.</p>
+
+  <h2 id="part4">Part IV &mdash; The Attack on the Naming Layer</h2>
+  <p>This is where the phrase &ldquo;government mislabeling&rdquo; earns a section of its own, because naming was not incidental damage. It was the mechanism.</p>
+
+  <h3>The exonym became the legal identity</h3>
+  <p>&ldquo;Sioux&rdquo; is a shortening of the French spelling of an Ojibwe word, commonly traced to a term meaning something like &ldquo;little snakes&rdquo; &mdash; that is, enemies &mdash; though some trace it instead to an Algonquian root meaning to speak a foreign language.</p>
+  <p>Follow the chain: an adversary&rsquo;s word for a people, transcribed by a third-party trader in a fourth language, becomes the identifier under which treaties are signed, reservations are drawn, rolls are enrolled, and federal recognition is granted. It is still the legal name of most of the relevant governments today.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>Whoever controls the namespace controls the schema, and whoever controls the schema controls what the system can express. This is not an abstraction. Identity and access management is, in practice, a long argument about canonical identifiers. An identifier assigned by a hostile party and then propagated into every downstream record is an integrity failure that no amount of later correction fully repairs, because the corrupt value is now the join key across every system that references it.</p>
+  </div>
+
+  <h3>The Nakota error: bad data replicating for a century</h3>
+  <p>There is a second mislabeling, this one produced by scholarship rather than government, and it is almost a perfect parable.</p>
+  <p>For roughly a century, textbooks taught that the three divisions were Dakota / Nakota / Lakota, with Yankton and Yanktonai as the &ldquo;Nakota.&rdquo; Linguistic work &mdash; Douglas Parks, Raymond DeMallie, Bruce Ingham and others from the late 1980s onward &mdash; established that Yankton and Yanktonai speakers said Dakota. The actual Nakota speakers are the Assiniboine and Stoney, who separated earlier and became a distinct people.</p>
+  <p>The correction is now three decades old. The error is still in circulation, still in museum labels, still in curricula, still in the first page of search results.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>An error introduced into an authoritative upstream source replicates indefinitely and survives its own refutation, because downstream consumers cached the value and never re-queried. Everyone in this field has a version of this story &mdash; the wrong CVSS score, the misattributed IOC, the &ldquo;known good&rdquo; hash that was never good. Provenance is a security control. Sources that cite sources that cite a single 1908 misreading are not corroboration; they are one source wearing a costume.</p>
+  </div>
+
+  <h3>Governance replacement: the real attack</h3>
+  <p>Here is the deepest lesson in the essay, and it is not about destruction.</p>
+  <p>The Indian Reorganization Act of 1934 offered federal subsidies to tribes that adopted constitutions resembling the U.S. model and replaced their governments with city-council-style bodies &mdash; bodies that lacked the checks and balances of the older systems. Of 258 eligible tribes, 181 accepted and 77 rejected. There is documented evidence that some tribes received a &ldquo;model&rdquo; constitution or an outline of what one should contain. Traditional leaders across nearly every tribe objected, criticizing the act as another means of imposing white institutions; in some constitutions they managed to insert language deriving the new government&rsquo;s authority from the older form.</p>
+  <p>Vine Deloria Jr. and Clifford Lytle&rsquo;s <em>The Nations Within</em> (1984) remains the foundational critique. The essential point is that the IRA did not abolish traditional governance. It created a parallel structure that the outside world recognized as authoritative, and then routed all consequential traffic &mdash; funding, land decisions, legal standing, negotiation &mdash; through the new one.</p>
+
+  <figure class="portrait">
+    <img src="assets/04-deskaheh.jpg" alt="Portrait photograph of Deskaheh (Levi General), Cayuga chief and speaker of the Six Nations Hereditary Council, wearing a feather headdress">
+    <figcaption>Deskaheh (Levi General), Cayuga chief and speaker of the Six Nations Hereditary Council, in a portrait published in 1922 &mdash; the year before he traveled to Geneva to petition the League of Nations for recognition of Six Nations sovereignty. He died in exile in 1925 after Canada refused to let him back onto the reserve. His mission and Canada&rsquo;s 1924 move against the Confederacy Council, described below, are the same crisis.<span class="credit">Photo published in The Graphic, 1922; public domain (published before 1931)</span></figcaption>
+  </figure>
+
+  <p>Canada ran the same play a decade earlier and more bluntly. At the instigation of Indian Affairs deputy superintendent Duncan Campbell Scott, the Canadian government in September 1924 stripped the Haudenosaunee Confederacy Chiefs Council of its authority and imposed an electoral system on Six Nations of the Grand River; the new council, elected by adult men, had limited powers under the Indian Act, such as maintaining roads and buildings. Police seized wampum and locked chiefs out of the council hall &mdash; though it is worth noting that the frequently repeated claim that the removal happened at gunpoint is disputed within the Haudenosaunee community itself, and should be flagged as contested rather than settled.</p>
+  <p>The result is legible in the turnout numbers. Elections for the imposed council have had extremely low participation &mdash; the 2013 election drew 5.15% &mdash; in part because many Six Nations citizens regard it as having usurped the traditional government. The traditional council continues to function in opposition to the imposed model. A century on, the Haudenosaunee Confederacy Chiefs Council is still there.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>This is the highest-value attack pattern in the entire history, and it has direct modern analogues.</p>
+    <p>The attacker did not compromise the legitimate authority. The attacker stood up a plausible substitute and got every external party to transact with it instead. The original system kept running, kept its integrity, kept its membership &mdash; and became invisible to everything that mattered materially, because the relying parties had all switched endpoints.</p>
+    <p>That is a rogue domain controller. That is a fraudulent certificate authority. That is BGP hijacking. That is a spoofed identity provider in a federated SSO relationship. In every case, the victim system is intact and functioning; the compromise is entirely in the relying party&rsquo;s resolution of who is authoritative.</p>
+    <p>And the defense is the same in both worlds: authority must be verifiable by the constituency, not merely asserted to third parties. The Haudenosaunee council retained legitimacy precisely because its authentication &mdash; clan mother nomination, condolence ceremony, wampum record &mdash; ran on infrastructure the Canadian government neither operated nor understood. It could be ignored. It could not be forged.</p>
+  </div>
+
+  <h3>The confused deputy problem, 1851 and 1868</h3>
+  <p>One more, and it is the one security people will feel in their teeth.</p>
+  <p>The United States repeatedly obtained signatures from Indigenous men it designated as chiefs and then treated those signatures as binding on entire nations. In a system where leaders governed by persuasion and could not compel anyone, this was categorically invalid &mdash; the signer did not hold the authority the treaty assumed he held.</p>
+  <p>The U.S. knew this and found it convenient. Where a compliant signer did not exist, one was manufactured: &ldquo;treaty chiefs&rdquo; and &ldquo;paper chiefs&rdquo; elevated precisely because they would sign.</p>
+  <p>This is the confused deputy problem in its purest form. A credential was presented, accepted at face value, and used to authorize an action far beyond its actual scope &mdash; because the relying party never validated what the credential was actually good for. Every OAuth scope-creep incident and every over-permissioned service account is a descendant of this mistake.</p>
+
+  <h2 id="part5">Part V &mdash; Why It Persisted</h2>
+  <p>Six properties, stated as design principles.</p>
+  <ol class="mono" style="font-family:'Source Serif 4',serif;">
+    <li><strong>Nothing critical depended on the adversary&rsquo;s infrastructure.</strong> Kinship, language, ceremony, clan membership, the winter counts. None required a building, a charter, a budget line, or federal recognition. When the state seized the council house, the council was not in the council house.</li>
+    <li><strong>The unit of survival was small.</strong> The <em>thiy&oacute;&scaron;paye</em> &mdash; extended kin &mdash; was the real operating unit. Federation was a coordination layer above it, not a dependency below it. Killing the coordination layer degraded capability; it did not kill the system. This is the difference between losing your orchestration and losing your data.</li>
+    <li><strong>Records were redundant and in an unrecognized format.</strong> A hundred overlapping winter counts across independent keepers, in a medium the state did not classify as government records and never systematically destroyed.</li>
+    <li><strong>Refusal was structurally possible.</strong> In 1980 the Supreme Court ruled the Sioux Nation never received just compensation for the Black Hills, writing that a more ripe and rank case of dishonorable dealings would probably never be found in U.S. history, and ordered compensation with interest. The Sioux refused the award, stating their goal was return of the land. The unclaimed fund has grown past a billion dollars and sits untouched in the federal treasury. Accepting payment would forfeit the claim itself.</li>
+    <li><strong>The identity was reactivatable.</strong> In 2013 the Rosebud Sioux Tribe hosted a meeting of the O&#269;h&eacute;thi &#352;ak&oacute;wi&#331;, continuing work on organizational documents from a prior session in Rapid City, and forming commissions on land, water, education, child welfare, law enforcement, health care, housing, and economic development. A 17th-century structure, convening to staff working groups on water rights.</li>
+    <li><strong>Adaptation preserved identity rather than trading it away.</strong> Woodland to river to horse to reservation to modern tribal government, with kinship and ceremony carried through each transition.</li>
+  </ol>
+
+  <p>Sit with item four as a security decision, because it is one. The remediation offered would have closed the finding by converting an illegal taking into a completed sale. Accepting the fix would have destroyed the claim the fix was supposedly addressing. Refusing an inadequate remediation that carries a waiver is not stubbornness; it is understanding what you are actually being asked to sign. Forty-six years and counting is what holding that line costs.</p>
+
+  <h2 id="part6">Part VI &mdash; Standing Rock, Where the Metaphor Stops</h2>
+
+  <figure>
+    <img src="assets/07-standing-rock-camp.jpg" alt="Wide panoramic photograph of the Oceti Sakowin / Sacred Stone protest camp near Cannon Ball, North Dakota, showing tipis, tents, and vehicles under a dramatic sky">
+    <figcaption>The Sacred Stone / O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; camp near Cannon Ball, North Dakota, August 27, 2016 &mdash; weeks into what would grow into a gathering of thousands from more than 250 federally recognized tribes.<span class="credit">Photo: Tony Webster, Wikimedia Commons, CC BY-SA 2.0</span></figcaption>
+  </figure>
+
+  <p>In 2016 the principal camp opposing the Dakota Access Pipeline was named O&#269;h&eacute;thi &#352;ak&oacute;wi&#331;. The name was not decorative. It was the reactivation of a federation structure to coordinate an action across nations that the imposed governance model had no mechanism to coordinate.</p>
+  <p>The response is the most directly relevant material in this entire essay, because it was a modern intelligence operation.</p>
+  <p>Internal documents obtained by <em>The Intercept</em> showed that TigerSwan, a firm that originated as a U.S. military and State Department contractor in the global war on terror, targeted the movement with military-style counterterrorism measures and collaborated closely with police in at least five states. Internal communications described the movement as an ideologically driven insurgency with a strong religious component and compared water protectors to jihadist fighters.</p>
+  <p>The specific capabilities deployed:</p>
+  <ul>
+    <li>Aerial surveillance, infiltration, and social media monitoring as the core strategy.</li>
+    <li>Eavesdropping on elders at the Prairie Knights Casino, monitoring camp radio communications, drone and helicopter overflight, and license-plate collection.</li>
+    <li>An FAA no-fly zone that barred Indigenous drone pilots from documenting police activity, while private security aircraft continued to operate in that airspace and coordinate with law enforcement.</li>
+    <li>The National Sheriffs&rsquo; Association building its own profiles and sharing them &mdash; in one instance a six-page backgrounder on a prominent pipeline opponent and historian passed to TigerSwan.</li>
+    <li>A stated responsibility to collect information at an evidentiary level to aid in prosecution.</li>
+  </ul>
+  <p>Note the individual elements: radio interception, aerial ISR, OSINT collection, human infiltration, cross-jurisdictional fusion, public-private intelligence sharing, and asymmetric denial of the airspace to one side only. This is a full-spectrum collection posture run by a private contractor against a domestic political movement, with the take flowing into state prosecution.</p>
+  <p>Nick Estes&rsquo;s <em>Our History Is the Future</em> (Verso, 2019) situates this inside a two-century continuity of Lakota resistance, and his central argument is the relevant one here: this is not a new phenomenon that happened to Indigenous people. It is the current instantiation of a very old adversary relationship, with contemporary tooling.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>For anyone who works on threat modeling for civil society, activists, journalists, or NGOs &mdash; this is your reference case. Not a hypothetical. Documented, sourced, and recent. The adversary was well-funded, treated a protest as an insurgency, and had law enforcement as a data-sharing partner. Any threat model for that population that does not include private contractors with military ISR capability and police liaison is not a threat model.</p>
+  </div>
+
+  <h2 id="part7">Part VII &mdash; Data Sovereignty as the Live Continuation</h2>
+  <p>The naming fight has migrated to the data layer, and there is now a formal framework for it.</p>
+  <p>The CARE Principles for Indigenous Data Governance &mdash; Collective Benefit, Authority to Control, Responsibility, Ethics &mdash; were developed by the International Indigenous Data Sovereignty Interest Group within the Research Data Alliance, in consultation with Indigenous peoples, scholars, non-profits, and governments. They exist because existing open-data principles such as FAIR focus on characteristics that facilitate sharing while ignoring power differentials and historical context, creating tension for peoples asserting greater control over the use of data about them. Indigenous data here includes data collected by governments and institutions about Indigenous peoples and their territories.</p>
+  <p>Tahu Kukutai and John Taylor&rsquo;s <em>Indigenous Data Sovereignty: Toward an Agenda</em> (ANU Press, 2016) is the foundational volume.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>FAIR optimizes for availability and interoperability. CARE adds an authority-to-control axis that FAIR simply does not have. Anyone who has argued for data classification against an &ldquo;open by default&rdquo; engineering culture will recognize the shape of this fight exactly. The framing to steal: who has authority over this data is a distinct question from who can access it, and a governance model that answers only the second has not answered the first.</p>
+  </div>
+
+  <h2 id="part8">Part VIII &mdash; Consolidated Lessons</h2>
+  <ul class="lessons">
+    <li><strong>Federate, and mean it.</strong> Seven fires with independent authority meant no single compromise conferred control over the whole. Blast radius containment is architectural, not procedural.</li>
+    <li><strong>Eliminate the credential worth stealing.</strong> Consensual authority with real revocation means a compromised or co-opted leader cannot bind the system. The Lakota had no root password because there was no root.</li>
+    <li><strong>Validate what a credential actually authorizes.</strong> The treaty system worked by accepting signatures that carried no such authority. Confused deputy, 1851 edition.</li>
+    <li><strong>Topology determines casualty rate.</strong> Dense, static, highly connected, homogeneous nodes lost 75&ndash;80%. Dispersed, mobile, loosely coupled nodes survived. Segmentation is not overhead.</li>
+    <li><strong>Assume the supply chain is the vector.</strong> The Dakota lost ground to a neighbor with better vendor access, over a grievance involving neither of them.</li>
+    <li><strong>Your logs reflect your sensor placement, not reality.</strong> Two centuries of horse historiography were wrong because European observers could only see what they could see, and their absence of evidence became everyone&rsquo;s evidence of absence.</li>
+    <li><strong>Distribute records, separate index from payload, and prefer formats the adversary does not recognize as records.</strong> A hundred winter counts survived because nobody classified them as government documents.</li>
+    <li><strong>Namespace control is schema control.</strong> An adversary-assigned identifier that propagates into every downstream system is an integrity failure with no clean rollback.</li>
+    <li><strong>Errors in authoritative sources outlive their own correction.</strong> The Nakota mislabel has been refuted for thirty years and is still in circulation. Re-query your cached truths.</li>
+    <li><strong>The most effective attack replaces authority rather than destroying it.</strong> Stand up a plausible substitute, convince the relying parties, and the legitimate system keeps running while becoming irrelevant. Defend by making authority verifiable by your own constituency on infrastructure the adversary does not operate.</li>
+    <li><strong>Anchor survival in what does not depend on the adversary.</strong> Kinship, language, and ceremony needed no charter, no building, and no budget line.</li>
+    <li><strong>Read what a remediation actually settles before accepting it.</strong> Over a billion dollars, unclaimed since 1980, because the payout would have extinguished the claim.</li>
+    <li><strong>Design for re-platforming, not for the current environment.</strong> Woodland, river, plains, reservation, present day. The systems that could not shapeshift are the ones that are not here.</li>
+  </ul>
+
+  <hr>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">Books</p>
+  <ul class="refs">
+    <li>H&auml;m&auml;l&auml;inen, Pekka. <em>Lakota America: A New History of Indigenous Power.</em> Yale University Press, 2019.</li>
+    <li>H&auml;m&auml;l&auml;inen, Pekka. <em>The Comanche Empire.</em> Yale University Press, 2008.</li>
+    <li>Fenn, Elizabeth A. <em>Pox Americana: The Great Smallpox Epidemic of 1775&ndash;82.</em> Hill and Wang, 2001.</li>
+    <li>Deloria, Ella Cara. <em>Speaking of Indians.</em> 1944; University of Nebraska Press, 1998.</li>
+    <li>Deloria, Ella Cara. <em>The Dakota Way of Life.</em> Ed. Raymond J. DeMallie and Thierry Veyri&eacute;. Bison Books, 2022.</li>
+    <li>Deloria, Vine, Jr., and Clifford M. Lytle. <em>The Nations Within: The Past and Future of American Indian Sovereignty.</em> Pantheon, 1984.</li>
+    <li>DeMallie, Raymond J., ed. <em>Handbook of North American Indians, Vol. 13: Plains.</em> Smithsonian Institution, 2001.</li>
+    <li>Gibbon, Guy. <em>The Sioux: The Dakota and Lakota Nations.</em> Blackwell, 2003.</li>
+    <li>Ostler, Jeffrey. <em>The Plains Sioux and U.S. Colonialism from Lewis and Clark to Wounded Knee.</em> Cambridge University Press, 2004.</li>
+    <li>Anderson, Gary Clayton. <em>Kinsmen of Another Kind: Dakota-White Relations in the Upper Mississippi Valley, 1650&ndash;1862.</em> University of Nebraska Press, 1984.</li>
+    <li>Hassrick, Royal B. <em>The Sioux: Life and Customs of a Warrior Society.</em> University of Oklahoma Press, 1964.</li>
+    <li>Richter, Daniel K. <em>The Ordeal of the Longhouse: The Peoples of the Iroquois League in the Era of European Colonization.</em> UNC Press, 1992.</li>
+    <li>Fenton, William N. <em>The Great Law and the Longhouse: A Political History of the Iroquois Confederacy.</em> University of Oklahoma Press, 1998.</li>
+    <li>Calloway, Colin G. <em>One Vast Winter Count: The Native American West before Lewis and Clark.</em> University of Nebraska Press, 2003.</li>
+    <li>Estes, Nick. <em>Our History Is the Future.</em> Verso, 2019.</li>
+    <li>Kukutai, Tahu, and John Taylor, eds. <em>Indigenous Data Sovereignty: Toward an Agenda.</em> ANU Press, 2016.</li>
+    <li>Parsons, Elsie Clews. <em>Pueblo Indian Religion.</em> University of Chicago Press, 1939.</li>
+    <li>Lazarus, Edward. <em>Black Hills/White Justice.</em> HarperCollins, 1991.</li>
+  </ul>
+
+  <p class="refs-group">Peer-reviewed articles</p>
+  <ul class="refs">
+    <li>Taylor, William Timothy Treal, et al. &ldquo;Early dispersal of domestic horses into the Great Plains and northern Rockies.&rdquo; <em>Science</em> 379, no. 6639 (2023): 1316&ndash;1323.</li>
+    <li>Carroll, Stephanie Russo, et al. &ldquo;The CARE Principles for Indigenous Data Governance.&rdquo; <em>Data Science Journal</em> 19, no. 1 (2020): 43.</li>
+    <li>Hodge, Adam R. &ldquo;Vectors of Colonialism: The Smallpox Epidemic of 1780&ndash;82 and Northern Great Plains Indian Life.&rdquo; M.A. thesis, Kent State University, 2009; and &ldquo;Pestilence and Power,&rdquo; <em>Great Plains Quarterly.</em></li>
+    <li>Grua, David W. Review of <em>Lakota America.</em> <em>The American Historical Review</em> 126, no. 1 (March 2021): 254&ndash;257.</li>
+    <li>Therrell, Matthew D., and Makayla J. Trotter. &ldquo;Waniyetu W&oacute;wapi: Native American Records of Weather and Climate.&rdquo; <em>Bulletin of the American Meteorological Society.</em></li>
+    <li>Rand, Jacki Thompson, et al. &ldquo;United States v. Sioux Nation of Indians Revisited: Justice, Repair, and Land Return.&rdquo; <em>South Dakota Law Review</em> 70, no. 2.</li>
+  </ul>
+
+  <p class="refs-group">Primary law and documents</p>
+  <ul class="refs">
+    <li>United States v. Sioux Nation of Indians, 448 U.S. 371 (1980).</li>
+    <li>Indian Reorganization Act (Wheeler-Howard Act), 25 U.S.C. &sect;5123 et seq., 1934.</li>
+    <li>Treaty of Fort Laramie, 1868.</li>
+  </ul>
+
+  <p class="refs-group">Investigative journalism</p>
+  <ul class="refs">
+    <li>Brown, Alleen, Will Parrish, and Alice Speri. &ldquo;Leaked Documents Reveal Counterterrorism Tactics Used at Standing Rock to &lsquo;Defeat Pipeline Insurgencies.&rsquo;&rdquo; <em>The Intercept</em>, May 27, 2017, and the subsequent <em>Oil and Water</em> series, including &ldquo;Police Used Private Security Aircraft for Surveillance in Standing Rock No-Fly Zone,&rdquo; September 29, 2017.</li>
+  </ul>
+
+  <p class="refs-group">Institutional</p>
+  <ul class="refs">
+    <li>Minnesota Historical Society, U.S.-Dakota War of 1862 project and the O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; digitization initiative.</li>
+    <li>State Historical Society of North Dakota, winter count document sets.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>Two honest caveats.</strong> First, the books above are cited as the standard works in these fields and their arguments inform the essay throughout, but the direct quotation and close citation in the body comes from sources retrieved during research &mdash; treat the book list as a reading path rather than as line-by-line sourcing.</p>
+    <p>Second, on anything concerning current O&#269;h&eacute;thi &#352;ak&oacute;wi&#331; governance or protocol, tribal sources and tribal historians are authoritative and this document is not. The Oceti Sakowin Essential Understandings curriculum, developed by the South Dakota Department of Education with tribal educators, is the right starting point.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and institutional resilience for Savvy Security LLC.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
