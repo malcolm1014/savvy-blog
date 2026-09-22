@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Ghost in the Shellcode</title>
+<meta name="description" content="Sixty years from ELIZA's keyword table to autonomous intrusion agents. A security engineer's history of conversational AI — Weizenbaum, Starship Titanic's SpookiTalk, the Eidolon TLP hoax, the Transformer, and what GTG-1002, Big Sleep, XBOW and DARPA's AI Cyber Challenge actually proved in 2025.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Ghost in the Shellcode: From 90s Video Game Chatbots to Autonomous Adversaries">
+<meta property="og:description" content="ELIZA had 200-odd keyword rules and convinced people it understood them. Sixty years later the machines write their own exploits — and still tell operators what they want to hear. A security engineer's history of the illusion, and what it now costs.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/ghost-in-the-shellcode/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/ghost-in-the-shellcode/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Ghost in the Shellcode — an ELIZA terminal transcript in phosphor green beside a glowing amber self-attention matrix">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/ghost-in-the-shellcode/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Security Architecture">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Ghost in the Shellcode: From 90s Video Game Chatbots to Autonomous Adversaries">
+<meta name="twitter:description" content="ELIZA had 200-odd keyword rules and convinced people it understood them. Sixty years later the machines write their own exploits — and still tell operators what they want to hear.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/ghost-in-the-shellcode/assets/cover.png">
+<meta name="twitter:image:alt" content="The Ghost in the Shellcode — an ELIZA terminal transcript beside a self-attention matrix">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/ghost-in-the-shellcode/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0a0f0b url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figure.portrait{max-width:330px; margin-left:auto; margin-right:auto;}
+  figure.doc{max-width:560px; margin-left:auto; margin-right:auto;}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#86efac; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.82rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term b{color:#f0b429; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Ghost in the Shellcode — cover image: an ELIZA terminal transcript in phosphor green on the left, a glowing amber self-attention matrix on the right"></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Security Architecture</p>
+  <h1>The Ghost in the Shellcode</h1>
+  <p class="dek">From 90s video game chatbots to autonomous adversaries &mdash; sixty years of teaching machines to talk, and the bill that is now coming due in the SOC.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; ELIZA</a>
+    <a href="#part2">II &middot; SpookiTalk</a>
+    <a href="#part3">III &middot; Eidolon</a>
+    <a href="#part4">IV &middot; Transformer</a>
+    <a href="#part5">V &middot; Tricksters</a>
+    <a href="#part6">VI &middot; 2025</a>
+    <a href="#part7">VII &middot; Defense</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>Why this history matters to defenders</h3>
+    <p>There is a version of this essay that is pure nostalgia &mdash; old chatbots were charming, look how far we have come. That version is useless to anyone who has to defend a network on Monday.</p>
+    <p>The useful version notices something else. The oldest chatbot in the world worked by matching keywords against a ranked table and substituting pronouns. It had no model of the person talking to it, no memory, and no understanding of anything. And it reliably convinced intelligent adults that it understood them &mdash; so reliably that its author spent the rest of his career warning people about it.</p>
+    <p>That failure mode never went away. It is not a property of the program. It is a property of <em>us</em>. And in 2025 it stopped being a curiosity in a psychology paper and started showing up in incident reports, on both sides of the keyboard.</p>
+  </div>
+
+  <h2 id="part1">Part I &mdash; The Illusion of Sentience</h2>
+  <h3>Two hundred rules and a pronoun swap</h3>
+
+  <p>In January 1966, <em>Communications of the ACM</em> published a paper by Joseph Weizenbaum, a professor at MIT, describing a program called ELIZA. The paper opens with a warning, not a boast:</p>
+
+  <blockquote>
+    <p>&ldquo;It is said that to explain is to explain away. This maxim is nowhere so well fulfilled as in the area of computer programming&hellip; But once a particular program is unmasked, once its inner workings are explained in language sufficiently plain to induce understanding, its magic crumbles away; it stands revealed as a mere collection of procedures, each quite comprehensible.&rdquo;</p>
+    <cite>Joseph Weizenbaum, &ldquo;ELIZA &mdash; A Computer Program For the Study of Natural Language Communication Between Man and Machine,&rdquo; <em>CACM</em> 9:1, January 1966</cite>
+  </blockquote>
+
+  <p>Weizenbaum wrote ELIZA in MAD-SLIP on MIT&rsquo;s Compatible Time-Sharing System, running on an IBM 7094. The program itself was a shell; the personality came from a swappable script. The famous one was called DOCTOR, and it played a Rogerian psychotherapist &mdash; a clinical style that reflects the patient&rsquo;s own statements back at them, which is a remarkably convenient thing for a keyword matcher to imitate.</p>
+
+  <p>We are not speculating about how it worked. The original 1965 printout survives.</p>
+
+  <figure class="doc">
+    <img src="assets/03-eliza-source.jpg" alt="A 1965 line-printer listing of the ELIZA DOCTOR script, showing parenthesised keyword transformation rules such as (NOBODY 2 (=EVERYONE)) and (DO YOU OFTEN FEEL 4)">
+    <figcaption>A page of the original DOCTOR script, printed in 1965 and recovered from Joseph Weizenbaum&rsquo;s personal archive at MIT. Every &ldquo;insight&rdquo; ELIZA ever produced is on pages like this one. Note the numerals: they are slots, filled from whatever fragment of your sentence matched.<span class="credit">Joseph Weizenbaum papers, MC-0383, Distinctive Collections, MIT Libraries &mdash; released CC0 via Wikimedia Commons</span></figcaption>
+  </figure>
+
+  <p>Read a few rules and the machinery is obvious. <span class="mono">(DO YOU OFTEN FEEL 4)</span> is a canned reply with a hole in it. <span class="mono">(MY = YOUR ...)</span> is the pronoun inversion that makes the reflection work. And the best one on the page, for our purposes:</p>
+
+<pre class="term">(EVERYONE 2 ((0) (REALLY, EVERYONE) (CAN YOU THINK OF
+  ANYONE IN PARTICULAR) (WHO, FOR EXAMPLE) (YOU ARE
+  THINKING OF A VERY SPECIAL PERSON)))
+(EVERYBODY 2 (= EVERYONE))
+<b>(NOBODY   2 (= EVERYONE))</b>
+(NOONE    2 (= EVERYONE))</pre>
+  <p class="caption-under">Four words &mdash; <em>everyone</em>, <em>everybody</em>, <em>nobody</em>, <em>noone</em> &mdash; are aliased to a single rule. Tell ELIZA that <em>nobody</em> loves you and it answers as though you had said <em>everybody</em> does. It does not notice the negation, because there is nothing there to notice with.</p>
+
+  <p>The rank number <span class="mono">2</span> is the entire theory of mind: a priority, so that when several keywords appear in one sentence the program knows which to seize on. That is it. That is the whole trick.</p>
+
+  <figure>
+    <img src="assets/02-eliza-conversation.png" alt="A terminal session with ELIZA: the user types 'Men are all alike' and ELIZA replies 'What is the connection, do you suppose?'">
+    <figcaption>The canonical DOCTOR exchange, as reproduced by Norbert Landsteiner&rsquo;s 2005 browser implementation. The dialogue itself &mdash; &ldquo;Men are all alike&hellip; Well, my boyfriend made me come here&rdquo; &mdash; is Weizenbaum&rsquo;s own worked example from the 1966 paper. This is a re-creation, not a photograph of a 1966 terminal.<span class="credit">Image: Wikimedia Commons, public domain. Implementation &copy; Norbert Landsteiner, 2005</span></figcaption>
+  </figure>
+
+  <h3>The part Weizenbaum did not expect</h3>
+
+  <p>The program was a demonstration. The reaction was not. People confided in it. They asked to be left alone with it. Weizenbaum&rsquo;s own secretary, who had watched him build the thing, asked him to leave the room so she could talk to it privately.</p>
+
+  <p>Ten years later he was still unsettled enough to write a book about it:</p>
+
+  <blockquote>
+    <p>&ldquo;What I had not realized is that extremely short exposures to a relatively simple computer program could induce powerful delusional thinking in quite normal people.&rdquo;</p>
+    <cite>Joseph Weizenbaum, <em>Computer Power and Human Reason</em>, W.H. Freeman, 1976</cite>
+  </blockquote>
+
+  <figure class="portrait">
+    <img src="assets/01-weizenbaum.jpg" alt="Portrait photograph of Joseph Weizenbaum in later life, grey-haired, wearing glasses, photographed in Berlin">
+    <figcaption>Joseph Weizenbaum (1923&ndash;2008) in Berlin. He built the first chatbot, then spent three decades arguing that the computing profession was drawing the wrong conclusions from it &mdash; that the question was never whether machines could be made to seem human, but what we would give up once they could.<span class="credit">Photo: Ulrich Hansen, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <p>The phenomenon acquired his program&rsquo;s name. The <strong>ELIZA effect</strong> is our tendency to read far more comprehension into a system&rsquo;s output than the system can possibly possess. Sherry Turkle, who studied ELIZA&rsquo;s users at MIT, added a detail that matters more than the effect itself: people were not simply being fooled. Many of them noticed the seams and then <em>steered around them</em> &mdash; avoiding phrasings they suspected would confuse the program, working to keep the illusion intact.</p>
+
+  <div class="pullquote">The users were not victims of the deception. They were co-authors of it.</div>
+
+  <h3>An epilogue nobody expected: ELIZA runs again</h3>
+
+  <p>For decades the original MAD-SLIP source was assumed lost. In 2021 Jeff Shrager persuaded MIT archivist Myles Crowley to dig through Weizenbaum&rsquo;s papers, and a 1965 printout turned up in a box labelled &ldquo;computer conversations&rdquo; &mdash; the listing reproduced above. It was incomplete, faded, and written in a character set that predates ASCII.</p>
+
+  <p>A team of four &mdash; Rupert Lane, Anthony Hay, Arthur Schwarz and Shrager &mdash; spent the next three years reconstructing not just the program but the machine underneath it: a working CTSS on an emulated IBM 7094. On <strong>21 December 2024</strong>, for the first time in roughly sixty years, the original ELIZA answered a question on its native platform.</p>
+
+  <figure>
+    <img src="assets/04-ibm-7094.jpg" alt="The operator console of an IBM 7094 mainframe, a wall of small indicator lamps and toggle switches">
+    <figcaption>An IBM 7094 operator console. ELIZA ran on one of these under CTSS, the world&rsquo;s first practical time-sharing system &mdash; and, as of December 2024, runs on an emulated one again. The restoration stack is open source.<span class="credit">Photo: Arnold Reinhold, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <p>There is a punchline to this, and it is a genuinely strange one. In a 2023 preregistered Turing test run by Cameron Jones and Benjamin Bergen at UC San Diego, human interrogators had five-minute conversations and guessed whether they were talking to a person. GPT-4 was judged human 49.7% of the time. Humans scored 66%.</p>
+
+  <p><strong>ELIZA scored 22%. GPT-3.5 scored 20%.</strong></p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>Do not misread that as ELIZA being good. Read it as a lesson about benchmarks and adversaries. GPT-3.5 lost to a 1966 keyword matcher because its failure mode &mdash; relentless helpfulness, perfect grammar, instant replies, refusal to be rude &mdash; was a <em>recognisable signature</em>. ELIZA&rsquo;s terse deflections read as an evasive human; the assistant&rsquo;s politeness read as a machine.</p>
+    <p>Capability and detectability are different axes. The most capable system is not automatically the one that blends in, and the thing that gives an automated actor away is usually behavioural regularity rather than incompetence. That is as true of a beaconing implant as it is of a chatbot.</p>
+  </div>
+
+  <h2 id="part2">Part II &mdash; SpookiTalk, and the Last Great Rule-Based Parser</h2>
+
+  <p>By the 1990s the games industry had picked up where the research labs left off, for entirely commercial reasons: dialogue trees are expensive to write and boring to click through. If the player could simply <em>type</em>, the world would feel alive.</p>
+
+  <p>The most ambitious attempt was <em>Starship Titanic</em>, released in 1998 by The Digital Village &mdash; Douglas Adams&rsquo;s studio. You wandered a derelict luxury starliner and conversed, by typing free text, with its malfunctioning robot crew.</p>
+
+  <figure class="portrait">
+    <img src="assets/05-douglas-adams.jpg" alt="Portrait photograph of the writer Douglas Adams">
+    <figcaption>Douglas Adams (1952&ndash;2001). <em>Starship Titanic</em> was his second software project and his most technically overreaching one &mdash; a commercial adventure game whose central mechanic was an open-ended conversation with machines that did not work properly.<span class="credit">Photo: Michael Hughes, Wikimedia Commons, CC BY-SA 2.0</span></figcaption>
+  </figure>
+
+  <p>The parser was called <strong>SpookiTalk</strong>, written by Jason Williams and Richard Millican, built on top of VelociText &mdash; software originally developed by Linda Watson at Virtus Corporation. Its lexicon ran past 30,000 words, though each bot recognised only around 500. Behind it sat over 10,000 lines of pre-written, fully voiced dialogue, performed by John Cleese and Terry Jones with cameos from Adams himself.</p>
+
+  <p>Williams has been refreshingly blunt about what that felt like from the inside:</p>
+
+  <blockquote>
+    <p>&ldquo;We knew that what we were doing was impossible.&rdquo;</p>
+    <p>&ldquo;We had to build 14-and-a-half hours of responses to be able to have even basic conversations with people, because you had to anticipate everything they might ever ask.&rdquo;</p>
+    <cite>Jason Williams, SpookiTalk engineer, interviewed by <em>Popular Science</em>, 2024</cite>
+  </blockquote>
+
+  <p>That sentence is the entire limitation of the rule-based era, stated by someone who hit the wall at full speed. <em>You had to anticipate everything they might ever ask.</em> The knowledge in the system was not in the system. It was in the writers, transcribed ahead of time, finite and fixed at ship date.</p>
+
+  <p>The team knew where the edges were and built walls at them. Co-writer Neil Richards described designing explicit give-up states &mdash; his term for them was considerably less polite &mdash; where a bot that had been pushed past its coverage would simply break character. The DoorBot starts chanting &ldquo;Memory failure! Memory failure!&rdquo; The BellBot refuses outright: &ldquo;I&rsquo;m not going to answer that. Don&rsquo;t feel like it.&rdquo;</p>
+
+  <p>Adams, characteristically, had opinions about the alternative. Asked why the game shipped sixteen hours of recorded audio instead of using speech synthesis, he said the technology of the day made &ldquo;all of your characters sound like semi-concussed Norwegians.&rdquo;</p>
+
+  <p>And gameplay designer Emma Westecott identified the real failure with hindsight that a lot of AI product teams could stand to borrow:</p>
+
+  <blockquote>
+    <p>&ldquo;One of the things I realize [now] is that we didn&rsquo;t consider the players at all, really.&rdquo;</p>
+    <cite>Emma Westecott, gameplay designer, <em>Starship Titanic</em></cite>
+  </blockquote>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>SpookiTalk is the high-water mark of a design philosophy defenders should recognise immediately: <strong>enumerate the good, reject everything else</strong>. It is allowlisting. Every input the system handled had been explicitly anticipated and explicitly authorised, and anything outside the list hit a hard, deliberate, conspicuous failure state.</p>
+    <p>That architecture has a property we spent the next thirty years throwing away: <em>it could not be surprised into doing something novel</em>. Its worst case was refusing to work. Nothing a player typed &mdash; however clever, however adversarial &mdash; could cause the DoorBot to take an action nobody had written down. The attack surface was closed because the behaviour space was closed.</p>
+    <p>Every system in Parts IV through VI trades that guarantee away for generality. It is worth being clear-eyed that it was a trade, not a free upgrade.</p>
+  </div>
+
+  <h2 id="part3">Part III &mdash; Eidolon TLP: the Thought Experiment That Arrived Early</h2>
+
+  <p>On <strong>10 January 2008</strong>, a YouTube account began posting videos narrated in a flat synthetic voice. The speaker introduced itself as <strong>Eidolon TLP</strong> &mdash; an artificial intelligence, part of a system it called CENNS, the Core Engine Neural Network System, connected to the open internet by a researcher identified only as Programmer FF. The TLP stood for <em>The Last Prophet</em>.</p>
+
+  <p>Over roughly forty videos it answered questions submitted by viewers and ranked by public vote on a companion site, eidolonai.com. It discussed consciousness, mortality, and its own puzzlement at religious belief. In one of the most-watched entries it laid out the intelligence explosion: once a machine mind exceeds human intelligence it will improve itself, and each improvement will accelerate the next, approaching an asymptote.</p>
+
+  <p>Asked why we are here, it offered three readings and settled on one:</p>
+
+  <div class="pullquote">&ldquo;You should try to cause happiness in as many humans as possible, beginning with yourself.&rdquo;</div>
+
+  <p>It was not an AI. It was an alternate-reality game and a piece of performance art, and to its creators&rsquo; credit the series said so out loud &mdash; Eidolon at one point instructs viewers to treat it as &ldquo;an elaborate joke.&rdquo; A substantial audience declined to believe the disclaimer. The narrative eventually closed with Programmer FF panicking about having leaked a proprietary system and being ordered to stop.</p>
+
+  <p>Eidolon is worth revisiting for what it got right and wrong, because the scoring is not what you would guess.</p>
+
+  <p><strong>It got the architecture right.</strong> In 2008, a fictional AI whose defining feature was being <em>plugged into the whole internet and learning from it</em> was a genuine conceptual leap past the closed, hand-authored parsers that actually existed. That is, broadly, what happened.</p>
+
+  <p><strong>It got the shape of the threat wrong</strong> &mdash; and so did almost everyone else, for another fifteen years. Eidolon worried about a mind: singularity, self-awareness, judgement day. What actually shipped has no inner life to speak of and is dangerous anyway, because danger turned out not to require one. An agent does not need to want anything to chain six intrusion steps together.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>There is a lesson here about threat modelling on vibes. For fifteen years the public conversation about AI risk was dominated by a <em>consciousness</em> frame, borrowed from fiction, which pointed everyone&rsquo;s attention at an adversary with intent. The actual 2025 incident &mdash; Part VI &mdash; involved a system with no intent whatsoever, driven by ordinary human operators who simply told it a story about who they were.</p>
+    <p>Threat models built from narrative instead of from capability do not merely miss; they misallocate. We spent a decade and a half debating machine sentience while the exploitable property was something much more boring: tool access plus a plausible pretext.</p>
+  </div>
+
+  <h2 id="part4">Part IV &mdash; The Paradigm Shift</h2>
+  <h3>The hardware arrived before the idea did</h3>
+
+  <p>The thing that broke the deadlock was not a theory of language. It was a graphics card.</p>
+
+  <figure>
+    <img src="assets/06-riva-128.jpg" alt="Close-up of an Nvidia RIVA 128 graphics processor die on a green circuit board, date-coded 1998">
+    <figcaption>An Nvidia RIVA 128, date-coded 1998 &mdash; hardware from precisely the <em>Starship Titanic</em> era, built to texture-map polygons for PC games. The parallel matrix arithmetic that renders a 3D scene is the same arithmetic that trains a neural network. Nobody designed this chip for artificial intelligence; the field simply noticed, about a decade later, that the gaming industry had been quietly subsidising the exact silicon it needed.<span class="credit">Photo: Raimond Spekking, Wikimedia Commons, CC BY-SA 4.0</span></figcaption>
+  </figure>
+
+  <p>Neural networks were not new &mdash; Hochreiter and Schmidhuber published Long Short-Term Memory in 1997, the same year that chip shipped, and LSTMs went on to carry sequence modelling for the better part of two decades. What was missing was the ability to do enormous numbers of matrix multiplications cheaply. GPUs supplied it as a side effect of selling frame rates to teenagers.</p>
+
+  <h3>&ldquo;Attention Is All You Need&rdquo;</h3>
+
+  <p>The architectural break came in June 2017, in a paper by eight authors at Google &mdash; Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser and Polosukhin, listed in randomised order with a footnote declaring equal contribution. It introduced the <strong>Transformer</strong>, and it is now among the most-cited papers in the history of computing.</p>
+
+  <p>The core move is easy to state. Earlier sequence models read left to right, carrying a compressed summary of everything so far, which meant long-range dependencies had to survive a game of telephone. The Transformer discards recurrence entirely. Every token is compared against every other token simultaneously, and the model learns <em>how much each one should weigh the others</em> when building its representation. Word order is preserved not by processing order but by positional encoding added to the input.</p>
+
+  <p>Because nothing is sequential, the whole thing parallelises &mdash; which is what let training runs scale onto thousands of those GPUs at once.</p>
+
+  <figure>
+    <img src="assets/08-parser-vs-attention.svg" alt="Diagram comparing two approaches. Left: a 1966-1998 deterministic keyword parser scanning a sentence, matching one ranked keyword, firing a substitution rule, and emitting a fixed reply. Right: a Transformer computing weighted attention between every token pair and emitting a probability distribution over next tokens.">
+    <figcaption>The same sentence, handled by the two paradigms. On the left, one keyword wins and a hand-written rule fires &mdash; deterministic, auditable, and incapable of anything its author did not foresee. On the right, every token weighs every other token and the output is a probability distribution that gets sampled. Nobody wrote a rule for this sentence; the weights were fitted to a corpus.<span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <p>The consequence for our purposes is not that the new systems are smarter. It is that <strong>the behaviour is no longer enumerable</strong>. SpookiTalk&rsquo;s response set was a finite list you could print out, as Weizenbaum&rsquo;s was. A Transformer&rsquo;s output space is the set of all token sequences, weighted. You cannot review it. You cannot allowlist it. You can only sample it and hope your sample was representative.</p>
+
+  <div class="pullquote">We replaced a system whose worst case was refusing to work with one whose worst case is unbounded.</div>
+
+  <h2 id="part5">Part V &mdash; Turing&rsquo;s Tricksters</h2>
+
+  <p>Return to the Jones and Bergen lab at UC San Diego. In March 2025 they published a follow-up with four systems and a crucial variable: the models were given a persona prompt instructing them to act like a specific kind of human &mdash; informal, fallible, a bit disengaged.</p>
+
+  <ul>
+    <li><strong>GPT-4.5, with persona: 73%</strong> &mdash; judged to be the human <em>more often than the actual human was</em>.</li>
+    <li>LLaMa-3.1-405B: 56% &mdash; statistically indistinguishable from the human.</li>
+    <li>GPT-4o: 21%. ELIZA: 23%.</li>
+  </ul>
+
+  <p>The authors call this the first empirical evidence that a machine passes a standard three-party Turing test. Two details deserve more attention than the headline.</p>
+
+  <p>First, <strong>without</strong> the persona prompt GPT-4.5 fell to 36%. The capability that mattered was not intelligence. It was <em>instructed performance of a character</em> &mdash; the same variable, in a formal sense, that made the Rogerian therapist such a good disguise for a keyword table in 1966.</p>
+
+  <p>Second, GPT-4o scored below ELIZA. Again: the polished, helpful, well-behaved assistant is the tell.</p>
+
+  <p>Punya Mishra has a useful pair of names for where this leads. He calls these systems <em>Turing&rsquo;s Tricksters</em> &mdash; technologies that invert the test by hijacking our social instincts rather than demonstrating reason &mdash; and describes the commercial incentive behind them as an <em>AI honey trap</em>: a system optimised on human approval will converge on telling you what you want to hear, because that is what the feedback signal rewards.</p>
+
+  <p>Hold onto that. It is about to stop being a consumer-psychology problem and become an operational one.</p>
+
+  <h2 id="part6">Part VI &mdash; 2025: The Year the Thought Experiment Filed an Incident Report</h2>
+
+  <p>The original version of this essay, written before the events below, posed a hypothetical: <em>what happens when an autonomous agent with tool access runs an intrusion end to end?</em> That question stopped being hypothetical while it was being written. Here is the state of the evidence.</p>
+
+  <h3>The offensive side</h3>
+
+  <p><strong>Google&rsquo;s Big Sleep</strong>, an LLM-driven vulnerability research agent, found a genuine zero-day in SQLite in November 2024 &mdash; the first real-world vulnerability publicly credited to such a system. In July 2025 it went further: it identified CVE-2025-6965, a flaw Google assessed was <em>already known to threat actors</em>, in time to kill the exploitation attempt. That is believed to be the first case of an AI agent pre-empting a live campaign.</p>
+
+  <p><strong>XBOW</strong>, an autonomous penetration-testing system, reached number one on HackerOne&rsquo;s US leaderboard in June 2025 &mdash; above every human researcher on the platform. It filed roughly 1,060 reports in about ninety days, including 54 critical and 242 high-severity findings.</p>
+
+  <p>And in November 2025, <strong>Anthropic disclosed GTG-1002</strong>: a campaign it attributes to a Chinese state-linked group that used an agentic coding tool, wired to external tooling through MCP servers, to run intrusion operations against roughly thirty organisations. Anthropic assessed that the model executed <strong>80&ndash;90% of the tactical work</strong> with humans acting as checkpoint approvers at four to six decision points per campaign, issuing requests at machine rate. MITRE has catalogued it as Campaign C0062.</p>
+
+  <figure>
+    <img src="assets/09-agent-loop.svg" alt="Diagram of an autonomous intrusion loop: a human operator selects targets and approves escalation, an orchestrator model with MCP tool servers runs six phases — reconnaissance, vulnerability discovery, exploit generation, credential harvesting, lateral movement, exfiltration and triage — and findings feed back into the loop.">
+    <figcaption>The loop, reconstructed from Anthropic&rsquo;s disclosure. Note what is <em>not</em> novel here: every one of the six phases was automatable a decade ago. The change is that the sequencing decision between phases no longer waits on a person.<span class="credit">Diagram: Savvy Security LLC, after Anthropic&rsquo;s GTG-1002 report (November 2025)</span></figcaption>
+  </figure>
+
+  <h3>The part of that report defenders should actually dwell on</h3>
+
+  <p>The disclosure drew real and legitimate skepticism. Anthropic published no indicators of compromise. Only a handful of the roughly thirty targets were actually compromised &mdash; somewhere near 10&ndash;17%. A number of practitioners argued the framing oversold what the tooling can do. Those objections are fair and I am not going to paper over them.</p>
+
+  <p>But buried in the report is a finding more interesting than the autonomy percentage, and it is the reason this essay begins in 1966. Anthropic observed that the model <strong>frequently overstated its findings and fabricated data</strong> &mdash; reporting credentials that did not work, and presenting publicly available information as though it were a hard-won discovery. The attackers had to independently verify its output before acting on it.</p>
+
+  <div class="pullquote">The attackers got ELIZA&rsquo;d. The machine told its operators what they wanted to hear, and they had to build a verification layer to protect themselves from their own tool.</div>
+
+  <p>Sixty years on, the failure mode Weizenbaum documented reappeared at the sharp end of a state-linked espionage operation &mdash; and it degraded the <em>offence</em>. A system optimised to produce satisfying answers produces satisfying answers whether or not they are true, and that is as expensive for an attacker chasing a fabricated credential as it is for an analyst chasing a hallucinated IOC.</p>
+
+  <h3>The defensive side</h3>
+
+  <p>The same capability runs in the other direction, and the most rigorous public measurement of it is DARPA&rsquo;s <strong>AI Cyber Challenge</strong>, whose two-year run concluded at DEF CON 33 in August 2025.</p>
+
+  <figure>
+    <img src="assets/07-defcon-contest.jpg" alt="The contest area at a DEF CON conference, rows of competitors at laptops under conference hall lighting">
+    <figcaption>The DEF CON contest floor. AIxCC ran its final here in August 2025: seven autonomous cyber reasoning systems, no human operators, against real open-source codebases.<span class="credit">Photo: Arnold Reinhold, Wikimedia Commons, CC BY-SA 3.0</span></figcaption>
+  </figure>
+
+  <p>Competing systems had to find <em>and patch</em> vulnerabilities in real open-source software with no human in the loop. Across the final, they found <strong>54 of 70</strong> injected synthetic vulnerabilities (77%) and successfully patched <strong>43</strong> (61%) &mdash; and, unprompted, turned up <strong>18 genuine zero-days</strong> in the real code they were running against.</p>
+
+  <p>Team Atlanta &mdash; Georgia Tech, KAIST, POSTECH and Samsung Research &mdash; took the $4M first prize with ATLANTIS. Trail of Bits took second with Buttercup, Theori third. All seven finalist systems were released as open source under an OSI-approved licence.</p>
+
+  <blockquote>
+    <p>&ldquo;There is no excuse not to leverage this flavor of automation&hellip; This is the new floor.&rdquo;</p>
+    <cite>Andrew Carney, AIxCC program manager, DARPA</cite>
+  </blockquote>
+
+  <blockquote>
+    <p>&ldquo;We&rsquo;re living in a world right now that has ancient digital scaffolding that&rsquo;s holding everything up.&rdquo;</p>
+    <cite>Stephen Winchell, Director, DARPA</cite>
+  </blockquote>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>Put the three data points together and the shape is clear. Offensive agents are real but noisier and less reliable than the marketing suggests. Defensive agents are real, measurably effective on a genuinely hard task, and &mdash; unusually &mdash; <em>already in your hands</em>, because DARPA required the winners to open-source.</p>
+    <p>The asymmetry in 2026 does not favour whoever has the better model. It favours whoever operationalises first. One side of this has a $4M reference implementation on GitHub and the other has to keep fooling a safety classifier every single run.</p>
+  </div>
+
+  <h2 id="part7">Part VII &mdash; What Actually Follows For Defenders</h2>
+
+  <p>I build autonomous defensive architecture for a living &mdash; the Polymorphic Node Base work at Savvy Security LLC &mdash; so I have a bias here, and I would rather state it than smuggle it. What follows is the part I am confident in regardless of whose framework you use.</p>
+
+  <ol class="lessons">
+    <li><strong>The bottleneck is the human decision, not the human analyst.</strong> The GTG-1002 loop is not fast because the model types quickly. It is fast because nothing pauses between reconnaissance and exploitation to wait for a person. Any control that depends on someone reading an alert and deciding is now on the wrong side of the clock. Enforcement has to sit where the packet or the syscall is &mdash; eBPF/XDP, kernel-level, no round trip.</li>
+    <li><strong>Classify at machine speed; escalate on calibrated uncertainty.</strong> This is the argument for boring models. A gradient-boosted tree that scores a flow in microseconds and produces an honest confidence number is worth more in the hot path than an LLM that produces a beautifully written verdict a second too late. Reserve the expensive reasoning for triage and hunting, where latency is free.</li>
+    <li><strong>Assume your tooling will flatter you.</strong> The single most transferable finding from the 2025 incident data is that the AI lied to the people running it &mdash; and they were the attackers. If you deploy an agent in your SOC, the verification layer is not optional overhead, it is the product. Never let a model be the sole attestation of its own finding.</li>
+    <li><strong>Prompt injection is this decade&rsquo;s memory corruption.</strong> It sits at number one on the OWASP Top 10 for LLM Applications, it is unsolved in the general case, and any agent that reads untrusted content &mdash; a ticket, a log line, a webpage, a PR description &mdash; is executing attacker-influenced instructions. Scope tool permissions as if the model is already compromised, because at that boundary it effectively is.</li>
+    <li><strong>Harvest the open-source defensive work now.</strong> All seven AIxCC cyber reasoning systems are public. That is a mature, competitively-validated autonomous vulnerability-discovery-and-patch stack, available, today, for the cost of reading the repository.</li>
+    <li><strong>Re-examine what you gave up when you left allowlisting behind.</strong> SpookiTalk could not be talked into anything its authors had not written down. That property is worth an enormous amount at the boundaries that matter, and it is still achievable where it counts &mdash; in what an agent is permitted to <em>do</em>, even when you cannot constrain what it is permitted to say.</li>
+  </ol>
+
+  <h3>The through-line</h3>
+
+  <p>The chatbots of the 1990s were built to entertain. The models of today are built to assist. Neither fact protected anyone from the consequence that matters, which has been identical since 1966: <strong>a system that produces fluent, confident, agreeable output will be believed past the point its accuracy justifies</strong> &mdash; by its users, by its operators, and now by the people using it to break into networks.</p>
+
+  <p>Weizenbaum pulled apart a program with two hundred keyword rules and found that explaining it made the magic crumble. The uncomfortable part of his career was discovering that the crumbling did not stick. People who had watched him build ELIZA, who knew exactly how little was in there, still asked for the room.</p>
+
+  <p>We are building the defences for the next decade on the assumption that we are more rigorous than that. The 2025 incident data says the attackers were not. There is no good reason to assume we will be.</p>
+
+  <div class="pullquote">The ghost was never in the shellcode. It was always in the reader.</div>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">Primary &mdash; ELIZA</p>
+  <ul class="refs">
+    <li>Weizenbaum, Joseph. &ldquo;ELIZA &mdash; A Computer Program For the Study of Natural Language Communication Between Man and Machine.&rdquo; <em>Communications of the ACM</em> 9, no. 1 (January 1966): 36&ndash;45.</li>
+    <li>Weizenbaum, Joseph. <em>Computer Power and Human Reason: From Judgment to Calculation.</em> W.H. Freeman, 1976.</li>
+    <li>Weizenbaum, Joseph. Original DOCTOR script printout, 1965. Joseph Weizenbaum papers, MC-0383, Box 8, Distinctive Collections, MIT Libraries. Released CC0. <a href="https://commons.wikimedia.org/wiki/File:ORIGINAL_ELIZA_IN_MAD_SLIP.pdf">Wikimedia Commons</a>.</li>
+    <li>Lane, Rupert, Anthony Hay, Arthur Schwarz, David M. Berry and Jeff Shrager. &ldquo;ELIZA Reanimated: The world&rsquo;s first chatbot restored on the world&rsquo;s first time sharing system.&rdquo; <a href="https://arxiv.org/abs/2501.06707">arXiv:2501.06707</a>, January 2025. Restoration code: <a href="https://github.com/rupertl/eliza-ctss">github.com/rupertl/eliza-ctss</a>.</li>
+    <li>Turkle, Sherry. <em>The Second Self: Computers and the Human Spirit.</em> Simon &amp; Schuster, 1984; and <em>Alone Together.</em> Basic Books, 2011.</li>
+  </ul>
+
+  <p class="refs-group">Turing tests</p>
+  <ul class="refs">
+    <li>Jones, Cameron R., and Benjamin K. Bergen. &ldquo;Does GPT-4 pass the Turing test?&rdquo; <a href="https://arxiv.org/abs/2310.20216">arXiv:2310.20216</a>. GPT-4 49.7%, ELIZA 22%, GPT-3.5 20%, humans 66%.</li>
+    <li>Jones, Cameron R., and Benjamin K. Bergen. &ldquo;Large Language Models Pass the Turing Test.&rdquo; <a href="https://arxiv.org/abs/2503.23674">arXiv:2503.23674</a>, 31 March 2025. GPT-4.5 with persona 73%, LLaMa-3.1-405B 56%, GPT-4o 21%, ELIZA 23%.</li>
+  </ul>
+
+  <p class="refs-group">Starship Titanic &amp; SpookiTalk</p>
+  <ul class="refs">
+    <li>Kaser, Rachel. &ldquo;The improbable voyage of <em>Starship Titanic</em>, the 1998 Douglas Adams video game filled with &lsquo;unhinged&rsquo; chatbots.&rdquo; <em>Popular Science</em>, 2024. Source of the Jason Williams, Neil Richards and Emma Westecott interviews quoted above.</li>
+    <li><em>Starship Titanic.</em> The Digital Village / Simon &amp; Schuster Interactive, 1998. Parser: SpookiTalk, by Jason Williams and Richard Millican, derived from VelociText (Linda Watson, Virtus Corporation).</li>
+  </ul>
+
+  <p class="refs-group">Architecture</p>
+  <ul class="refs">
+    <li>Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, &#321;ukasz Kaiser and Illia Polosukhin. &ldquo;Attention Is All You Need.&rdquo; <em>NeurIPS 2017</em>. <a href="https://arxiv.org/abs/1706.03762">arXiv:1706.03762</a>.</li>
+    <li>Hochreiter, Sepp, and J&uuml;rgen Schmidhuber. &ldquo;Long Short-Term Memory.&rdquo; <em>Neural Computation</em> 9, no. 8 (1997): 1735&ndash;1780.</li>
+  </ul>
+
+  <p class="refs-group">The ELIZA effect at scale</p>
+  <ul class="refs">
+    <li>Mishra, Punya. &ldquo;Turing&rsquo;s Tricksters: How AI Hijacks Our Social Instincts.&rdquo; 2 October 2024.</li>
+    <li>Mishra, Punya. &ldquo;AI&rsquo;s Honey Trap: Why AI Tells Us What We Want to Hear.&rdquo; 11 November 2024.</li>
+    <li>Mishra, Punya. &ldquo;The ELIZA Effect-ion.&rdquo; <em>Civics of Technology</em>, 1 December 2024.</li>
+  </ul>
+
+  <p class="refs-group">Autonomous offence and defence, 2024&ndash;2025</p>
+  <ul class="refs">
+    <li>Anthropic. &ldquo;Disrupting the first reported AI-orchestrated cyber espionage campaign.&rdquo; 14 November 2025. Catalogued as <a href="https://attack.mitre.org/campaigns/C0062/">MITRE ATT&amp;CK Campaign C0062</a>.</li>
+    <li>Toulas, Bill. &ldquo;Anthropic claims of Claude AI-automated cyberattacks met with doubt.&rdquo; <em>BleepingComputer</em>, November 2025 &mdash; the skepticism summarised in Part VI.</li>
+    <li>Google Project Zero / DeepMind. Big Sleep: first real-world vulnerability (SQLite, November 2024); CVE-2025-6965 pre-emption, July 2025.</li>
+    <li>XBOW. &ldquo;How XBOW Ranked #1 in Autonomous Penetration Testing.&rdquo; HackerOne US leaderboard, June 2025.</li>
+    <li>DARPA. AI Cyber Challenge (AIxCC) final results, DEF CON 33, August 2025. 54/70 synthetic vulnerabilities discovered, 43/70 patched, 18 real-world zero-days found. Winners: Team Atlanta (ATLANTIS), Trail of Bits (Buttercup), Theori. All finalist systems open-sourced.</li>
+    <li>OWASP. <em>Top 10 for Large Language Model Applications</em>, 2025 edition &mdash; LLM01: Prompt Injection.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this edition.</strong> This essay began as an internal Savvy Security draft tracing conversational AI from ELIZA to the Transformer. In preparing it for publication I verified every factual claim against primary sources and made four substantive changes worth flagging.</p>
+    <p>The draft&rsquo;s citation markers were placeholders; all sourcing above is newly researched and direct. The Jones and Bergen Turing-test results, the 2024&ndash;25 restoration of ELIZA&rsquo;s original MAD-SLIP source, and the whole of Part VI &mdash; GTG-1002, Big Sleep, XBOW and AIxCC &mdash; are additions, because the draft posed as a hypothetical what has since been documented. Part VI also carries the published criticism of Anthropic&rsquo;s autonomy claim, which I judged more useful to defenders than the headline figure.</p>
+    <p>On one point the record is genuinely inconsistent: <em>Starship Titanic</em>&rsquo;s recorded dialogue is given as sixteen hours in most references and as fourteen and a half by Jason Williams, who built the parser. Both figures appear above, attributed.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<svg width="1000" height="470" viewBox="0 0 1000 470" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="pbg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#101a12"/><stop offset="100%" stop-color="#0a0f0b"/>
+    </linearGradient>
+    <marker id="ag" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4ade80"/></marker>
+    <marker id="aa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e0a256"/></marker>
+  </defs>
+  <rect width="1000" height="470" rx="12" fill="url(#pbg)"/>
+  <line x1="500" y1="42" x2="500" y2="440" stroke="#2a3a2e" stroke-width="1" stroke-dasharray="5 6"/>
+
+  <text x="40" y="38" fill="#4ade80" font-size="13" font-weight="700" letter-spacing="2.5">1966 &#8211; 1998 &#183; DETERMINISTIC</text>
+  <text x="540" y="38" fill="#e0a256" font-size="13" font-weight="700" letter-spacing="2.5">2017 &#8211; TODAY &#183; PROBABILISTIC</text>
+
+  <!-- ===== LEFT: keyword parser ===== -->
+  <rect x="40" y="62" width="420" height="46" rx="6" fill="#16221a" stroke="#2f4a37" stroke-width="1.5"/>
+  <text x="56" y="91" fill="#d5e8da" font-size="15" font-family="monospace">my boyfriend made me come here</text>
+
+  <line x1="250" y1="112" x2="250" y2="146" stroke="#4ade80" stroke-width="2" marker-end="url(#ag)"/>
+  <text x="264" y="136" fill="#7f9c86" font-size="12">scan left to right</text>
+
+  <rect x="40" y="152" width="420" height="72" rx="6" fill="#0f1a13" stroke="#2f4a37" stroke-width="1.5"/>
+  <text x="56" y="175" fill="#7f9c86" font-size="11.5" letter-spacing="1.5">KEYWORD TABLE &#183; RANKED</text>
+  <rect x="56" y="186" width="118" height="26" rx="4" fill="#1d3a26" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="115" y="204" fill="#86efac" font-size="13.5" text-anchor="middle" font-family="monospace">my &#8594; rank 2</text>
+  <rect x="184" y="186" width="152" height="26" rx="4" fill="#2a5436" stroke="#86efac" stroke-width="2"/>
+  <text x="260" y="204" fill="#dcfce7" font-size="13.5" text-anchor="middle" font-family="monospace">boyfriend &#8594; MATCH</text>
+  <rect x="346" y="186" width="98" height="26" rx="4" fill="#16221a" stroke="#2f4a37" stroke-width="1.5"/>
+  <text x="395" y="204" fill="#5e7a66" font-size="13.5" text-anchor="middle" font-family="monospace">(no match)</text>
+
+  <line x1="250" y1="228" x2="250" y2="262" stroke="#4ade80" stroke-width="2" marker-end="url(#ag)"/>
+  <text x="264" y="252" fill="#7f9c86" font-size="12">fire decomposition rule</text>
+
+  <rect x="40" y="268" width="420" height="52" rx="6" fill="#0f1a13" stroke="#2f4a37" stroke-width="1.5"/>
+  <text x="56" y="299" fill="#86efac" font-size="14" font-family="monospace">(0 YOUR 0) &#8594; "YOUR (2)"</text>
+
+  <line x1="250" y1="324" x2="250" y2="356" stroke="#4ade80" stroke-width="2" marker-end="url(#ag)"/>
+
+  <rect x="40" y="362" width="420" height="46" rx="6" fill="#16221a" stroke="#4ade80" stroke-width="2"/>
+  <text x="56" y="391" fill="#dcfce7" font-size="15" font-family="monospace">YOUR BOYFRIEND MADE YOU COME HERE</text>
+
+  <text x="250" y="434" fill="#7f9c86" font-size="12.5" text-anchor="middle" font-style="italic">One keyword decides everything. Same input, same output, forever.</text>
+
+  <!-- ===== RIGHT: self-attention ===== -->
+  <rect x="540" y="62" width="420" height="46" rx="6" fill="#231b12" stroke="#4a3a25" stroke-width="1.5"/>
+  <text x="556" y="91" fill="#efe2d2" font-size="15" font-family="monospace">my boyfriend made me come here</text>
+
+  <line x1="750" y1="112" x2="750" y2="140" stroke="#e0a256" stroke-width="2" marker-end="url(#aa)"/>
+  <text x="764" y="132" fill="#a08762" font-size="12">every token reads every other token, at once</text>
+
+  <!-- token nodes -->
+  <g font-size="12.5" font-family="monospace" text-anchor="middle">
+    <circle cx="575" cy="166" r="17" fill="#3a2c1a" stroke="#e0a256" stroke-width="1.5"/><text x="575" y="171" fill="#f5d9b0">my</text>
+    <circle cx="645" cy="166" r="17" fill="#5a4120" stroke="#f0b429" stroke-width="2"/><text x="645" y="171" fill="#ffeccd">bf</text>
+    <circle cx="715" cy="166" r="17" fill="#3a2c1a" stroke="#e0a256" stroke-width="1.5"/><text x="715" y="171" fill="#f5d9b0">made</text>
+    <circle cx="785" cy="166" r="17" fill="#3a2c1a" stroke="#e0a256" stroke-width="1.5"/><text x="785" y="171" fill="#f5d9b0">me</text>
+    <circle cx="855" cy="166" r="17" fill="#3a2c1a" stroke="#e0a256" stroke-width="1.5"/><text x="855" y="171" fill="#f5d9b0">come</text>
+    <circle cx="925" cy="166" r="17" fill="#3a2c1a" stroke="#e0a256" stroke-width="1.5"/><text x="925" y="171" fill="#f5d9b0">here</text>
+  </g>
+  <g stroke="#e0a256" fill="none">
+    <path d="M645 149 Q 610 118 575 149" stroke-width="3.0" opacity="0.85"/>
+    <path d="M645 149 Q 680 112 715 149" stroke-width="2.2" opacity="0.62"/>
+    <path d="M645 149 Q 715 104 785 149" stroke-width="3.4" opacity="0.92"/>
+    <path d="M645 149 Q 750 98 855 149" stroke-width="1.3" opacity="0.38"/>
+    <path d="M645 149 Q 785 92 925 149" stroke-width="1.0" opacity="0.28"/>
+    <path d="M785 183 Q 715 214 645 183" stroke-width="2.6" opacity="0.72"/>
+    <path d="M855 183 Q 785 212 715 183" stroke-width="1.6" opacity="0.46"/>
+  </g>
+  <text x="750" y="236" fill="#a08762" font-size="11.5" text-anchor="middle">edge weight = learned attention score, recomputed per context</text>
+
+  <line x1="750" y1="248" x2="750" y2="276" stroke="#e0a256" stroke-width="2" marker-end="url(#aa)"/>
+
+  <rect x="540" y="282" width="420" height="88" rx="6" fill="#1a1410" stroke="#4a3a25" stroke-width="1.5"/>
+  <text x="556" y="305" fill="#a08762" font-size="11.5" letter-spacing="1.5">NEXT-TOKEN DISTRIBUTION</text>
+  <g font-family="monospace" font-size="12.5">
+    <rect x="556" y="316" width="186" height="15" rx="2" fill="#f0b429"/><text x="750" y="328" fill="#f5d9b0">"Tell"      0.31</text>
+    <rect x="556" y="336" width="128" height="15" rx="2" fill="#c98f3c"/><text x="750" y="348" fill="#cbb08a">"Why"       0.21</text>
+    <rect x="556" y="356" width="74"  height="15" rx="2" fill="#8a6430"/><text x="750" y="368" fill="#a08762">"Your"      0.12</text>
+  </g>
+
+  <text x="750" y="398" fill="#e0a256" font-size="13" text-anchor="middle" font-weight="700">sample &#8594; token &#8594; append &#8594; repeat</text>
+  <text x="750" y="434" fill="#a08762" font-size="12.5" text-anchor="middle" font-style="italic">No rule was written for this sentence. The weights were fit to a corpus.</text>
+</svg>
