@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 830" width="720" height="830" font-family="DejaVu Sans, sans-serif">
+  <rect width="720" height="830" fill="#fbf8f0"/>
+  <rect x="1" y="1" width="718" height="828" fill="none" stroke="#ddd6c4" stroke-width="2"/>
+  <text x="40" y="50" font-family="DejaVu Serif, serif" font-size="27" font-weight="bold" fill="#1a1712">GNU, 1971&#8211;2026</text>
+  <text x="40" y="76" font-size="14.5" fill="#5d5545">Four decades from a shared PDP-10 to your CI pipeline.</text>
+  <line x1="40" y1="92" x2="680" y2="92" stroke="#a86a22" stroke-width="2"/>
+
+  <!-- spine -->
+  <line x1="150" y1="120" x2="150" y2="792" stroke="#c9bfa6" stroke-width="3"/>
+
+  <g font-size="13.5">
+    <!-- entries: year at x~60-140 right-aligned, dot at 150, text at 176 -->
+    <g>
+      <circle cx="150" cy="132" r="7" fill="#2f5568"/>
+      <text x="132" y="137" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#2f5568">1971</text>
+      <text x="176" y="130" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">Stallman joins the MIT AI Lab</text>
+      <text x="176" y="150" fill="#5d5545">Where reading and sharing source was simply how work got done.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="192" r="7" fill="#2f5568"/>
+      <text x="132" y="197" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#2f5568">c.1980</text>
+      <text x="176" y="190" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">The Xerox laser printer</text>
+      <text x="176" y="210" fill="#5d5545">Denied the driver source to fix a paper jam &#8212; the ethic became a mission.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="252" r="8" fill="#a86a22"/>
+      <text x="132" y="257" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#a86a22">1983</text>
+      <text x="176" y="250" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">&#8220;Free Unix!&#8221; &#8212; GNU announced (27 Sept)</text>
+      <text x="176" y="270" fill="#5d5545">Posted to net.unix-wizards &#8212; a Unix-compatible system, given away free.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="312" r="7" fill="#166534"/>
+      <text x="132" y="317" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#166534">1985</text>
+      <text x="176" y="310" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">GNU Manifesto + Free Software Foundation</text>
+      <text x="176" y="330" fill="#5d5545">The philosophy written down; the FSF founded to steward it.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="372" r="7" fill="#2f5568"/>
+      <text x="132" y="377" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#2f5568">1987</text>
+      <text x="176" y="370" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">GCC 1.0</text>
+      <text x="176" y="390" fill="#5d5545">A free compiler. Without it, there is no free operating system to compile.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="432" r="7" fill="#166534"/>
+      <text x="132" y="437" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#166534">1989&#8211;91</text>
+      <text x="176" y="430" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">GPL v1 (1989), GPL v2 (1991)</text>
+      <text x="176" y="450" fill="#5d5545">Copyleft in legal force &#8212; the licence that now governs the kernel itself.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="492" r="8" fill="#a86a22"/>
+      <text x="132" y="497" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#a86a22">1991</text>
+      <text x="176" y="490" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">Linus Torvalds releases the Linux kernel</text>
+      <text x="176" y="510" fill="#5d5545">The missing piece. GNU userland + Linux kernel = a complete free system.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="552" r="7" fill="#2f5568"/>
+      <text x="132" y="557" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#2f5568">1997</text>
+      <text x="176" y="550" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">GnuPG 0.0.0 (Werner Koch)</text>
+      <text x="176" y="570" fill="#5d5545">A free OpenPGP implementation &#8212; crypto for email and signed packages.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="612" r="7" fill="#166534"/>
+      <text x="132" y="617" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#166534">2007</text>
+      <text x="176" y="610" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">GPL v3</text>
+      <text x="176" y="630" fill="#5d5545">Answers software patents and &#8220;tivoization&#8221; &#8212; locked-down free code.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="672" r="7" fill="#a33"/>
+      <text x="132" y="677" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#a33">2014&#8211;15</text>
+      <text x="176" y="670" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">Shellshock, and the GnuPG funding scare</text>
+      <text x="176" y="690" fill="#5d5545">Ubiquity cuts both ways: a Bash bug is everywhere; core crypto, one maintainer.</text>
+    </g>
+    <g>
+      <circle cx="150" cy="732" r="9" fill="#1a1712"/>
+      <text x="132" y="737" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="15" font-weight="bold" fill="#1a1712">2026</text>
+      <text x="176" y="730" font-family="DejaVu Serif, serif" font-size="15.5" font-weight="bold" fill="#1a1712">GNU turns 43</text>
+      <text x="176" y="750" fill="#5d5545">Still the toolchain under the internet &#8212; and still, mostly, run by volunteers.</text>
+    </g>
+  </g>
+
+  <text x="40" y="800" font-family="DejaVu Sans Mono, monospace" font-size="12" fill="#8a7d5f">Diagram: Savvy Security LLC</text>
+</svg>
