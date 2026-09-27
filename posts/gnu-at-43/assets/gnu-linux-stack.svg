@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" width="720" height="560" font-family="DejaVu Sans, sans-serif">
+  <rect width="720" height="560" fill="#fbf8f0"/>
+  <rect x="1" y="1" width="718" height="558" fill="none" stroke="#ddd6c4" stroke-width="2"/>
+  <text x="40" y="50" font-family="DejaVu Serif, serif" font-size="27" font-weight="bold" fill="#1a1712">What people call &#8220;Linux&#8221;</text>
+  <text x="40" y="76" font-size="14.5" fill="#5d5545">The kernel is one layer. Almost everything you type into a shell is GNU.</text>
+  <line x1="40" y1="92" x2="680" y2="92" stroke="#a86a22" stroke-width="2"/>
+
+  <!-- legend -->
+  <rect x="430" y="34" width="16" height="16" fill="#e7dcc0"/>
+  <text x="452" y="47" font-size="12.5" fill="#5d5545">kernel</text>
+  <rect x="512" y="34" width="16" height="16" fill="#cfe2d6"/>
+  <text x="534" y="47" font-size="12.5" fill="#5d5545">GNU</text>
+  <rect x="584" y="34" width="16" height="16" fill="#dfe6ee"/>
+  <text x="606" y="47" font-size="12.5" fill="#5d5545">other</text>
+
+  <!-- stack, top = user-facing -->
+  <g font-size="14.5">
+    <!-- applications -->
+    <rect x="60" y="112" width="600" height="58" fill="#dfe6ee" stroke="#2f5568" stroke-width="1.5"/>
+    <text x="80" y="138" font-family="DejaVu Serif, serif" font-size="17" font-weight="bold" fill="#1a1712">Applications</text>
+    <text x="80" y="158" font-size="13" fill="#5d5545">Firefox, OpenSSH, your Python &#8212; some GNU (GIMP, GnuPG), most not</text>
+
+    <!-- GNU userland -->
+    <rect x="60" y="182" width="600" height="94" fill="#cfe2d6" stroke="#166534" stroke-width="1.5"/>
+    <text x="80" y="208" font-family="DejaVu Serif, serif" font-size="17" font-weight="bold" fill="#1a1712">GNU user space &#8212; the operating system around the kernel</text>
+    <text x="80" y="230" font-size="13" fill="#3d4a3f" font-family="DejaVu Sans Mono, monospace">bash &#183; coreutils (ls, cp, cat) &#183; glibc &#183; GCC &#183; binutils</text>
+    <text x="80" y="250" font-size="13" fill="#3d4a3f" font-family="DejaVu Sans Mono, monospace">GDB &#183; make &#183; tar &#183; grep &#183; sed &#183; awk &#183; autotools &#183; GnuPG</text>
+    <text x="80" y="268" font-size="12.5" fill="#5d5545">The compiler that builds the kernel, and the C library it links against, are here.</text>
+
+    <!-- kernel -->
+    <rect x="60" y="288" width="600" height="58" fill="#e7dcc0" stroke="#a86a22" stroke-width="1.5"/>
+    <text x="80" y="314" font-family="DejaVu Serif, serif" font-size="17" font-weight="bold" fill="#1a1712">Linux kernel</text>
+    <text x="80" y="334" font-size="13" fill="#5d5545">Torvalds, 1991 &#8212; the piece GNU was still missing (the Hurd never shipped)</text>
+
+    <!-- hardware -->
+    <rect x="60" y="358" width="600" height="46" fill="#efe9dc" stroke="#b9ae90" stroke-width="1.5"/>
+    <text x="80" y="386" font-family="DejaVu Serif, serif" font-size="16" font-weight="bold" fill="#5d5545">Hardware</text>
+  </g>
+
+  <text x="40" y="446" font-family="DejaVu Serif, serif" font-size="16" font-weight="bold" fill="#1a1712">This is why Stallman asks you to call it GNU/Linux.</text>
+  <text x="40" y="470" font-size="14" fill="#5d5545">Ship the kernel alone and you cannot boot to a prompt. The GNU project spent</text>
+  <text x="40" y="490" font-size="14" fill="#5d5545">eight years building the userland first; the kernel was the last brick, and it</text>
+  <text x="40" y="510" font-size="14" fill="#5d5545">came from outside. For a defender, that whole green band is your trusted toolchain.</text>
+
+  <text x="40" y="540" font-family="DejaVu Sans Mono, monospace" font-size="12" fill="#8a7d5f">Diagram: Savvy Security LLC</text>
+</svg>

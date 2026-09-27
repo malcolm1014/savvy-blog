@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" width="720" height="470" font-family="DejaVu Sans, sans-serif">
+  <rect width="720" height="470" fill="#fbf8f0"/>
+  <rect x="1" y="1" width="718" height="468" fill="none" stroke="#ddd6c4" stroke-width="2"/>
+  <text x="40" y="52" font-family="DejaVu Serif, serif" font-size="27" font-weight="bold" fill="#1a1712">The Four Freedoms</text>
+  <text x="40" y="78" font-size="14.5" fill="#5d5545">The Free Software Definition &#8212; four rights, numbered from zero.</text>
+  <line x1="40" y1="94" x2="680" y2="94" stroke="#a86a22" stroke-width="2"/>
+
+  <!-- rows -->
+  <g>
+    <circle cx="66" cy="140" r="22" fill="#2f5568"/>
+    <text x="66" y="148" font-family="DejaVu Sans Mono, monospace" font-size="22" font-weight="bold" fill="#fbf8f0" text-anchor="middle">0</text>
+    <text x="106" y="134" font-family="DejaVu Serif, serif" font-size="18.5" font-weight="bold" fill="#1a1712">Run the program as you wish, for any purpose.</text>
+    <text x="106" y="158" font-size="14" fill="#5d5545">No field-of-use limits, no licence server, no permission asked.</text>
+  </g>
+  <g>
+    <circle cx="66" cy="222" r="22" fill="#166534"/>
+    <text x="66" y="230" font-family="DejaVu Sans Mono, monospace" font-size="22" font-weight="bold" fill="#fbf8f0" text-anchor="middle">1</text>
+    <text x="106" y="216" font-family="DejaVu Serif, serif" font-size="18.5" font-weight="bold" fill="#1a1712">Study how it works, and change it.</text>
+    <text x="106" y="240" font-size="14" fill="#5d5545">Requires source code. This is the freedom a security auditor actually uses.</text>
+  </g>
+  <g>
+    <circle cx="66" cy="304" r="22" fill="#2f5568"/>
+    <text x="66" y="312" font-family="DejaVu Sans Mono, monospace" font-size="22" font-weight="bold" fill="#fbf8f0" text-anchor="middle">2</text>
+    <text x="106" y="298" font-family="DejaVu Serif, serif" font-size="18.5" font-weight="bold" fill="#1a1712">Redistribute copies to help your neighbour.</text>
+    <text x="106" y="322" font-size="14" fill="#5d5545">Sharing the binary and the source is a right, not an infringement.</text>
+  </g>
+  <g>
+    <circle cx="66" cy="386" r="22" fill="#166534"/>
+    <text x="66" y="394" font-family="DejaVu Sans Mono, monospace" font-size="22" font-weight="bold" fill="#fbf8f0" text-anchor="middle">3</text>
+    <text x="106" y="372" font-family="DejaVu Serif, serif" font-size="18.5" font-weight="bold" fill="#1a1712">Distribute your modified versions.</text>
+    <text x="106" y="396" font-size="14" fill="#5d5545">Also requires source. Freedoms 1 and 3 are why the code can be trusted.</text>
+  </g>
+
+  <text x="40" y="446" font-family="DejaVu Sans Mono, monospace" font-size="12" fill="#8a7d5f">Diagram: Savvy Security LLC &#183; after the Free Software Definition (gnu.org/philosophy/free-sw)</text>
+</svg>
