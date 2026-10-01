@@ -1,0 +1,93 @@
+<svg width="1000" height="1110" viewBox="0 0 1000 1110" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <defs>
+    <linearGradient id="tlbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b120d"/>
+      <stop offset="100%" stop-color="#0d1a12"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1110" rx="14" fill="url(#tlbg)" stroke="#22c55e" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text x="40" y="52" font-size="22" font-weight="700" fill="#4ade80" letter-spacing="3">SIXTY-SEVEN YEARS OF A WORD</text>
+  <text x="40" y="76" font-size="13" fill="#9fb0a2">From an MIT clubroom to the world&#8217;s largest hacker gatherings</text>
+
+  <!-- spine -->
+  <line x1="150" y1="104" x2="150" y2="1066" stroke="#2f7d52" stroke-width="3"/>
+
+  <g font-size="14">
+    <!-- rows: year (right-aligned at 128), node at 150, text at 176 -->
+    <g transform="translate(0,130)">
+      <circle cx="150" cy="0" r="7" fill="#f0b429"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#f0b429">1959</text>
+      <text x="176" y="5" fill="#e8e5d8">MIT&#8217;s Tech Model Railroad Club writes down &#8220;hack&#8221; and &#8220;hacker.&#8221;</text>
+    </g>
+    <g transform="translate(0,196)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">1971</text>
+      <text x="176" y="5" fill="#e8e5d8">Phone phreaks and the 2600&#8201;Hz tone; the MIT AI Lab&#8217;s unwritten ethic.</text>
+    </g>
+    <g transform="translate(0,262)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">1984</text>
+      <text x="176" y="5" fill="#e8e5d8">Steven Levy&#8217;s <tspan font-style="italic">Hackers</tspan>; <tspan font-style="italic">2600: The Hacker Quarterly</tspan> is founded.</text>
+    </g>
+    <g transform="translate(0,328)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">1986</text>
+      <text x="176" y="5" fill="#e8e5d8">The Mentor publishes &#8220;The Conscience of a Hacker&#8221; in <tspan font-style="italic">Phrack</tspan>.</text>
+    </g>
+    <g transform="translate(0,394)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">1990</text>
+      <text x="176" y="5" fill="#e8e5d8">The EFF is founded after the Steve Jackson Games raid.</text>
+    </g>
+    <g transform="translate(0,460)">
+      <circle cx="150" cy="0" r="7" fill="#f0b429"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#f0b429">1993</text>
+      <text x="176" y="5" fill="#e8e5d8">Jeff Moss throws the first DEF CON in Las Vegas.</text>
+    </g>
+    <g transform="translate(0,526)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">1998</text>
+      <text x="176" y="5" fill="#e8e5d8">L0pht tells the US Senate it could &#8220;take down the internet in 30 minutes.&#8221;</text>
+    </g>
+    <g transform="translate(0,592)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">2001</text>
+      <text x="176" y="5" fill="#e8e5d8">OWASP is founded; web-application security goes open and global.</text>
+    </g>
+    <g transform="translate(0,658)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">2005</text>
+      <text x="176" y="5" fill="#e8e5d8">ShmooCon begins in Washington, DC.</text>
+    </g>
+    <g transform="translate(0,724)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">2009</text>
+      <text x="176" y="5" fill="#e8e5d8">Security BSides is born; Hackers for Charity moves to Uganda.</text>
+    </g>
+    <g transform="translate(0,790)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">2011</text>
+      <text x="176" y="5" fill="#e8e5d8">DerbyCon and SkyDogCon launch &#8212; the &#8220;family&#8221; era of regional cons.</text>
+    </g>
+    <g transform="translate(0,856)">
+      <circle cx="150" cy="0" r="7" fill="#f0b429"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#f0b429">2013</text>
+      <text x="176" y="5" fill="#e8e5d8"><tspan font-style="italic">DEF CON: The Documentary</tspan>; I Am The Cavalry; Civic Hacking Day.</text>
+    </g>
+    <g transform="translate(0,922)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#86efac">2016</text>
+      <text x="176" y="5" fill="#e8e5d8">Hack the Pentagon &#8212; the first US federal bug bounty.</text>
+    </g>
+    <g transform="translate(0,988)">
+      <circle cx="150" cy="0" r="7" fill="#c6342e"/>
+      <text x="128" y="5" text-anchor="end" font-size="16" font-weight="700" fill="#e06b63">2017</text>
+      <text x="176" y="5" fill="#e8e5d8">WannaCry; its &#8220;hero,&#8221; Marcus Hutchins, is arrested leaving DEF CON.</text>
+    </g>
+    <g transform="translate(0,1054)">
+      <circle cx="150" cy="0" r="6" fill="#4ade80"/>
+      <text x="128" y="5" text-anchor="end" font-size="15" font-weight="700" fill="#86efac">&#8217;19&#8211;&#8217;26</text>
+      <text x="176" y="5" fill="#e8e5d8">DerbyCon&#8217;s last bow; ShmooCon winds down &#8212; and the scene keeps growing.</text>
+    </g>
+  </g>
+</svg>
