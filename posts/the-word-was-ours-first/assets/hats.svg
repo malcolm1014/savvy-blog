@@ -1,0 +1,68 @@
+<svg width="1000" height="470" viewBox="0 0 1000 470" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <rect width="1000" height="470" rx="14" fill="#0c120d" stroke="#22c55e" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text x="40" y="48" font-size="21" font-weight="700" fill="#4ade80" letter-spacing="2">THE HAT YOU WEAR IS THE PERMISSION YOU HAVE</text>
+  <text x="40" y="72" font-size="13" fill="#9fb0a2">The colour was never about skill. It is about one thing: consent.</text>
+
+  <!-- spectrum bar -->
+  <defs>
+    <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#eceadf"/>
+      <stop offset="50%" stop-color="#9aa3ad"/>
+      <stop offset="100%" stop-color="#1a1d22"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="96" width="920" height="8" rx="4" fill="url(#spec)"/>
+
+  <!-- WHITE HAT -->
+  <g transform="translate(40,140)">
+    <ellipse cx="60" cy="34" rx="46" ry="10" fill="#eceadf"/>
+    <path d="M 26 34 Q 26 -6 60 -6 Q 94 -6 94 34 Z" fill="#fbfaf4"/>
+    <path d="M 26 32 Q 60 44 94 32 L 94 37 Q 60 49 26 37 Z" fill="#cfccbd"/>
+    <text x="0" y="86" font-size="18" font-weight="700" fill="#f2efe6">WHITE HAT</text>
+    <text x="0" y="110" font-size="12.5" fill="#9fb0a2">Permission first.</text>
+    <text x="0" y="130" font-size="12.5" fill="#cfd6cc">Tests systems with a</text>
+    <text x="0" y="148" font-size="12.5" fill="#cfd6cc">signed contract, scope,</text>
+    <text x="0" y="166" font-size="12.5" fill="#cfd6cc">and a get-out-of-jail</text>
+    <text x="0" y="184" font-size="12.5" fill="#cfd6cc">letter. Pen-testers,</text>
+    <text x="0" y="202" font-size="12.5" fill="#cfd6cc">bug-bounty hunters,</text>
+    <text x="0" y="220" font-size="12.5" fill="#cfd6cc">defenders, researchers.</text>
+    <text x="0" y="250" font-size="12" font-weight="700" fill="#4ade80">LEGAL &#183; PAID &#183; HIREABLE</text>
+  </g>
+
+  <!-- GREY HAT -->
+  <g transform="translate(380,140)">
+    <ellipse cx="60" cy="34" rx="46" ry="10" fill="#9aa3ad"/>
+    <path d="M 26 34 Q 26 -6 60 -6 Q 94 -6 94 34 Z" fill="#aab2bb"/>
+    <path d="M 26 32 Q 60 44 94 32 L 94 37 Q 60 49 26 37 Z" fill="#7c848d"/>
+    <text x="0" y="86" font-size="18" font-weight="700" fill="#c6cdd4">GREY HAT</text>
+    <text x="0" y="110" font-size="12.5" fill="#9fb0a2">No permission &#8212; but no</text>
+    <text x="0" y="130" font-size="12.5" fill="#cfd6cc">malice either. Finds the</text>
+    <text x="0" y="148" font-size="12.5" fill="#cfd6cc">hole uninvited, then tells</text>
+    <text x="0" y="166" font-size="12.5" fill="#cfd6cc">the owner (sometimes with</text>
+    <text x="0" y="184" font-size="12.5" fill="#cfd6cc">a bill attached). Named in</text>
+    <text x="0" y="202" font-size="12.5" fill="#cfd6cc">print by L0pht in 1999.</text>
+    <text x="0" y="220" font-size="12.5" fill="#cfd6cc">Good intentions, real risk.</text>
+    <text x="0" y="250" font-size="12" font-weight="700" fill="#f0b429">A FELONY WITH A CONSCIENCE</text>
+  </g>
+
+  <!-- BLACK HAT -->
+  <g transform="translate(720,140)">
+    <ellipse cx="60" cy="34" rx="46" ry="10" fill="#15181d"/>
+    <path d="M 26 34 Q 26 -6 60 -6 Q 94 -6 94 34 Z" fill="#23272e"/>
+    <path d="M 26 32 Q 60 44 94 32 L 94 37 Q 60 49 26 37 Z" fill="#0c0e11"/>
+    <text x="0" y="86" font-size="18" font-weight="700" fill="#e06b63">BLACK HAT</text>
+    <text x="0" y="110" font-size="12.5" fill="#9fb0a2">No permission, by design.</text>
+    <text x="0" y="130" font-size="12.5" fill="#cfd6cc">Breaks in to steal, extort,</text>
+    <text x="0" y="148" font-size="12.5" fill="#cfd6cc">or destroy for profit or</text>
+    <text x="0" y="166" font-size="12.5" fill="#cfd6cc">spite. Ransomware crews,</text>
+    <text x="0" y="184" font-size="12.5" fill="#cfd6cc">carders, access brokers.</text>
+    <text x="0" y="202" font-size="12.5" fill="#cfd6cc">Bigger paydays &#8212; and</text>
+    <text x="0" y="220" font-size="12.5" fill="#cfd6cc">a prison term with them.</text>
+    <text x="0" y="250" font-size="12" font-weight="700" fill="#c6342e">ILLEGAL &#183; TRACEABLE &#183; FINITE</text>
+  </g>
+
+  <line x1="353" y1="150" x2="353" y2="405" stroke="#2a3a2e" stroke-width="1"/>
+  <line x1="693" y1="150" x2="693" y2="405" stroke="#2a3a2e" stroke-width="1"/>
+
+  <text x="500" y="445" text-anchor="middle" font-size="12.5" fill="#9fb0a2">Same skills, all the way across. The line that matters is consent &#8212; and which side of it a court will say you were on.</text>
+</svg>

@@ -1,0 +1,67 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e13"/>
+      <stop offset="55%" stop-color="#0b140f"/>
+      <stop offset="100%" stop-color="#0e1d14"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- faint circuit traces -->
+  <g stroke="#2f7d52" stroke-width="2" fill="none" opacity="0.30">
+    <path d="M 60 70 L 120 70 L 120 130 L 210 130"/>
+    <path d="M 40 150 L 90 150 L 90 210 L 180 210"/>
+    <path d="M 1140 560 L 1080 560 L 1080 500 L 990 500"/>
+    <path d="M 1160 480 L 1100 480 L 1100 420 L 1010 420"/>
+    <circle cx="210" cy="130" r="4" fill="#22c55e"/>
+    <circle cx="180" cy="210" r="4" fill="#22c55e"/>
+    <circle cx="990" cy="500" r="4" fill="#22c55e"/>
+    <circle cx="1010" cy="420" r="4" fill="#22c55e"/>
+  </g>
+
+  <!-- three hats: white / grey / black -->
+  <g transform="translate(600,150)">
+    <!-- white hat -->
+    <g transform="translate(-230,0)">
+      <ellipse cx="0" cy="40" rx="86" ry="17" fill="#f5f3ea"/>
+      <path d="M -52 40 Q -52 -34 0 -34 Q 52 -34 52 40 Z" fill="#fbfaf4"/>
+      <path d="M -52 38 Q 0 54 52 38 L 52 44 Q 0 60 -52 44 Z" fill="#d9d6c8"/>
+    </g>
+    <!-- grey hat -->
+    <g transform="translate(0,0)">
+      <ellipse cx="0" cy="40" rx="86" ry="17" fill="#9aa3ad"/>
+      <path d="M -52 40 Q -52 -34 0 -34 Q 52 -34 52 40 Z" fill="#aab2bb"/>
+      <path d="M -52 38 Q 0 54 52 38 L 52 44 Q 0 60 -52 44 Z" fill="#7c848d"/>
+    </g>
+    <!-- black hat -->
+    <g transform="translate(230,0)">
+      <ellipse cx="0" cy="40" rx="86" ry="17" fill="#1a1d22"/>
+      <path d="M -52 40 Q -52 -34 0 -34 Q 52 -34 52 40 Z" fill="#23272e"/>
+      <path d="M -52 38 Q 0 54 52 38 L 52 44 Q 0 60 -52 44 Z" fill="#0e1013"/>
+    </g>
+  </g>
+
+  <!-- kicker -->
+  <text x="600" y="300" text-anchor="middle" font-family="monospace" font-size="22" letter-spacing="6" fill="#4ade80">SAVVY SECURITY LLC &#183; FIELD RESEARCH</text>
+
+  <!-- title -->
+  <text x="600" y="382" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="74" fill="#f2efe6">The Word Was Ours First</text>
+
+  <!-- subtitle -->
+  <text x="600" y="446" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="29" fill="#b9c2b4">A field guide to the hacker community &#8212; MIT to DEF CON</text>
+
+  <!-- prompt line -->
+  <g transform="translate(600,520)">
+    <rect x="-250" y="-30" width="500" height="58" rx="8" fill="#0c130d" stroke="#22c55e" stroke-opacity="0.5" stroke-width="1.5"/>
+    <text x="-228" y="8" font-family="monospace" font-size="26" fill="#86efac">&gt; whoami &#160;&#160;&#8594;&#160;&#160; <tspan fill="#f0b429" font-weight="bold">hacker</tspan><tspan fill="#4ade80">_</tspan></text>
+  </g>
+
+  <text x="600" y="600" text-anchor="middle" font-family="monospace" font-size="18" letter-spacing="3" fill="#5d6b5f">1959 TMRC &#183; 1984 2600 &#183; 1993 DEF CON &#183; 2026</text>
+</svg>
