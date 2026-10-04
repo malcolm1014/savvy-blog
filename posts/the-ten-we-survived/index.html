@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Ten We Survived</title>
+<meta name="description" content="A Cybersecurity Awareness Month field review of the ten cyber events that could have wiped the internet or stopped global logistics cold — from the Morris Worm to Log4Shell — and the researchers, coalitions, and kill switches that stopped each one. Scholarly sources, researchers quoted.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Ten We Survived: Cyber Near-Catastrophes We Faced and Overcame">
+<meta property="og:description" content="Ten times the network should have gone dark — the Morris Worm, Slammer, the Kaminsky DNS flaw, Conficker, Heartbleed, Mirai, WannaCry, NotPetya, SolarWinds, Log4Shell — and the mornings after. A Cybersecurity Awareness Month review for practitioners, with scholarly sources and researchers quoted.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-ten-we-survived/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/the-ten-we-survived/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark graveyard scene under a harvest moon with ten tombstones, each marked with the year of a cyber near-catastrophe from 1988 to 2021 and an eleventh open, dashed grave marked with a question mark. Title: The Ten We Survived. A Savvy Security LLC Cybersecurity Awareness Month cover.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/the-ten-we-survived/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Threat History / Incident Response">
+<meta property="article:published_time" content="2026-10-04">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Ten We Survived: Cyber Near-Catastrophes We Overcame">
+<meta name="twitter:description" content="From the Morris Worm to Log4Shell — ten times the internet or global logistics almost went dark, and the researchers and coalitions that stopped each one. A Cybersecurity Awareness Month field review, sourced.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-ten-we-survived/assets/cover.png">
+<meta name="twitter:image:alt" content="The Ten We Survived — Savvy Security LLC">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/the-ten-we-survived/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0a0e13 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h2 .num{font-family:'IBM Plex Mono',monospace; color:var(--accent); font-size:1.05rem; margin-right:10px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .stakes{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:16px 20px; margin:18px 0 24px;
+  }
+  .stakes .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:8px;}
+  .stakes p{font-size:.95rem; margin:0;}
+
+  .save{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:0 4px 4px 0; padding:16px 20px; margin:18px 0 26px;
+  }
+  .save .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin-bottom:8px;}
+  .save p{font-size:.95rem; margin:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:6px; border:1px solid var(--rule);}
+  figure.narrow{max-width:620px; margin-left:auto; margin-right:auto;}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  .scoreboard{width:100%; border-collapse:collapse; margin:10px 0 28px; font-size:.86rem;}
+  .scoreboard th,.scoreboard td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  .scoreboard th{font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); border-bottom:2px solid var(--accent);}
+  .scoreboard td:first-child{font-weight:700; white-space:nowrap;}
+  .scoreboard .yr{font-family:'IBM Plex Mono',monospace; color:var(--muted);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Cover: a dark graveyard under a harvest moon with ten tombstones, each marked with the year of a cyber near-catastrophe from 1988 to 2021, and an eleventh open grave marked with a question mark. Title: The Ten We Survived. A Savvy Security LLC Cybersecurity Awareness Month cover."></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Cybersecurity Awareness Month</p>
+  <h1>The Ten We Survived</h1>
+  <p class="dek">Ten times the network should have gone dark &mdash; and the mornings after. A field review of the cyber near-catastrophes we faced, and overcame, for the people whose job is the next one.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; 4 October 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#intro">The Thesis</a>
+    <a href="#n1">1 &middot; Morris</a>
+    <a href="#n2">2 &middot; Slammer</a>
+    <a href="#n3">3 &middot; Kaminsky</a>
+    <a href="#n4">4 &middot; Conficker</a>
+    <a href="#n5">5 &middot; Heartbleed</a>
+    <a href="#n6">6 &middot; Mirai</a>
+    <a href="#n7">7 &middot; WannaCry</a>
+    <a href="#n8">8 &middot; NotPetya</a>
+    <a href="#n9">9 &middot; SolarWinds</a>
+    <a href="#n10">10 &middot; Log4Shell</a>
+    <a href="#pattern">The Pattern</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>Why this list, and why now</h3>
+    <p>October is two things at once in this profession. It is <strong>Cybersecurity Awareness Month</strong> &mdash; the twenty-second, this year &mdash; and it ends on <strong>Halloween</strong>. So this is the one month we are permitted to tell ghost stories in a language the board will still take seriously.</p>
+    <p>Here is the premise. Every one of these ten events was, at its worst hour, a credible candidate to <em>end something</em> &mdash; the routing of the internet, the trust model under the secure web, the operation of hospitals, the movement of a fifth of the world&rsquo;s container freight. None of them did. We are still here, the packets still flow, and the ships still sail. That is not luck, and it is not the product of any vendor&rsquo;s console. It is the accumulated work of researchers, coalitions, and a handful of individuals who looked closer than anyone asked them to.</p>
+    <p>What follows is written for practitioners. Each nightmare is sourced to the scholarship or the primary record, the researchers are quoted in their own words where the record is firm, and each gets the only ending that matters on this blog: <strong>how we woke from it.</strong> Read it as a horror anthology if you like. Read it as a syllabus if you&rsquo;re serious.</p>
+  </div>
+
+  <figure>
+    <img src="assets/timeline.svg" alt="A vertical timeline, Thirty-Three Years of Near Misses, from 1988 to 2021, listing ten cyber incidents and how each was contained: the Morris Worm (1988) and the birth of the CERT Coordination Center; SQL Slammer (2003) and the rise of patch-management doctrine; the Kaminsky DNS flaw (2008) and the largest secret coordinated patch in internet history; Conficker (2009) and the Conficker Working Group; Heartbleed (2014) and mass re-keying plus funding for open source; Mirai and the Dyn attack (2016) and a reckoning on IoT defaults; WannaCry (2017) and the kill-switch domain; NotPetya (2017) and Maersk rebuilding from one surviving server in Ghana; SolarWinds Sunburst (2020) discovered by a victim's own hunt team; and Log4Shell (2021), contained by a global weekend-long patch sprint.">
+    <figcaption>The whole anthology on one spine. Read the left column for the scare; read the right column &mdash; the green checks &mdash; for the argument. The one red node, NotPetya, is the closest any of these came to a true doomsday for a core piece of the physical economy.<span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <p id="intro">A word on what is <em>not</em> here. <strong>Stuxnet</strong> is absent on purpose &mdash; not because it was minor, but because it was the rare case where the catastrophe was the <em>point</em>, aimed with precision at one adversary&rsquo;s centrifuges; I have written about it <a href="../stuxnet-humint/">at length elsewhere</a>, and it belongs to a different genre than the ten below. I have also kept this to events already resolved enough to have an ending. The nightmares still in progress &mdash; the slow harvest of encrypted traffic against <a href="../q-day-and-the-archive/">the arrival of a cryptographically relevant quantum computer</a>, and the first <a href="../ghost-in-the-shellcode/">autonomous offensive AI</a> &mdash; are their own essays. This one is about the monsters we have already beaten, because beating them is the only evidence we have that the next one is survivable too.</p>
+
+  <!-- ============== 1 MORRIS ============== -->
+  <h2 id="n1"><span class="num">01</span>The Morris Worm &mdash; the night the internet seized</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">2 November 1988 &middot; ~6,000 hosts &middot; the first internet-wide worm</p>
+
+  <p>On the evening of <strong>2 November 1988</strong>, a 99-line bootstrap program written by a 23-year-old Cornell graduate student named <strong>Robert Tappan Morris</strong> began replicating across the ARPANET. It exploited known holes in Berkeley UNIX &mdash; a stack overflow in <code>fingerd</code>, a debug mode left on in <code>sendmail</code>, and weak passwords &mdash; and it was supposed to spread quietly, to <em>measure</em> the size of the network. A flaw in its re-infection logic made it reinfect machines over and over until they ground to a halt under the load.</p>
+
+  <p>Within hours an estimated <strong>6,000 machines &mdash; roughly 10 percent of the entire connected internet</strong> of about 60,000 hosts &mdash; were crippled. Administrators cut their sites off from the network to survive, which meant the people trying to coordinate a response lost the ability to email each other. The author&rsquo;s own father was a senior computer scientist at the National Security Agency. The worm was, in the most literal sense, the first time the network ate itself.</p>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>No destructive payload &mdash; and it still took down a tenth of the internet by accident in a single night. It proved that a single, self-propagating program could saturate the entire network faster than any human could respond, and that the internet had no body, no phone tree, no one to call.</p>
+  </div>
+
+  <p>The definitive post-mortem was written at Purdue by <strong>Eugene H. Spafford</strong>, whose technical report <em>The Internet Worm Program: An Analysis</em> (Purdue CSD-TR-823) remains the model of how to dissect a live incident. Fifteen years later Spafford gave a talk whose title is the entire lesson of this article in six words:</p>
+
+  <blockquote>
+    <p>&ldquo;A Failure to Learn from the Past.&rdquo;</p>
+    <cite>Eugene H. Spafford, title of his 2003 ACSAC &ldquo;Classic Papers&rdquo; retrospective on the 1988 worm</cite>
+  </blockquote>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>Within weeks, DARPA funded the <strong>Computer Emergency Response Team Coordination Center (CERT/CC)</strong> at Carnegie Mellon &mdash; the first body on earth whose job was simply to <em>answer the phone</em> during an internet emergency. The entire global apparatus of CSIRTs, CVEs, and coordinated disclosure traces to that November. Morris, for his part, earned the first felony conviction under the 1986 Computer Fraud and Abuse Act &mdash; and is today a tenured professor at MIT. The worm taught the internet it needed an immune system, and the internet built one.</p>
+  </div>
+
+  <!-- ============== 2 SLAMMER ============== -->
+  <h2 id="n2"><span class="num">02</span>SQL Slammer &mdash; the fastest thing that ever moved on the wire</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">25 January 2003 &middot; 376 bytes &middot; the speed record that still stands</p>
+
+  <p>Fifteen years after Morris, the field got a demonstration of what &ldquo;fast&rdquo; actually means. At <strong>05:30 UTC on 25 January 2003</strong>, a worm the security community named <strong>Slammer</strong> (also Sapphire) began spreading. It was a single UDP packet &mdash; <strong>376 bytes</strong> &mdash; that exploited a buffer overflow in Microsoft SQL Server for which a patch had been available for <em>six months</em>. Because it was connectionless, it did not wait for anything. It just fired copies of itself at random addresses as fast as the bandwidth allowed.</p>
+
+  <p>The landmark measurement study, <em>The Spread of the Sapphire/Slammer Worm</em> &mdash; authored by <strong>David Moore, Vern Paxson, Stefan Savage, Colleen Shannon, Stuart Staniford, and Nicholas Weaver</strong> for CAIDA and collaborators &mdash; recorded numbers that still define the upper bound of the threat:</p>
+
+  <blockquote>
+    <p>&ldquo;The worm&rsquo;s spreading strategy uses random scanning &hellip; As it began spreading throughout the Internet, it doubled in size every 8.5 seconds. It infected more than 90 percent of vulnerable hosts within 10 minutes.&rdquo;</p>
+    <cite>Moore, Paxson, Savage, Shannon, Staniford &amp; Weaver, &ldquo;The Spread of the Sapphire/Slammer Worm,&rdquo; CAIDA, 2003</cite>
+  </blockquote>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>Ten minutes to saturate the planet, with no human in the loop. Collateral damage hit the physical world: <strong>Bank of America ATMs</strong> went offline, <strong>Continental Airlines</strong> cancelled flights when check-in froze, <strong>Seattle&rsquo;s 911</strong> system lost data connectivity, and the safety-parameter display at Ohio&rsquo;s <strong>Davis-Besse nuclear plant</strong> was knocked offline for nearly five hours. A worm with a <em>malicious</em> payload moving at that speed was, and remains, one of the genuine doomsday scenarios.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>Slammer&rsquo;s most damning detail &mdash; the patch had existed since the previous July &mdash; made it the event that turned <strong>patch management</strong> from an afterthought into board-level doctrine, and gave us Microsoft&rsquo;s &ldquo;Patch Tuesday&rdquo; cadence the following year. It drove the adoption of network <strong>rate-limiting and ingress filtering</strong>, the segmentation of operational-technology networks from the business LAN (the Davis-Besse lesson, learned the hard way), and a permanent respect for the connectionless-scanning threat model. We never got a worm that fast again &mdash; because we stopped leaving the door open for six months at a time.</p>
+  </div>
+
+  <!-- ============== 3 KAMINSKY ============== -->
+  <h2 id="n3"><span class="num">03</span>The Kaminsky DNS Flaw &mdash; the day someone could have rewritten the map</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">Summer 2008 &middot; the phone book of the internet &middot; a secret fix</p>
+
+  <p>In early 2008 the researcher <strong>Dan Kaminsky</strong> found something that made him physically ill. The <strong>Domain Name System</strong> &mdash; the service that turns <code>yourbank.com</code> into the IP address your packets actually travel to &mdash; could be poisoned. By combining old cache-poisoning ideas with a trick for forcing rapid retries and spoofing the additional records, an attacker could reliably convince a resolver that the attacker&rsquo;s server <em>was</em> your bank, your email provider, your software update server. Not one site. <strong>Any site.</strong> And it worked against the fundamental design of DNS, not a single buggy product.</p>
+
+  <p>Kaminsky did not publish. He called <strong>Paul Vixie</strong>, the author of the dominant DNS software, and together they convened a secret summit at Microsoft&rsquo;s Redmond campus in March 2008 &mdash; BIND&rsquo;s maintainers, Microsoft, Cisco, Sun, Nominum, major ISPs and registries in one room. They built a common fix (randomizing the source port to add entropy the attacker could not guess) in silence, and on <strong>8 July 2008</strong> every major vendor shipped it on the same day: at the time, the <strong>largest coordinated security patch in the history of the internet</strong>. Kaminsky held the technical details until Black Hat a month later, to buy the world time to patch.</p>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>If this had leaked before the fix, an attacker could have silently become the man in the middle for essentially <em>all</em> internet traffic &mdash; intercepting email, defeating password resets, and impersonating the update servers that patch everything else. It was a skeleton key to the internet&rsquo;s sense of direction. Kaminsky himself described it, without exaggeration, as a flaw that let him rewrite the rules of the network.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>The response became the <strong>template for coordinated vulnerability disclosure at internet scale</strong>: find it, keep it quiet, fix it together, ship simultaneously, then disclose. It accelerated the long, grinding deployment of <strong>DNSSEC</strong>, which cryptographically signs DNS answers so a forged one can be detected. Kaminsky spent the rest of his career &mdash; cut short by his death in 2021, at 42 &mdash; as one of the field&rsquo;s great public defenders. The internet still runs on the fix he coordinated in secret.</p>
+  </div>
+
+  <!-- ============== 4 CONFICKER ============== -->
+  <h2 id="n4"><span class="num">04</span>Conficker &mdash; the ten-million-machine army that never got its orders</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">November 2008&ndash;2009 &middot; up to ~10&ndash;15M hosts &middot; the April Fools that wasn&rsquo;t</p>
+
+  <p>Starting in November 2008, a worm called <strong>Conficker</strong> (Downadup) exploited a flaw in Windows Server service (MS08-067) and, in later variants, USB drives and weak passwords. By spring 2009 it had assembled one of the largest botnets ever seen &mdash; estimates ran from several million to as many as <strong>ten to fifteen million machines</strong>, including networked systems inside the <strong>French Navy, the UK Ministry of Defence and Royal Navy, the German Bundeswehr</strong>, hospitals, and city governments.</p>
+
+  <p>What made Conficker terrifying was its restraint. It built a vast, resilient command-and-control system &mdash; generating hundreds and then tens of thousands of rendezvous domains per day, so defenders could never simply block the callbacks &mdash; and then it <em>waited</em>. Its <strong>1 April 2009</strong> activation date was marked on every calendar in the industry as a potential doomsday, and no one knew what the army would be ordered to do. <strong>Mikko Hyppönen</strong>, who dissected it in his Black Hat 2009 analysis <em>The Conficker Mystery</em>, captured the defining strangeness: the most sophisticated botnet ever built was never meaningfully used.</p>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>A disciplined, patched, cryptographically-updated botnet of that size could have delivered the largest DDoS in history, harvested credentials from inside military and medical networks, or pushed destructive payloads to a tenth of the world&rsquo;s Windows machines at once. The capability was real and loaded. Only the trigger was missing.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>Conficker produced the first true <strong>industry-wide defensive coalition</strong>: the <strong>Conficker Working Group</strong> &mdash; informally &ldquo;the Cabal&rdquo; &mdash; joining Microsoft (which posted a $250,000 bounty), ICANN, registries, antivirus vendors, academics, and law enforcement. They reverse-engineered the domain-generation algorithm and pre-emptively <strong>registered or sinkholed the rendezvous domains</strong> before the worm could reach them, starving the botnet of instructions. April 1st came and went. The model &mdash; competitors pooling intelligence against a common threat &mdash; is now simply how the industry responds, and its after-action report is still taught as the founding case study in collective defense.</p>
+  </div>
+
+  <!-- ============== 5 HEARTBLEED ============== -->
+  <h2 id="n5"><span class="num">05</span>Heartbleed &mdash; the secure web was quietly bleeding</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">April 2014 &middot; CVE-2014-0160 &middot; the padlock that leaked</p>
+
+  <p>In April 2014 the world learned that the little padlock meant less than everyone believed. <strong>Heartbleed</strong> (CVE-2014-0160) was a missing bounds check in <strong>OpenSSL</strong> &mdash; the open-source library that implements HTTPS for most of the internet. A malformed &ldquo;heartbeat&rdquo; request could trick a server into returning up to 64 kilobytes of its own memory, over and over, leaving no trace. That memory could contain usernames, passwords, session cookies, and &mdash; catastrophically &mdash; the server&rsquo;s own <strong>private TLS keys</strong>. The flaw was found independently by <strong>Neel Mehta</strong> of Google and by engineers at the Finnish firm Codenomicon, who gave it its name and its logo.</p>
+
+  <p>The severity was not in doubt. <strong>Bruce Schneier</strong> rendered the verdict the whole field quotes to this day:</p>
+
+  <blockquote>
+    <p>&ldquo;Catastrophic is the right word. On the scale of 1 to 10, this is an 11.&rdquo;</p>
+    <cite>Bruce Schneier, &ldquo;Heartbleed,&rdquo; Schneier on Security, 9 April 2014</cite>
+  </blockquote>
+
+  <p>How widespread? The academic measurement study <em>The Matter of Heartbleed</em> &mdash; by <strong>Zakir Durumeric, J. Alex Halderman</strong> and colleagues, presented at the 2014 Internet Measurement Conference &mdash; found that between <strong>24% and 55%</strong> of popular HTTPS sites were initially vulnerable, on the order of half a million of the web&rsquo;s trusted secure servers. The bug had been in production code for over two years.</p>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>Undetectable theft of the private keys underpinning secure communication across a large fraction of the internet &mdash; retroactively compromising past traffic anyone had recorded, and enabling perfect impersonation going forward. The confidentiality guarantee of the web, silently void, with no log entry to prove it ever happened.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>A global scramble to <strong>patch, revoke, and re-key</strong> &mdash; reissuing certificates and forcing hundreds of millions of password resets &mdash; and Durumeric&rsquo;s team showed the patching curve was, by historical standards, fast. The deeper fix was institutional: Heartbleed exposed that the library securing the planet was maintained by a tiny, unpaid handful of volunteers, and the industry responded with the Linux Foundation&rsquo;s <strong>Core Infrastructure Initiative</strong> &mdash; real money, at last, for the critical open-source code everyone depends on and no one was funding. It is the reason &ldquo;software supply-chain security&rdquo; is a budget line today.</p>
+  </div>
+
+  <!-- ============== 6 MIRAI ============== -->
+  <h2 id="n6"><span class="num">06</span>Mirai and the Dyn Attack &mdash; the webcams took down the East Coast</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">October 2016 &middot; ~600,000 IoT devices &middot; &gt;1 Tbps</p>
+
+  <p>In the autumn of 2016 the threat arrived from the most mundane corner of the house: the DVR, the IP camera, the home router. The <strong>Mirai</strong> malware scanned the internet for devices still using factory-default passwords &mdash; <code>admin/admin</code> and its cousins &mdash; and enlisted them by the hundreds of thousands into a botnet with record-breaking firepower. It knocked the journalist Brian Krebs&rsquo;s site offline with roughly <strong>600 Gbps</strong>, and hit the French host OVH with over <strong>1 Tbps</strong> &mdash; volumes that had simply never been seen.</p>
+
+  <p>Then, on <strong>21 October 2016</strong>, Mirai pointed itself at <strong>Dyn</strong>, a major managed-DNS provider. By drowning Dyn, the attack took down the <em>name resolution</em> for much of the American internet at once: <strong>Twitter, Reddit, Netflix, Spotify, GitHub, Airbnb, PayPal</strong> and dozens more went dark in waves across the US East Coast. The authoritative analysis, <em>Understanding the Mirai Botnet</em> by <strong>Manos Antonakakis and a large academic-industry team</strong> at the 26th USENIX Security Symposium, traced its growth and its lineage &mdash; and its mundane, almost absurd origin.</p>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>A botnet built from <em>appliances</em> &mdash; devices with no update mechanism, no owner who would ever log in, and a lifespan measured in years &mdash; aimed not at a website but at the <strong>shared infrastructure</strong> (DNS) that everything else depends on. The number of vulnerable IoT devices was, and is, effectively unbounded. Mirai proved you could turn the Internet of Things into a weapon pointed at the internet itself.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>The botnet&rsquo;s three creators &mdash; who had built it, of all things, to extort <strong>Minecraft</strong> server hosts &mdash; were identified and pleaded guilty in 2017, cooperating with the FBI. Providers hardened DNS against volumetric floods and spread their infrastructure. More durably, Mirai forced the first serious reckoning on <strong>IoT security-by-default</strong>: laws and standards (California&rsquo;s SB-327, the UK&rsquo;s PSTI Act, NIST&rsquo;s IoT baseline) that ban universal default passwords and require a path to patch. We learned that the weakest device on the network sets the ceiling for everyone.</p>
+  </div>
+
+  <!-- ============== 7 WANNACRY ============== -->
+  <h2 id="n7"><span class="num">07</span>WannaCry &mdash; the morning the hospitals closed their doors</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">12 May 2017 &middot; 200,000+ machines &middot; 150+ countries</p>
+
+  <p>On <strong>12 May 2017</strong>, a ransomware worm called <strong>WannaCry</strong> tore across the planet in hours. Its engine was <strong>EternalBlue</strong> &mdash; an exploit for a flaw in Windows file sharing (SMBv1) developed by the NSA and dumped publicly by the <strong>Shadow Brokers</strong> a month earlier. Microsoft had shipped a patch (MS17-010) in March, but unpatched machines were everywhere. WannaCry encrypted files and demanded Bitcoin, and because it was a <em>worm</em>, it spread on its own from one unpatched machine to the next, across more than <strong>150 countries</strong>.</p>
+
+  <p>The United Kingdom&rsquo;s <strong>National Health Service</strong> became the face of it: roughly a third of NHS trusts in England disrupted, about <strong>19,000 appointments and operations cancelled</strong>, ambulances diverted, and clinicians locked out of records mid-shift &mdash; a cost the National Audit Office later put near <strong>£92 million</strong>. For a few hours it looked unstoppable.</p>
+
+  <p>Then a 22-year-old British researcher, <strong>Marcus Hutchins</strong> (&ldquo;MalwareTech&rdquo;), reverse-engineering the sample, noticed it queried a long, unregistered domain before encrypting. On a hunch he registered it &mdash; for about <strong>$10.69</strong> &mdash; and the global spread stopped. The domain was a <strong>kill switch</strong>; its existence now told every new infection to stand down.</p>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>A self-spreading, weapons-grade exploit &mdash; built by a national intelligence agency, then leaked to the entire world &mdash; wrapped in ransomware and loosed on hospitals, factories, and rail systems with no target discrimination at all. It was the moment the field&rsquo;s abstract fear, &ldquo;a worm plus a government exploit,&rdquo; became cancelled surgeries.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>The kill switch bought the time; <strong>patching and SMBv1 deprecation</strong> finished the job. WannaCry made <strong>offline, tested backups</strong> the non-negotiable control against ransomware, hardened the case for killing legacy protocols, and &mdash; via the NHS post-mortem &mdash; reframed cybersecurity as <strong>patient safety</strong>. Microsoft&rsquo;s Brad Smith called it a &ldquo;wake-up call&rdquo; about governments stockpiling exploits. (The coda is its own cautionary tale: months later Hutchins was arrested at the Las Vegas airport over unrelated malware he&rsquo;d written as a teenager &mdash; a story I tell in full in <a href="../the-word-was-ours-first/">&ldquo;The Word Was Ours First.&rdquo;</a>)</p>
+  </div>
+
+  <!-- ============== 8 NOTPETYA ============== -->
+  <h2 id="n8"><span class="num">08</span>NotPetya &mdash; the wiper that stopped the ships</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">27 June 2017 &middot; ~$10 billion &middot; the most destructive cyberattack in history</p>
+
+  <p>Five weeks after WannaCry came the one that actually did the damage. On <strong>27 June 2017</strong>, malware the world would call <strong>NotPetya</strong> detonated &mdash; delivered through a poisoned update to <strong>M.E.Doc</strong>, a Ukrainian tax-accounting program almost every business in the country ran. It wore the costume of ransomware, demanding Bitcoin to decrypt. That was a lie. NotPetya was a <strong>wiper</strong>: it destroyed the data and the master boot record outright, with no way to recover, even if you paid. Combining <strong>EternalBlue</strong> with the credential-stealing tool <strong>Mimikatz</strong>, it ripped through entire corporate networks from a single infected machine in minutes.</p>
+
+  <p>It did not stay in Ukraine. It hit the pharmaceutical giant <strong>Merck</strong>, the delivery company <strong>FedEx</strong> (its TNT division), the food company <strong>Mondel&#275;z</strong> &mdash; and, most famously, <strong>A.P. M&oslash;ller-Maersk</strong>, the largest container-shipping line on earth, which carries roughly a fifth of global seaborne trade. At terminals around the world, the machinery that moves containers simply stopped. The definitive account is <strong>Andy Greenberg&rsquo;s</strong> book <em>Sandworm</em>; the official verdict came from the White House in February 2018:</p>
+
+  <blockquote>
+    <p>&ldquo;It was part of the Kremlin&rsquo;s ongoing effort to destabilize Ukraine &hellip; the most destructive and costly cyber-attack in history.&rdquo;</p>
+    <cite>Statement by the White House Press Secretary attributing NotPetya to the Russian military, 15 February 2018</cite>
+  </blockquote>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>Total, unrecoverable destruction &mdash; delivered through the <strong>trusted software-update channel</strong> &mdash; spilling out of a regional conflict to take out the logistics backbone of the global economy as collateral. Maersk alone lost some 49,000 laptops and thousands of servers and applications; total worldwide damage is estimated near <strong>$10 billion</strong>. This is the one on the list that came closest to a true, physical, world-stopping catastrophe.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>Maersk&rsquo;s recovery became legend: with its Windows domain controllers wiped worldwide, the company found <strong>one surviving copy</strong> of its Active Directory &mdash; on a server in <strong>Ghana</strong> that had been offline during a local power cut &mdash; and rebuilt its entire global network from that single clean replica in about ten days. The lesson the whole profession took: <strong>assume breach, and architect for recovery.</strong> NotPetya drove enterprise adoption of network segmentation, privileged-access hardening (to blunt Mimikatz), ruthless scrutiny of the software supply chain, and the dawning recognition &mdash; later reflected in cyber-insurance &ldquo;act of war&rdquo; litigation &mdash; that a nation-state wiper is a business-continuity problem, not just an IT one.</p>
+  </div>
+
+  <!-- ============== 9 SOLARWINDS ============== -->
+  <h2 id="n9"><span class="num">09</span>SolarWinds / Sunburst &mdash; the poison was in the update itself</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">2020 &middot; ~18,000 organizations &middot; the supply chain weaponized</p>
+
+  <p>If NotPetya abused the update channel as a weapon of destruction, <strong>Sunburst</strong> abused it as an instrument of patience. Between March and June 2020, attackers later attributed to Russia&rsquo;s SVR (<strong>APT29 / Cozy Bear</strong>) inserted a backdoor into the build process of <strong>SolarWinds Orion</strong>, a network-management platform used across government and the Fortune 500. The malicious code was <strong>cryptographically signed by SolarWinds itself</strong> and shipped as a routine update. Roughly <strong>18,000 organizations</strong> installed it &mdash; and the operators then quietly hand-picked around a hundred for deeper intrusion, including multiple U.S. federal agencies.</p>
+
+  <p>The crucial fact: it was found not by the government and not by a scanner, but by a <strong>victim&rsquo;s own threat hunters</strong>. The security firm <strong>FireEye (Mandiant)</strong>, noticing an anomalous second phone enrolled for an employee&rsquo;s VPN, pulled the thread until it uncovered the whole campaign and went public in December 2020. Microsoft&rsquo;s president <strong>Brad Smith</strong> gave it the superlative it has kept:</p>
+
+  <blockquote>
+    <p>&ldquo;I think from a software engineering perspective, it&rsquo;s probably fair to say that this is the largest and most sophisticated attack the world has ever seen.&rdquo;</p>
+    <cite>Brad Smith, President of Microsoft, on <em>60 Minutes</em>, 14 February 2021</cite>
+  </blockquote>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>The attack did not break trust in one product &mdash; it broke trust in the <strong>mechanism of trust itself</strong>: the signed software update, the thing security teams spend their lives telling everyone to install <em>immediately</em>. If you cannot trust your vendor&rsquo;s signed build, the entire defensive model inverts. This is the honest entry on the list: as espionage, it partly succeeded. The catastrophe that was <em>averted</em> was the permanent, unbounded one &mdash; a world where no update can ever be trusted again.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>Sunburst turned <strong>software supply-chain security</strong> from a niche concern into national policy in months. It produced U.S. <strong>Executive Order 14028</strong>, which mandated a <strong>Software Bill of Materials (SBOM)</strong> &mdash; an ingredients label for software &mdash; for anything sold to the federal government, and poured energy into <strong>reproducible builds, build-pipeline integrity (SLSA), and signed provenance</strong>. It also vindicated <strong>assume-breach</strong> and behavioral threat hunting: the defense that worked was not a wall, but a human analyst noticing one phone that should not have been there.</p>
+  </div>
+
+  <!-- ============== 10 LOG4SHELL ============== -->
+  <h2 id="n10"><span class="num">10</span>Log4Shell &mdash; one line of logging, the whole internet exposed</h2>
+  <p class="mono" style="font-size:.8rem;color:var(--muted);margin:-2px 0 16px;">December 2021 &middot; CVE-2021-44228 &middot; CVSS 10.0</p>
+
+  <p>The decade&rsquo;s last great scare came from a place no one thinks about: the code that writes log files. <strong>Apache Log4j</strong> is a Java logging library so ubiquitous it is buried, often unknowingly, inside a staggering fraction of the world&rsquo;s enterprise software, cloud services, and even consumer devices. In December 2021 the world learned that if you could get a vulnerable application to simply <em>log a specially crafted string</em> &mdash; something as trivial as a username, a chat message, or a browser header &mdash; you could make it reach out to an attacker&rsquo;s server and execute arbitrary code. Full remote takeover, from a log line. It was rated the maximum <strong>CVSS 10.0</strong>, reported to Apache by <strong>Chen Zhaojun</strong> of Alibaba Cloud&rsquo;s security team.</p>
+
+  <p>Because the trigger was so trivial and the library so universal, exploitation began within hours and never really stopped that month. <strong>Jen Easterly</strong>, director of the U.S. Cybersecurity and Infrastructure Security Agency, delivered the assessment that defined the moment:</p>
+
+  <blockquote>
+    <p>&ldquo;This vulnerability is one of the most serious that I&rsquo;ve seen in my entire career, if not the most serious.&rdquo;</p>
+    <cite>Jen Easterly, Director of CISA, December 2021</cite>
+  </blockquote>
+
+  <div class="stakes">
+    <span class="tag">The nightmare</span>
+    <p>A trivially exploitable, universally present, remote-code-execution flaw in a component most organizations did not even know they were running. The attack surface was, functionally, &ldquo;anything written in Java that logs anything an attacker can influence&rdquo; &mdash; which is close to everything. At its peak, defenders observed well over a hundred exploitation attempts <em>per minute</em> across a large share of the world&rsquo;s networks.</p>
+  </div>
+
+  <div class="save">
+    <span class="tag">How we woke from it</span>
+    <p>What happened next was, frankly, one of the field&rsquo;s finest hours: a <strong>global, round-the-clock patch sprint</strong> over a single December weekend, as the open-source Java community, every major vendor, and defenders everywhere raced to inventory, mitigate, and patch faster than attackers could find them. CISA stood up a public remediation hub and a tracking repository; the predicted waves of catastrophic, headline ransomware largely did not materialize, precisely because the response was so fast. Log4Shell is the reason <strong>SBOMs</strong>, <strong>asset inventory</strong>, and <strong>sustained funding for open-source security</strong> (the OpenSSF, post-Heartbleed, matured here) stopped being slideware. You cannot patch what you cannot see &mdash; and in December 2021 the whole world learned how little it could see.</p>
+  </div>
+
+  <!-- ============== PATTERN ============== -->
+  <h2 id="pattern">The Pattern &mdash; what actually saved us, every time</h2>
+
+  <p>Line the ten up and the morning-after column rhymes. The thing that saved us was almost never a product and never a wall. It was, in every single case, one of five human disciplines &mdash; and usually a specific person who chose to look closer than the job required.</p>
+
+  <figure>
+    <img src="assets/defenses.svg" alt="A diagram, What Actually Saved Us, grouping the ten incidents under five recurring defensive patterns. One: coordinated disclosure and patching before the storm — Slammer, Kaminsky DNS, Heartbleed, Log4Shell. Two: cross-industry coalitions that outran the attacker — Morris leading to CERT/CC, the Conficker Working Group, and the Log4j Java community. Three: sinkholes, kill switches, and takedowns — the WannaCry kill switch, the Conficker sinkhole, the Mirai takedown. Four: resilient architecture and the discipline of backups — NotPetya and Maersk's recovery, and the Davis-Besse segmentation lesson. Five: a single human being who looked closer than anyone asked — Spafford on Morris, Kaminsky on DNS, Mehta on Heartbleed, Hutchins on WannaCry.">
+    <figcaption>Five patterns, ten disasters. Notice that none of the five is something you can purchase &mdash; they are disclosure norms, coalitions, command-channel seizures, architecture, and individual curiosity. The last row is the one this month exists to honor.<span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <table class="scoreboard">
+    <thead>
+      <tr><th>Nightmare</th><th>Year</th><th>What it threatened</th><th>What woke us</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Morris Worm</td><td class="yr">1988</td><td>The whole early internet</td><td>CERT/CC; incident response is born</td></tr>
+      <tr><td>SQL Slammer</td><td class="yr">2003</td><td>Finance, aviation, a nuclear plant</td><td>Patch management &amp; rate-limiting</td></tr>
+      <tr><td>Kaminsky DNS</td><td class="yr">2008</td><td>The internet&rsquo;s sense of direction</td><td>Secret coordinated patch; DNSSEC</td></tr>
+      <tr><td>Conficker</td><td class="yr">2009</td><td>A ~10M-machine loaded weapon</td><td>The Conficker Working Group</td></tr>
+      <tr><td>Heartbleed</td><td class="yr">2014</td><td>Every private key on the secure web</td><td>Mass re-keying; open-source funding</td></tr>
+      <tr><td>Mirai / Dyn</td><td class="yr">2016</td><td>Shared DNS infrastructure</td><td>Takedowns; IoT secure-by-default law</td></tr>
+      <tr><td>WannaCry</td><td class="yr">2017</td><td>Hospitals, in 150 countries</td><td>A $10 kill-switch domain; backups</td></tr>
+      <tr><td>NotPetya</td><td class="yr">2017</td><td>Global shipping &amp; logistics</td><td>Recovery architecture; segmentation</td></tr>
+      <tr><td>SolarWinds</td><td class="yr">2020</td><td>Trust in signed updates itself</td><td>SBOMs; assume-breach hunting</td></tr>
+      <tr><td>Log4Shell</td><td class="yr">2021</td><td>Nearly all enterprise software</td><td>A worldwide weekend patch sprint</td></tr>
+    </tbody>
+  </table>
+
+  <p>There is a reason the right-hand column almost never names a firewall. Each of these was survived by <strong>coordination under pressure</strong> &mdash; vendors who normally compete sitting in one room; by <strong>disclosure done right</strong> &mdash; the discipline to stay quiet and fix it together before telling the world; by <strong>seizing the adversary&rsquo;s command channel</strong> &mdash; a domain, a trunk line, a callback; by <strong>architecture that assumed failure</strong> &mdash; the one clean backup in Ghana; and, underneath all of it, by <strong>individual curiosity</strong> &mdash; a graduate student, a researcher who felt sick, a 22-year-old who registered a weird domain on a hunch.</p>
+
+  <div class="pullquote">The internet has never been saved by a product. It has been saved, ten times over, by people who refused to look away.</div>
+
+  <h3>The ghost story has a moral</h3>
+
+  <p>It is Halloween, so let us be honest about the genre. These are ghost stories, and ghost stories are instructive precisely because the monster is survivable. The value of telling them in Cybersecurity Awareness Month is not nostalgia. It is that <strong>the eleventh tombstone on the cover is blank</strong>, and someone reading this will work the incident that fills it &mdash; a post-quantum &ldquo;harvest now, decrypt later&rdquo; reckoning, an autonomous AI attacker, a supply-chain compromise that makes Sunburst look quaint.</p>
+
+  <p>When that night comes, the ten above are the evidence that it is survivable &mdash; and the exact playbook for how. Patch before the storm. Disclose like a professional. Build the coalition before you need it. Keep the backup you pray you never restore. And hire, protect, and listen to the curious person who noticed the one thing that was slightly wrong. That person is the whole of our defense. They always have been.</p>
+
+  <p>We have faced ten monsters that could have ended the network, the hospitals, the ships. We are still here. Keep the light on.</p>
+
+  <!-- ============== SOURCES ============== -->
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">Scholarly &amp; technical analyses</p>
+  <ul class="refs">
+    <li>Spafford, Eugene H. &ldquo;The Internet Worm Program: An Analysis.&rdquo; Purdue University Technical Report CSD-TR-823, 1988. See also Spafford, &ldquo;A Failure to Learn from the Past,&rdquo; <em>Proceedings of the 19th Annual Computer Security Applications Conference (ACSAC)</em>, 2003.</li>
+    <li>Moore, D., V. Paxson, S. Savage, C. Shannon, S. Staniford &amp; N. Weaver. &ldquo;The Spread of the Sapphire/Slammer Worm.&rdquo; CAIDA / ICSI / Silicon Defense / UC Berkeley / UC San Diego, 2003; and &ldquo;Inside the Slammer Worm,&rdquo; <em>IEEE Security &amp; Privacy</em> 1, no. 4 (2003): 33&ndash;39.</li>
+    <li>Durumeric, Z., J. Kasten, D. Adrian, J. A. Halderman, et al. &ldquo;The Matter of Heartbleed.&rdquo; <em>Proceedings of the 2014 Internet Measurement Conference (IMC &rsquo;14)</em>, ACM, 2014: 475&ndash;488.</li>
+    <li>Antonakakis, M., T. April, M. Bailey, et al. &ldquo;Understanding the Mirai Botnet.&rdquo; <em>Proceedings of the 26th USENIX Security Symposium</em>, 2017: 1093&ndash;1110.</li>
+    <li>Hyppönen, Mikko. &ldquo;The Conficker Mystery.&rdquo; Black Hat USA 2009 (F-Secure). See also the Conficker Working Group, <em>Lessons Learned</em> after-action report (The Rendon Group, for the U.S. Department of Homeland Security), 2010&ndash;2011.</li>
+  </ul>
+
+  <p class="refs-group">Primary records, official statements &amp; advisories</p>
+  <ul class="refs">
+    <li>CERT Coordination Center, founded at Carnegie Mellon University (Software Engineering Institute) by DARPA, November 1988; <em>United States v. Robert Tappan Morris</em> (first conviction under the Computer Fraud and Abuse Act), 1990.</li>
+    <li>Kaminsky, Dan &mdash; multivendor coordinated DNS patch, 8 July 2008; Black Hat USA 2008 disclosure; with Paul Vixie (ISC/BIND). <a href="https://www.internethalloffame.org/inductee/dan-kaminsky/">Internet Hall of Fame</a>.</li>
+    <li>Schneier, Bruce. &ldquo;Heartbleed.&rdquo; <em>Schneier on Security</em>, 9 April 2014 (&ldquo;on the scale of 1 to 10, this is an 11&rdquo;). CVE-2014-0160; discovery by Neel Mehta (Google) and Codenomicon.</li>
+    <li>CISA / Jen Easterly &mdash; remarks on Log4Shell (CVE-2021-44228), December 2021; CISA Apache Log4j guidance and remediation repository. Vulnerability reported by Chen Zhaojun, Alibaba Cloud Security.</li>
+    <li>The White House, &ldquo;Statement from the Press Secretary&rdquo; attributing NotPetya to the Russian military, 15 February 2018 (&ldquo;the most destructive and costly cyber-attack in history&rdquo;).</li>
+    <li>Brad Smith (Microsoft) on SolarWinds / Sunburst, <em>60 Minutes</em>, CBS, 14 February 2021; FireEye/Mandiant disclosure, December 2020; U.S. Executive Order 14028, &ldquo;Improving the Nation&rsquo;s Cybersecurity,&rdquo; May 2021 (SBOM mandate).</li>
+    <li>UK National Audit Office, <em>Investigation: WannaCry cyber attack and the NHS</em>, 2017&ndash;2018 (~19,000 appointments cancelled; ~&pound;92m). Microsoft (MS17-010); the Shadow Brokers&rsquo; leak of EternalBlue.</li>
+  </ul>
+
+  <p class="refs-group">Long-form &amp; reportage</p>
+  <ul class="refs">
+    <li>Greenberg, Andy. <em>Sandworm: A New Era of Cyberwar and the Hunt for the Kremlin&rsquo;s Most Dangerous Hackers.</em> Doubleday, 2019 &mdash; the definitive account of NotPetya and Maersk&rsquo;s recovery (including the surviving domain controller in Ghana).</li>
+    <li>Maersk &amp; the NotPetya recovery &mdash; A.P. M&oslash;ller-Maersk public statements and case studies, 2017&ndash;2018 (losses to ~$300m for Maersk; ~$10bn estimated worldwide).</li>
+    <li>CAIDA, &ldquo;The Spread of the Sapphire/Slammer Worm,&rdquo; project page &mdash; <a href="https://www.caida.org/catalog/papers/2003_sapphire/">caida.org</a>; and <em>Science</em>, &ldquo;The Fastest Worm Ever,&rdquo; 2003.</li>
+    <li>USENIX, &ldquo;Understanding the Mirai Botnet&rdquo; &mdash; <a href="https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/antonakakis">usenix.org</a> (Dyn attack, 21 October 2016; the Minecraft-extortion origin; guilty pleas, 2017).</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this edition &mdash; quotations, figures, and pictures.</strong> Three disclosures a careful reader deserves.</p>
+    <p><em>On quotations.</em> Every line inside quotation marks is a direct quote drawn from the cited source or a verified public record of it &mdash; the CAIDA paper, Schneier&rsquo;s blog, the White House statement, Brad Smith on <em>60 Minutes</em>, Jen Easterly&rsquo;s December 2021 remarks, and Spafford&rsquo;s paper title. Where a researcher&rsquo;s view is given without quotation marks (for instance, Dan Kaminsky&rsquo;s own framing of the DNS flaw), it is a faithful paraphrase of their documented public statements, not a verbatim transcript. A piece that cites its sources should never invent its own quotations.</p>
+    <p><em>On figures.</em> Incident numbers &mdash; infection counts, financial damage, percentages &mdash; are drawn from the scholarly and official sources above, and several are ranges or estimates by their nature (botnet sizes and economic losses especially). Where sources differ, I have cited the figure most defensible from the primary record and flagged the uncertainty rather than rounding toward drama.</p>
+    <p><em>On the artwork.</em> The cover and both diagrams are <strong>original vector work by Savvy Security LLC</strong>. In keeping with this blog&rsquo;s standing practice, there are no borrowed photographs: images are used only when their licence and credit can be verified, and where that was not possible, original art was made instead. Correctly licensed imagery can always be added later; unverified images should not be.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC. He writes on security architecture, threat history, and autonomous defense &mdash; and he keeps the light on.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>

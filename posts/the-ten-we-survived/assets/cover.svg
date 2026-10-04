@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0e08"/>
+      <stop offset="0.55" stop-color="#11130f"/>
+      <stop offset="1" stop-color="#1a1205"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f4c980"/>
+      <stop offset="0.7" stop-color="#e0a256"/>
+      <stop offset="1" stop-color="#e0a256" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20241b"/>
+      <stop offset="1" stop-color="#141710"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- faint scanlines -->
+  <g opacity="0.05" stroke="#4ade80" stroke-width="1">
+    <line x1="0" y1="90" x2="1200" y2="90"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="270" x2="1200" y2="270"/>
+    <line x1="0" y1="360" x2="1200" y2="360"/>
+    <line x1="0" y1="450" x2="1200" y2="450"/>
+  </g>
+
+  <!-- harvest moon -->
+  <circle cx="1010" cy="150" r="118" fill="url(#moon)" opacity="0.9"/>
+  <circle cx="1010" cy="150" r="78" fill="#f6d79a"/>
+  <g fill="#e0a256" opacity="0.35">
+    <circle cx="988" cy="128" r="10"/>
+    <circle cx="1034" cy="160" r="7"/>
+    <circle cx="1002" cy="178" r="5"/>
+  </g>
+
+  <!-- giant ghosted 10 -->
+  <text x="600" y="430" text-anchor="middle" font-size="520" font-weight="700" fill="#4ade80" opacity="0.045" font-family="'IBM Plex Mono', monospace">10</text>
+
+  <!-- kicker -->
+  <text x="70" y="98" font-family="'IBM Plex Mono', monospace" font-size="20" letter-spacing="5" fill="#e0a256" font-weight="700">SAVVY SECURITY LLC &#183; CYBERSECURITY AWARENESS MONTH</text>
+
+  <!-- title -->
+  <text x="68" y="214" font-size="104" font-weight="700" fill="#e8e5d8">The Ten We Survived</text>
+
+  <!-- rule -->
+  <rect x="72" y="250" width="150" height="4" fill="#e0a256"/>
+
+  <!-- dek -->
+  <text x="72" y="312" font-size="31" font-style="italic" fill="#a49c87">Cyber near&#8209;catastrophes that could have wiped the internet</text>
+  <text x="72" y="352" font-size="31" font-style="italic" fill="#a49c87">or halted global logistics &#8212; and the mornings after.</text>
+
+  <!-- terminal line -->
+  <text x="72" y="418" font-family="'IBM Plex Mono', monospace" font-size="23" fill="#4ade80">$ status --threats=10 --contained=10  <tspan fill="#5d6b4f"># so far.</tspan></text>
+
+  <!-- ten tombstones across the bottom, one per incident year -->
+  <g>
+    <!-- tombstone template drawn 10 times -->
+    <g transform="translate(72,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">1988</text>
+    </g>
+    <g transform="translate(180,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2003</text>
+    </g>
+    <g transform="translate(288,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2008</text>
+    </g>
+    <g transform="translate(396,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2009</text>
+    </g>
+    <g transform="translate(504,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2014</text>
+    </g>
+    <g transform="translate(612,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2016</text>
+    </g>
+    <g transform="translate(720,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="76" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2017</text>
+      <text x="45" y="104" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="13" fill="#6b7358">&#215;2</text>
+    </g>
+    <g transform="translate(828,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2020</text>
+    </g>
+    <g transform="translate(936,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="url(#stone)" stroke="#2c2e24" stroke-width="2"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="17" fill="#8a9178" font-weight="700">2021</text>
+    </g>
+    <!-- open grave: the one still to come -->
+    <g transform="translate(1044,470)">
+      <path d="M0 150 L0 36 Q0 0 36 0 L54 0 Q90 0 90 36 L90 150 Z" fill="none" stroke="#e06b63" stroke-width="2" stroke-dasharray="5 5" opacity="0.8"/>
+      <text x="45" y="92" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#e06b63" font-weight="700">?</text>
+    </g>
+  </g>
+
+  <!-- ground line -->
+  <rect x="0" y="618" width="1200" height="12" fill="#0a0d07"/>
+</svg>
