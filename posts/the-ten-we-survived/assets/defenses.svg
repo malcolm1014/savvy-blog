@@ -1,0 +1,79 @@
+<svg width="1000" height="700" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <rect width="1000" height="700" rx="14" fill="#11130f" stroke="#4ade80" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text x="44" y="54" font-size="22" font-weight="700" fill="#4ade80" letter-spacing="2">WHAT ACTUALLY SAVED US</text>
+  <text x="44" y="80" font-size="13.5" fill="#a49c87">Five defensive patterns rescued all ten. None of them is a product you can buy.</text>
+
+  <!-- chip style helper done inline -->
+  <g font-size="13">
+    <!-- Pattern 1 -->
+    <g transform="translate(0,118)">
+      <rect x="40" y="-28" width="920" height="92" rx="8" fill="#191b15" stroke="#2c2e24"/>
+      <circle cx="78" cy="18" r="20" fill="#e0a256"/>
+      <text x="78" y="25" text-anchor="middle" font-size="20" font-weight="700" fill="#11130f">1</text>
+      <text x="116" y="4" font-size="17" font-weight="700" fill="#e8e5d8">Coordinated disclosure &amp; patching before the storm</text>
+      <text x="116" y="30" font-size="12.5" fill="#a49c87">The fix often existed first. Getting it deployed quietly, together, is the whole game.</text>
+      <g font-size="11.5" fill="#86b98f">
+        <rect x="116" y="42" width="96" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="164" y="56" text-anchor="middle">Slammer</text>
+        <rect x="220" y="42" width="130" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="285" y="56" text-anchor="middle">Kaminsky DNS</text>
+        <rect x="358" y="42" width="112" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="414" y="56" text-anchor="middle">Heartbleed</text>
+        <rect x="478" y="42" width="112" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="534" y="56" text-anchor="middle">Log4Shell</text>
+      </g>
+    </g>
+
+    <!-- Pattern 2 -->
+    <g transform="translate(0,230)">
+      <rect x="40" y="-28" width="920" height="92" rx="8" fill="#191b15" stroke="#2c2e24"/>
+      <circle cx="78" cy="18" r="20" fill="#e0a256"/>
+      <text x="78" y="25" text-anchor="middle" font-size="20" font-weight="700" fill="#11130f">2</text>
+      <text x="116" y="4" font-size="17" font-weight="700" fill="#e8e5d8">Cross-industry coalitions that outran the attacker</text>
+      <text x="116" y="30" font-size="12.5" fill="#a49c87">Competitors in a room together, sharing indicators faster than the worm could spread.</text>
+      <g font-size="11.5" fill="#86b98f">
+        <rect x="116" y="42" width="150" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="191" y="56" text-anchor="middle">Morris &#8594; CERT/CC</text>
+        <rect x="274" y="42" width="200" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="374" y="56" text-anchor="middle">Conficker Working Group</text>
+        <rect x="482" y="42" width="150" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="557" y="56" text-anchor="middle">Log4j / Java world</text>
+      </g>
+    </g>
+
+    <!-- Pattern 3 -->
+    <g transform="translate(0,342)">
+      <rect x="40" y="-28" width="920" height="92" rx="8" fill="#191b15" stroke="#2c2e24"/>
+      <circle cx="78" cy="18" r="20" fill="#e0a256"/>
+      <text x="78" y="25" text-anchor="middle" font-size="20" font-weight="700" fill="#11130f">3</text>
+      <text x="116" y="4" font-size="17" font-weight="700" fill="#e8e5d8">Sinkholes, kill switches, and takedowns</text>
+      <text x="116" y="30" font-size="12.5" fill="#a49c87">Seize the command channel &#8212; the domain, the trunk, the C2 &#8212; and the weapon goes inert.</text>
+      <g font-size="11.5" fill="#86b98f">
+        <rect x="116" y="42" width="190" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="211" y="56" text-anchor="middle">WannaCry kill switch</text>
+        <rect x="314" y="42" width="180" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="404" y="56" text-anchor="middle">Conficker sinkhole</text>
+        <rect x="502" y="42" width="150" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="577" y="56" text-anchor="middle">Mirai takedown</text>
+      </g>
+    </g>
+
+    <!-- Pattern 4 -->
+    <g transform="translate(0,454)">
+      <rect x="40" y="-28" width="920" height="92" rx="8" fill="#191b15" stroke="#2c2e24"/>
+      <circle cx="78" cy="18" r="20" fill="#e0a256"/>
+      <text x="78" y="25" text-anchor="middle" font-size="20" font-weight="700" fill="#11130f">4</text>
+      <text x="116" y="4" font-size="17" font-weight="700" fill="#e8e5d8">Resilient architecture &amp; the discipline of backups</text>
+      <text x="116" y="30" font-size="12.5" fill="#a49c87">When prevention fails, recovery is the last line. One clean replica can rebuild a company.</text>
+      <g font-size="11.5" fill="#86b98f">
+        <rect x="116" y="42" width="230" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="231" y="56" text-anchor="middle">NotPetya &#8594; Maersk recovery</text>
+        <rect x="354" y="42" width="170" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="439" y="56" text-anchor="middle">Davis-Besse lesson</text>
+      </g>
+    </g>
+
+    <!-- Pattern 5 -->
+    <g transform="translate(0,566)">
+      <rect x="40" y="-28" width="920" height="92" rx="8" fill="#191b15" stroke="#e0a256" stroke-opacity="0.5"/>
+      <circle cx="78" cy="18" r="20" fill="#4ade80"/>
+      <text x="78" y="25" text-anchor="middle" font-size="20" font-weight="700" fill="#11130f">5</text>
+      <text x="116" y="4" font-size="17" font-weight="700" fill="#e8e5d8">A single human being who looked closer than anyone asked</text>
+      <text x="116" y="30" font-size="12.5" fill="#a49c87">In every case the thread was pulled by one curious person. That is who this month is for.</text>
+      <g font-size="11.5" fill="#86b98f">
+        <rect x="116" y="42" width="160" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="196" y="56" text-anchor="middle">Spafford (Morris)</text>
+        <rect x="284" y="42" width="150" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="359" y="56" text-anchor="middle">Kaminsky (DNS)</text>
+        <rect x="442" y="42" width="160" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="522" y="56" text-anchor="middle">Mehta (Heartbleed)</text>
+        <rect x="610" y="42" width="170" height="20" rx="10" fill="#0e1a12" stroke="#2f5d42"/><text x="695" y="56" text-anchor="middle">Hutchins (WannaCry)</text>
+      </g>
+    </g>
+  </g>
+</svg>
