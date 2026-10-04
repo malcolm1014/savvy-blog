@@ -1,0 +1,99 @@
+<svg width="1000" height="1180" viewBox="0 0 1000 1180" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <defs>
+    <linearGradient id="tlbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#11130f"/>
+      <stop offset="100%" stop-color="#0d1206"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="1180" rx="14" fill="url(#tlbg)" stroke="#e0a256" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <text x="44" y="56" font-size="22" font-weight="700" fill="#e0a256" letter-spacing="3">THIRTY-THREE YEARS OF NEAR MISSES</text>
+  <text x="44" y="82" font-size="13.5" fill="#a49c87">Ten times the network should have gone dark &#8212; and the morning after each one.</text>
+
+  <!-- legend -->
+  <g font-size="12.5">
+    <circle cx="640" cy="52" r="6" fill="#e0a256"/>
+    <text x="654" y="57" fill="#a49c87">the nightmare</text>
+    <text x="800" y="57" fill="#4ade80" font-weight="700">&#10003;</text>
+    <text x="818" y="57" fill="#a49c87">how we woke from it</text>
+  </g>
+
+  <!-- spine -->
+  <line x1="180" y1="118" x2="180" y2="1092" stroke="#7a5a28" stroke-width="3"/>
+
+  <g font-size="15.5">
+    <!-- 1 Morris -->
+    <g transform="translate(0,150)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">1988</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">Morris Worm &#8212; the first internet-wide self-spreading code.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  Birth of the CERT/CC and coordinated incident response.</text>
+    </g>
+    <!-- 2 Slammer -->
+    <g transform="translate(0,246)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2003</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">SQL Slammer &#8212; 376 bytes, the fastest worm ever measured.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  Patch management and rate-limiting become doctrine.</text>
+    </g>
+    <!-- 3 Kaminsky -->
+    <g transform="translate(0,342)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2008</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">Kaminsky DNS flaw &#8212; forge any address on the internet.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  The largest secret coordinated patch in internet history.</text>
+    </g>
+    <!-- 4 Conficker -->
+    <g transform="translate(0,438)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2009</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">Conficker &#8212; a 10-million-machine army awaiting orders.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  The Conficker Working Group &#8212; industry&#8217;s first true coalition.</text>
+    </g>
+    <!-- 5 Heartbleed -->
+    <g transform="translate(0,534)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2014</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">Heartbleed &#8212; two-thirds of the secure web bleeding memory.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  Mass re-keying; funding arrives for critical open source.</text>
+    </g>
+    <!-- 6 Mirai -->
+    <g transform="translate(0,630)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2016</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">Mirai / Dyn &#8212; a webcam army takes the US East Coast offline.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  Sinkholing, arrests, and a reckoning on IoT defaults.</text>
+    </g>
+    <!-- 7 WannaCry -->
+    <g transform="translate(0,726)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2017</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">WannaCry &#8212; ransomware shuts hospital doors in 150 countries.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  One researcher registers a domain &#8212; the kill switch.</text>
+    </g>
+    <!-- 8 NotPetya -->
+    <g transform="translate(0,822)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e06b63"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e06b63">2017</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">NotPetya &#8212; a wiper halts the world&#8217;s largest shipping line.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  Maersk rebuilds from one surviving server in Ghana.</text>
+    </g>
+    <!-- 9 SolarWinds -->
+    <g transform="translate(0,918)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2020</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">SolarWinds / Sunburst &#8212; the supply chain itself is poisoned.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  A vendor&#8217;s own hunt team finds it; SBOM goes mainstream.</text>
+    </g>
+    <!-- 10 Log4Shell -->
+    <g transform="translate(0,1014)">
+      <circle cx="180" cy="-5" r="7.5" fill="#e0a256"/>
+      <text x="156" y="0" text-anchor="end" font-size="17" font-weight="700" fill="#e0a256">2021</text>
+      <text x="206" y="0" fill="#e8e5d8" font-weight="700">Log4Shell &#8212; one logging line, &#8220;the most serious&#8221; flaw of a career.</text>
+      <text x="206" y="24" font-size="13.5" fill="#86b98f"><tspan fill="#4ade80" font-weight="700">&#10003;</tspan>  A global, round-the-clock patch sprint over one weekend.</text>
+    </g>
+  </g>
+
+  <text x="44" y="1138" font-size="12.5" fill="#6b6553">Each date is a nightmare the field walked up to &#8212; and walked away from.</text>
+  <text x="956" y="1138" font-size="11.5" fill="#5d5545" text-anchor="end">Diagram: Savvy Security LLC</text>
+</svg>
