@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hack the Handshake</title>
+<meta name="description" content="As AI floods the zone with synthetic résumés, fake candidates and agent-written code, the one thing a model cannot fake is a person standing in a room full of peers, proving what they know. A field guide to the hacker con — and why, in 2026, the handshake is becoming the verification layer.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hack the Handshake: Why the Age of AI Makes the Hacker Con More Important Than Ever">
+<meta property="og:description" content="A model can summarize a CVE. It cannot pick the lock, win the CTF round, or be vouched for by people who watched it work. The more synthetic the feed becomes, the more valuable provenance becomes — and provenance is made in person.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/hack-the-handshake/assets/cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Smiling attendees with lanyards gather around a lit model city at a DEF CON village.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/hack-the-handshake/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+
+<!-- Twitter Card (harmless to include, some FB paths fall back to it) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hack the Handshake">
+<meta name="twitter:description" content="As AI floods the zone with synthetic résumés and fake candidates, the handshake is becoming the verification layer. A field guide to the hacker con, and the people behind the keystrokes.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/hack-the-handshake/assets/cover.jpg">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#16a34a; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#4ade80; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#0a0c10 url('assets/cover.jpg') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:1.9rem; line-height:1.25; margin:0 0 6px;}
+  .dek{font-size:1.05rem; color:var(--muted); font-style:italic; margin:0 0 10px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 6px;}
+  .credit{color:var(--muted); font-size:.8rem; margin:0 0 32px;}
+  h2{font-size:1.35rem; margin:44px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  h3{font-size:1.08rem; margin:28px 0 10px; color:var(--fg);}
+  p{margin:0 0 18px;}
+  ul,ol{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:32px 0;}
+  strong{color:var(--fg);}
+  em{color:var(--fg);}
+  a{color:var(--accent); word-break:break-word;}
+  .abstract{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:8px; padding:20px 22px; margin:0 0 32px; font-size:.98rem;
+  }
+  .abstract p{margin:0}
+  figure{margin:0 0 28px;}
+  figure img{width:100%; display:block; border-radius:8px; border:1px solid var(--rule);}
+  figcaption{font-size:.85rem; color:var(--muted); margin-top:8px; line-height:1.5;}
+  blockquote{
+    margin:0 0 18px; padding:14px 20px; border-left:3px solid var(--accent);
+    background:var(--card); border-radius:0 8px 8px 0; font-style:italic;
+  }
+  blockquote p{margin:0;}
+  .note{
+    background:var(--card); border:1px solid var(--rule); border-radius:8px;
+    padding:18px 20px; margin:0 0 18px; font-size:.92rem; color:var(--muted);
+  }
+  .refs{font-size:.82rem; color:var(--muted); padding-left:22px;}
+  .refs li{margin-bottom:6px;}
+  .cta{
+    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--card); text-align:center;
+  }
+  .cta p{margin:0 0 14px; font-weight:700; font-size:1.05rem;}
+  .cta a.btn{
+    display:inline-block; background:var(--accent); color:#08130c; font-weight:700;
+    padding:12px 22px; border-radius:8px; text-decoration:none; font-size:.95rem;
+  }
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Smiling attendees with lanyards gather around a lit model city at a DEF CON village"></div>
+
+<main>
+  <p><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>Hack the Handshake: Why the Age of AI Makes the Hacker Con More Important Than Ever</h1>
+  <p class="dek">As synthetic influencers, AI-written résumés and agent-written code flood the zone, the one thing a model cannot fake is a person standing in a room full of peers, proving what they know.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; October 6, 2026</p>
+  <p class="credit">Cover: airmen and attendees at the 90th Cyberspace Operations Squadron &ldquo;Bricks in the Loop&rdquo; display, DEF CON 27 (2019). U.S. Air Force photo by Tech. Sgt. Robert Biermann &mdash; public domain.</p>
+
+  <div class="abstract">
+    <p><strong>The internet is filling up with people who do not exist.</strong> Synthetic influencers, AI-polished résumés, deepfaked interviews, and even nation-state operatives wearing a borrowed face. In almost every industry, that makes verification harder. In security it does something stranger: it raises the value of the one credential a model still cannot forge &mdash; a stranger who watched you work, and is willing to put their name next to yours. That credential has an address. It is called the hacker con, and it meets within driving distance of you more often than you think. This is a field guide to it: the conventions, the people who pour themselves into it, and why &mdash; in 2026 &mdash; the handshake is quietly becoming the verification layer.</p>
+  </div>
+
+  <h2>The Machine at the Microphone</h2>
+  <p>The first non-human to earn a DEF CON Black Badge was a program called Mayhem, which won DARPA's Cyber Grand Challenge at DEF CON 24 in 2016 [11]. In August 2025, an AI-driven cyber reasoning system built by Team Atlanta took the $4 million top prize in DARPA's AI Cyber Challenge on the DEF CON stage [15]. Machines have been welcomed into hacker culture for a decade. But notice <em>where</em> they earned their trophies: at a convention, in front of people.</p>
+
+  <figure>
+    <img src="assets/cgc-defcon24.jpg" alt="Seven tall, glowing autonomous hacking machines lined up on a neon-lit stage under a DEF CON 24 banner, with DARPA branding on the barrier in front." loading="lazy">
+    <figcaption>The DARPA Cyber Grand Challenge final at DEF CON 24, 2016 &mdash; seven autonomous systems (Mayhem, Shellphish's &ldquo;Mechanical Phish,&rdquo; and others) attacking and patching each other live on stage. The machines were welcomed into the culture. They just had to earn it in the room, like everyone else. Photo: Tony Webster, licensed <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>, via Wikimedia Commons.</figcaption>
+  </figure>
+
+  <p>That detail matters, because the rest of the internet is moving the other way. Industry surveys report that 86% of creators already use generative AI in their workflow, and fully virtual personas are multiplying across platforms [1]. Research on audiences is mixed: people tend to feel more empathy toward synthetic influencers than toward human ones, yet still rate them as less authentic [1]. One tracker reports brand adoption of virtual influencers rising from 60% to 73% of surveyed companies in 2026 [3], and market forecasts point to explosive growth, although the dollar figures differ widely depending on who is counting [2][3].</p>
+  <p>My theory is simple: the cybersecurity AI influencer is coming. To my knowledge no AI persona has yet built a major following specifically inside the security community, but every ingredient is on the table. The audience is online all day, hungry for daily threat briefings, vulnerability explainers and tutorials. A tireless synthetic host can post at 3 a.m., speak any language and never miss a news cycle. Practitioners are already experimenting with these tools themselves; veteran social engineer Jayson E. Street has discussed on Security Weekly how he uses, and social engineers, AI during his engagements [29].</p>
+  <p>But security has a built-in immune system that fashion and beauty do not: its currency is demonstrated skill. A persona can summarize a CVE. It cannot pick the lock, win the CTF round, or look a stranger in the eye and be vouched for by people who watched it work. The more synthetic the feed becomes, the more valuable provenance becomes. And provenance is made in person.</p>
+  <p>This is not a new instinct in the field &mdash; it is the oldest one. In 1984, journalist Steven Levy wrote down what he called the Hacker Ethic after living among the first generation of them at MIT: a conviction that you are judged by your work, that access and sharing beat credentials, and that &ldquo;hackers should be judged by their hacking, not bogus criteria such as degrees, age, race, or position&rdquo; [45]. Strip away forty years and that is still the operating principle. The con is just where the judging happens with everyone in the room.</p>
+
+  <h2>The Résumé Is Cheap Now</h2>
+  <p>Hiring teams are discovering the same thing. In a March 2026 Robert Half survey, 65% of hiring managers said AI-enhanced résumés have made it harder to verify candidate skills, and another report named fraudulent and AI-generated candidates the number one hiring threat of 2026 [4]. A vendor study found that three in four résumés sent to top salaried employers contained AI-generated content [6]. Equifax's advice to employers is blunt: &ldquo;trust but verify&rdquo; [7].</p>
+  <p>The stakes are higher in tech. North Korean operatives have been placing fake remote IT workers inside Western companies, and Palo Alto Networks' Unit 42 reported that a single researcher with no image-manipulation experience and a five-year-old computer built a synthetic interview identity in 70 minutes [8]. Security firms report that the final step of a defensible hiring process is increasingly an in-person interview, and that many of the fake workers got in because nobody had ever seen them face to face [9]. Even KnowBe4, the security-awareness company that Kevin Mitnick helped build, reported discovering that a remote engineer it hired was a North Korean national using a stolen identity [10][28]. If it can happen there, it can happen anywhere.</p>
+  <p>Employers are responding. A Software Finder poll found 65% of hiring professionals would back mandatory live-only interviews [5], and the same coverage notes that Google's CEO has said the company is adding at least one in-person interview round to confirm fundamentals [5].</p>
+  <p>There is a fair counterpoint: in-person verification can disadvantage rural, disabled, caregiving and foreign-based candidates [12]. That is exactly why accessible, low-cost local community events matter. A neighborhood meetup or a regional con with student pricing is the cheapest verification a candidate can buy. The answer to &ldquo;prove you are real&rdquo; should not be a plane ticket to Las Vegas; it should be the free Tuesday-night meeting two towns over.</p>
+
+  <h2>What a Community Actually Buys You</h2>
+  <p>Everything above is the defensive case &mdash; why the world is going to start demanding in-person proof whether you like it or not. But that framing undersells the thing badly, because it treats showing up as a tax. It is not a tax. It is the single highest-return investment available to anyone trying to build a career in this field, and almost all of it is free.</p>
+  <p>In a companion piece on this blog, <a href="../breaking-into-cybersecurity/">Everybody Lied to You About Breaking Into Cybersecurity</a>, I worked through the hiring data at length. The short version: the &ldquo;millions of unfilled jobs&rdquo; shortage is real but it is concentrated at the mid-to-senior level &mdash; only about 4% of employers say entry-level roles are hard to fill. The thing actually in short supply is not chairs. It is <em>trust</em> &mdash; people a hiring manager can vouch for. Here is what a community gives you that a certificate cannot.</p>
+
+  <figure>
+    <img src="assets/registration-crowd.jpg" alt="A densely packed hallway of hundreds of people waiting in line, many in black t-shirts, one in the foreground reading &lt;/sarcasm&gt;." loading="lazy">
+    <figcaption>The first-morning registration line at DEF CON 22 &mdash; reportedly a two-hour-and-forty-five-minute wait. Tens of thousands of people now travel to one desert convention [11]. None of them exist only as a profile. Photo: Sonofapharmacist, licensed <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via Wikimedia Commons.</figcaption>
+  </figure>
+
+  <h3>The referral is the real job board</h3>
+  <p>Referrals make up a small slice of the applicant pile and a huge slice of actual hires; a referred candidate's odds of landing an interview run several times higher than a cold applicant's. A public posting sits open for weeks while a manager quietly asks their own team first. You do not beat that by applying harder. You beat it by being someone's answer when they get asked &mdash; and you can only be that answer to people who have met you. The room is the job board that never gets posted.</p>
+
+  <h3>Mentorship, and the apprenticeship nobody advertises</h3>
+  <p>Security is still, at its core, a craft passed hand to hand. The person running the lockpick village will teach you single-pin picking in twenty minutes. The graybeard at the 2600 table has debugged the exact thing you are stuck on and will tell you the war story for free. This is apprenticeship without the paperwork, and it compounds: the mentor you meet at nineteen is the reference who gets your résumé to the top of the pile at twenty-three, and the person who calls <em>you</em> when they need a hire at thirty.</p>
+
+  <h3>A place to be told the truth about your work</h3>
+  <p>An AI tutor will praise you. A CTF scoreboard will not. One of the most valuable things a community offers is an honest signal &mdash; a room full of people who can look at your lab writeup, your tool, or your talk and tell you, kindly or otherwise, where it is thin. That feedback loop is how beginners become competent faster than any course moves them. You cannot get it from a feed that is optimized to keep you comfortable.</p>
+
+  <h3>Accountability, and the long game</h3>
+  <p>Handles outlive jobs. In this field your reputation is a durable asset you carry from employer to employer, and it is built in public, slowly, by doing what you said you would do in front of people who remember. That is also the quiet argument for staying on the right side of the line: the same community that can vouch for you can also, permanently, decline to. It is better to take less pay and stay out of jail &mdash; and the people around you at a good con will be the first to tell you so.</p>
+
+  <h2>Why a Room Full of Hackers Is the Last Honest Résumé</h2>
+  <p>Scholars noticed long ago that hacker conferences do something ordinary conferences do not. Anthropologist Gabriella Coleman's paper &ldquo;The Hacker Conference: A Ritual Condensation and Celebration of a Lifeworld&rdquo; applies an anthropologist's ethnographic lens to the hacker conference as a distinct social institution [33]. Marcin Zaród's 2025 ethnography, <em>The Sociology of Cybersecurity</em>, studies how knowledge is created among hackers and at security conferences, comparing it to knowledge production in the sciences [34]. Douglas Haywood's ethnography of a humanitarian hacking event examined the &ldquo;hacker ethic&rdquo; and the extent to which these groups form a true community [35].</p>
+  <p>The community has always said so itself. The 1998 SummerCon announcement quoted Knight Lightning describing the draw as &ldquo;the opportunity to meet one's heroes, partners, and idols&rdquo; [17]. Today's Summercon organizers emphasize face-to-face interaction as technology increasingly mediates relationships among security people [17]. DEF CON attendees traditionally go by handles, so reputation is built on what you have done, not what your profile claims [36]. And when founder Jeff Moss asked federal agents to skip DEF CON in 2013, he framed the event as a community built on &ldquo;openness, verified trust, and mutual respect&rdquo; [13]. Verified trust is precisely what the AI era has made scarce.</p>
+  <p>There is a mechanic underneath this that is worth saying plainly, because it is the part that intimidates newcomers and shouldn't. Trust in this community is built by <em>repetition</em>, not performance. You do not have to walk in and dazzle anyone. The first time you show up to a monthly meeting you are a stranger. The second time, you are a face. The third time, you are a regular &mdash; and the third visit is where careers actually start, because that is the point at which people begin to vouch for you. Nobody is grading your entrance. They are noticing whether you come back.</p>
+
+  <figure>
+    <img src="assets/ctf.jpg" alt="Three focused competitors hunched over laptops covered in stickers during a capture-the-flag contest, one wearing a lanyard that reads &lsquo;I solemnly swear that I am up to no good.&rsquo;" loading="lazy">
+    <figcaption>A capture-the-flag contest at DEF CON 27, 2019. A scoreboard is the most honest reference letter in the industry: it does not care about your degree, your age, or how your résumé is worded. It only records what you did. U.S. Air Force photo by Tech. Sgt. Robert Biermann &mdash; public domain, via Wikimedia Commons.</figcaption>
+  </figure>
+
+  <h2>A Field Guide to the Cons</h2>
+
+  <h3>DEF CON &mdash; Las Vegas</h3>
+  <p>DEF CON began in June 1993 as a farewell party that Jeff Moss, then 18, organized for a friend who left town early; roughly 100 people showed up and asked him to do it again [12]. The name nods to the 1983 film <em>WarGames</em> and to the DEF letters on a phone keypad [12]. Its skill-testing traditions are legendary: Capture the Flag has run since DEF CON 4 in 1996 [12], and contests have included Hacker Jeopardy, Capture the Packet, Crash and Compile, and lockpicking [11]. Winners of certain contests earn a Black Badge, which grants free entry for life [11]. In 2004, DEF CON Groups launched so people could meet locally the other 51 weeks of the year [12].</p>
+  <p>Villages are the heart of it: topic-focused micro-conferences covering everything from car hacking to biohacking to ICS, with nearly half of 2019's villages brand new [14]. The r00tz Village alone drew more than 300 kids into their own CTF and lockpicking [14]. DEF CON 34 ran August 6&ndash;9, 2026 at the Las Vegas Convention Center [37], and the AI Village opened a poster track on adversarial attacks against agents and agentic systems [16]. What started as a hundred people in a Las Vegas hotel is now tens of thousands, and it has never stopped being a place where a nobody can become a somebody over a single long weekend.</p>
+
+  <figure>
+    <img src="assets/badges.jpg" alt="A spread of seven DEF CON and village badges, several shaped like skulls or dog tags, mixing printed card and lit circuit boards, most stamped with the word HUMAN." loading="lazy">
+    <figcaption>Conference badges &mdash; printed, laser-cut and fully electronic &mdash; from DEF CON and its villages. Notice the word stamped on most of them: <strong>HUMAN</strong>. The badge was never the point; the handle on it, and the person who earned it, were. Photo: Sephiroth storm, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, via Wikimedia Commons.</figcaption>
+  </figure>
+
+  <h3>DerbyCon &mdash; Louisville</h3>
+  <p>Dave Kennedy, Martin Bos, Adrian Crenshaw and Alex Kah founded DerbyCon in 2011 in a Louisville pizza shop after a Metasploit course; the first conference drew about 1,000 people [20]. It ran nine years. At the final show, September 6&ndash;8, 2019, attendees played CTFs spanning network, OSINT and IoT challenges and supported the charities Rural Tech Fund and Hackers for Charity [20]. Kennedy called the finale something that &ldquo;went better than any other year I can remember&rdquo; [19], after announcing the end because of &ldquo;negativity, polarization, and disruption&rdquo; from a small group [18]. He told <em>Malicious Life</em> it was all about &ldquo;making the community a family,&rdquo; and that none of the founders made money from it [21]. The community carried on in smaller groups around the world [19].</p>
+
+  <h3>CircleCityCon &mdash; Indianapolis</h3>
+  <p>CircleCityCon began as Indianapolis' first major security conference, with 240 attendees and more than thirty recorded talks [22]. By CircleCityCon 10.0 in June 2023, attendance topped 700 and the con ran a murder-mystery game that blended social engineering, lockpicking and forensics [22]. Its listing says plainly that &ldquo;CircleCityCon is about the community&rdquo; [22], and it advertises free community-led training, villages for lockpicking, hardware hacking and ham radio, a CTF, student pricing of $50, and a Grants Program funded by its swap-and-auction proceeds [22].</p>
+
+  <h3>SkyDogCon &mdash; Nashville</h3>
+  <p>SkyDogCon is a Nashville October tradition for people of broad curiosity, mixing hacking, making and security. Its stated purpose is to &ldquo;facilitate learning, information sharing, and mingling with open-minded people&rdquo; [23]. Past events have included a CTF organized by James Bower, a Hacker Poker Run, workshops, and a volunteer-examiner team offering amateur radio licensing [23]. Its 2016 announcement invited hackers, makers, locksport fans and everyone between to &ldquo;connect to your kind&rdquo; [23]. I could not confirm 2026 dates from public sources, so check skydogcon.com directly.</p>
+
+  <h3>Outerz0ne &mdash; Atlanta</h3>
+  <p>Outerz0ne launched in March 2005 in Marietta, Georgia, with free general admission [24]. Early hacker-con directories listed it as an Atlanta security conference with free admission [24], and a SkyDogCon staff bio credits one organizer with establishing and running both Outerz0ne and SkyDogCon [23]. Free entry is the point: it lowers the bar for the curious newcomer.</p>
+
+  <h3>HackMiami &mdash; Miami Beach</h3>
+  <p>HackMiami gatherings began informally in 2008 as biweekly meetings of computer-science students, and the group incorporated in 2009; its first conference ran May 17&ndash;19, 2013 in Miami Beach [25]. Co-founder Alex Heid described it to Slashdot as &ldquo;one of the first hackerspaces that came out of South Florida&rdquo; [25]. The program has tracked the moment: 2024 was its &ldquo;deepfake year,&rdquo; and 2026's HackMiami 1101 pivoted to AI and agentic security [25].</p>
+
+  <h3>National Day of Civic Hacking</h3>
+  <p>First held in 2013 as a joint effort of the U.S. government, Code for America and other partners [27], the National Day of Civic Hacking is the friendliest on-ramp of all. Code for America says plainly that &ldquo;hacking skills are not required&rdquo; [27]. Lawyers, designers, researchers and citizens join local Brigades to work on public problems; the ninth edition in 2021 built a national 911 Open Data Scorecard [27]. Code for America's network director once called it the &ldquo;culmination and leveling up of work that's been going on all year&rdquo; [27]. I could not confirm a 2026 date; ask your local Code for America Brigade.</p>
+
+  <h3>The other 51 weeks</h3>
+  <p>The big-name cons are the fireworks. The real engine of a career is what happens between them &mdash; and that network is dense, local and almost entirely free.</p>
+  <ul>
+    <li><strong>DEF CON Groups (DCGs)</strong> are official local chapters that meet monthly, created in 2004 for exactly this reason [12]. Find the one nearest you and you have a standing monthly appointment with your field.</li>
+    <li><strong>BSides</strong> is the community's answer to the big commercial conference. It was founded in 2009 by Mike Dahn, Jack Daniel and Chris Nickerson out of a pile of talks that could not fit on the Black Hat schedule &mdash; the name is a nod to the B-side of a record &mdash; and it has since grown into hundreds of free or low-cost, volunteer-run events in cities all over the world [41]. For most people, a local BSides is the single best first con there is.</li>
+    <li><strong>2600 meetings</strong> happen on the first Friday of every month, in public, in cities worldwide, organized out of <em>2600: The Hacker Quarterly</em> &mdash; open to anyone who walks up [42].</li>
+    <li><strong>OWASP chapters</strong> run free local meetings for anyone interested in application and web security [43], and <strong>hackerspaces</strong> &mdash; member-run community workshops catalogued worldwide at hackerspaces.org &mdash; give you a physical room, tools and people year-round [44].</li>
+  </ul>
+  <p>None of these require a plane ticket, a sponsor, or permission. They require that you walk in the door.</p>
+
+  <h2>The People Who Pour It Out</h2>
+  <p>A community is not an abstraction. It is specific people who decided, usually for no money, to build the room the rest of us walk into. These are a few of them &mdash; a deliberately incomplete list, because half the point is that you will meet your own.</p>
+
+  <p><strong>Jeff Moss, &ldquo;The Dark Tangent.&rdquo;</strong> Founder of DEF CON and the Black Hat Briefings; later ICANN's chief security officer and a member of the Homeland Security Advisory Council [12][13]. He turned a going-away party into the largest hacker gathering on earth and then spent decades defending its culture of openness and verified trust.</p>
+
+  <figure>
+    <img src="assets/kevin-mitnick.jpg" alt="Kevin Mitnick on a darkened stage, lit from the side, wearing a headset microphone and holding up a small circuit-board device to the audience." loading="lazy">
+    <figcaption>Kevin Mitnick on stage at Campus Party M&eacute;xico, 2010, holding up a keylogger. The &ldquo;original social engineer&rdquo; spent the back half of his life teaching defenders the thing he once exploited: that people, not machines, are the soft target. Photo: Eneas De Troya, licensed <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>, via Wikimedia Commons.</figcaption>
+  </figure>
+
+  <p><strong>Kevin Mitnick.</strong> Died July 16, 2023 at age 59 after a 14-month battle with pancreatic cancer. KnowBe4 remembered him as surpassed only by his talent as &ldquo;the original social engineer,&rdquo; and his memoir <em>Ghost in the Wires</em> became a bestseller [28]. His central message: people are the weakest link, and most breaches begin with social engineering [28]. His arc &mdash; from the FBI's most-wanted hacker to the co-owner of a security-awareness company &mdash; is the community's favorite proof that the door back in is always open to someone willing to do the work in the light.</p>
+
+  <p><strong>Dave Kennedy, &ldquo;HackingDave.&rdquo;</strong> A Marine who served two tours in Iraq, founder of TrustedSec, co-founder and Chief Hacking Officer of Binary Defense, creator of the Social-Engineer Toolkit, and a founding member of the Penetration Testing Execution Standard [31]. Co-founder of DerbyCon [20] &mdash; which, remember, he and his partners ran for nine years without taking a profit, purely to make the community a family [21].</p>
+
+  <p><strong>Jayson E. Street.</strong> Author of the <em>Dissecting the Hack</em> series, DEF CON Groups Global Ambassador, and a speaker at the first six DerbyCons [29]. He famously summarized one engagement: &ldquo;I robbed a bank in Beirut, Lebanon, wearing a DEF CON leather jacket&rdquo; [29]. He prefers &ldquo;Hacker, Helper, and Human&rdquo; as a title [29] &mdash; three words that are as good a mission statement for the whole community as any ever written.</p>
+
+  <figure>
+    <img src="assets/dan-kaminsky.jpg" alt="Dan Kaminsky seated on a couch in front of a large DEF CON banner, smiling slightly, wearing a t-shirt printed with an Ishihara color-blindness test that spells out &lsquo;I love color.&rsquo;" loading="lazy">
+    <figcaption>Dan Kaminsky, photographed in front of a DEF CON banner in his signature &ldquo;I &hearts; color&rdquo; Ishihara shirt. In 2008 he found a flaw that could have unmade trust on the entire internet &mdash; and chose to fix it quietly, with the community, instead of selling it. Photo: Jason Scott, licensed <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>, via Wikimedia Commons.</figcaption>
+  </figure>
+
+  <p><strong>Dan Kaminsky.</strong> In 2008 Kaminsky discovered a fundamental flaw in DNS &mdash; the internet's address book &mdash; that could let an attacker impersonate essentially any website, intercept email, and defeat &ldquo;forgot my password&rdquo; recovery across the web [40]. He could have sold it. Instead he phoned Paul Vixie, who reportedly said everything in the digital universe was going to have to get patched, and Kaminsky spent weeks coordinating a secret, synchronized fix across Microsoft, Cisco and the rest of the industry before disclosing it responsibly on the Black Hat / DEF CON stage [40]. He later became one of the small handful of people trusted to hold a key to the DNSSEC root. When he died in April 2021 at just 42, the obituaries called him the man who once saved the internet [40]. He is the clearest answer to anyone who thinks the word &ldquo;hacker&rdquo; means &ldquo;criminal.&rdquo;</p>
+
+  <p><strong>Deth Veggie of the Cult of the Dead Cow.</strong> The legendary hacktivist collective began in the 1980s publishing text files. Speaking to the BBC, Deth Veggie (Luke Benfey) said the group's goal was to &ldquo;bring information to people that they normally wouldn't ever see&rdquo; [32]. The cDc's alumni roll is a quiet argument all by itself: among its members was Peiter Zatko &mdash; &ldquo;Mudge&rdquo; &mdash; who in 1998 sat before the U.S. Senate with six fellow members of the L0pht and testified that they could take down the internet in thirty minutes, then went on to run programs at DARPA, work security at Google, and serve as a federal whistleblower on platform security [38][39]. Another former teenage member, it later emerged, was a sitting U.S. congressman [32]. The people who publish the text files grow up to advise the government.</p>
+
+  <p><strong>G. Mark Hardy.</strong> Founder and president of National Security Corporation since 1988, retired U.S. Navy Captain who served in command nine times, SANS instructor, and speaker at more than 250 events worldwide [30].</p>
+
+  <p><strong>Alexander Heid.</strong> Co-founder of HackMiami with James Ball and Rod Soto, formerly of Prolexic's threat-intelligence team during the Operation Ababil DDoS campaigns, and a research executive at SecurityScorecard from 2014 [25][26]. He built, from a handful of South Florida students meeting every other week, a conference that now sets the agenda on deepfakes and agentic AI.</p>
+
+  <p>Notice what these people have in common. Not one of them is famous for a credential. They are famous for something they <em>did</em> &mdash; built, broke, disclosed, defended, or organized &mdash; in a way other people could see and verify. That is the only kind of fame this field actually respects, and it is available to you.</p>
+
+  <h2>The Unwritten Rules &mdash; How to Turn a Con Into a Career</h2>
+  <p>Walking in is most of the battle, but a few habits turn a weekend badge into a network that pays you back for twenty years.</p>
+  <p><strong>Never touch the network.</strong> Don't scan, sniff, or &ldquo;test&rdquo; anything at a con or meetup. It is the fastest way to get permanently uninvited from everything, and it is the one mistake the community does not forgive. Only ever test systems you are authorized to test.</p>
+  <p><strong>Don't ask &ldquo;how do I get into cyber?&rdquo;</strong> It is the most-asked, least-answerable question in the field. Ask something specific instead: &ldquo;I finished a SOC path and built a home detection lab. I'm targeting analyst roles. What gap would you notice first on my r&eacute;sum&eacute;?&rdquo; Specific questions get generous answers. Vague ones get a polite nod.</p>
+  <p><strong>Bring something.</strong> Snacks, a ride, a hand hauling gear, a clean summary of a talk nobody else wrote up. The fastest route from stranger to regular is being useful before you are impressive.</p>
+  <p><strong>Then give more than you take.</strong> Volunteer at the registration desk. Help run a village. Submit a talk to your local BSides &mdash; the bar is lower and the welcome warmer than you think, and these cons run entirely on volunteers [22][41]. Every person profiled above started by contributing to a room, not by extracting from it. That is not charity; it is the mechanism. You build yourself by building the thing other people are standing in.</p>
+
+  <h2>Your Move</h2>
+  <p>The hacker con was never about the badge. It is a place where a stranger can watch you work, vouch for you, and teach you something you could not learn from a feed. In an age when a r&eacute;sum&eacute;, a LinkedIn profile and even a video interview can be generated, the handshake is becoming the verification layer.</p>
+  <p>Cons like these changed my life. They shaped my path and showed me what I am capable of. They can do the same for you.</p>
+  <ul>
+    <li><strong>Find your people.</strong> Locate your nearest DEF CON Group [12], local BSides [41], or 2600 meeting [42] and go to the next one.</li>
+    <li><strong>Test your skills.</strong> Play a CTF, try the Lockpicking Village, or take a free training class. Only ever test systems you are authorized to test.</li>
+    <li><strong>Go three times.</strong> Pick one recurring meeting and attend it three months running. Stranger, face, regular &mdash; that third visit is where it starts.</li>
+    <li><strong>Give back.</strong> Volunteer, submit a talk, or help a newcomer. Every con above runs on volunteers.</li>
+    <li><strong>Start small if you need to.</strong> Free and student-priced cons exist precisely so cost is not a barrier [22][24][41].</li>
+  </ul>
+  <p>The AI influencers are coming, and some of them will be good. Go anyway. Be the person in the room.</p>
+
+  <div class="cta">
+    <p>Not sure where your nearest room is? There's a free map of 5,000+ community spots nationwide.</p>
+    <a class="btn" href="https://malcolm1014.github.io/us-cyber-map/" target="_blank" rel="noopener">Open the US Cyber Resource Map &rarr;</a>
+  </div>
+
+  <hr>
+
+  <div class="note">
+    <p style="margin:0 0 10px"><strong>Images.</strong> Cover &amp; capture-the-flag photo: U.S. Air Force, by Tech. Sgt. Robert Biermann (public domain). Cyber Grand Challenge stage: Tony Webster, CC BY 2.0. DEF CON 22 registration line: Sonofapharmacist, CC BY-SA 3.0. Conference badges: Sephiroth storm, CC BY-SA 4.0. Kevin Mitnick: Eneas De Troya, CC BY 2.0. Dan Kaminsky: Jason Scott, CC BY 2.0. All via Wikimedia Commons.</p>
+    <p style="margin:0"><strong>A note on method.</strong> Where I could not confirm a 2026 date or detail from public sources, I have said so and pointed you to the organizer. This community rejects hand-waving and invented facts; so does this piece.</p>
+  </div>
+
+  <h2>Sources</h2>
+  <ol class="refs">
+    <li>CreatorIQ, &ldquo;Influencer Marketing Trends 2026&rdquo; &mdash; <a href="https://www.creatoriq.com/blog/influencer-marketing-trends-2026">creatoriq.com</a></li>
+    <li>Research and Markets, &ldquo;Virtual Influencers Market Report 2026&rdquo; &mdash; <a href="https://www.researchandmarkets.com/reports/6217955/virtual-influencers-market-report">researchandmarkets.com</a></li>
+    <li>Call Your Girlfriend, &ldquo;AI Influencer Statistics 2026&rdquo; &mdash; <a href="https://www.callyourgirlfriend.com/blog/ai-influencer-statistics">callyourgirlfriend.com</a></li>
+    <li>StaffingHub, &ldquo;AI-inflated r&eacute;sum&eacute;s&rdquo; (Robert Half and GoodTime data) &mdash; <a href="https://staffinghub.com/hiring/hiring-ai-inflated-resumes-staffing-firms-2026/">staffinghub.com</a></li>
+    <li>HCAmag, &ldquo;Hiring professionals back live-only interviews&rdquo; &mdash; <a href="https://www.hcamag.com/ca/news/general/hiring-professionals-back-live-only-interviews-to-prevent-ai-aided-candidates/547225">hcamag.com</a></li>
+    <li>Cadient report, June 3, 2026 &mdash; <a href="https://agilebrandguide.com/cadient-report-reveals-rise-of-ai-generated-resumes-has-precipitated-new-hiring-verification-crisis/">agilebrandguide.com</a></li>
+    <li>CB Insights / Equifax report coverage, July 30, 2026 &mdash; <a href="https://www.cbinsights.com/investor/resumeio">cbinsights.com</a></li>
+    <li>Palo Alto Networks Unit 42, real-time deepfake DPRK IT workers &mdash; <a href="https://unit42.paloaltonetworks.com/?p=139512">unit42.paloaltonetworks.com</a></li>
+    <li>Tech Monitor, &ldquo;Remote hiring cybersecurity&rdquo; &mdash; <a href="https://www.techmonitor.ai/technology/cybersecurity/remote-hiring-cybersecurity">techmonitor.ai</a> ; The Register, &ldquo;You have a fake North Korean IT worker problem&rdquo; &mdash; <a href="https://www.theregister.com/2025/07/13/fake_it_worker_problem/">theregister.com</a></li>
+    <li>Ross Clennett, DPRK deepfake hiring summary (KnowBe4 case) &mdash; <a href="https://rossclennett.com/?p=14193">rossclennett.com</a></li>
+    <li>Wikipedia, &ldquo;DEF CON&rdquo; &mdash; <a href="https://en.wikipedia.org/wiki/DEF_CON">en.wikipedia.org</a></li>
+    <li>InfoSecMap, &ldquo;DEF CON &mdash; History&rdquo; &mdash; <a href="https://infosecmap.com/?p=41757">infosecmap.com</a> ; Decision Intel, &ldquo;The Hiring Verification Crisis&rdquo; &mdash; <a href="https://decision-intel.shapingtomorrow.com/scans/workforce-skills-organisational-change/2026-05-16-hiring-verification-crisis/scan.html">decision-intel.shapingtomorrow.com</a></li>
+    <li>CBS News, &ldquo;Defcon to feds: Stay away&rdquo; &mdash; <a href="https://www.cbsnews.com/news/defcon-to-feds-stay-away-from-hacker-conference">cbsnews.com</a> ; The Register &mdash; <a href="https://www.theregister.com/2013/07/12/defcon_bans_feds/">theregister.com</a></li>
+    <li>OODA Loop, &ldquo;DEF CON is the most valuable security conference&rdquo; &mdash; <a href="https://oodaloop.com/analysis/archive/def-con-is-the-most-valuable-security-conference-of-the-year-heres-why/">oodaloop.com</a></li>
+    <li>DARPA &mdash; <a href="https://www.darpa.mil/news/2025/ai-cyber-challenge-winners-def-con-33">darpa.mil</a> ; The Record &mdash; <a href="https://therecord.media/darpa-ai-code-competition-winner-def-con">therecord.media</a></li>
+    <li>AI Village @ DEF CON 34 &mdash; <a href="https://aivillage.org/events/defcon-34/">aivillage.org</a></li>
+    <li>Wikipedia, &ldquo;Summercon&rdquo; &mdash; <a href="https://en.wikipedia.org/wiki/Summercon">en.wikipedia.org</a> ; SummerCon X announcement (1998) &mdash; <a href="https://cliplab.org/~alopez/bugs/bugtraq9/0043.html">cliplab.org</a></li>
+    <li>TechTarget, &ldquo;This year's DerbyCon conference will be the last&rdquo; &mdash; <a href="https://www.techtarget.com/cybersecurity/news/252456126/This-years-DerbyCon-conference-will-be-the-last">techtarget.com</a></li>
+    <li>TechTarget, &ldquo;DerbyCon attendees and co-founder reflect on the end&rdquo; &mdash; <a href="https://www.techtarget.com/cybersecurity/news/252470765/DerbyCon-attendees-and-co-founder-reflect-on-the-end">techtarget.com</a></li>
+    <li>Los Alamos Daily Post, &ldquo;DerbyCon 2019: Finish Line&rdquo; &mdash; <a href="https://ladailypost.com/derbycon-2019-finish-line-dont-cry-because-its-over-smile-because-it-happened/">ladailypost.com</a></li>
+    <li>Malicious Life, Season 3 Episode 124 (Dave Kennedy) &mdash; <a href="https://malicious.life/episode/episode-124/">malicious.life</a></li>
+    <li>CircleCityCon: Cyware listing &mdash; <a href="https://cyware.com/cyber-security-events/conference/circlecitycon-50-74155552/">cyware.com</a> ; TechPoint (10.0) &mdash; <a href="https://techpoint.org/tech-events/circlecitycon-10-0-whodunit">techpoint.org</a> ; CSO Online &mdash; <a href="https://www.csoonline.com/article/2365184/circlecitycon-the-missing-update.html">csoonline.com</a> ; CentralEyes &mdash; <a href="https://www.centraleyes.com/security-events/circlecitycon-10-0/">centraleyes.com</a></li>
+    <li>SkyDogCon &mdash; <a href="https://skydogcon.com/p/about_5.html">skydogcon.com</a> ; <a href="https://www.skydogcon.com/2016/02/sdc6-announce.html">2016 announcement</a> ; <a href="https://skydogcon.com">skydogcon.com</a></li>
+    <li>InfoCon, &ldquo;Outerz0ne one (2005)&rdquo; &mdash; <a href="https://infocondb.org/con/outerz0ne/outerz0ne-one">infocondb.org</a> ; Hacker con directory &mdash; <a href="https://wikipedia2007.classicistranieri.com/h/a/c/Hacker_con.html">classicistranieri.com</a></li>
+    <li>HackMiami &mdash; <a href="https://hackmiami.org/about.html">about</a> ; <a href="https://hackmiami.org/History.html">history</a> ; Slashdot interview &mdash; <a href="https://it.slashdot.org/story/13/06/25/1656205/hackmiami-offers-both-training-and-opportunity-video">it.slashdot.org</a></li>
+    <li>(ISC)&sup2; speaker bio, Alexander Heid &mdash; <a href="https://events.isc2.org/speakers/1822/view">events.isc2.org</a></li>
+    <li>Code for America &mdash; <a href="https://codeforamerica.org/news/a-day-of-action-to-strengthen-our-social-safety-net/">codeforamerica.org</a> ; TechCrunch (2013) &mdash; <a href="https://techcrunch.com/2013/01/22/national-day-of-civic-hacking">techcrunch.com</a> ; GovTech &mdash; <a href="https://www.govtech.com/civic/National-Day-of-Civic-Hacking-Events-Aim-to-Be-More-Inclusive.html">govtech.com</a> ; INE &mdash; <a href="https://blog.ine.com/national-day-of-civic-hacking">blog.ine.com</a></li>
+    <li>eSecurityPlanet &mdash; <a href="https://www.esecurityplanet.com/trends/kevin-mitnick/">esecurityplanet.com</a> ; Dark Reading, &ldquo;Kevin Mitnick Dies Aged 59&rdquo; &mdash; <a href="https://www.darkreading.com/cybersecurity-operations/hacker-security-researcher-kevin-mitnick-dies-aged-59">darkreading.com</a> ; DuoCircle &mdash; <a href="https://www.duocircle.com/data-privacy/kevin-mitnick-the-greatest-showmen-in-the-cyber-world">duocircle.com</a></li>
+    <li>Jayson E. Street: Secure Yeti bio &mdash; <a href="https://secureyeti.com/?p=4365">secureyeti.com</a> ; Help Net/SecNews interview &mdash; <a href="https://www.secnews.gr/en/138198/social-engineering-hack-a-man/">secnews.gr</a> ; Security Weekly PSW #818 &mdash; <a href="https://scmagazine.com/podcast-segment/12485-social-engineering-ai-living-off-the-land-jayson-e-street-psw-818">scmagazine.com</a> ; Cybersecurity360 &mdash; <a href="https://www.cybersecurity360.it/cultura-cyber/jason-e-street-the-hacker-who-breaks-security-to-educate-about-cyber-security/">cybersecurity360.it</a></li>
+    <li>G. Mark Hardy: Dark Reading &mdash; <a href="https://darkreading.com/author/g-mark-hardy">darkreading.com</a> ; BSIUS &mdash; <a href="https://bsius.com/?p=1207">bsius.com</a></li>
+    <li>Binary Defense, Dave Kennedy bio &mdash; <a href="https://binarydefense.com/company/dave-kennedy">binarydefense.com</a> ; IANS Research &mdash; <a href="https://beta.iansresearch.com/our-faculty/faculty/detail/dave-kennedy">iansresearch.com</a></li>
+    <li>Cult of the Dead Cow, BBC Panorama interview transcript &mdash; <a href="https://rap.mirror.cyberbits.eu/textfiles.com/groups/CDC/dead_cow.txt">textfiles.com mirror</a> ; Wikipedia, &ldquo;Cult of the Dead Cow&rdquo; &mdash; <a href="https://en.wikipedia.org/wiki/Cult_of_the_Dead_Cow">en.wikipedia.org</a></li>
+    <li>Gabriella Coleman, &ldquo;The Hacker Conference: A Ritual Condensation and Celebration of a Lifeworld&rdquo; &mdash; <a href="https://ethicsatwork.nd.edu/resources/the-hacker-conference-a-ritual-condensation-and-celebration-of-a-lifeworld/">ethicsatwork.nd.edu</a></li>
+    <li>Marcin Zar&oacute;d, <em>The Sociology of Cybersecurity</em> (Routledge, 2025) &mdash; <a href="https://www.taylorfrancis.com/books/9781032501031">taylorfrancis.com</a></li>
+    <li>Douglas Haywood, &ldquo;The Ethic of the Code,&rdquo; <em>Journal of Peer Production</em> No. 3 (2013) &mdash; <a href="https://wiki.p2pfoundation.net/Ethnography_of_a_Humanitarian_Hacking_Community">p2pfoundation.net</a></li>
+    <li>NordVPN, &ldquo;DEF CON&rdquo; (handle tradition) &mdash; <a href="https://nordvpn.com/zh/cybersecurity/events/def-con">nordvpn.com</a></li>
+    <li>GovEvents, &ldquo;DEF CON 34&rdquo; &mdash; <a href="https://www.govevents.com/event/28123/def-con-34">govevents.com</a></li>
+    <li>L0pht Heavy Industries, U.S. Senate testimony, May 19, 1998 &mdash; Wikipedia, &ldquo;L0pht&rdquo; &mdash; <a href="https://en.wikipedia.org/wiki/L0pht">en.wikipedia.org</a> ; &ldquo;Hackers' Testimony at the United States Senate&rdquo; &mdash; <a href="https://ethicsatwork.nd.edu/resources/hackers-testimony-at-the-united-states-senate/">ethicsatwork.nd.edu</a></li>
+    <li>Peiter &ldquo;Mudge&rdquo; Zatko &mdash; Wikipedia &mdash; <a href="https://en.wikipedia.org/wiki/Peiter_Zatko">en.wikipedia.org</a></li>
+    <li>Dan Kaminsky &mdash; Wikipedia &mdash; <a href="https://en.wikipedia.org/wiki/Dan_Kaminsky">en.wikipedia.org</a> ; The Boston Globe, &ldquo;Daniel Kaminsky, Internet savior, dies at 42&rdquo; &mdash; <a href="https://www.bostonglobe.com/2021/04/27/metro/daniel-kaminsky-internet-savior-dies-42">bostonglobe.com</a></li>
+    <li>Security BSides &mdash; Wikipedia &mdash; <a href="https://en.wikipedia.org/wiki/Security_BSides">en.wikipedia.org</a> ; CSO Online, &ldquo;Security B-Sides: Rise of the anti-conference&rdquo; &mdash; <a href="https://www.csoonline.com/article/524744/security-b-sides-rise-of-the-anti-conference.html">csoonline.com</a></li>
+    <li>2600 Meetings &mdash; <a href="https://www.2600.com/meetings/">2600.com</a></li>
+    <li>OWASP local chapters &mdash; <a href="https://owasp.org/chapters/">owasp.org</a></li>
+    <li>Hackerspaces directory &mdash; <a href="https://hackerspaces.org">hackerspaces.org</a></li>
+    <li>Steven Levy, <em>Hackers: Heroes of the Computer Revolution</em> (1984); the Hacker Ethic &mdash; Wikipedia &mdash; <a href="https://en.wikipedia.org/wiki/Hacker_ethic">en.wikipedia.org</a></li>
+  </ol>
+
+</main>
+
+<footer>Savvy Security LLC · Malcolm R. Smith</footer>
+
+</body>
+</html>
