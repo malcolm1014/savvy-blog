@@ -797,8 +797,242 @@
     <p class="fix"><b>Defense</b> 802.1X network access control; DHCP snooping; disable dynamic trunking and unused ports; proper VLAN/native-VLAN configuration; physical port security and monitoring.</p>
   </div>
 
+  <h2 id="part7">Part VII &mdash; Exploitation &amp; Memory Corruption</h2>
+  <p>This is exploitation in the deepest sense &mdash; abusing a bug in a program&rsquo;s handling of memory to seize control of its execution. It is the hardest craft in the book and the engine under most &ldquo;remote code execution&rdquo; headlines. Decades of defensive mitigations have made it far harder than it once was, which is why Simplicity scores here run low &mdash; but when it works, Impact is total.</p>
+
+  <div class="attack">
+    <h3>Stack Buffer Overflow</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-121 / T1203 / T1068</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">The original memory-corruption attack. A program copies more data into a fixed-size stack buffer than it can hold, overwriting adjacent memory &mdash; including the saved return address. By supplying exactly the right overflowing input, the attacker overwrites that address to point at their own injected code (&ldquo;shellcode&rdquo;), and when the function returns, the CPU executes it. The subject of the single most influential hacking paper ever written, Aleph One&rsquo;s &ldquo;Smashing the Stack for Fun and Profit&rdquo; (1996).</p>
+    <p class="seen"><b>In the wild:</b> the 1988 Morris Worm (Chapter 1) spread partly via a stack overflow in <code>fingerd</code>; the technique dominated exploitation for two decades.</p>
+    <p class="fix"><b>Defense</b> Compiler and OS mitigations &mdash; stack canaries, DEP/NX (non-executable stack), ASLR; memory-safe languages (Rust, Go) that make the class impossible; bounds-checked APIs; fuzzing to find the bugs first.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Heap Overflow &amp; Use-After-Free</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-122 / CWE-416 / T1203</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">As stacks got hardened, attackers moved to the heap. A <strong>heap overflow</strong> corrupts dynamically-allocated memory and its bookkeeping metadata; a <strong>use-after-free</strong> abuses a pointer to memory that was freed and then reallocated for something else, letting the attacker control what that stale pointer now references. These are the dominant memory-corruption bugs in modern browsers and operating systems &mdash; subtle to find, intricate to exploit, and worth enormous sums as zero-days.</p>
+    <p class="seen"><b>In the wild:</b> use-after-free bugs are the most common class exploited in browser and kernel zero-days sold to and used by commercial spyware vendors and nation-states.</p>
+    <p class="fix"><b>Defense</b> Memory-safe languages; hardened allocators; modern mitigations (CFI, pointer authentication, MTE); aggressive fuzzing and rapid patching &mdash; roughly 70% of serious vulnerabilities in large C/C++ codebases are memory-safety bugs, which is why the industry is migrating to safe languages.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Integer Overflow &amp; Format-String Bugs</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-190 / CWE-134 / T1203</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">An <strong>integer overflow</strong> happens when arithmetic wraps past a type&rsquo;s maximum (a length calculation that becomes tiny or negative), often leading to an undersized buffer and then an overflow. A <strong>format-string</strong> bug occurs when user input is passed as the format argument to functions like <code>printf</code>, letting the attacker read or write memory with format specifiers. Both are enablers that turn into memory corruption and code execution.</p>
+    <p class="seen"><b>In the wild:</b> integer overflows have produced critical flaws in image and media parsers (a favorite remote target); format-string bugs were rampant before compilers began warning on them.</p>
+    <p class="fix"><b>Defense</b> Checked/saturating arithmetic and safe integer libraries; compiler warnings treated as errors (<code>-Wformat-security</code>); never pass user data as a format string; fuzz parsers hard.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Mitigation Bypass (ROP) &amp; Zero-Days</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>2</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-noinfo / T1203 / T1068</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">Because DEP makes injected data non-executable, modern exploitation uses <strong>Return-Oriented Programming</strong> &mdash; chaining tiny snippets of the program&rsquo;s <em>own</em> existing code (&ldquo;gadgets&rdquo;) to build the malicious behavior without injecting new code, often paired with an information leak to defeat ASLR. A <strong>zero-day</strong> is an exploit for a vulnerability the vendor doesn&rsquo;t yet know about, so no patch exists &mdash; the most valuable and dangerous category, hoarded by nation-states (Chapter 3&rsquo;s Equation Group) and sold for seven figures.</p>
+    <p class="seen"><b>In the wild:</b> the EternalBlue exploit (leaked from the Equation Group, Chapter 3) powered WannaCry and NotPetya; commercial spyware like Pegasus has used zero-click iMessage zero-days built on these techniques.</p>
+    <p class="fix"><b>Defense</b> Defense-in-depth so a single exploit isn&rsquo;t game over; CFI and the newest hardware mitigations; aggressive patching to shrink the zero-day window; EDR and anomaly detection to catch post-exploitation; sandboxing and isolation.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Exploit Frameworks &amp; Kits</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1203 / T1588.002</span><span class="sep">&middot;</span>
+      <span class="cvss">varies</span>
+    </div>
+    <p class="how">The force multiplier that democratized exploitation: <strong>Metasploit</strong> (Chapter 2&rsquo;s HD Moore) and commercial kits package thousands of exploits into a point-and-click framework, so an attacker who could never write a buffer overflow can still fire a working one in two commands. This is why Simplicity is high even though the underlying bug is hard: someone else did the hard part. Criminal &ldquo;exploit kits&rdquo; (delivered via the watering holes of Part IV) do the same for mass drive-by infection.</p>
+    <p class="seen"><b>In the wild:</b> Metasploit is on every pentester&rsquo;s machine and in many real intrusions; browser exploit kits (Angler, RIG) infected millions via malicious ads.</p>
+    <p class="fix"><b>Defense</b> Patch (frameworks only weaponize <em>known</em> bugs quickly); EDR with exploit-behavior detection; the same hardening as above; threat-intel on which exploits are trending so you patch those first.</p>
+  </div>
+
+  <h2 id="part8">Part VIII &mdash; Password &amp; Credential Attacks</h2>
+  <p>Credentials are the keys to the kingdom, and stealing a valid one is quieter and more reliable than breaking down a door &mdash; which is why &ldquo;valid accounts&rdquo; (ATT&amp;CK T1078) is one of the most common techniques in real breaches. These attacks range from guessing to cracking to stealing the credential outright.</p>
+
+  <div class="attack">
+    <h3>Brute Force &amp; Dictionary Attacks</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1110.001 / T1110.002</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">Try passwords until one works &mdash; either every combination (pure brute force, feasible only for short or weak secrets) or, far more efficiently, a <strong>dictionary</strong> of likely passwords and common patterns. Online (against a live login) it&rsquo;s slow and noisy; offline (against stolen password hashes) it&rsquo;s a race limited only by GPU speed.</p>
+    <p class="seen"><b>In the wild:</b> the perennial baseline attack against exposed RDP, SSH, and admin panels; automated bots brute-force internet-facing logins ceaselessly.</p>
+    <p class="fix"><b>Defense</b> Long, unique passphrases; MFA (defeats a cracked password); account lockout and rate-limiting for online attempts; never expose RDP/SSH directly to the internet.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Password Spraying &amp; Credential Stuffing</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1110.003 / T1110.004</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Two refinements that beat lockouts. <strong>Spraying</strong> tries <em>one</em> common password (&ldquo;Winter2026!&rdquo;) against <em>many</em> accounts, staying under the per-account lockout threshold. <strong>Stuffing</strong> replays username/password pairs stolen from other breaches (Part II), exploiting password reuse &mdash; a huge fraction of people reuse credentials, so a dump from one site unlocks accounts on dozens of others. Both are highly automated and extremely effective.</p>
+    <p class="seen"><b>In the wild:</b> credential stuffing drives constant account-takeover waves against banking, retail, and streaming services; spraying is a favorite first move against cloud/Office 365 tenants.</p>
+    <p class="fix"><b>Defense</b> MFA (the single best defense); screen passwords against breach corpora; detect distributed/low-and-slow login patterns, not just per-account failures; passwordless/passkeys where possible.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Hash Cracking (Rainbow Tables, GPU, Hashcat)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1110.002</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Systems store password <em>hashes</em>, not passwords &mdash; but if an attacker steals the hash database (via SQLi, dumping, etc.), they crack it offline. <strong>Hashcat</strong> on a GPU tries billions of guesses per second against fast hashes (MD5, unsalted SHA); <strong>rainbow tables</strong> are precomputed lookups that defeat unsalted hashes instantly. Weak or unsalted hashing turns a database theft into a password theft.</p>
+    <p class="seen"><b>In the wild:</b> the 2012 LinkedIn breach exposed 117M+ unsalted SH-1 hashes that were cracked en masse, fueling years of credential stuffing.</p>
+    <p class="fix"><b>Defense</b> Hash passwords with a <em>slow, salted</em> algorithm designed for it &mdash; bcrypt, scrypt, or Argon2 &mdash; never MD5/SHA alone; add a server-side pepper; the goal is to make offline cracking economically hopeless.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Credential Dumping (Mimikatz / LSASS)</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1003 / T1003.001</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">Once an attacker has admin on one machine, they harvest the credentials sitting in its memory. The tool <strong>Mimikatz</strong> scrapes plaintext passwords, hashes, and Kerberos tickets out of the Windows <code>LSASS</code> process &mdash; and those often belong to other, more privileged users who logged in. This is the hinge between &ldquo;I own one box&rdquo; and &ldquo;I own the domain,&rdquo; feeding the lateral-movement attacks of Part X.</p>
+    <p class="seen"><b>In the wild:</b> Mimikatz (and its many clones) appears in a huge share of real ransomware and APT intrusions; NotPetya (Chapter 11) bundled Mimikatz-style credential theft to spread.</p>
+    <p class="fix"><b>Defense</b> Credential Guard / LSASS protection; limit where privileged accounts log in (no domain-admin logins to workstations); EDR detection of LSASS access; tiered administration; disable cached/plaintext credential storage.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Pass-the-Hash &amp; Pass-the-Ticket</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1550.002 / T1550.003</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">You don&rsquo;t always need the password &mdash; you need what the password <em>produces</em>. In Windows authentication, the password hash or a Kerberos ticket can be <em>replayed</em> directly to authenticate as the user, no cracking required. &ldquo;Pass-the-hash&rdquo; reuses a stolen NTLM hash; &ldquo;pass-the-ticket&rdquo; reuses a stolen Kerberos ticket. This is why credential dumping (above) is so devastating: the dumped material is immediately usable.</p>
+    <p class="seen"><b>In the wild:</b> pass-the-hash has been a backbone of Windows network compromise for over a decade, central to countless APT and ransomware campaigns.</p>
+    <p class="fix"><b>Defense</b> Limit privileged-account exposure; unique local admin passwords (LAPS); tiered admin and privileged-access workstations; Credential Guard; monitor for anomalous authentication.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Kerberoasting &amp; AS-REP Roasting</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1558.003 / T1558.004</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">An Active Directory attack that needs only a single ordinary domain account. Any user can request a Kerberos service ticket for any service account, and that ticket is encrypted with the service account&rsquo;s password hash &mdash; so the attacker requests tickets for privileged service accounts and cracks them offline (Part VIII hash cracking), frequently recovering a weak service password that grants wide access. AS-REP roasting is the sibling attack against accounts with pre-authentication disabled.</p>
+    <p class="seen"><b>In the wild:</b> Kerberoasting is one of the most reliable privilege-escalation moves on real AD engagements and in ransomware intrusions, because service-account passwords are so often weak and unrotated.</p>
+    <p class="fix"><b>Defense</b> Long (25+ character) random, rotated service-account passwords, or group Managed Service Accounts; enable Kerberos pre-auth; AES instead of RC4; alert on bulk service-ticket requests.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Keylogging &amp; Credential Interception</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1056.001</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Capture the password as it&rsquo;s typed, before any hashing or encryption. Software keyloggers (part of malware/infostealers) record keystrokes, clipboard, and browser-stored passwords; hardware keyloggers are tiny devices inserted inline with a keyboard (Part XIII). The booming <strong>infostealer</strong> malware economy does this at scale, feeding the credential marketplaces of Chapter 3.</p>
+    <p class="seen"><b>In the wild:</b> infostealers (RedLine, Raccoon, Lumma) harvest billions of credentials and session cookies from infected machines, now a primary source of initial access sold to ransomware crews.</p>
+    <p class="fix"><b>Defense</b> EDR/anti-malware; MFA and hardware keys (a stolen password alone is useless); don&rsquo;t store passwords in the browser on untrusted machines; watch for the session-cookie theft that bypasses even MFA.</p>
+  </div>
+
+  <h2 id="part9">Part IX &mdash; Privilege Escalation</h2>
+  <p>The attacker is in, but as a low-privileged user. Privilege escalation turns that toehold into full control &mdash; <em>vertical</em> (user to admin/root) or <em>horizontal</em> (into another user&rsquo;s account). It is the bridge between initial access and total compromise, and it usually exploits a misconfiguration rather than a memory bug.</p>
+
+  <div class="attack">
+    <h3>Windows Privilege Escalation</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1548.002 / T1134 / T1574</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">A rich menagerie of local escalations: <strong>UAC bypass</strong> (tricking the elevation prompt), <strong>token impersonation</strong> (stealing a privileged process&rsquo;s access token &mdash; the &ldquo;Potato&rdquo; family), <strong>DLL hijacking</strong> and unquoted service paths (getting a privileged process to load your code), weak service permissions, and stored credentials in files or the registry. Automated enumeration (WinPEAS, PowerUp) finds them fast.</p>
+    <p class="seen"><b>In the wild:</b> these misconfig-based escalations are staples of real intrusions; the &ldquo;Potato&rdquo; token-impersonation exploits have been widely used against Windows servers.</p>
+    <p class="fix"><b>Defense</b> Least privilege; fix service and file permissions; enforce UAC at its highest; application allow-listing; patch; run privileged-access audits (the same tools attackers use, run by you first).</p>
+  </div>
+
+  <div class="attack">
+    <h3>Linux Privilege Escalation</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1548.003 / T1068</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">On Unix the classics are: misconfigured <strong>sudo</strong> rights (a program runnable as root that can spawn a shell &mdash; GTFOBins catalogs them), <strong>SUID</strong> binaries with the same problem, writable cron jobs or service files, exposed credentials, and PATH/library hijacking. Enumeration scripts (LinPEAS, linux-smart-enumeration) surface them in seconds. A single over-permissive sudo rule is often the whole escalation.</p>
+    <p class="seen"><b>In the wild:</b> misconfigured sudo and SUID binaries are the most common route to root on real Linux engagements; cloud workloads inherit the same issues at scale.</p>
+    <p class="fix"><b>Defense</b> Minimal, audited sudo rules; remove unnecessary SUID bits; protect cron and service files; least privilege for service accounts; file-integrity monitoring; patch.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Kernel &amp; Container-Escape Exploits</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">T1068 / T1611</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">When misconfiguration won&rsquo;t do, the attacker exploits a bug in the most privileged code there is &mdash; the operating-system kernel &mdash; to jump straight to root/SYSTEM, or breaks out of a container to the host (Part XV). Harder and rarer, but absolute when it lands, because the kernel is the thing everything else trusts (Chapter 2&rsquo;s &ldquo;Trusting Trust&rdquo;).</p>
+    <p class="seen"><b>In the wild:</b> kernel flaws like Dirty COW (2016) and Dirty Pipe (2022) gave instant local root on vast numbers of Linux systems; container escapes have repeatedly broken multi-tenant isolation.</p>
+    <p class="fix"><b>Defense</b> Patch the kernel promptly; reduce attack surface (seccomp, minimal kernels); defense-in-depth so local root isn&rsquo;t total (SELinux/AppArmor); don&rsquo;t run untrusted workloads on shared kernels without strong isolation.</p>
+  </div>
+
   <div class="wip">
-    &#9888; <strong>Compendium in progress.</strong> Parts VII&ndash;XX (Exploitation &amp; Memory Corruption, Credentials, Privilege Escalation, Persistence &amp; Lateral Movement, C2 &amp; Impact, Wireless, Physical/Hardware, Mobile, Cloud/Container, OT/ICS/IoT, AI/LLM, Cryptographic, and Supply-Chain attacks, plus the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
+    &#9888; <strong>Compendium in progress.</strong> Parts X&ndash;XX (Persistence, Defense Evasion &amp; Lateral Movement; C2, Exfiltration &amp; Impact; Wireless; Physical/Hardware; Mobile; Cloud/Container; OT/ICS/IoT; AI/LLM; Cryptographic; and Supply-Chain attacks, plus the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
   </div>
 
   <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
