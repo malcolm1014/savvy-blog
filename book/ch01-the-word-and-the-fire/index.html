@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 — The Word and the Fire</title>
+<meta name="description" content="A deep history of hacker culture, from an MIT model-railroad clubroom in 1959 through phone phreaking, the Homebrew Computer Club, the written ethic, the BBS underground, the Chaos Computer Club, the Cuckoo's Egg, the Crackdown and the EFF, the Crypto Wars, free software, and the long road to going legit. Chapter 1 of A Hacker's Guide to Survive. Sourced and cited.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Word and the Fire — A Deep History of Hacker Culture">
+<meta property="og:description" content="Chapter 1 of A Hacker's Guide to Survive: sixty-seven years of hacker culture, from a 1959 MIT clubroom to the machines that hack — phreaking, Homebrew, the ethic, the underground, the Crackdown, the Chaos Computer Club, the Crypto Wars, and free software. Sourced.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch01-the-word-and-the-fire/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Hacker Culture / History">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Word and the Fire — A Deep History of Hacker Culture">
+<meta name="twitter:description" content="Chapter 1 of A Hacker's Guide to Survive: sixty-seven years, from a 1959 MIT clubroom to the machines that hack. Sourced and cited.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch01-the-word-and-the-fire/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  .danger{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figure.narrow{max-width:620px; margin-left:auto; margin-right:auto;}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter One</p>
+  <h1>The Word and the Fire</h1>
+  <p class="dek">A deep history of hacker culture &mdash; where the fire was lit, who carried it, who tried to put it out, and why it is still burning sixty-seven years later.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; Before the Word</a>
+    <a href="#part2">II &middot; The Phone</a>
+    <a href="#part3">III &middot; Homebrew</a>
+    <a href="#part4">IV &middot; The Ethic</a>
+    <a href="#part5">V &middot; The Underground</a>
+    <a href="#part6">VI &middot; The Crackdown</a>
+    <a href="#part7">VII &middot; The Other Shore</a>
+    <a href="#part8">VIII &middot; The Crypto Wars</a>
+    <a href="#part9">IX &middot; Freedom</a>
+    <a href="#part10">X &middot; Going Legit</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>Why a history comes first</h3>
+    <p>You cannot survive a culture you do not understand, and you cannot understand this one from the headlines. The press met the hacker in a courtroom and has never been introduced any other way. So before this book hands you a single command to type or a single lab to build, it is going to hand you the thing every veteran already carries and no newcomer is ever given: <strong>the story of where the fire came from.</strong></p>
+    <p>This is the deep version. In a single field-guide article I once sketched the arc in a few pages (&ldquo;The Word Was Ours First,&rdquo; on this blog); here I have room to do it properly &mdash; the clubroom, the phone system, the garage, the written ethic, the bulletin boards, the raids, the Germans, the cryptographers, and the free-software pioneers who built the ground you stand on. I quote the people who were there in their own words wherever the record allows, and I cite the scholars who have studied them for forty years. Read it slowly. Everything after this chapter assumes you know it.</p>
+  </div>
+
+  <figure>
+    <img src="assets/timeline.svg" alt="A vertical timeline, The Keepers of the Fire, running from 1959 to 2026, marking fourteen turning points in hacker history from the MIT Tech Model Railroad Club to the age of autonomous hacking agents. Gold nodes mark the hinges — 1959, 1984, 1993, 2026 — and the single red node marks 1990, the Crackdown.">
+    <figcaption>The whole chapter on one spine. Four gold nodes are the hinges &mdash; the word is written down (1959), the ethic and the quarterly arrive (1984), the tribe gets a home in the desert (1993), and the machines join the work (2026). The one red node, 1990, is the year the state tried to put the fire out &mdash; and accidentally organized it.<span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <h2 id="part1">Part I &mdash; Before the Word</h2>
+  <h3>A clubroom, a layout, and a committee that ran the wires</h3>
+
+  <p>The word did not come from a prison, a basement, or a newspaper. It came from a model-railroad clubroom at the Massachusetts Institute of Technology, and the people who coined it were not trying to break anything. They were trying to make a train set do something more interesting than go in a circle.</p>
+
+  <p>The <strong>Tech Model Railroad Club</strong> &mdash; the TMRC &mdash; had existed at MIT since 1946, and by the late 1950s it had split, informally, into two tribes. One tribe cared about the scenery: the tiny painted buildings, the landscaping, the authenticity of the little world on the table. The other tribe cared about what was <em>under</em> the table &mdash; the mad tangle of relays, switches, and surplus telephone equipment that made the trains actually run. That second tribe called itself the <strong>Signals and Power Subcommittee</strong>, and it is, as close as history can locate it, the birthplace of the thing this book is about.</p>
+
+  <p>In the club&rsquo;s first dictionary, compiled around <strong>1959</strong>, the S&amp;P members wrote down their own slang. A &ldquo;hack,&rdquo; in that dictionary, was a project undertaken or a product built not for its result but for the pure joy and skill of the doing &mdash; and, crucially, a hack carried a note of <em>wild, benign cleverness</em>. To be called a <strong>hacker</strong> was a compliment. It meant you were one of the people who understood the system under the table well enough to improve it in ways its designers never imagined, and who did so for the sheer love of the machine.</p>
+
+  <p>So the original hacker was not a criminal. The original hacker was the student who stayed up all night because the system was more interesting than sleep, who fixed a thing nobody had asked him to fix, who treated a locked door as a puzzle rather than a wall. That is the definition the community still defends, and it is the one this book uses on every page that follows.</p>
+
+  <h3>The all-night machine, and the ethic that formed around it</h3>
+
+  <p>When those same students got access to the institute&rsquo;s computers, the word walked over with them &mdash; and so did the mindset. The machine that changed everything was the <strong>TX-0</strong>, an early transistorized computer that came to MIT around 1956, followed in 1961 by the <strong>PDP-1</strong> from the Digital Equipment Corporation. These were, for the time, astonishing: machines a student could sit at <em>directly</em>, interactively, instead of handing a stack of punch cards to a priesthood of operators and waiting a day for the result.</p>
+
+  <p>That directness mattered more than any single feature, because it created a new kind of relationship between a person and a computer &mdash; hands-on, immediate, exploratory. The students who gathered around the TX-0 and the PDP-1 in the MIT labs, many of them from the TMRC, became the first generation of what the journalist Steven Levy would later call the &ldquo;true hackers.&rdquo; They wrote the first interactive debuggers, the first text editors, the first computer music routines, and &mdash; in 1962, on the PDP-1 &mdash; <strong>Spacewar!</strong>, arguably the first video game, built for no reason other than that it would be glorious.</p>
+
+  <p>They also, without ever writing it down, began to live by a set of shared assumptions: that the machine should be available to anyone who wanted to learn; that locks on doors and passwords on accounts were obstacles to learning and therefore fair game; that a better program was its own justification; and that the only thing that should determine your standing was the quality of your work. Those assumptions would not be formally articulated for another twenty-two years. But they were already the air the labs breathed.</p>
+
+  <div class="secread">
+    <span class="tag">For the newcomer</span>
+    <p>Notice what is <em>not</em> in that origin story: no money, no malice, no computers-as-weapons. The founding impulse was curiosity, and the founding value was competence. When someone tells you hacking is about theft, they are describing a crime that borrowed the word &mdash; not the thing the word was coined to mean. Hold onto that distinction. By the end of this book it will be the difference between a career and a conviction.</p>
+  </div>
+
+  <h2 id="part2">Part II &mdash; The Phone Was a Computer First</h2>
+  <h3>The largest machine on earth, and the people who mapped it</h3>
+
+  <p>Before anyone was exploring computer networks, a loose fraternity of the curious was exploring the biggest machine humanity had ever built: the telephone system. In the 1960s and early 1970s, the Bell System was a single, continent-spanning analog computer, and it had a design flaw that was almost poetic. It carried its own control signals &mdash; the tones that told the network to route a call, seize a trunk, or ring a line &mdash; <em>in the same audio band as your voice.</em> Which meant that if you could make the right sound into the mouthpiece, you could talk to the network itself instead of to the person on the other end.</p>
+
+  <p>The people who figured this out called themselves <strong>phone phreaks</strong>, and they were, in every sense that matters, the first hackers the general public would eventually hear about. The key discovery was that a tone of exactly <strong>2,600 hertz</strong> would make a long-distance trunk believe the call had ended, handing the phreak an open line to route anywhere. One of the people who discovered this was <strong>Joe Engressia</strong> &mdash; later known as <strong>Joybubbles</strong> &mdash; a blind child with perfect pitch who could whistle the tone down the line by mouth. Another was <strong>John Draper</strong>, who took the handle <strong>Captain Crunch</strong> after discovering that a toy bo&rsquo;sun whistle packaged as a prize in boxes of Cap&rsquo;n Crunch cereal produced a near-perfect 2,600 Hz tone.</p>
+
+  <p>To generate the full set of routing tones on demand, phreaks built a device called a <strong>blue box</strong>. And here the lineage becomes something more than a curiosity, because two of the young Californians who built and sold blue boxes were named <strong>Steve Wozniak</strong> and <strong>Steve Jobs</strong>. A few years after they stopped, they built a different box, in a garage, and called it Apple. The exploratory, rule-bending, <em>&ldquo;I wonder what happens if&rdquo;</em> impulse that frightens people is the exact same impulse that built the industry those people now depend on. That is not a coincidence you should file away. It is the central fact of this entire history.</p>
+
+  <blockquote>
+    <p>&ldquo;If I had never picked up that phone and done phone phreaking, there never would have been an Apple computer.&rdquo;</p>
+    <cite>Steve Wozniak, co-founder of Apple, reflecting on the blue-box years (widely quoted; see Wozniak, <em>iWoz</em>, 2006)</cite>
+  </blockquote>
+
+  <h3>The article that lit the fuse, and the magazine that kept it burning</h3>
+
+  <p>Phreaking lived in the shadows until October <strong>1971</strong>, when <em>Esquire</em> published <strong>&ldquo;Secrets of the Little Blue Box,&rdquo;</strong> a long feature by the journalist <strong>Ron Rosenbaum</strong> that introduced middle America to Captain Crunch, Joybubbles, and the whole underground. It was the first time the mainstream press described the hacker mindset with something like accuracy &mdash; and, predictably, it functioned as a recruiting poster. Among the readers it inspired was, by his own account, the young Steve Wozniak.</p>
+
+  <p>The movement needed a hymnal, and it got two. The <strong>Youth International Party Line</strong> (YIPL), later renamed <strong>TAP</strong> (the Technological American Party, or Technological Assistance Program), was a newsletter started in 1971 by the activist <strong>Abbie Hoffman</strong> and a phreak known as <strong>Al Bell</strong> &mdash; a stapled, mimeographed sheet that mixed phone-system schematics with 1970s counterculture politics. And in <strong>1984</strong>, a new magazine took the phreaks&rsquo; signature frequency for its name: <strong>2600: The Hacker Quarterly</strong>, founded by a man who writes under the pen name <strong>Emmanuel Goldstein</strong> &mdash; borrowed from the dissident in Orwell&rsquo;s <em>Nineteen Eighty-Four</em>. More than four decades later, <em>2600</em> is still publishing, still running its monthly in-person meetings, and still insisting on the single idea underneath all of this: that curiosity is not a crime.</p>
+
+  <div class="pullquote">The network was never as secure as it looked. It just hadn&rsquo;t met anyone who listened to it the way a phreak did.</div>
+
+  <h2 id="part3">Part III &mdash; The Machine Comes Home</h2>
+  <h3>Menlo Park, a garage, and the democratization of the fire</h3>
+
+  <p>For the first two decades, hacking required access to a machine that cost more than a house and lived in an institution. That changed in the mid-1970s, and the change was so complete that we now live entirely inside its consequences.</p>
+
+  <p>In January <strong>1975</strong>, the cover of <em>Popular Electronics</em> announced the <strong>Altair 8800</strong>, a build-it-yourself microcomputer kit that an ordinary person could, for a few hundred dollars, own. It had almost no practical use out of the box &mdash; you programmed it with switches on the front panel and read the output in blinking lights &mdash; but that was beside the point. For the first time, the machine could come home.</p>
+
+  <p>On <strong>5 March 1975</strong>, thirty-two enthusiasts crowded into a garage in Menlo Park, California, to look at one. They called themselves the <strong>Homebrew Computer Club</strong>, and the meeting became a standing one. Homebrew was a hacker institution in the oldest MIT sense: people brought their projects, showed them off, argued about them, and &mdash; this is the part that matters &mdash; <em>gave away what they had figured out.</em> Schematics, code, and tricks circulated freely, because the culture&rsquo;s instinct was that knowledge shared is knowledge multiplied. A young Steve Wozniak later said the Apple I was designed, in large part, to be shown off at Homebrew, and that he handed out photocopies of his design for free.</p>
+
+  <p>Homebrew is where the hacker ethic collided, productively and permanently, with commerce. In 1976, a young Bill Gates wrote his famous &ldquo;Open Letter to Hobbyists,&rdquo; complaining that members of exactly this kind of club were freely copying his company&rsquo;s BASIC interpreter instead of paying for it &mdash; the opening shot in a fifty-year argument between the ethic of shared knowledge and the economics of proprietary software. That argument is not settled. You will spend your whole career inside it, and Chapter 9 of this book is, in a real sense, its latest front.</p>
+
+  <h2 id="part4">Part IV &mdash; Somebody Finally Wrote It Down</h2>
+  <h3>Steven Levy and the six values that had been true for twenty-five years</h3>
+
+  <p>For a quarter-century the hacker ethic was unwritten, because inside the labs it did not need defending. Then, in <strong>1984</strong>, the journalist <strong>Steven Levy</strong> published <em>Hackers: Heroes of the Computer Revolution</em>, went back to the MIT labs, the Homebrew garage, and the early game studios, interviewed the people who had been there, and did the thing nobody had bothered to do: he wrote the ethic down.</p>
+
+  <p>Levy distilled the culture into a set of core values. I will paraphrase them rather than reproduce his exact prose, but the substance is this: that access to computers &mdash; and to anything that teaches you how the world works &mdash; should be <strong>unlimited and total</strong>, and that you should always yield to the <em>Hands-On Imperative</em>; that <strong>all information should be free</strong>; that you should <strong>mistrust authority and promote decentralization</strong>; that hackers should be <strong>judged by their hacking</strong>, not by credentials such as degrees, age, race, or position; that you can <strong>create art and beauty on a computer</strong>; and that <strong>computers can change your life for the better</strong>.</p>
+
+  <blockquote>
+    <p>&ldquo;Access to computers &mdash; and anything which might teach you something about the way the world works &mdash; should be unlimited and total. Always yield to the Hands-On Imperative!&rdquo;</p>
+    <cite>The first tenet of the hacker ethic, as documented in Steven Levy, <em>Hackers: Heroes of the Computer Revolution</em>, 1984</cite>
+  </blockquote>
+
+  <p>You do not have to agree with every line &mdash; I don&rsquo;t, not without the dozen caveats a defender learns the hard way, and &ldquo;all information should be free&rdquo; is a sentence I have argued against for twenty years. But understand what it was reaching for: a world where systems can be inspected, understood, and improved by the people who use them. That is an <em>auditability</em> argument, and it is the philosophical great-grandparent of everything in this book &mdash; open source, responsible disclosure, reproducible builds, the whole idea that security you cannot inspect is not security at all.</p>
+
+  <h3>The three generations, and the precise modern definition</h3>
+
+  <p>Levy&rsquo;s book is also where the culture learned to see its own lineage. He described three successive waves: the <strong>true hackers</strong> of the 1950s and 60s MIT labs; the <strong>hardware hackers</strong> of the 1970s who brought the machine home through Homebrew; and the <strong>game hackers</strong> of the late 70s and early 80s who turned the personal computer into an art form and an industry. Each generation inherited the ethic and adapted it. You are the latest wave, and the adaptation this time is that the machine now talks back.</p>
+
+  <p>If you want the ethic stripped of all romance, the cryptographer <strong>Bruce Schneier</strong> has given the cleanest modern definition. A hacker, he writes, is someone who, told that a system works a certain way, immediately asks how it stops working &mdash; or does something unintended &mdash; if you push on it the wrong way. A <em>hack</em> is any clever subversion of a system&rsquo;s rules, from the inside, that the designers never anticipated.</p>
+
+  <blockquote>
+    <p>&ldquo;Security is a mindset. It&rsquo;s a way of thinking about the world.&rdquo;</p>
+    <cite>Bruce Schneier, on the security mindset (see <em>A Hacker&rsquo;s Mind</em>, 2023)</cite>
+  </blockquote>
+
+  <p>Nothing in that definition mentions computers, crime, or hoodies. The hacker mindset applies to tax codes, card games, and loyalty programs as cleanly as to a login form. The mindset is morally neutral. What you do with it is the entire story &mdash; and the rest of this chapter is the record of a community working that out the hard way, in public, over sixty years.</p>
+
+  <h2 id="part5">Part V &mdash; The Underground Rises</h2>
+  <h3>Bulletin boards, Phrack, and the document the whole culture memorized</h3>
+
+  <p>By the early 1980s the personal computer had a modem, and the modem changed the social shape of hacking completely. A hacker no longer needed to be physically inside a lab to find the others. He needed a phone line and the number of a <strong>bulletin board system</strong> &mdash; a BBS &mdash; a computer in someone&rsquo;s bedroom that other computers could dial into to trade messages, files, and knowledge. The BBS was the hacker underground&rsquo;s first real nation: decentralized, pseudonymous, and organized entirely around what you knew.</p>
+
+  <p>On those boards, and in the magazines that grew out of them, the culture produced its own literature. In <strong>1985</strong> a BBS-based electronic magazine called <strong>Phrack</strong> began publishing out of the Metal Shop board &mdash; the name a fusion of <em>phreak</em> and <em>hack</em> &mdash; and it quickly became the underground&rsquo;s journal of record, mixing deep technical articles with news and community gossip. Phrack is still published today, and its early issues are a primary-source map of the era.</p>
+
+  <p>It was in Phrack, in January <strong>1986</strong>, that a nineteen-year-old who called himself <strong>The Mentor</strong> &mdash; the writer <strong>Loyd Blankenship</strong> &mdash; published, shortly after his own arrest, a single page titled <strong>&ldquo;The Conscience of a Hacker.&rdquo;</strong> Everyone just calls it the <strong>Hacker Manifesto</strong>. If you spend any time in this community you will hear it quoted at cons, printed on shirts, and read aloud at memorials. It is the closest thing the culture has to scripture.</p>
+
+  <blockquote>
+    <p>&ldquo;This is our world now&hellip; the world of the electron and the switch, the beauty of the baud.&hellip; We explore&hellip; and you call us criminals. We seek after knowledge&hellip; and you call us criminals.&rdquo;</p>
+    <p>&ldquo;I am a hacker, and this is my manifesto. You may stop this individual, but you can&rsquo;t stop us all.&rdquo;</p>
+    <cite>The Mentor (Loyd Blankenship), &ldquo;The Conscience of a Hacker,&rdquo; <em>Phrack</em>, Vol. 1, Issue 7, 8 January 1986</cite>
+  </blockquote>
+
+  <p>The manifesto&rsquo;s most important line, for a newcomer, is the one about the writer&rsquo;s actual crime: being judged for his curiosity, and judging others only by what they say and think rather than by how they look. That is the community at its best &mdash; a meritocracy of the curious, where a teenager and a Fortune 500 CISO argue as equals because the only currency that matters is whether the idea works.</p>
+
+  <h3>Legion of Doom, Masters of Deception, and the first crews</h3>
+
+  <p>The underground was not one thing. It organized itself into crews, and the two most famous defined an era by feuding with each other. The <strong>Legion of Doom</strong> (LoD), formed around 1984 and named with deliberate comic-book menace, was for years the most respected hacking group in America &mdash; technically brilliant, obsessed with the telephone network, and the source of some of the most widely circulated technical files of the decade. Out of a split within that world came the <strong>Masters of Deception</strong> (MoD), a mostly New York crew. The rivalry between LoD and MoD &mdash; later dubbed the &ldquo;Great Hacker War&rdquo; by the press, with considerable exaggeration &mdash; played out across the phone system and the courts, and it ended the way most of these stories ended in that decade: with indictments. The crews mattered because they were the first proof that this was a <em>community</em> with factions, reputations, and politics &mdash; the social structure the conventions would later formalize. We will return to the crews in depth in Chapter 3.</p>
+
+  <h2 id="part6">Part VI &mdash; The Crackdown, and the Answer</h2>
+  <h3>1988: the first worm, and the first catch</h3>
+
+  <p>Two events at the close of the 1980s turned hacking from a subculture the authorities found annoying into one they decided to prosecute. The first was a worm. The second was a spy.</p>
+
+  <p>On <strong>2 November 1988</strong>, a Cornell graduate student named <strong>Robert Tappan Morris</strong> released a self-replicating program onto the early internet &mdash; by his account, an attempt to measure the size of the network. A flaw in its design made it re-infect machines far faster than he intended, and it spread out of control, crippling or clogging roughly <strong>6,000 of the estimated 60,000 computers</strong> then connected. It was the first large-scale worm the internet had ever seen, and it caused the kind of visible, expensive disruption that gets a government&rsquo;s attention. Morris became the first person tried under the <strong>Computer Fraud and Abuse Act</strong> of 1986; a federal jury convicted him in January <strong>1990</strong>, and he was sentenced to three years&rsquo; probation, 400 hours of community service, and a fine of roughly $10,000. (He later co-founded two companies with Paul Graham and became a tenured professor at MIT &mdash; a reminder that the arc of these stories is rarely a straight line.)</p>
+
+  <h3>The Cuckoo&rsquo;s Egg: 75 cents, and a hacker working for the KGB</h3>
+
+  <p>The second event reads like a thriller because the man at the center of it wrote one. In 1986, an astronomer-turned-sysadmin named <strong>Cliff Stoll</strong>, running the computers at Lawrence Berkeley National Laboratory, was asked to resolve a <strong>75-cent accounting discrepancy</strong> in the lab&rsquo;s computer-time billing. Rather than write it off, Stoll &mdash; being exactly the kind of person this book is about &mdash; pulled the thread. The 75 cents led to an unauthorized user, the unauthorized user led to a network intrusion, and the intrusion led, over the course of a year of painstaking, hand-logged surveillance, to a West German hacker named <strong>Markus Hess</strong>, who was breaking into U.S. military and research systems and <em>selling what he found to the Soviet KGB.</em></p>
+
+  <p>Stoll told the story in <em>The Cuckoo&rsquo;s Egg</em> (1989), still one of the finest books ever written about defensive security &mdash; and the first to make ordinary readers understand that a computer intrusion could be an act of espionage. It is also the founding text of what we now call the blue team: one patient defender, a logbook, and a refusal to ignore an anomaly, taking apart a state-sponsored operation. We owe him the whole discipline of Chapter 8.</p>
+
+  <blockquote>
+    <p>&ldquo;It took me a year and a half to realize that I was chasing a spy.&rdquo;</p>
+    <cite>Clifford Stoll, <em>The Cuckoo&rsquo;s Egg: Tracking a Spy Through the Maze of Computer Espionage</em>, 1989</cite>
+  </blockquote>
+
+  <h3>1990: the state swings, and misses in a way that matters</h3>
+
+  <p>By 1990 the authorities had decided the underground was a threat, and they moved. In May <strong>1990</strong> the U.S. Secret Service publicly announced <strong>Operation Sundevil</strong>, a nationwide crackdown that ran raids in roughly <strong>fifteen cities</strong>, seized computers and bulletin-board contents, and produced a grand total of <strong>three arrests</strong>. It was loud, it was frightening to a generation of teenagers with modems, and &mdash; measured against its own theater &mdash; it accomplished very little except to convince the community that the government did not understand the difference between a curious kid and a criminal.</p>
+
+  <p>A separate raid made the point unforgettable. On <strong>1 March 1990</strong>, the Secret Service raided <strong>Steve Jackson Games</strong>, a small tabletop-game publisher in Austin, Texas, and seized its computers &mdash; including the manuscript of an unpublished game book, <em>GURPS Cyberpunk</em>, which an agent reportedly called &ldquo;a handbook for computer crime.&rdquo; (It was a role-playing supplement.) The company had committed no crime, was never charged, and &mdash; this is the detail the record insists on &mdash; the raid was not actually part of Operation Sundevil, though the press conflated the two so thoroughly that the EFF now flags the connection as a media error. More than three years later, a federal court ruled the raid careless, unlawful, and completely unjustified, and awarded the company damages.</p>
+
+  <p>And here is the thing the state did not anticipate. The raids did not scatter the community. <strong>They organized it.</strong> In July <strong>1990</strong>, appalled by what they saw, three people &mdash; the Grateful Dead lyricist <strong>John Perry Barlow</strong>, the Lotus founder <strong>Mitch Kapor</strong>, and the Sun Microsystems engineer <strong>John Gilmore</strong> &mdash; founded the <strong>Electronic Frontier Foundation</strong> to make sure the law treated hackers as citizens with rights rather than suspects by default. The EFF funded the Steve Jackson Games case, won it, and has been the community&rsquo;s legal conscience ever since. The chronicler of the whole episode, the science-fiction writer <strong>Bruce Sterling</strong>, gave away his book about it, <em>The Hacker Crackdown</em> (1992), for free online &mdash; itself a small act of the ethic.</p>
+
+  <div class="danger">
+    <span class="tag">The pattern, named</span>
+    <p>Watch what happened here, because it repeats for the next thirty-five years. A technically curious act is treated as a crime; the response is disproportionate and poorly aimed; the community, rather than going quiet, builds a durable institution to defend itself. Operation Sundevil gave us the EFF. The same reflex &mdash; overreach, then organization &mdash; later gave us bug-bounty law, coordinated disclosure norms, and the researcher protections you will rely on in Chapter 10. The state keeps teaching this community to get organized, and the community keeps learning.</p>
+  </div>
+
+  <h2 id="part7">Part VII &mdash; The Other Shore</h2>
+  <h3>The Chaos Computer Club, and a hacker ethic with a conscience bolted on</h3>
+
+  <p>The American story is only half of it. While the U.S. underground was trading files on BBSs, a parallel and in some ways more mature culture was forming in Europe &mdash; one that, from the beginning, treated hacking as a political and ethical act rather than a purely technical one.</p>
+
+  <p>The <strong>Chaos Computer Club</strong> was founded in <strong>1981</strong>, famously at a table in the offices of the left-wing newspaper <em>die tageszeitung</em> in Berlin, with the hacker-activist <strong>Herwart &ldquo;Wau&rdquo; Holland</strong> at its center. The CCC did something the American scene had not yet done: it added two lines to Levy&rsquo;s ethic. &ldquo;Make public data available; protect private data.&rdquo; And a warning against using the hacker ethic as cover for carelessness: in the CCC&rsquo;s formulation, you do not mess with other people&rsquo;s data, and you use public data for the public good. It was a hacker ethic with a conscience bolted on, and it has aged remarkably well.</p>
+
+  <p>The CCC proved its seriousness in November <strong>1984</strong> with one of the most elegant demonstrations in the history of the field. Germany&rsquo;s Bundespost ran an online service called <strong>Btx</strong> and insisted it was secure. Holland and his colleague <strong>Steffen Wern&eacute;ry</strong> found a flaw, used the credentials of the <strong>Hamburger Sparkasse</strong> (Haspa) bank, and wrote a short program that repeatedly called a premium CCC page overnight, running up a bill of roughly <strong>134,000 Deutsche Marks</strong> in the bank&rsquo;s name. Then they did the thing that separates a white hat from a thief: they held a <strong>press conference</strong>, announced exactly what they had done and how, and <strong>gave the money back.</strong> The point was never the money. The point was that the &ldquo;secure&rdquo; system was not, and that the people in charge needed to be shown, publicly, in a way they could not spin. That is responsible disclosure, performed as theater, a decade before the term existed.</p>
+
+  <blockquote>
+    <p>The CCC&rsquo;s founding conviction, in Wau Holland&rsquo;s spirit: that information wants to be free, that computers can be a force for good, and that you prove a system is insecure by demonstrating it honestly &mdash; then telling everyone.</p>
+    <cite>Paraphrasing the Chaos Computer Club&rsquo;s ethic and Wau Holland&rsquo;s account of the 1984 Btx hack, Hamburg, November 1984</cite>
+  </blockquote>
+
+  <p>The darker European story arrived soon after, and it is the one Cliff Stoll had already stumbled into from the other end: a loose group of young West German hackers, some connected to the CCC&rsquo;s orbit, broke into military systems and sold the results to the KGB &mdash; the affair at the center of <em>The Cuckoo&rsquo;s Egg</em>. It split the European scene and forced a hard conversation about where curiosity ends and treason begins &mdash; the same conversation, in a sharper key, that the Americans were having about Morris and Sundevil. Every maturing hacker culture eventually has to draw this line. The CCC drew it early, in writing, and it is still drawing it: today it is one of the most respected security and digital-rights organizations in Europe, runs the annual <strong>Chaos Communication Congress</strong>, and files briefs in Germany&rsquo;s highest court.</p>
+
+  <h2 id="part8">Part VIII &mdash; The Crypto Wars</h2>
+  <h3>When writing code became a constitutional fight</h3>
+
+  <p>In the 1990s the fire moved to a new front, and it is the one whose outcome you depend on every time you see a padlock in a browser. The question was simple and enormous: <strong>would ordinary people be allowed to use strong encryption the government could not break?</strong></p>
+
+  <p>For most of the twentieth century, serious cryptography was the property of states. The 1976 publication of public-key cryptography by <strong>Whitfield Diffie</strong> and <strong>Martin Hellman</strong> cracked that monopoly open, and the 1977 invention of <strong>RSA</strong> made it practical. By the early 1990s, a loose movement calling itself the <strong>Cypherpunks</strong> &mdash; organized around a mailing list founded in 1992 by Eric Hughes, Timothy May, and John Gilmore (the same Gilmore who co-founded the EFF) &mdash; had concluded that cryptography was the decisive privacy technology of the coming century, and that the way to win the argument was not to petition for the right but to <em>build the tools and give them away.</em></p>
+
+  <blockquote>
+    <p>&ldquo;Cypherpunks write code. We know that someone has to write software to defend privacy, and&hellip; we&rsquo;re going to write it.&rdquo;</p>
+    <cite>Eric Hughes, &ldquo;A Cypherpunk&rsquo;s Manifesto,&rdquo; 9 March 1993</cite>
+  </blockquote>
+
+  <p>The flashpoints came fast. In <strong>1991</strong>, <strong>Phil Zimmermann</strong> wrote <strong>Pretty Good Privacy</strong> (PGP), the first strong encryption tool ordinary people could actually use, and released it for free. Because U.S. law then classified strong cryptography as a <em>munition</em> subject to export control, Zimmermann became the target of a federal criminal investigation for &ldquo;exporting&rdquo; PGP &mdash; which had spread worldwide the moment it touched the internet. In a move of pure hacker wit, supporters published the entire PGP source code as a <em>book</em>, which was protected by the First Amendment and could be exported freely, then scanned back into code on the other side. The investigation was dropped in 1996 without charges.</p>
+
+  <p>The second flashpoint was the <strong>Clipper chip</strong>, a 1993 government proposal to put a hardware encryption chip with a built-in law-enforcement backdoor &mdash; &ldquo;key escrow&rdquo; &mdash; into American telephones and computers. The security community&rsquo;s response was ferocious and, in the end, decisive: researchers (notably Matt Blaze) demonstrated that the scheme was technically flawed, the public rejected it, and Clipper collapsed by 1996. The Crypto Wars were effectively won by the end of the decade, when the U.S. relaxed its export rules &mdash; which is the only reason the modern internet has encryption built in by default.</p>
+
+  <div class="secread">
+    <span class="tag">Why this is in a survival guide</span>
+    <p>The Crypto Wars are not settled history &mdash; they are a recurring argument that returns under new names (&ldquo;lawful access,&rdquo; &ldquo;client-side scanning,&rdquo; &ldquo;going dark&rdquo;) every few years, and you will be asked, as a professional, to have an informed opinion. The hacker position has been consistent for thirty years and has been vindicated every time: <strong>a backdoor for the good guys is a backdoor for everyone</strong>, because math does not check credentials. Zimmermann, the Cypherpunks, and the researchers who broke Clipper did not just win a policy fight. They established that <em>writing and sharing security code is a form of protected speech and civic defense</em> &mdash; the principle that makes your entire career legal.</p>
+  </div>
+
+  <h2 id="part9">Part IX &mdash; Free as in Freedom</h2>
+  <h3>The jammed printer, the four freedoms, and the ground you stand on</h3>
+
+  <p>Running underneath the whole story &mdash; the phreaks, the underground, the crypto wars &mdash; is a parallel movement that turned the hacker ethic into infrastructure, and it is the reason you can read the source code of the tools you will use in the rest of this book. I wrote about it at length elsewhere on this blog (&ldquo;The Wildebeest in the Toolchain: GNU at 43&rdquo;); here is the part that belongs in the history.</p>
+
+  <p>The founding grievance was a jammed printer. In the late 1970s, <strong>Richard Stallman</strong> &mdash; a programmer in the MIT AI Lab, a direct inheritor of the TMRC ethic &mdash; had been able to fix a shared printer&rsquo;s software when it misbehaved, because he had the source code. When the lab got a new printer whose manufacturer refused to release the source, he could not fix it, and he could not share a fix with anyone else. To Stallman this was not an inconvenience; it was a moral injury &mdash; a lock placed on knowledge that had always been shared. Out of that conviction he announced, in <strong>1983</strong>, the <strong>GNU Project</strong>: an effort to build a complete, free operating system that no one could ever lock up, and in 1985 he founded the Free Software Foundation to defend it.</p>
+
+  <p>Stallman&rsquo;s genius was legal as much as technical. He articulated <strong>four freedoms</strong> &mdash; the freedom to run a program for any purpose, to study and modify its source, to redistribute copies, and to distribute your modified versions &mdash; and then he invented <strong>copyleft</strong>, a license (the GNU General Public License) that uses copyright law <em>against itself</em> to guarantee those freedoms can never be stripped out of the software downstream. It is one of the cleverest hacks in the history of the field, and its target was the legal system.</p>
+
+  <p>GNU had built nearly a whole operating system by 1991 &mdash; compiler, editor, utilities, the works &mdash; and was missing one large piece: the kernel. That year, a Finnish student named <strong>Linus Torvalds</strong> released the first version of <strong>Linux</strong>, the kernel that filled the gap, under Stallman&rsquo;s GPL. The combination &mdash; GNU&rsquo;s tools around Torvalds&rsquo;s kernel &mdash; became the system that now runs the overwhelming majority of the world&rsquo;s servers, phones, and cloud infrastructure. The entire lab you build in Chapter 5 will run on it.</p>
+
+  <blockquote>
+    <p>&ldquo;Think free as in free speech, not free beer.&rdquo;</p>
+    <cite>Richard Stallman, the standard gloss on &ldquo;free software&rdquo; (Free Software Foundation)</cite>
+  </blockquote>
+
+  <p>For a security engineer, the free-software movement is not a political footnote &mdash; it is the foundation of trust itself. Source you can read is not automatically source you can trust (the 2024 <strong>xz backdoor</strong>, where a patient attacker spent years gaining a maintainer&rsquo;s trust before planting a backdoor in a near-ubiquitous library, is the sharpest recent proof). But source you <em>cannot</em> read is source you can only hope about. The whole discipline of verification &mdash; reproducible builds, supply-chain security, auditing &mdash; is the hacker ethic&rsquo;s auditability principle, grown up and load-bearing.</p>
+
+  <h2 id="part10">Part X &mdash; Going Legit</h2>
+  <h3>The day the underground walked into the Senate</h3>
+
+  <p>By the late 1990s the culture faced a question it had been avoiding since the TMRC: could you be a hacker &mdash; curious, adversarial, unimpressed by authority &mdash; and also a professional in daylight, with your real name on the badge? The answer, worked out over the next decade, is the reason this book can exist.</p>
+
+  <p>The hinge moment came on <strong>19 May 1998</strong>, when seven members of a Boston hacker collective called <strong>L0pht Heavy Industries</strong> &mdash; using only their handles: Mudge, Weld Pond, Brian Oblivion, Kingpin, Space Rogue, Tan, and Stefan Von Neumann &mdash; sat down in front of the U.S. Senate Committee on Governmental Affairs and testified, under those handles, that they could <strong>take down the entire internet in roughly thirty minutes.</strong> They were not bluffing, and the senators knew it. It was the first time the underground spoke to power as expert witnesses rather than defendants, and it marked the beginning of the culture&rsquo;s transformation from suspect to consultant. L0pht&rsquo;s leader, <strong>Peiter &ldquo;Mudge&rdquo; Zatko</strong>, went on to work at DARPA and, later, as head of security at major technology companies &mdash; the arc of the whole generation in one r&eacute;sum&eacute;.</p>
+
+  <blockquote>
+    <p>&ldquo;If you&rsquo;re looking for computer security, then the Internet is not the place to be.&rdquo;</p>
+    <cite>Peiter &ldquo;Mudge&rdquo; Zatko, L0pht Heavy Industries, testimony before the U.S. Senate, 19 May 1998</cite>
+  </blockquote>
+
+  <h3>The desert, the bounty, and the shape of the modern field</h3>
+
+  <p>While L0pht was testifying, the institution that would hold the modern culture together was already five years old. In <strong>1993</strong>, an eighteen-year-old named <strong>Jeff Moss</strong> &mdash; handle <strong>The Dark Tangent</strong> &mdash; threw a going-away party for a friend, invited the whole BBS underground to Las Vegas, and accidentally founded <strong>DEF CON</strong>, now the largest hacker gathering on earth and the subject of Chapter 4. A year later he started <strong>Black Hat</strong>, its corporate sibling, and the two together built the bridge the community walks across every summer: the same people, the same skills, respected on a conference stage instead of hunted.</p>
+
+  <p>The final piece arrived in <strong>2016</strong>, when the U.S. Department of Defense launched <strong>Hack the Pentagon</strong> &mdash; the first time the federal government formally invited hackers to break its systems and <em>paid them</em> for the holes they found. The program was built with help from <strong>Katie Moussouris</strong>, who had created Microsoft&rsquo;s first bug-bounty program, and it ratified, at the highest possible level, the principle the CCC had demonstrated with a bank in 1984: that the right response to a person who finds your flaw and tells you honestly is to <em>thank them and write a check.</em> A generation now makes an excellent, legal living this way. That is the destination this whole history was traveling toward.</p>
+
+  <h3>The through-line, and the fire you&rsquo;re holding now</h3>
+
+  <p>Sixty-seven years, and the same fire the whole way. It was lit in a clubroom by people who thought a system was a puzzle and competence was the only rank. It passed to the phreaks who listened to the phone network, the Homebrew hobbyists who brought the machine home, the underground that wrote its own literature, the Germans who added a conscience, the cryptographers who made privacy a right, and the free-software pioneers who made the ground itself inspectable. The state tried to stamp it out in 1990 and organized it instead. And every generation has had to draw the same line in a new place: between the curiosity that builds and the greed that steals, between the hack and the crime, between the white hat and the black.</p>
+
+  <p>You are the newest keeper of it, and your generation&rsquo;s adaptation is the biggest yet: for the first time, the machine helps you hack, and hacks back. That is the subject of the rest of this book. But you cannot wield the new tools wisely without knowing what you inherited &mdash; a sixty-seven-year tradition that was never about crime and always about understanding a system deeply enough to make it do something true.</p>
+
+  <div class="pullquote">We were never the villains of the story. We were the ones who stayed up all night to read it &mdash; and then rewrote the parts that were wrong.</div>
+
+  <h3>Carry these out of Chapter 1</h3>
+  <ol class="lessons">
+    <li><strong>The word was a compliment first.</strong> Coined at MIT in 1959 for a clever, joyful improvement &mdash; not a crime. Everything else is a borrowing.</li>
+    <li><strong>The mindset is morally neutral; the hat is a choice.</strong> White and black hats run the same tools and read the same papers. The only difference is permission &mdash; and it is the whole difference.</li>
+    <li><strong>Disclosure is the tradition, not the exception.</strong> From the CCC&rsquo;s 1984 press conference to Hack the Pentagon in 2016, the honorable move has always been: find the flaw, prove it cleanly, tell them, and &mdash; where offered &mdash; take the check.</li>
+    <li><strong>Overreach organizes us.</strong> Sundevil gave us the EFF; the Crypto Wars gave us the right to write security code. The community&rsquo;s durable institutions were built in response to being attacked.</li>
+    <li><strong>Auditability is the founding value.</strong> &ldquo;Information should be free&rdquo; grew up into reproducible builds and supply-chain security. Source you cannot read is source you can only hope about.</li>
+    <li><strong>You inherited a fire, not a toolkit.</strong> The tools change every decade. The ethic &mdash; curiosity, competence, honesty, and the line you never cross &mdash; is the part you are responsible for carrying.</li>
+  </ol>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">Foundational &mdash; the word, the labs, the ethic</p>
+  <ul class="refs">
+    <li>Levy, Steven. <em>Hackers: Heroes of the Computer Revolution.</em> Anchor/Doubleday, 1984 (25th-anniversary ed., O&rsquo;Reilly, 2010) &mdash; the Tech Model Railroad Club, the Hands-On Imperative, the six tenets, and the three generations.</li>
+    <li>Raymond, Eric S. (ed.). <em>The Jargon File</em> and &ldquo;A Brief History of Hackerdom.&rdquo; <a href="http://catb.org/~esr/writings/hacker-history/">catb.org/~esr/writings/hacker-history</a>.</li>
+    <li>Tech Model Railroad Club. &ldquo;An Abridged Dictionary of the TMRC Language&rdquo; (c. 1959). <a href="https://www.gricer.com/tmrc/dictionary1959.html">TMRC dictionary</a>.</li>
+    <li>Schneier, Bruce. <em>A Hacker&rsquo;s Mind: How the Powerful Bend Society&rsquo;s Rules, and How to Bend Them Back.</em> W. W. Norton, 2023; and &ldquo;What Is a Hacker?&rdquo;, <a href="https://www.schneier.com/blog/archives/2006/09/what_is_a_hacke.html">Schneier on Security</a>, 2006.</li>
+  </ul>
+
+  <p class="refs-group">The phone phreaks</p>
+  <ul class="refs">
+    <li>Rosenbaum, Ron. &ldquo;Secrets of the Little Blue Box.&rdquo; <em>Esquire</em>, October 1971.</li>
+    <li>Lapsley, Phil. <em>Exploding the Phone: The Untold Story of the Teenagers and Outlaws Who Hacked Ma Bell.</em> Grove Press, 2013 &mdash; the definitive history of phreaking, Joe Engressia / Joybubbles, and John Draper.</li>
+    <li>Wozniak, Steve, with Gina Smith. <em>iWoz.</em> W. W. Norton, 2006 &mdash; the blue-box years and the line from phreaking to Apple.</li>
+    <li><em>2600: The Hacker Quarterly</em> (founded 1984); Eric Corley / &ldquo;Emmanuel Goldstein&rdquo;; the 2,600 Hz tone; monthly 2600 meetings; the HOPE conference. <a href="https://www.2600.com/">2600.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">Homebrew &amp; the personal machine</p>
+  <ul class="refs">
+    <li>The Homebrew Computer Club (first meeting 5 March 1975, Menlo Park, CA); the Altair 8800, <em>Popular Electronics</em>, January 1975.</li>
+    <li>Gates, Bill. &ldquo;An Open Letter to Hobbyists.&rdquo; Homebrew Computer Club Newsletter, February 1976.</li>
+  </ul>
+
+  <p class="refs-group">The underground &amp; its literature</p>
+  <ul class="refs">
+    <li>The Mentor (Loyd Blankenship). &ldquo;The Conscience of a Hacker&rdquo; (&ldquo;The Hacker Manifesto&rdquo;). <em>Phrack</em>, Vol. 1, Issue 7, Phile 3, 8 January 1986. <a href="http://phrack.org/issues/7/3.html">phrack.org</a>.</li>
+    <li>Slatalla, Michelle, and Joshua Quittner. <em>Masters of Deception: The Gang That Ruled Cyberspace.</em> HarperCollins, 1995 &mdash; LoD, MoD, and the &ldquo;Great Hacker War.&rdquo;</li>
+    <li>Sterling, Bruce. <em>The Hacker Crackdown: Law and Disorder on the Electronic Frontier.</em> Bantam, 1992 &mdash; released free by the author; <a href="https://www.mit.edu/hacker/hacker.html">full text</a>.</li>
+  </ul>
+
+  <p class="refs-group">The Crackdown, the worm, and the spy</p>
+  <ul class="refs">
+    <li>Stoll, Clifford. <em>The Cuckoo&rsquo;s Egg: Tracking a Spy Through the Maze of Computer Espionage.</em> Doubleday, 1989 &mdash; the 75-cent discrepancy, Markus Hess, and the KGB.</li>
+    <li>United States v. Robert Tappan Morris &mdash; the Morris Worm (2 November 1988); first CFAA conviction, January 1990; sentence of probation, 400 hours community service, and a ~$10,050 fine. See <a href="https://en.wikipedia.org/wiki/Morris_worm">overview</a> and Purdue CERIAS materials.</li>
+    <li>Operation Sundevil (announced 9 May 1990); ~15 cities, 3 arrests. <a href="https://en.wikipedia.org/wiki/Operation_Sundevil">overview</a>.</li>
+    <li><em>Steve Jackson Games, Inc. v. United States Secret Service</em> (raid 1 March 1990; damages awarded 1993). EFF notes the common conflation with Sundevil is a media error. <a href="https://www.eff.org/cases/steve-jackson-games-inc-v-united-states-secret-service">EFF case file</a>.</li>
+    <li>Electronic Frontier Foundation &mdash; founded July 1990 by John Perry Barlow, Mitch Kapor, and John Gilmore. <a href="https://www.eff.org/">eff.org</a>.</li>
+  </ul>
+
+  <p class="refs-group">The other shore &mdash; the Chaos Computer Club</p>
+  <ul class="refs">
+    <li>Chaos Computer Club (founded 1981, Berlin); Herwart &ldquo;Wau&rdquo; Holland; the CCC&rsquo;s extended hacker ethic. <a href="https://www.ccc.de/en/hackerethik">ccc.de/hackerethik</a>.</li>
+    <li>The Btx hack (16&ndash;17 November 1984); Holland and Steffen Wern&eacute;ry; the Hamburger Sparkasse and the ~134,000 DM demonstration, returned the next day. Contemporary coverage: Thomas von Randow, <em>Die Zeit</em>, 30 November 1984; see also <em>heise online</em>, 2024.</li>
+  </ul>
+
+  <p class="refs-group">The Crypto Wars</p>
+  <ul class="refs">
+    <li>Hughes, Eric. &ldquo;A Cypherpunk&rsquo;s Manifesto.&rdquo; 9 March 1993. <a href="https://www.activism.net/cypherpunk/manifesto.html">full text</a>.</li>
+    <li>Diffie, Whitfield, and Martin Hellman. &ldquo;New Directions in Cryptography.&rdquo; <em>IEEE Transactions on Information Theory</em>, 1976.</li>
+    <li>Zimmermann, Phil. Pretty Good Privacy (PGP), 1991; the U.S. export investigation (1993&ndash;1996). <a href="https://www.philzimmermann.com/">philzimmermann.com</a>.</li>
+    <li>Blaze, Matt. &ldquo;Protocol Failure in the Escrowed Encryption Standard.&rdquo; 1994 &mdash; the technical break of the Clipper chip.</li>
+    <li>Levy, Steven. <em>Crypto: How the Code Rebels Beat the Government &mdash; Saving Privacy in the Digital Age.</em> Viking, 2001.</li>
+  </ul>
+
+  <p class="refs-group">Free software</p>
+  <ul class="refs">
+    <li>Stallman, Richard. The GNU Manifesto (1985); the four freedoms; the GNU General Public License. <a href="https://www.gnu.org/gnu/manifesto.html">gnu.org</a>.</li>
+    <li>Williams, Sam. <em>Free as in Freedom: Richard Stallman&rsquo;s Crusade for Free Software.</em> O&rsquo;Reilly, 2002.</li>
+    <li>Torvalds, Linus. First release of the Linux kernel, 1991. See also the Savvy Security article &ldquo;The Wildebeest in the Toolchain: GNU at 43&rdquo; (this blog) on the xz backdoor and the trusted computing base.</li>
+  </ul>
+
+  <p class="refs-group">Going legit</p>
+  <ul class="refs">
+    <li>L0pht Heavy Industries &mdash; testimony before the U.S. Senate Committee on Governmental Affairs, 19 May 1998. See <em>Washington Post</em>, &ldquo;Net of Insecurity,&rdquo; 2015; Peiter &ldquo;Mudge&rdquo; Zatko.</li>
+    <li>Menn, Joseph. <em>Cult of the Dead Cow: How the Original Hacking Supergroup Might Just Save the World.</em> PublicAffairs, 2019 &mdash; L0pht, cDc, and the professionalization of the scene.</li>
+    <li>DEF CON (est. 1993) and Black Hat (est. 1997); Jeff Moss / The Dark Tangent. <a href="https://defcon.org/">defcon.org</a>.</li>
+    <li>Moussouris, Katie &mdash; Microsoft&rsquo;s bug-bounty program; &ldquo;Hack the Pentagon&rdquo; (2016), the first U.S. federal bug bounty; founder/CEO, Luta Security.</li>
+  </ul>
+
+  <p class="refs-group">Scholarly &mdash; the study of the culture</p>
+  <ul class="refs">
+    <li>Coleman, E. Gabriella. <em>Coding Freedom: The Ethics and Aesthetics of Hacking.</em> Princeton University Press, 2013.</li>
+    <li>Jordan, Tim, and Paul Taylor. &ldquo;A Sociology of Hackers.&rdquo; <em>The Sociological Review</em> 46, no. 4 (1998): 757&ndash;780.</li>
+    <li>Thomas, Douglas. <em>Hacker Culture.</em> University of Minnesota Press, 2002.</li>
+    <li>Nissenbaum, Helen. &ldquo;Hackers and the Contested Ontology of Cyberspace.&rdquo; <em>New Media &amp; Society</em> 6, no. 2 (2004): 195&ndash;217.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> Every quotation above is attributed to the person or document it came from, and every factual claim is traceable to the sources listed. Where a line appears inside quotation marks it is a direct quote from the cited source or a verified public record of it; where a view is attributed without quotation marks (for example, the Chaos Computer Club&rsquo;s ethic) it is a faithful paraphrase of a documented public position, not a verbatim transcript. Dates and figures that vary across sources &mdash; the exact Btx sum, the precise Morris fine, the Sundevil counts &mdash; are given as the best-supported value with the variation noted. The timeline diagram is original vector work by Savvy Security LLC. There are deliberately no photographs of the people named here; this book uses portraits only from properly licensed, correctly credited sources.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense. This is Chapter 1 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../">&larr; Table of contents</a>
+    <a href="../">Next: Chapter 2 &mdash; The People &rarr;</a>
+  </nav>
+
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive &middot; Chapter One</footer>
+</body>
+</html>
