@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 5 — The Machine You Own</title>
+<meta name="description" content="How a one-person research company runs on a used $80 Chromebook, a $20 Claude subscription, a $20 Gemini subscription, and a cheap Hetzner cloud lab — from vibe coding and agentic engineering to building and debugging advanced software, shipping books, apps and games, and securing federal research proposals through SAM.gov, SBIR/STTR, and a university partner. Chapter 5 of A Hacker's Guide to Survive. Sourced and cited.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Machine You Own — The $80 Chromebook, the AI Stack, and the Cloud Lab">
+<meta property="og:description" content="Chapter 5 of A Hacker's Guide to Survive: the collapsed cost of the means of production. Vibe coding (honestly), a two-model AI stack, Hetzner virtual labs, open hardware, and the real path from a used Chromebook to a DARPA proposal. Sourced.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch05-the-machine-you-own/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="AI / Vibe Coding / Business">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Machine You Own — The $80 Chromebook and the AI Stack">
+<meta name="twitter:description" content="Chapter 5 of A Hacker's Guide to Survive: vibe coding honestly, a $40/mo two-model AI stack, Hetzner cloud labs, open hardware, and the real path from a used Chromebook to a DARPA proposal. Sourced.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch05-the-machine-you-own/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.9em; background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:1px 5px;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  .danger{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Five</p>
+  <h1>The Machine You Own</h1>
+  <p class="dek">An entire research company &mdash; books, apps, games, marketing, and a federal proposal &mdash; running on a used $80 Chromebook, two $20 subscriptions, and a cloud lab that costs less than lunch.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; The $80 Chromebook</a>
+    <a href="#part2">II &middot; Vibe Coding, Honestly</a>
+    <a href="#part3">III &middot; The Two-Model Stack</a>
+    <a href="#part4">IV &middot; The Cloud Lab</a>
+    <a href="#part5">V &middot; Shipping Real Things</a>
+    <a href="#part6">VI &middot; Open Hardware</a>
+    <a href="#part7">VII &middot; Chromebook to DARPA</a>
+    <a href="#part8">VIII &middot; What&rsquo;s Coming</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>This chapter is my actual workstation</h3>
+    <p>Every other chapter in this book is reported. This one is <em>confessed.</em> I am writing it &mdash; and I wrote most of this book, and run most of my company &mdash; on a <strong>used Chromebook I paid eighty dollars for.</strong> The rest of the stack is a $20 Claude subscription, a $20 Gemini subscription, and a cloud server I rent for about the price of a sandwich a month. That is the whole means of production. From that, Savvy Security LLC has published articles and this book, built apps and games, marketed and managed itself, and moved a real research proposal toward a federal award with a university partner at the table.</p>
+    <p>I am not telling you this to impress you. I am telling you because <strong>the thing Chapter 1 promised &mdash; that computing power would belong to ordinary people &mdash; has actually, finally, arrived</strong>, and most people have not noticed because they are waiting for permission or a budget they think they need and don&rsquo;t. This chapter is the build sheet: the tools, the cloud lab, the honest limits (the research on where AI helps and where it quietly hurts is in here, cited), and the exact sequence from a cheap laptop to a contract portal. Everything is sourced. Where a number matters, there is a primary source behind it &mdash; a discipline I learned the hard way, and which has its own section below.</p>
+  </div>
+
+  <figure>
+    <img src="assets/stack.svg" alt="A diagram, The Eighty-Dollar Stack: on the left the inputs (an $80 used Chromebook one-time, Claude at $20/mo, Gemini at $20/mo, a Hetzner cloud lab at about 6 euros/mo); in the middle the work (vibe coding to agentic engineering, virtual labs, research with verification); on the right the outputs (books and articles, apps and games, running the company, and federal proposals). Total recurring cost about $40 to $46 a month.">
+    <figcaption>The whole company on one page. A generation ago this stack &mdash; a research-grade computer, a software team, a lab &mdash; cost six figures a year. The barrier to entry didn&rsquo;t lower; it collapsed. Everything in this chapter is about what you do once you notice.<span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <h2 id="part1">Part I &mdash; The $80 Chromebook</h2>
+  <h3>The means of production collapsed, and almost nobody noticed</h3>
+
+  <p>Start with the heresy, because it reframes everything. <strong>You do not need an expensive computer to do serious technical work in 2026.</strong> You need a cheap one that can open a browser and a terminal, and a network connection. The reason is simple: the heavy lifting no longer happens on the machine in front of you. The AI runs in a data center. The code builds and executes in a cloud lab. Your local device is a <em>thin client</em> &mdash; a window and a keyboard &mdash; and a window does not need a workstation&rsquo;s price tag.</p>
+
+  <p>My window is a used Chromebook. ChromeOS gets a bad reputation among power users, and the reputation is wrong for exactly this workflow, because of one feature: it runs a real <strong>Linux container</strong> (the project is called Crostini). Turn it on in settings and you have a genuine Debian terminal &mdash; <code>bash</code>, <code>ssh</code>, <code>git</code>, <code>python</code>, the works &mdash; running safely alongside ChromeOS&rsquo;s locked-down, auto-updating, hard-to-infect core. So the cheapest, most secure-by-default consumer laptop on the market is also, quietly, a perfectly good development terminal. You get a hardened browser for the AI tools, a real shell for the cloud, and a device so inexpensive that if it&rsquo;s lost or stolen you are out eighty dollars, not two thousand.</p>
+
+  <p>Here is the part that matters for a reader who feels locked out of this field by money: <strong>the hardware was never the gate.</strong> A generation of talented people talked themselves out of this work because they thought it required a gaming rig or a MacBook. It does not. It requires curiosity (Chapter 1), a community (Chapter 4), and a willingness to rent the heavy machinery by the hour instead of buying it. The eighty-dollar Chromebook is not a hardship story. It is a <em>strategy</em>: put your money into the tools that compound (the AI, the lab, the registrations) and nothing into the depreciating metal that just holds the window.</p>
+
+  <blockquote>
+    <p>&ldquo;Access to computers &mdash; and anything which might teach you something about the way the world works &mdash; should be unlimited and total.&rdquo;</p>
+    <cite>The first tenet of the hacker ethic (Levy, 1984) &mdash; written in 1984, delivered, finally, by a cheap laptop and a rented server in 2026</cite>
+  </blockquote>
+
+  <h2 id="part2">Part II &mdash; Vibe Coding, Honestly</h2>
+  <h3>What it is, what it was named, and where it actually fails</h3>
+
+  <p>The term you came here for was coined in February <strong>2025</strong>, when <strong>Andrej Karpathy</strong> &mdash; a founding figure of modern AI &mdash; posted an almost offhand description of a new way of building: you &ldquo;fully give in to the vibes,&rdquo; describe what you want in plain language, let the AI generate the code, and mostly don&rsquo;t even read it. He meant it for low-stakes projects &mdash; weekend tools, throwaway scripts, personal toys. The phrase escaped the lab immediately. By the end of 2025, <strong>&ldquo;vibe coding&rdquo; was the Collins Dictionary Word of the Year.</strong> You are living inside a term that is barely a year old.</p>
+
+  <p>And it is already evolving, which you need to know so you build the mature version and not the toy. Karpathy himself has moved past the original, loose meaning toward what he calls <strong>&ldquo;agentic engineering&rdquo;</strong>: not &ldquo;don&rsquo;t read the code and hope,&rdquo; but <em>set a clear goal, let an agent write, test, and iterate, and then review and validate the result.</em> By his own account, by late 2025 something like 80% of his code was being written by AI agents &mdash; but under supervision, with guardrails, aimed at a target he defined. That is the difference between vibe coding as a party trick and vibe coding as a profession: the party trick skips the review; the profession makes the review the whole job.</p>
+
+  <div class="danger">
+    <span class="tag">The research the hype skips</span>
+    <p>Because this book cites its sources, here is the finding that the vibe-coding influencers never mention. In 2025 the research group <strong>METR</strong> ran a randomized controlled trial on experienced open-source developers working in codebases they knew well. The developers <em>expected</em> AI tools to make them about 24% faster, and <em>believed afterward</em> they had been about 20% faster. In reality, <strong>they were 19% <u>slower</u> with the AI tools than without them.</strong> A follow-up in early 2026 still measured a slowdown, though with wide uncertainty and signs it is improving. Separately, a December 2025 analysis by CodeRabbit of hundreds of open-source pull requests found that AI-co-authored code contained roughly <strong>1.7&times; more &ldquo;major&rdquo; issues</strong> than human-written code. Hold both of these in your head forever: <strong>AI coding feels faster than it is, and it ships more bugs than it looks like it does.</strong> That is not an argument against it &mdash; I use it every day. It is an argument for the discipline in the rest of this chapter.</p>
+  </div>
+
+  <p>So where does vibe coding actually win, if experts on familiar code can be slowed by it? The honest answer, reconciling the research with my own daily experience, is this. It wins hugely for the <em>solo builder in unfamiliar territory</em> &mdash; the exact opposite of the METR test group. When you are one person who needs to write a bit of Rust, a React front end, a Dockerfile, and a marketing email in the same afternoon, the AI is not competing with your deep expertise (you have none in three of those four); it is giving you a competent draft in a domain where your alternative was <em>nothing.</em> It wins for boilerplate, for exploration, for first drafts, for learning, for the glue between the parts you do understand. It struggles exactly where the research says: on large, subtle, deeply-familiar codebases where a seasoned engineer already holds the whole thing in their head and the AI&rsquo;s confident wrongness becomes a tax. Know which situation you are in, and the paradox dissolves.</p>
+
+  <h2 id="part3">Part III &mdash; The Two-Model Stack</h2>
+  <h3>Why I pay two companies twenty dollars each</h3>
+
+  <p>My AI department costs forty dollars a month and has two employees who disagree with each other, on purpose. One is <strong>Claude</strong> (Anthropic), on the $20 Pro plan. One is <strong>Gemini</strong> (Google), on the roughly $20 AI Pro plan. Running both is not indulgence; it is the single most important quality-control decision in my workflow, and here is the reasoning.</p>
+
+  <p><strong>Claude is my builder.</strong> The Pro subscription includes <strong>Claude Code</strong> &mdash; an agentic coding tool that runs in the terminal, reads and writes across a whole project, runs commands, and iterates. On an eighty-dollar Chromebook in a Crostini shell, or on the cloud lab in Part IV, Claude Code is the thing that turns &ldquo;I want a tool that does X&rdquo; into a working repository, tests and all. It is the engine of the agentic engineering from Part II. (This very book &mdash; the HTML, the diagrams, the Word exports &mdash; was built this way.)</p>
+
+  <p><strong>Gemini is my researcher and my second opinion.</strong> Google&rsquo;s plan brings very large context windows, strong multimodal and &ldquo;deep research&rdquo; features, and tight integration with the Google tools a small business already lives in (Docs, Sheets, Gmail, a terabyte-plus of Drive storage that alone nearly justifies the price). But its most valuable job is <em>disagreement.</em> When a claim matters &mdash; a technical approach, a market number, a line in a proposal &mdash; I run it past both models and watch for where they diverge. Two models trained by two different companies on two different stacks will not hallucinate the same falsehood in the same place. The gap between their answers is a map of where I need to go check a primary source myself.</p>
+
+  <div class="danger">
+    <span class="tag">The most expensive lesson I almost learned</span>
+    <p>I have to tell this one straight, because it nearly cost me more than money. Early in my federal-funding work, I was developing strategy with AI assistance and came away with a <em>specific</em> program name, a <em>specific</em> funding tier, and a <em>specific</em> dollar figure &mdash; delivered with total fluency and a sense of urgency. Months later I checked it against the agency&rsquo;s own published topic list. <strong>None of it was real.</strong> The program did not exist. The tier did not exist. It had been generated, convincingly, out of nothing. I use AI more than almost anyone I know, and it will hand you a fabricated federal funding opportunity with a straight face. So the rule, in bold, for the rest of your life: <strong>verify everything against the primary source.</strong> The agency&rsquo;s own site. The actual solicitation. A government URL, not a chat window. If a number would go into a proposal, a pitch, or a post, it needs a real source behind it. That check cost me an afternoon. Not checking would have cost me my credibility with the first program manager who noticed.</p>
+  </div>
+
+  <p>That is the real architecture of the two-model stack: not &ldquo;two AIs are smarter than one,&rdquo; but &ldquo;two AIs that disagree are a cheap, always-on adversarial reviewer, and neither of them is a primary source.&rdquo; Forty dollars a month buys you a builder, a researcher, and a built-in habit of doubt. For a one-person company, that is the best-value hire in the building.</p>
+
+  <h2 id="part4">Part IV &mdash; The Cloud Lab</h2>
+  <h3>Renting the heavy machinery: Hetzner, in practice</h3>
+
+  <p>Here is where the Chromebook stops being a limitation and starts being a feature. You cannot &mdash; and should not &mdash; build and run serious software on a locked-down consumer laptop. You rent a real Linux machine in a data center, and you drive it from the cheap laptop over SSH. The provider I use, and recommend for value, is <strong>Hetzner</strong>, a long-established German host known for giving you more compute per dollar than almost anyone.</p>
+
+  <p>The practical shape of it, with real 2026 numbers (Hetzner raised prices twice in 2026, so always check the live page &mdash; but the ratios hold):</p>
+  <ul>
+    <li><strong>For a cheap always-on lab:</strong> Hetzner&rsquo;s <strong>ARM-based &ldquo;CAX&rdquo; servers</strong> are the value champion &mdash; roughly <strong>&euro;6 a month</strong> for a small instance after the 2026 increases. That is a real, dedicated, Linux box with its own public IP, yours to break and rebuild, for the price of a coffee or two.</li>
+    <li><strong>For heavier, steady workloads:</strong> the x86 &ldquo;shared vCPU&rdquo; lines (CPX/CCX) got much more expensive in June 2026, so for sustained compute the <strong>dedicated &ldquo;AX&rdquo; servers</strong> (or Hetzner&rsquo;s server-auction boxes) are now the better buy &mdash; a real dedicated machine with serious RAM for a flat monthly rate.</li>
+    <li><strong>What you do on it:</strong> install Docker, spin up isolated containers for each project, run your builds and tests, host a staging copy of whatever you&rsquo;re shipping, and &mdash; critically for this book&rsquo;s subject &mdash; run and <em>debug advanced software in an environment you fully control and can snapshot, wreck, and restore.</em> A cloud VPS is the modern version of the home lab from Chapter 1&rsquo;s advice: break your own machines, not someone else&rsquo;s.</li>
+  </ul>
+
+  <div class="secread">
+    <span class="tag">The lab, set up, from a Chromebook</span>
+    <p>The whole loop, concretely: enable Linux (Crostini) on the Chromebook; generate an SSH key (<code>ssh-keygen</code>); create a Hetzner account and a CAX server, pasting in your public key; <code>ssh root@your-server-ip</code> and you are in a clean Ubuntu or Debian box. Install Docker, clone your repo, and point Claude Code at it. Take a <strong>snapshot</strong> before anything risky (Hetzner snapshots are cheap) so a broken experiment is a thirty-second restore, not a lost weekend. Treat the server as hostile-adjacent: a firewall, key-only SSH (no passwords), and fail2ban are twenty minutes that save you from the internet&rsquo;s constant background scanning. Two Hetzner gotchas worth knowing up front: outbound mail port 25 is blocked on new accounts for about a month (use an email API for transactional mail), and there is no managed-database or managed-Kubernetes hand-holding &mdash; you run it, which is the point.</p>
+  </div>
+
+  <p>The deeper reason the cloud lab matters is <em>separation.</em> Your identity, your logins, your banking live on the hardened Chromebook. Your experiments &mdash; the half-built tool, the malware sample you&rsquo;re analyzing, the dependency you don&rsquo;t fully trust &mdash; live on a disposable server you can incinerate and rebuild from a script. That is not just thrift; it is the zero-trust, blast-radius-limiting architecture of Chapter 8, applied to your own operation from day one. The eighty-dollar laptop and the six-euro server are not a compromise. Together they are a <em>better-isolated</em> setup than the expensive all-in-one laptop most professionals carry.</p>
+
+  <h2 id="part5">Part V &mdash; Shipping Real Things</h2>
+  <h3>What one person can actually build now</h3>
+
+  <p>The point of the stack is output, and the output is the argument. From this exact setup, Savvy Security LLC has produced a working blog of deeply-researched articles, this book (with its diagrams and automated Word exports), small apps and games, the company&rsquo;s own marketing and operations, and the research-and-proposal work in Part VII. One person, one cheap laptop, a forty-dollar AI department, and a six-euro lab. That is not a promise of what&rsquo;s possible; it is a description of what already happened.</p>
+
+  <p>And I am not an outlier &mdash; I am an early, ordinary example of a wave. Consider what others have shipped by vibe coding:</p>
+  <ul>
+    <li>The indie developer <strong>Pieter Levels</strong> built a browser flight-simulator game largely by prompting AI, shipped it in days, and &mdash; by his own public reporting &mdash; turned it into a business grossing on the order of a million dollars a year from ads and sponsorships. One person, a few days, a game.</li>
+    <li>A wave of &ldquo;prompt-to-app&rdquo; platforms &mdash; <strong>Lovable</strong>, <strong>Bolt</strong>, <strong>Replit&rsquo;s Agent</strong>, <strong>v0</strong>, <strong>Base44</strong> &mdash; let people describe an application and get a working, deployable web app back. Several reached serious revenue or acquisition within a year of launch, which tells you the demand is not hypothetical.</li>
+    <li>Across GitHub, a growing share of new projects are built with heavy AI assistance, and the benchmark that measures whether an AI can resolve a real software issue, <strong>SWE-bench Verified</strong>, has climbed from under 50% in late 2023 to the high 70s by early 2026 &mdash; a rate of improvement with few parallels in computing.</li>
+  </ul>
+
+  <p>The honest caveat from Part II applies to every item on that list: the demos are dazzling and the <em>durability</em> is uneven &mdash; plenty of vibe-coded apps are brittle, insecure, or unmaintainable under the hood (a vibe-coding platform called Orchids had a real security flaw disclosed in late 2025, a reminder that &ldquo;it runs&rdquo; is not &ldquo;it&rsquo;s safe&rdquo;). The lesson is not &ldquo;don&rsquo;t ship.&rdquo; It is &ldquo;ship, then <em>harden</em>&rdquo; &mdash; review the code, test it, threat-model it (Chapters 6 and 8), and treat the AI&rsquo;s first draft as a confident intern&rsquo;s work, not a senior engineer&rsquo;s. The people making real money and real contracts with this stack are the ones who kept the hacker&rsquo;s skepticism while using the vibe-coder&rsquo;s speed.</p>
+
+  <h2 id="part6">Part VI &mdash; Open Hardware, Open Source, and the Edge of the Possible</h2>
+  <h3>When the vibe coder reaches for a soldering iron</h3>
+
+  <p>Everything so far has been software. But the same collapse is happening in <em>hardware</em>, and it is the most exciting frontier for a curious builder with a small budget &mdash; because the open-source and open-hardware worlds (Chapters 1 and 2) are where the AI tools and the maker ethic are fusing right now.</p>
+
+  <p>The leading edge, as of this writing, is genuinely startling. In 2026 an open-source project called <strong>openTPU</strong> shipped an FPGA-based AI inference accelerator &mdash; complete with its own instruction set, compiler, and simulator &mdash; whose author labeled it, pointedly, <em>&ldquo;developed by AI,&rdquo;</em> framing it as a test of whether AI agents can design the very chips that run their own inference. Researchers are publishing active work on LLM-driven generation of hardware description languages (Verilog/VHDL) and high-level synthesis &mdash; frameworks with names like FPGAgent and CHIA &mdash; meaning the &ldquo;vibe&rdquo; approach is creeping from software into <em>silicon design itself.</em> And in the other direction, engineers have squeezed real generative models <em>onto</em> bare-metal microcontrollers &mdash; a compact diffusion model on an STM32 board, a 289-million-parameter language model on an NXP chip &mdash; proving that AI is escaping the data center and moving onto the cheap, hackable hardware a hobbyist can buy.</p>
+
+  <p>What this means for you, practically: the open-hardware stack (an Arduino, a Raspberry Pi, an ESP32, an FPGA dev board, a Baochip-style open security chip from Chapter 2) is now something you can <em>vibe-code against.</em> You describe the circuit or the firmware behavior to a model, it drafts the code and often the schematic logic, and you test it on a twenty-dollar board on your desk. The same $40 AI department that writes your web app can help you write embedded C, generate a PCB layout, or reason about a radio protocol. The maker movement&rsquo;s dream &mdash; that anyone can build real physical things &mdash; just got an AI collaborator, and the open-source licenses of Chapter 1 mean the designs, the toolchains, and the models are yours to inspect, fork, and own. This is the Homebrew Computer Club (Chapter 1), reconvened, with a new member who never sleeps.</p>
+
+  <div class="secread">
+    <span class="tag">Give back to what you build on</span>
+    <p>A word of conscience that connects to Chapter 2&rsquo;s Werner Koch. The entire stack in this chapter &mdash; Linux, the toolchains, countless libraries &mdash; is free open-source software maintained, in many cases, by exhausted and unpaid people. When the AI writes your app, it is standing on their shoulders. So: contribute back. Report the bugs you find. Fix the typo in the docs. Sponsor the maintainer of the library your product depends on, even a few dollars a month. Release your own useful tools under an open license. The open-source commons is the only reason an eighty-dollar Chromebook can do any of this, and it survives only if the people it lifts put something back. Vibe-code generously.</p>
+  </div>
+
+  <h2 id="part7">Part VII &mdash; From Chromebook to DARPA</h2>
+  <h3>The unglamorous sequence that is the actual moat</h3>
+
+  <p>Now the part that turns a hobby into a company: how a one-person shop in Hernando County, Florida, working from this exact setup, moved a real research proposal to the table with a federal program and a university partner. I told this story in full on the blog (&ldquo;The Long Way In&rdquo;); here is the operational version, because the sequence is the lesson.</p>
+
+  <p>It started, as Chapter 1 would predict, with <strong>published work.</strong> I wrote a white paper on a problem I&rsquo;d chewed on for years &mdash; machine-speed defense at the kernel level, for environments with no cloud to call home to (the architecture itself stays in the company&rsquo;s vault). I put it out with zero expectations. Three weeks later I had a meeting request from the CEO and co-founder of a security startup in Paris. Published work is the cheapest credential there is, and it does not care where you live. Then I sent the research to a review panel of senior people, and one of them told me, bluntly, that the work was strong and the <em>presentation</em> was a mess &mdash; nine trees and no forest. That single piece of criticism was worth more than every compliment that month. When a serious person spends their credibility to tell you what&rsquo;s wrong, take it.</p>
+
+  <p>Then the boring part, which is the actual moat, because it filters out almost everyone:</p>
+  <ol class="lessons">
+    <li><strong>Register the entity.</strong> Savvy Security LLC went live on Florida&rsquo;s Sunbiz portal &mdash; about $125 and an afternoon. That&rsquo;s the day the company legally existed.</li>
+    <li><strong>Get an EIN</strong> from the IRS &mdash; free, ten minutes, online.</li>
+    <li><strong>Register on SAM.gov</strong> &mdash; the federal portal; no registration, no federal award, ever. It is free, it took weeks, and it involves a login.gov account, entity validation, an IRS taxpayer match, and hundreds of yes/no questions about federal-acquisition clauses you&rsquo;ve never heard of. (It&rsquo;s <strong>SAM.gov</strong>, not &ldquo;SAMS&rdquo; &mdash; I lost time on that.) Your <strong>CAGE code</strong> is assigned automatically at the end; you don&rsquo;t apply for it. What you <em>do</em> choose are your <strong>NAICS and PSC codes</strong> &mdash; they describe what you sell and determine which opportunities ever find you. Choose them carefully.</li>
+    <li><strong>Call your APEX Accelerator.</strong> These are free, federally funded small-business counselors in every state, and almost nobody uses them. Mine checks my registrations and gives me neutral advice with nothing to sell. Do this early.</li>
+    <li><strong>Read the actual solicitations</strong> at sbir.gov and the target agency&rsquo;s own portal &mdash; not a summary, not a blog, not an AI&rsquo;s recollection (see the cautionary tale in Part III).</li>
+    <li><strong>Renew SAM annually.</strong> Set the reminder the day you activate. A lapsed registration disqualifies you mid-contract.</li>
+  </ol>
+
+  <p>The structural key &mdash; and the part most people misread as a constraint &mdash; is the difference between the two federal small-business research programs. <strong>SBIR</strong> is the small business alone. <strong>STTR</strong> requires a formal partnership with a research institution, where the company does at least 40% of the work and the university at least 30%. That requirement is not a hurdle; it is a <em>reason for a university to take your call.</em> You are not asking a professor for a favor &mdash; you are arriving with a funded research scope, a co-principal-investigator seat, work for graduate students, and publishable results. I approached the <strong>University of South Florida</strong> and its Institute of Applied Engineering with exactly that offer, hedged by opening a parallel conversation with a cyber-focused university in another state, and sweetened it with a Florida program (the High Tech Corridor Matching Grants) that matches an industry partner&rsquo;s investment in university research with up to $150,000 paid to the faculty team. In August, USF and IAE said yes.</p>
+
+  <div class="secread">
+    <span class="tag">The weather you can&rsquo;t control, and the 2026 update</span>
+    <p>Be honest about luck. The entire SBIR/STTR pipeline I was building toward <strong>lapsed in September 2025</strong> &mdash; unauthorized, gone &mdash; and only came back on <strong>13 April 2026</strong>, when the Small Business Innovation and Economic Security Act reauthorized both programs through 2031. For seven months I was building toward a door that did not exist. Some of what happens in this game is weather; you can only be the person who&rsquo;s ready when it clears. The 2026 reauthorization also brought changes you must know about: <strong>enhanced due-diligence reviews</strong> of applicants&rsquo; foreign affiliations and investments (a national-security screen that is now part of the process), a new high-ceiling &ldquo;Strategic Breakthrough&rdquo; Phase II award, and, from FY2027, agency-set proposal caps aimed at &ldquo;SBIR mills.&rdquo; Read the current rules at sbir.gov before you rely on anything in this paragraph &mdash; including this paragraph.</p>
+  </div>
+
+  <p>Where it stands, stated plainly because I&rsquo;ve watched people destroy their credibility announcing wins they hadn&rsquo;t won: the proposal is in motion on a <strong>Direct-to-Phase-II</strong> track (the path you take when you already have a working prototype and can skip the feasibility phase), and the research partner is real. <strong>Nothing is awarded.</strong> That is the milestone &mdash; a secured partner and a proposal in the queue &mdash; and the rest is a decision someone else makes on a timeline I don&rsquo;t control. But fourteen months before I wrote this, I was a guy in Spring Hill with an idea and a text editor. The gatekeepers you&rsquo;re imagining mostly aren&rsquo;t there. What&rsquo;s there is a wall of tedious process that filters out almost everybody &mdash; not because it&rsquo;s hard, but because it&rsquo;s boring and slow and nobody&rsquo;s cheering while you do it. The eighty-dollar Chromebook can do all of it.</p>
+
+  <h2 id="part8">Part VIII &mdash; What&rsquo;s Coming for the Vibe Coders of the Future</h2>
+  <h3>A sourced look at the near edge</h3>
+
+  <p>Because you asked for the newest advancements, here is the honest forward view &mdash; not hype, but what the research and the trend lines actually support.</p>
+
+  <p><strong>The agent is becoming the unit of work.</strong> The shift Karpathy named &mdash; from vibe coding to agentic engineering &mdash; is the real near-future: you will increasingly orchestrate <em>fleets</em> of AI agents that plan, write, test, and open pull requests, while your job becomes specification, review, and judgment. The benchmark trend (SWE-bench Verified from ~48% to ~79% in roughly two years) says the agents are getting genuinely, measurably better at resolving real software issues, fast. The frontier model families of 2026 &mdash; Anthropic&rsquo;s Claude, Google&rsquo;s Gemini, and their peers &mdash; ship ever-larger context windows (the whole codebase in the prompt), stronger multimodal reasoning (it can see your screenshot, your schematic, your error), and tool use that lets them act, not just answer.</p>
+
+  <p><strong>The models are coming to the edge.</strong> The microcontroller demos in Part VI are the leading indicator of a profound shift: capable models running <em>locally</em>, on cheap hardware, offline, under your control &mdash; which matters enormously for privacy, for security work in disconnected environments (the exact problem my own research addresses), and for anyone who doesn&rsquo;t want their every keystroke sent to a data center. The future vibe coder will have both: a frontier model in the cloud for the heavy thinking, and a small, private model on a chip in their own device for the work that must stay local.</p>
+
+  <p><strong>And the hard problems are still hard.</strong> This is the part the futurists skip and the hacker must not. The METR slowdown and the CodeRabbit bug-rate findings from Part II are not going away just because the models improve; they are a reminder that <em>generation is not verification.</em> The scarce, valuable, human skill of the next decade is not writing code &mdash; the machine will do that. It is <strong>judgment</strong>: knowing what to build, recognizing when the confident output is subtly wrong, understanding the system deeply enough to catch the bug the AI introduced, and &mdash; the whole of Chapter 10 &mdash; knowing where the legal and ethical lines are when your tools can do almost anything. The scholarly consensus and my own lived experience converge on the same conclusion: AI makes the <em>building</em> cheap and the <em>judgment</em> precious. Invest accordingly.</p>
+
+  <blockquote>
+    <p>&ldquo;The hot new programming language is English.&rdquo;</p>
+    <cite>Andrej Karpathy, 2023 &mdash; two years before he coined &ldquo;vibe coding,&rdquo; and the whole thesis of this chapter in six words</cite>
+  </blockquote>
+
+  <h3>The through-line</h3>
+
+  <p>Chapter 1 opened with a promise made in a 1970s Berkeley storefront and an MIT lab: that computing power should belong to ordinary people, not just corporations and the Pentagon. For fifty years that promise was mostly aspirational &mdash; the machines were expensive, the knowledge was gated, and the Pentagon kept the best tools. This chapter is the receipt showing the promise came due. An eighty-dollar laptop, a forty-dollar AI department, and a six-euro lab let one curious person in a small Florida town publish a book, ship software, and knock on the Pentagon&rsquo;s own door &mdash; through the front, with the paperwork filed correctly. The means of production collapsed into the price of a used Chromebook. What you do with that is the only question left, and it is the same question the whole book has been asking: now that you <em>can</em> build almost anything, what will you build, and whose side will you build it on?</p>
+
+  <div class="pullquote">The barrier to entry didn&rsquo;t lower. It collapsed. The only thing still scarce is the judgment to use what&rsquo;s now free.</div>
+
+  <h3>Carry these out of Chapter 5</h3>
+  <ol class="lessons">
+    <li><strong>The hardware was never the gate.</strong> A cheap laptop is a window to rented heavy machinery. Put your money in tools that compound, not metal that depreciates.</li>
+    <li><strong>Vibe code, then harden.</strong> AI generation feels faster than it measures (METR: experts were 19% slower) and ships more bugs than it looks (CodeRabbit: ~1.7&times;). Treat the first draft as a confident intern&rsquo;s work.</li>
+    <li><strong>Run two models and make them disagree.</strong> The gap between a builder AI and a researcher AI is a cheap adversarial reviewer &mdash; and neither of them is a primary source.</li>
+    <li><strong>Rent the lab; isolate the blast radius.</strong> A six-euro cloud VPS you can snapshot and incinerate is a better, safer dev environment than an expensive all-in-one laptop.</li>
+    <li><strong>Verify every number against a government URL.</strong> AI will fabricate a federal funding program with total confidence. The primary source is the only source.</li>
+    <li><strong>The boring sequence is the moat.</strong> Publish, register, SAM.gov, NAICS/PSC, APEX, STTR + a university offer, renew annually. It filters out almost everyone because it&rsquo;s tedious, not because it&rsquo;s hard.</li>
+    <li><strong>Judgment is the scarce asset now.</strong> The machine makes building cheap. Knowing what to build, catching what it gets wrong, and where the line is &mdash; that&rsquo;s the career.</li>
+  </ol>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">Vibe coding &amp; agentic engineering</p>
+  <ul class="refs">
+    <li>Karpathy, Andrej. The original &ldquo;vibe coding&rdquo; post on X, February 2025; and the later &ldquo;agentic engineering&rdquo; framing (Sequoia AI Ascent, 2026). See the Wikipedia overview, <a href="https://en.wikipedia.org/wiki/Vibe_coding">&ldquo;Vibe coding.&rdquo;</a> &ldquo;The hot new programming language is English&rdquo; (Karpathy, X, 2023).</li>
+    <li>Collins Dictionary &mdash; &ldquo;vibe coding,&rdquo; Word of the Year 2025.</li>
+    <li>Google Cloud, &ldquo;What is vibe coding?&rdquo; <a href="https://cloud.google.com/discover/what-is-vibe-coding">cloud.google.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">The research the hype skips</p>
+  <ul class="refs">
+    <li>METR. &ldquo;Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.&rdquo; 10 July 2025 &mdash; the randomized controlled trial finding a 19% slowdown despite a perceived 20% speedup; plus the early-2026 follow-up. <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">metr.org</a>.</li>
+    <li>CodeRabbit analysis (December 2025) of ~470 open-source pull requests &mdash; AI-co-authored code carried ~1.7&times; more &ldquo;major&rdquo; issues. See the Wikipedia &ldquo;Vibe coding&rdquo; summary and CodeRabbit&rsquo;s report.</li>
+    <li>Peng et al., &ldquo;The Impact of AI on Developer Productivity: Evidence from GitHub Copilot&rdquo; (controlled study, 2023) &mdash; the contrasting case where AI sped up a narrower task.</li>
+    <li>SWE-bench and SWE-bench Verified &mdash; the benchmark of resolving real GitHub issues; leaderboard progress from ~48.5% (late 2023) to the high 70s (2026). <a href="https://www.swebench.com/">swebench.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">The stack</p>
+  <ul class="refs">
+    <li>Claude (Anthropic) &mdash; the $20/month Pro plan includes Claude Code. See <a href="https://www.anthropic.com/pricing">anthropic.com/pricing</a> (verify current limits).</li>
+    <li>Google AI Pro (Gemini) &mdash; ~$19.99/month; large context, Deep Research, and Google Workspace integration. See <a href="https://gemini.google/subscriptions/">gemini.google/subscriptions</a>.</li>
+    <li>ChromeOS Linux (Crostini) &mdash; the Debian container that gives a Chromebook a real terminal. <a href="https://chromeos.dev/en/linux">chromeos.dev/linux</a>.</li>
+    <li>Hetzner Cloud and dedicated servers &mdash; CAX (ARM), CPX/CCX, and AX lines; 2026 pricing changes (April and June). <a href="https://www.hetzner.com/cloud">hetzner.com/cloud</a> (always check the live price page).</li>
+  </ul>
+
+  <p class="refs-group">Shipping &amp; open hardware</p>
+  <ul class="refs">
+    <li>Pieter Levels &mdash; the AI-built browser flight-simulator game and its reported revenue (2025). See coverage via his public posts and <em>TechCrunch</em>.</li>
+    <li>Prompt-to-app platforms &mdash; Lovable, Bolt (StackBlitz), Replit Agent, v0 (Vercel), Base44; and the Orchids platform security flaw (December 2025).</li>
+    <li>openTPU &mdash; the &ldquo;developed by AI&rdquo; open-source FPGA inference accelerator (2026). Research on LLM-driven RTL/HLS: FPGAgent; CHIA (agentic hardware/software co-design); see arXiv, 2026.</li>
+    <li>Generative models on microcontrollers &mdash; a diffusion model on an STM32N6 board and a 289M-parameter LLM on an NXP MCU (2026). Adafruit / Open Source For You.</li>
+  </ul>
+
+  <p class="refs-group">The business &amp; federal path</p>
+  <ul class="refs">
+    <li>Savvy Security LLC. &ldquo;The Long Way In&rdquo; (this blog, 2026) &mdash; the full, first-person sequence: the white paper, the review, Sunbiz, SAM.gov, CAGE/NAICS/PSC, the AI-fabricated funding program, STTR and the USF/IAE partnership, the High Tech Corridor match, the APEX Accelerator, and Direct-to-Phase-II.</li>
+    <li>SBIR/STTR &mdash; the programs, solicitations, and rules. <a href="https://www.sbir.gov/">sbir.gov</a>. SAM.gov &mdash; federal entity registration, <a href="https://sam.gov/">sam.gov</a>.</li>
+    <li>The Small Business Innovation and Economic Security Act (S. 3971), signed 13 April 2026, reauthorizing SBIR/STTR through 2031 after the September 2025 lapse; enhanced due-diligence reviews; Strategic Breakthrough Awards; FY2027 proposal caps. See CSIS and congressional summaries, April 2026.</li>
+    <li>APEX Accelerators (formerly PTACs) &mdash; free federal small-business contracting counseling. <a href="https://www.apexaccelerators.us/">apexaccelerators.us</a>.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> This is the one chapter written largely in the first person, because it describes the author&rsquo;s own working setup and company. Prices, plan features, model capabilities, and program rules in this space change faster than any book can track &mdash; every dollar figure and feature here is stated as best known in 2026 and should be verified against the primary source before you rely on it (a discipline Part III explains the hard way). Nothing in Part VII is an announcement of any federal award; a proposal in motion and a secured university partner are the milestones reached. Direct quotes are attributed; the productivity findings (METR, CodeRabbit, SWE-bench) are cited so you can read them yourself rather than take my word.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC, a one-person research company in Hernando County, Florida. He has answered to &ldquo;hacker&rdquo; for the better part of thirty years and runs the whole operation from a used $80 Chromebook. This is Chapter 5 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch04-the-gatherings/">&larr; Chapter 4 &mdash; The Gatherings</a>
+    <a href="../">Next: Chapter 6 &mdash; The Compendium of Attacks &rarr;</a>
+  </nav>
+
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive &middot; Chapter Five</footer>
+</body>
+</html>

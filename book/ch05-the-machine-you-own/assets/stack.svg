@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" role="img" font-family="'IBM Plex Mono', monospace" aria-label="A diagram, The Eighty-Dollar Stack, showing the full toolchain of a one-person research company. Inputs on the left: a used 80-dollar Chromebook (one-time), a 20-dollar-a-month Claude subscription, a 20-dollar-a-month Gemini subscription, and a roughly 6-euro-a-month Hetzner cloud lab. These feed a middle column, the work: vibe coding and agentic engineering, cloud virtual labs to build and debug, and research with verification. The outputs on the right: books and articles, apps and games, company marketing and management, and federal proposals (SAM.gov, SBIR/STTR, a university partner, Direct-to-Phase-II). A footer notes the total recurring cost is about 40 to 46 dollars a month.">
+  <rect width="900" height="560" fill="#fbf8f0"/>
+  <text x="40" y="46" font-size="22" font-weight="600" fill="#1a1712">The Eighty-Dollar Stack</text>
+  <text x="40" y="70" font-size="12.5" fill="#5d5545">The entire means of production for a one-person research company, in 2026</text>
+
+  <!-- Column headers -->
+  <text x="150" y="110" font-size="12" font-weight="700" fill="#a86a22" text-anchor="middle">WHAT YOU PAY</text>
+  <text x="450" y="110" font-size="12" font-weight="700" fill="#a86a22" text-anchor="middle">WHAT YOU DO</text>
+  <text x="770" y="110" font-size="12" font-weight="700" fill="#2f6f4f" text-anchor="middle">WHAT YOU SHIP</text>
+
+  <!-- INPUT boxes -->
+  <g font-size="12">
+    <rect x="40" y="130" width="220" height="52" rx="6" fill="#fff" stroke="#ddd6c4"/>
+    <text x="52" y="152" font-weight="700" fill="#1a1712">$80 Chromebook</text>
+    <text x="52" y="170" fill="#5d5545">used &#183; one-time</text>
+
+    <rect x="40" y="194" width="220" height="52" rx="6" fill="#fff" stroke="#ddd6c4"/>
+    <text x="52" y="216" font-weight="700" fill="#1a1712">Claude &#183; $20/mo</text>
+    <text x="52" y="234" fill="#5d5545">Claude Code, agentic build</text>
+
+    <rect x="40" y="258" width="220" height="52" rx="6" fill="#fff" stroke="#ddd6c4"/>
+    <text x="52" y="280" font-weight="700" fill="#1a1712">Gemini &#183; $20/mo</text>
+    <text x="52" y="298" fill="#5d5545">research, long context, cross-check</text>
+
+    <rect x="40" y="322" width="220" height="52" rx="6" fill="#fff" stroke="#ddd6c4"/>
+    <text x="52" y="344" font-weight="700" fill="#1a1712">Hetzner lab &#183; ~&#8364;6/mo</text>
+    <text x="52" y="362" fill="#5d5545">cloud VPS to build &amp; debug</text>
+  </g>
+
+  <!-- MIDDLE boxes -->
+  <g font-size="12">
+    <rect x="340" y="150" width="220" height="60" rx="6" fill="#f3ece0" stroke="#a86a22"/>
+    <text x="352" y="175" font-weight="700" fill="#1a1712">Vibe coding &rarr;</text>
+    <text x="352" y="193" fill="#5d5545">agentic engineering</text>
+
+    <rect x="340" y="222" width="220" height="60" rx="6" fill="#f3ece0" stroke="#a86a22"/>
+    <text x="352" y="247" font-weight="700" fill="#1a1712">Virtual labs</text>
+    <text x="352" y="265" fill="#5d5545">build, run, debug advanced SW</text>
+
+    <rect x="340" y="294" width="220" height="60" rx="6" fill="#f3ece0" stroke="#a86a22"/>
+    <text x="352" y="319" font-weight="700" fill="#1a1712">Research + verify</text>
+    <text x="352" y="337" fill="#5d5545">primary sources, always</text>
+  </g>
+
+  <!-- OUTPUT boxes -->
+  <g font-size="12">
+    <rect x="640" y="130" width="220" height="48" rx="6" fill="#eaf1ec" stroke="#2f6f4f"/>
+    <text x="652" y="150" font-weight="700" fill="#1a1712">Books &amp; articles</text>
+    <text x="652" y="168" fill="#5d5545">this book; the blog</text>
+
+    <rect x="640" y="186" width="220" height="48" rx="6" fill="#eaf1ec" stroke="#2f6f4f"/>
+    <text x="652" y="206" font-weight="700" fill="#1a1712">Apps &amp; games</text>
+    <text x="652" y="224" fill="#5d5545">shipped solo</text>
+
+    <rect x="640" y="242" width="220" height="48" rx="6" fill="#eaf1ec" stroke="#2f6f4f"/>
+    <text x="652" y="262" font-weight="700" fill="#1a1712">Run the company</text>
+    <text x="652" y="280" fill="#5d5545">market &amp; manage</text>
+
+    <rect x="640" y="298" width="220" height="62" rx="6" fill="#eaf1ec" stroke="#2f6f4f"/>
+    <text x="652" y="320" font-weight="700" fill="#1a1712">Federal proposals</text>
+    <text x="652" y="338" fill="#5d5545">SAM.gov &#183; SBIR/STTR</text>
+    <text x="652" y="354" fill="#5d5545">university partner &#183; D2P2</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#a86a22" stroke-width="2" fill="none" marker-end="url(#a)">
+    <defs><marker id="a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#a86a22"/></marker></defs>
+    <path d="M264,250 L336,250"/>
+  </g>
+  <g stroke="#2f6f4f" stroke-width="2" fill="none" marker-end="url(#b)">
+    <defs><marker id="b" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2f6f4f"/></marker></defs>
+    <path d="M564,250 L636,250"/>
+  </g>
+
+  <line x1="40" y1="410" x2="860" y2="410" stroke="#ddd6c4"/>
+  <text x="40" y="440" font-size="13" font-weight="600" fill="#1a1712">Total recurring cost: about $40&ndash;46 a month.</text>
+  <text x="40" y="462" font-size="12.5" fill="#5d5545">A generation ago this stack &mdash; a research computer, a software team, a lab &mdash; cost six figures a year.</text>
+  <text x="40" y="482" font-size="12.5" fill="#5d5545">The barrier to entry didn&#8217;t lower. It collapsed. That collapse is what this chapter is about.</text>
+  <text x="40" y="520" font-size="10.5" fill="#8a8275">Diagram: Savvy Security LLC &#183; figures approximate, 2026</text>
+</svg>
