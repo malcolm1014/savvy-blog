@@ -149,6 +149,7 @@
     <a href="#part6">VI &middot; The Makers</a>
     <a href="#part7">VII &middot; The Next Machine</a>
     <a href="#part8">VIII &middot; The Lost</a>
+    <a href="#common">In Common</a>
     <a href="#sources">Sources</a>
   </nav>
 
@@ -228,6 +229,8 @@
     <cite>Linus Torvalds &mdash; the 2000 LKML line, and the 25 August 1991 announcement of Linux</cite>
   </blockquote>
 
+  <p>Torvalds matters to a <em>security</em> book for two reasons beyond the kernel. First, Git: by making it trivial to track exactly who changed which line of code and when, cryptographically chained so history cannot be silently rewritten, he gave the world the forensic substrate that modern software integrity depends on &mdash; every supply-chain investigation in Chapter 9 starts from a commit graph he designed. Second, his evolution is itself a lesson. For years his review style was brutal, and in 2018 he did something rare for a figure of his stature: he stepped back, acknowledged the harm his words had done to contributors, and worked publicly on changing. A culture that prizes blunt technical honesty has to keep learning that honesty and cruelty are not the same thing &mdash; and the most powerful maintainer alive modeling that correction in public is worth as much as any line of code he wrote.</p>
+
   <h3>Steve Wozniak</h3>
   <span class="handle">Woz &middot; the blue box, Apple</span>
 
@@ -261,7 +264,7 @@
   <h3>Moxie Marlinspike</h3>
   <span class="handle">Signal, the Signal Protocol</span>
 
-  <p>A generation later, <strong>Moxie Marlinspike</strong> finished the job Zimmermann started: he made strong encryption <em>invisible</em>. PGP was powerful and almost unusably difficult; Signal is powerful and your grandmother can use it. Marlinspike &mdash; a cryptographer, a sailor, and a genuine eccentric in the best hacker tradition &mdash; co-designed the Signal Protocol, the end-to-end encryption that now protects not just the Signal app but WhatsApp and billions of conversations their users never think about. His insight is a profound one for anyone building security: that a protection ordinary people cannot or will not use is not a protection at all, and that the highest craft in this field is making the secure path the <em>easy</em> path. Snowden&rsquo;s vindication of the cypherpunks (Chapter 1) only mattered because people like Marlinspike had built the usable tools to act on it.</p>
+  <p>A generation later, <strong>Moxie Marlinspike</strong> finished the job Zimmermann started: he made strong encryption <em>invisible</em>. PGP was powerful and almost unusably difficult; Signal is powerful and your grandmother can use it. Marlinspike &mdash; a cryptographer, a sailor, and a genuine eccentric in the best hacker tradition &mdash; co-designed the Signal Protocol, the end-to-end encryption that now protects not just the Signal app but WhatsApp, Google&rsquo;s messaging, and billions of conversations their users never think about. (That reach is the point: he got strong cryptography onto billions of phones by making it the invisible default, not an option a user had to understand.) His insight is a profound one for anyone building security: that a protection ordinary people cannot or will not use is not a protection at all, and that the highest craft in this field is making the secure path the <em>easy</em> path. Snowden&rsquo;s vindication of the cypherpunks (Chapter 1) only mattered because people like Marlinspike had built the usable tools to act on it.</p>
 
   <h3>Daniel J. Bernstein</h3>
   <span class="handle">djb &middot; qmail, djbdns, Curve25519</span>
@@ -333,6 +336,8 @@
 
   <p><strong>Katie Moussouris</strong> built the economy that lets a generation of hackers get paid, legally, for exactly the curiosity that once got people arrested. She created Microsoft&rsquo;s first bug-bounty program and then helped the U.S. Department of Defense launch <strong>Hack the Pentagon</strong> in 2016 &mdash; the first time the federal government formally invited hackers to break its systems and paid them for the holes. Her hard-won expertise is a crucial corrective to bounty hype: she argues relentlessly that a bounty is worthless if you have not first built the internal <em>capacity to fix</em> what it finds &mdash; that the hard part was never finding bugs, it was the process and the people behind the payout. She is also one of the most important women in a field that too often forgets how many there are.</p>
 
+  <p>Her most consequential work may be the least visible: she helped renegotiate the <strong>Wassenaar Arrangement</strong>, an international export-control pact whose well-meaning language would have made it a crime to share ordinary defensive security research and tools across borders &mdash; a direct replay of the Crypto Wars of Chapter 1, aimed this time at the researchers themselves. Moussouris understood the policy machinery well enough to go fix it from the inside, which is a kind of hacking most people never see: reading the rules of a system (here, international arms-control law), finding where they broke, and patching them before they could be used against the curious. She is the model for the security professional as <em>diplomat</em> &mdash; proof that the most important vulnerability you disclose in your career might be in a treaty, not a server.</p>
+
   <h3>Dan Kaminsky</h3>
   <span class="handle">the man who saved DNS</span>
 
@@ -342,6 +347,18 @@
     <span class="tag">Why Kaminsky matters to you</span>
     <p>The Kaminsky DNS episode is the gold standard of what this book wants you to become. He found a civilization-scale flaw and had every incentive to grandstand. Instead he put the <em>internet</em> ahead of his own name, coordinated a fix in secret with the very vendors a lesser ego would have embarrassed, and disclosed responsibly. That is the white hat at its highest. It is also why the community loved him: in a field full of sharp edges, he was proof that you can be brilliant and kind at the same time, and that the two are not in tension.</p>
   </div>
+
+  <h3>Dan Geer</h3>
+  <span class="handle">the economist of risk</span>
+
+  <p>If Schneier is the field&rsquo;s popular voice, <strong>Dan Geer</strong> is its deepest thinker &mdash; a security researcher with a biostatistician&rsquo;s training who insists that security is fundamentally a problem of <em>risk, economics, and trade-offs</em>, to be measured rather than merely felt. In 2003 he co-authored a report arguing that the world&rsquo;s reliance on a single dominant operating system was itself a national-security risk &mdash; a software &ldquo;monoculture&rdquo; as fragile as a monoculture crop &mdash; and he was reportedly fired from his position at the security firm @stake for saying so, because the dominant vendor was a partner. He was right, and the idea is now mainstream: diversity is a defense, and homogeneity is a single point of failure. Geer went on to serve as chief information security officer at In-Q-Tel, the CIA&rsquo;s venture arm, and his densely argued talks are among the most quoted in the field.</p>
+
+  <blockquote>
+    <p>&ldquo;Cybersecurity is the most intellectually demanding profession on the planet.&rdquo;</p>
+    <cite>Dan Geer, on the nature of the work</cite>
+  </blockquote>
+
+  <p>Geer matters to you because he is the antidote to magical thinking. He refuses the comforting idea that there is a product, a checklist, or a technology that makes you &ldquo;secure,&rdquo; and insists instead that every control is a trade-off bought at a price &mdash; in money, in freedom, in complexity &mdash; and that the professional&rsquo;s job is to reason honestly about which trade-offs are worth it. That is the mindset the whole second half of this book runs on.</p>
 
   <h3>Joanna Rutkowska</h3>
   <span class="handle">Blue Pill, Qubes OS</span>
@@ -375,10 +392,14 @@
 
   <p><strong>Jeff Moss</strong> turned a going-away party into the capital city of hacker culture. He founded <strong>DEF CON</strong> in 1993 and <strong>Black Hat</strong> in 1997, built the bridge the whole community walks across every summer &mdash; the same people, respected on a stage instead of hunted &mdash; and has advised the U.S. government on security while keeping the con unmistakably itself. His definitions are the ones Chapter 1 quoted (&ldquo;curiosity plus skills&hellip; hackers are civil society speaking truth to power&rdquo;), and his social contract is printed on every sign at DEF CON: <strong>be excellent to each other.</strong> It is not decoration. It is the code of conduct, and the goons enforce it.</p>
 
+  <p>What makes Moss a keeper rather than merely a promoter is that he used the platform to force the establishment and the underground into the same room &mdash; and made each take the other seriously. DEF CON&rsquo;s villages now let anyone pick locks, hack cars, probe medical devices, and attack voting machines in the open; its <strong>Voting Village</strong> has repeatedly demonstrated flaws in election equipment that officials insisted were secure, doing in a Las Vegas ballroom what the Chaos Computer Club did to Germany&rsquo;s systems in Chapter 1. Moss himself crossed fully into the establishment &mdash; serving on the U.S. Department of Homeland Security Advisory Council and in a security role at ICANN, which helps steward the internet&rsquo;s core infrastructure &mdash; without ever losing the con. He is living proof of this book&rsquo;s recurring claim: the bridge between the hacker and the institution is not a betrayal of either. It is the whole point.</p>
+
   <h3>Johnny Long</h3>
   <span class="handle">Hackers for Charity</span>
 
   <p><strong>Johnny Long</strong> wrote the book on &ldquo;Google hacking&rdquo; &mdash; using ordinary search queries to find exposed systems &mdash; and then did something almost no one in any industry does: he gave the skill away. In 2009 he moved his family to Jinja, Uganda, and founded <strong>Hackers for Charity</strong>, connecting the idle technical talent of the community to small charities in the developing world that could never afford it. His motto is the whole philosophy in three words: <strong>&ldquo;I hack charities.&rdquo;</strong> He is the living answer to anyone who thinks the word means harm.</p>
+
+  <p>His technical work carries the same humane streak. His book <em>No-Tech Hacking</em> is a quietly brilliant argument that the most effective attacks often require no computer at all &mdash; dumpster diving, shoulder surfing, tailgating through a door behind someone with their hands full, reading a badge over a coffee. It is a defender&rsquo;s gift disguised as an attacker&rsquo;s manual: once you see how much a determined person can learn from your trash and your body language, you start protecting against it. Long funded Hackers for Charity partly by giving his conference talks and donating the proceeds, turning the con circuit itself into a fundraising engine. He is the clearest living proof of Chapter 1&rsquo;s &ldquo;better angels&rdquo; &mdash; a world-class hacker who decided the highest use of the skill was to give it away to people who could never pay for it.</p>
 
   <h2 id="part6">Part VI &mdash; The Makers</h2>
   <h3>The ones who proved the physical world is just software you can touch</h3>
@@ -402,6 +423,8 @@
 
   <p><strong>Barnaby Jack</strong> was the showman who made the stakes impossible to ignore. At Black Hat in 2010 he stood on stage and made two <strong>ATMs spew cash</strong> on command &mdash; a demonstration he called &ldquo;jackpotting,&rdquo; and the single most viral proof that embedded systems were wide open. Then he turned to something far more serious: medical devices. He showed that he could wirelessly compromise insulin pumps and implanted cardiac defibrillators &mdash; warning, chillingly, that he could stop a man&rsquo;s heart from thirty feet away. His work pushed regulators and manufacturers toward taking wireless medical security seriously. In July 2013, a week before he was to present his pacemaker research at Black Hat, he died suddenly in San Francisco at thirty-six. One vendor&rsquo;s backhanded tribute captured the whole value of his provocations: &ldquo;Barnaby got his fifteen megabytes of fame, and we improved the security of our product.&rdquo;</p>
 
+  <p>That tribute is also the ethical defense of the whole spectacle, and it is worth making explicit because you will face the same choice. Barnaby Jack&rsquo;s demonstrations were theatrical, but they were not reckless with the <em>details</em>: he worked with manufacturers, and the point of the showmanship was never to arm criminals &mdash; it was to make an abstract risk undeniable to the people with the power to fix it. &ldquo;An insulin pump could theoretically be attacked&rdquo; moves no one; a researcher making one dump its entire reservoir on command moves regulators. His death at thirty-six, on the eve of his biggest talk, fed years of conspiracy theories precisely because he was the kind of person whose work made powerful industries uncomfortable &mdash; but the mundane, documented truth is simply that the field lost one of its most effective communicators far too early. The lesson he leaves you is the hardest one in disclosure: sometimes the only thing that forces a life-saving fix is a demonstration frightening enough that no one can look away &mdash; and doing that responsibly, without handing the weapon to the wrong people, is a genuine art.</p>
+
   <h3>Charlie Miller &amp; Chris Valasek</h3>
   <span class="handle">the Jeep hack</span>
 
@@ -411,6 +434,8 @@
     <p>&ldquo;If we didn&rsquo;t have the <em>Wired</em> article writing about how we did what we did, there wouldn&rsquo;t have been a recall.&rdquo;</p>
     <cite>Chris Valasek, on the 2015 Jeep Cherokee demonstration</cite>
   </blockquote>
+
+  <p>The Jeep was their second act, not their first. In 2013, with DARPA funding, the pair had already shown they could meddle with a Toyota Prius and a Ford Escape &mdash; but only with a laptop physically plugged into the car, which let manufacturers wave it away as unrealistic. The 2015 Jeep hack closed that escape hatch by doing it all <em>remotely, over the cellular network</em>, from miles away, which is the only reason it forced a recall. The lesson is one every maker in this part teaches: a vulnerability is a story about reachability, and the gap between &ldquo;possible with physical access&rdquo; and &ldquo;possible from the internet&rdquo; is the gap between a shrug and a 1.4-million-vehicle recall. Both researchers went on to work on the security of self-driving cars &mdash; the attackers hired to defend the most safety-critical computers most of us will ever ride in. Your car is a computer now. They are the ones who proved it on a highway.</p>
 
   <h3>Kevin Fu</h3>
   <span class="handle">medical-device security</span>
@@ -444,7 +469,9 @@
   <h3>Albert Gonzalez</h3>
   <span class="handle">the one who chose wrong</span>
 
-  <p><strong>Albert Gonzalez</strong> had the same gift as any white hat in this chapter and made the opposite choice. Using SQL injection and packet-sniffing, he and his crew stole more than <strong>170 million</strong> payment-card numbers from TJX, Heartland, and others &mdash; at the time the largest such theft in history. The detail you must not miss, because it is the oldest lesson in this book: after an early arrest he became a Secret Service <em>informant</em>, and kept running his crimes the entire time. In 2010 he was sentenced to <strong>twenty years</strong> in federal prison. Same skills as Mitnick. Different hat. Two decades gone. He is not in Part III, because he never came back &mdash; he is the control group for every redemption story in this chapter.</p>
+  <p><strong>Albert Gonzalez</strong> had the same gift as any white hat in this chapter and made the opposite choice. Using SQL injection and packet-sniffing, he and his crew stole more than <strong>170 million</strong> payment-card numbers from TJX, Heartland, and others &mdash; at the time the largest such theft in history. The detail you must not miss, because it is the oldest lesson in this book: after an early arrest he became a Secret Service <em>informant</em>, and kept running his crimes the entire time. In 2010 he was sentenced to <strong>twenty years</strong> in federal prison.</p>
+
+  <p>The details are a masterclass in why the black path is a trap. Gonzalez ran his thefts like a business &mdash; his own operation was reportedly nicknamed &ldquo;Operation Get Rich or Die Tryin&rsquo;&rdquo; &mdash; using SQL injection and wardriving to breach retailers, with a crew and a fencing operation to launder the cards. And the whole time he was being paid roughly $75,000 a year as a Secret Service <em>informant</em>, supposedly helping catch the very kind of criminal he was. He lived the double life the sneer in Chapter 1 promises you can get away with, and it collapsed exactly the way that chapter warns: the money was unspendable without laundering, the crew was penetrable, and the clock never stopped. Same skills as Mitnick. Different hat. Two decades gone. He is not in Part III, because he never came back &mdash; he is the control group for every redemption story in this chapter.</p>
 
   <h3>Jonathan James</h3>
   <span class="handle">c0mrade</span>
@@ -471,6 +498,20 @@
   <p>Give the story its honest ending, though, because it also belongs in Part III. Hutchins came through it. He has become a respected defensive researcher and writer, works openly on protecting people rather than exploiting them, and &mdash; rarest of all &mdash; has written with real candor about his own path from teenage malware author to accidental hero to defendant, refusing to launder the ugly parts. That candor is itself a form of service: a talented kid reading this is far better served by Hutchins&rsquo;s unvarnished account than by any lecture. He is, in the end, the whole book in one person &mdash; the mistake, the brush with disaster, and the choice to spend the rest of it on the right side of the line, telling the truth about how close it was.</p>
 
   <div class="pullquote">Every name in Part III came back. Every name in Part VIII is a reason the word in this book&rsquo;s title is <em>survive</em>.</div>
+
+  <h2 id="common">What They Have in Common</h2>
+  <h3>The shape under all the stories</h3>
+
+  <p>Lay these three dozen lives side by side and the differences are enormous &mdash; a Navy admiral and a teenage worm author, a Finnish kernel engineer and a Ugandan-based charity founder, a cryptographer who sails alone and a showman who made ATMs vomit cash. But hold them to the light and the same shape shows through all of them, and it is the shape this whole book is trying to press into you.</p>
+
+  <p><strong>They could not leave a system alone.</strong> Every one of them, confronted with a box that was supposed to work a certain way, had to know what happened if you pushed on it sideways. That compulsion is the entire job description, and it does not come with a conscience attached &mdash; Gonzalez had it too. <strong>What separated the lives was never the skill; it was the aim, the honesty, and the willingness to come back.</strong> Mitnick, Poulsen, Abene, Kamkar, and Hutchins crossed the line and returned to do honest work, and the culture took them back because the culture believes in return. Gonzalez, Koch (Karl, of Chapter 1), James, and Swartz did not get that ending &mdash; two by their own worst choices, two by a system that could not tell a curious idealist from a criminal and destroyed them anyway. That difference &mdash; between the ones who came back and the ones the word <em>survive</em> is for &mdash; is not a tidy moral. It is partly character and partly luck and partly mercy, and you do not get to know in advance which you will need.</p>
+
+  <p><strong>And the best of them built more than they broke.</strong> The names that will still be spoken in fifty years &mdash; Hopper, Thompson, Ritchie, Stallman, Torvalds, Diffie, Zimmermann &mdash; are remembered for what they <em>made</em>. Breaking is how you learn and how you prove; building is how you last. Every defender in Part IV is someone who learned to break first and then pointed it at protection. That is the arc the rest of this book is training you to walk.</p>
+
+  <div class="secread">
+    <span class="tag">A note from the author</span>
+    <p>I am, in a very small way, one of these people &mdash; a hacker of almost thirty years who took the path Part III and Part IV describe rather than the one in Part VIII, and who is still here, in daylight, with his real name on the work. (That story is on this blog, in &ldquo;Built on Rock and Roll.&rdquo;) I did not put myself in the roster because the roster is for the people who changed the field, and I am a reader of it like you. But I wrote this chapter the way I did &mdash; with the redemption arcs given as much weight as the founders, and the lost given their full dignity &mdash; because I have watched, up close, how thin the margin is. The people in Part VIII were not stupid and they were not evil. Most of them were curious kids who made one wrong turn, or who made no wrong turn at all and met a system having a cruel day. Read them as family, because in this community they are.</p>
+  </div>
 
   <h3>Carry these out of Chapter 2</h3>
   <ol class="lessons">
@@ -521,6 +562,7 @@
     <li>Rutkowska, Joanna &mdash; &ldquo;Blue Pill&rdquo; (Black Hat 2006); Qubes OS and &ldquo;security by isolation.&rdquo; <a href="https://www.qubes-os.org/">qubes-os.org</a>.</li>
     <li>Moore, HD &mdash; the Metasploit Project (2003); Metasploit Framework (acquired by Rapid7, 2009). <a href="https://www.metasploit.com/">metasploit.com</a>.</li>
     <li>Tabriz, Parisa &mdash; &ldquo;Security Princess&rdquo;; VP of Chrome and Chrome security at Google; the web&rsquo;s migration to HTTPS.</li>
+    <li>Geer, Dan &mdash; &ldquo;CyberInsecurity: The Cost of Monopoly&rdquo; (2003, on software monoculture); CISO, In-Q-Tel; collected talks and writings at <a href="http://geer.tinho.net/pubs">geer.tinho.net/pubs</a>.</li>
   </ul>
 
   <p class="refs-group">The keepers</p>
