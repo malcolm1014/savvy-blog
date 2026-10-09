@@ -1031,8 +1031,194 @@
     <p class="fix"><b>Defense</b> Patch the kernel promptly; reduce attack surface (seccomp, minimal kernels); defense-in-depth so local root isn&rsquo;t total (SELinux/AppArmor); don&rsquo;t run untrusted workloads on shared kernels without strong isolation.</p>
   </div>
 
+  <h2 id="part10">Part X &mdash; Persistence, Defense Evasion &amp; Lateral Movement</h2>
+  <p>Access won once is not access kept. Now the attacker digs in so a reboot or a password change won&rsquo;t evict them (persistence), hides from the defenders hunting them (evasion), and spreads from the first foothold toward the data and the domain controller (lateral movement). This is the long, quiet middle of a real intrusion &mdash; often weeks or months &mdash; and it is where good detection (Chapter 8) earns its keep.</p>
+
+  <div class="attack">
+    <h3>Backdoors, Implants &amp; Web Shells</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1505.003 / T1136 / T1098</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">A reliable way back in: a <strong>web shell</strong> (Part V) left on a server, a custom <strong>implant</strong> that beacons out to the attacker, a new account quietly created, an extra SSH key added, or a cloud API token minted. The best persistence looks like legitimate administration, so it survives reboots and credential resets and hides in plain sight. It&rsquo;s the difference between an incident and a year-long residency.</p>
+    <p class="seen"><b>In the wild:</b> the 2021 Exchange ProxyShell wave (Part IV) dropped tens of thousands of web shells worldwide; APT intrusions routinely plant redundant, dissimilar backdoors so removing one doesn&rsquo;t end the access.</p>
+    <p class="fix"><b>Defense</b> File-integrity monitoring on web roots; audit for new accounts, SSH keys, scheduled tasks, and API tokens; EDR; assume redundancy during incident response &mdash; find and remove <em>all</em> footholds, not the first one.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Rootkits &amp; Bootkits</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">T1014 / T1542.003</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">Malware that hides <em>beneath</em> the operating system&rsquo;s view. A <strong>rootkit</strong> subverts the kernel (or hypervisor &mdash; Chapter 2&rsquo;s Blue Pill) to make its files, processes, and network connections invisible to the OS and most tools. A <strong>bootkit</strong> infects the boot process (MBR/UEFI) so it loads before the OS and survives reinstalls. The deepest, hardest-to-detect persistence there is &mdash; the practical embodiment of &ldquo;you can&rsquo;t trust code below your trust anchor.&rdquo;</p>
+    <p class="seen"><b>In the wild:</b> UEFI bootkits like LoJax and BlackLotus persist through OS reinstalls and even drive replacement; firmware implants are a prized nation-state capability.</p>
+    <p class="fix"><b>Defense</b> Secure Boot and verified/measured boot; UEFI and firmware updates; hardware roots of trust (TPM); boot-integrity attestation; for suspected firmware compromise, hardware replacement may be the only clean remedy.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Scheduled Tasks, Services &amp; Startup Persistence</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1053 / T1547.001 / T1543</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">The everyday persistence toolbox: a <strong>scheduled task</strong> or cron job that re-launches the malware, a <strong>registry Run key</strong> or Startup-folder entry, a malicious <strong>service</strong>, a WMI event subscription, or a poisoned shortcut. Dozens of OS features exist to run code automatically, and attackers abuse every one. Individually mundane, collectively the most common way malware survives a reboot.</p>
+    <p class="seen"><b>In the wild:</b> essentially universal &mdash; commodity malware and APTs alike lean on scheduled tasks and Run keys; MITRE ATT&amp;CK catalogs dozens of such &ldquo;boot or logon autostart&rdquo; techniques because they are all used.</p>
+    <p class="fix"><b>Defense</b> Baseline and monitor autostart locations (Autoruns, Sysmon); alert on new tasks/services/Run keys; application allow-listing; least privilege so malware can&rsquo;t install system-level persistence.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Living-off-the-Land (LOLBins) &amp; Fileless Malware</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1218 / T1059.001 / T1055</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Why bring malware when the target ships with everything you need? <strong>Living-off-the-land</strong> abuses trusted, signed, built-in tools &mdash; PowerShell, <code>certutil</code>, <code>rundll32</code>, <code>mshta</code>, <code>wmic</code>, <code>bitsadmin</code> (catalogued as &ldquo;LOLBins&rdquo;) &mdash; to download, execute, and move, so nothing looks out of place. <strong>Fileless</strong> malware goes further, living only in memory (injected into a legitimate process) so there&rsquo;s no file on disk for antivirus to scan. Together they are the dominant evasion strategy of modern intrusions.</p>
+    <p class="seen"><b>In the wild:</b> the overwhelming majority of sophisticated intrusions now use LOLBins and in-memory execution; APTs and ransomware crews alike prefer PowerShell and native tooling over custom malware.</p>
+    <p class="fix"><b>Defense</b> Behavioral EDR (watch what trusted tools <em>do</em>, not just what runs); PowerShell logging and Constrained Language Mode; application allow-listing; AMSI; restrict and monitor the LOLBins you don&rsquo;t need.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Obfuscation, Packing &amp; EDR/AMSI Bypass</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1027 / T1562.001 / T1055</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">To defeat detection, attackers <strong>obfuscate</strong> and <strong>pack</strong> their code (encrypt/compress it so signatures don&rsquo;t match, unpacking only in memory), and actively attack the defenders&rsquo; tools &mdash; disabling or blinding antivirus and EDR, bypassing Windows&rsquo; AMSI scanning, unhooking EDR&rsquo;s monitoring, clearing event logs, and tampering with security services. &ldquo;Impair defenses&rdquo; is its own ATT&amp;CK tactic area because evasion is now a core discipline, not an afterthought.</p>
+    <p class="seen"><b>In the wild:</b> ransomware crews routinely ship tools to kill EDR before encrypting; &ldquo;bring your own vulnerable driver&rdquo; attacks disable security products from the kernel.</p>
+    <p class="fix"><b>Defense</b> Tamper-protected EDR; alert on security-tool and log tampering as a high-priority signal; block known-vulnerable drivers; defense-in-depth so blinding one sensor isn&rsquo;t blinding all; monitor from outside the host (network, SIEM).</p>
+  </div>
+
+  <div class="attack">
+    <h3>Lateral Movement (PsExec, WMI, WinRM, RDP, SSH)</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1021 / T1570 / T1047</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">One compromised machine is rarely the goal. Using the credentials from Part VIII, the attacker moves across the network with the <em>same administration tools IT uses</em> &mdash; PsExec, WMI, WinRM, RDP, SMB admin shares, SSH &mdash; which is exactly why it blends in. The pattern repeats: land, dump credentials, move to a better-privileged host, repeat, until they reach the domain controller or the data. Breaking this chain is the single highest-value thing a defender can do.</p>
+    <p class="seen"><b>In the wild:</b> NotPetya and WannaCry (Chapter 11) spread laterally at wildfire speed (NotPetya via credential theft + EternalBlue); human-operated ransomware spends days moving laterally before detonating everywhere at once.</p>
+    <p class="fix"><b>Defense</b> Network segmentation and microsegmentation; block workstation-to-workstation traffic; tiered administration; unique local admin passwords (LAPS); MFA on RDP/remote access; detect anomalous internal auth and remote-exec patterns.</p>
+  </div>
+
+  <h2 id="part11">Part XI &mdash; Command &amp; Control, Exfiltration &amp; Impact</h2>
+  <p>The endgame. The attacker establishes a channel to control the compromised machines (C2), steals what they came for (exfiltration), and/or does the damage that was the point (impact). For an espionage actor the prize is the data; for a ransomware crew it&rsquo;s the encryption and the extortion; for a destructive actor it&rsquo;s the wiper. This is where the intrusion finally becomes visible &mdash; usually too late.</p>
+
+  <div class="attack">
+    <h3>Command &amp; Control (C2) Frameworks &amp; Beaconing</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1071 / T1573 / T1090</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Once inside, implants &ldquo;phone home&rdquo; to a C2 server for instructions. Mature frameworks &mdash; <strong>Cobalt Strike</strong> (a legitimate red-team tool rampantly abused by criminals), <strong>Sliver</strong>, Mythic, Metasploit &mdash; provide encrypted channels, task queues, and pivoting. Implants <strong>beacon</strong> on a jittered interval and blend their traffic into normal web traffic (HTTPS, and increasingly legitimate cloud services and &ldquo;domain fronting&rdquo;) to evade network detection. Spotting the faint regularity of a beacon in a sea of traffic is a core defensive art.</p>
+    <p class="seen"><b>In the wild:</b> cracked Cobalt Strike is one of the most common C2 platforms in real ransomware and APT intrusions; its beacon is among the most-hunted artifacts in security operations.</p>
+    <p class="fix"><b>Defense</b> Egress filtering and TLS inspection; detect beaconing (periodicity, rare destinations, JA3/TLS fingerprints); block known C2 infrastructure; DNS and proxy monitoring; EDR correlation of implant behavior.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Covert Channels &amp; DNS Tunneling</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1071.004 / T1572</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">When normal channels are blocked, attackers hide data in protocols that are almost always allowed out. <strong>DNS tunneling</strong> smuggles data inside DNS queries and responses &mdash; slow, but DNS is rarely inspected and almost never blocked, so it works where everything else fails. Data can also be hidden in ICMP, in HTTP headers, or via steganography inside images. These covert channels serve both C2 and exfiltration under the radar.</p>
+    <p class="seen"><b>In the wild:</b> DNS tunneling has been used by APTs for stealthy C2 and by malware to exfiltrate from segmented networks; it&rsquo;s a favored technique precisely because DNS is a blind spot.</p>
+    <p class="fix"><b>Defense</b> Inspect and baseline DNS (volume, entropy, query length, rare domains); route DNS through monitored resolvers; block direct outbound DNS; egress filtering on all protocols, not just web.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Data Exfiltration</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1041 / T1048 / T1567</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Stealing the data out. Attackers stage and compress it, then exfiltrate &mdash; over the C2 channel, over an alternate protocol, or (most commonly now) <em>up to a legitimate cloud service</em> (Dropbox, Google Drive, Mega, a rented S3 bucket, even <code>rclone</code>) so it looks like ordinary business traffic. Modern ransomware (below) does this <em>before</em> encrypting, for &ldquo;double extortion&rdquo; (Chapter 3). The moment data leaves is the moment the breach becomes a disclosure.</p>
+    <p class="seen"><b>In the wild:</b> the 2023 MOVEit campaign (Cl0p, Chapter 3) was pure exfiltration-for-extortion &mdash; steal and threaten to leak, no encryption needed; most ransomware crews now exfiltrate first.</p>
+    <p class="fix"><b>Defense</b> Data Loss Prevention; egress monitoring for large or unusual outbound transfers; restrict and monitor use of cloud-storage and file-transfer tools; encrypt and tightly access-control the crown-jewel data so theft is harder and detectable.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Ransomware</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 10</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">T1486 / T1490</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical (availability)</span>
+    </div>
+    <p class="how">The defining criminal threat of the era (Chapter 3). The culmination of a whole intrusion: after gaining access, moving laterally, and exfiltrating data, the attacker encrypts everything at once and demands payment for the key &mdash; and threatens to leak the stolen data if you don&rsquo;t pay (double extortion), sometimes adding DDoS or harassment (triple). Delivered as a service (RaaS) by franchised crews, it has shut down pipelines, hospitals, and cities. It earns the maximum Risk Rating because it combines high popularity, moderate ease (via RaaS), and total impact.</p>
+    <p class="seen"><b>In the wild:</b> Colonial Pipeline, the Irish health service (HSE), countless hospitals and municipalities; a plausibly ransomware-linked hospital outage has been connected to a patient death (Chapter 3).</p>
+    <p class="fix"><b>Defense</b> Tested, offline/immutable <strong>backups</strong> (the one control that defeats the encryption leverage); MFA and patching to deny the initial access; segmentation to limit spread; EDR; an incident-response and continuity plan rehearsed before you need it. Everything earlier in this chapter is, ultimately, ransomware prevention.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Wipers &amp; Destructive Attacks</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">T1485 / T1561</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">Ransomware that doesn&rsquo;t want your money &mdash; it wants your data gone. A <strong>wiper</strong> destroys files or whole disks irrecoverably, sometimes disguised as ransomware to buy time. The weapon of sabotage and cyber-warfare, not profit, so lower popularity but maximum impact. Nation-state territory (Chapter 3&rsquo;s Sandworm).</p>
+    <p class="seen"><b>In the wild:</b> NotPetya (2017, Chapter 11) masqueraded as ransomware but was an unrecoverable wiper, causing ~$10 billion in global damage; wipers (WhisperGate, HermeticWiper) hit Ukraine around the 2022 invasion.</p>
+    <p class="fix"><b>Defense</b> Same as ransomware, with extra weight on offline/immutable backups and rapid rebuild capability; segmentation to contain destructive spread; assume &ldquo;restore,&rdquo; not &ldquo;decrypt,&rdquo; is the only option.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Cryptojacking, Botnets &amp; Defacement</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>5</b></span><span class="sep">&middot;</span>
+      <span class="att">T1496 / T1498 / T1491</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium</span>
+    </div>
+    <p class="how">Lower-impact &ldquo;actions on objectives.&rdquo; <strong>Cryptojacking</strong> quietly steals the victim&rsquo;s compute to mine cryptocurrency (resource hijacking) &mdash; a tax, not a catastrophe, but a sign of compromise. <strong>Botnets</strong> conscript compromised machines (and IoT devices, Part XVI) for DDoS, spam, or proxying. <strong>Defacement</strong> alters a website for notoriety or protest (the hacktivist calling card, Chapter 3). Individually modest, collectively a huge share of real-world compromise.</p>
+    <p class="seen"><b>In the wild:</b> the Mirai botnet (Chapter 3/11) enslaved IoT devices for record DDoS; cryptojacking campaigns have hijacked misconfigured cloud and Kubernetes clusters at scale.</p>
+    <p class="fix"><b>Defense</b> The same hygiene stops them all &mdash; patch, least privilege, monitor for unexplained CPU/network use, and don&rsquo;t expose services; treat any of these as evidence of a deeper compromise to investigate, not just a nuisance to clean.</p>
+  </div>
+
   <div class="wip">
-    &#9888; <strong>Compendium in progress.</strong> Parts X&ndash;XX (Persistence, Defense Evasion &amp; Lateral Movement; C2, Exfiltration &amp; Impact; Wireless; Physical/Hardware; Mobile; Cloud/Container; OT/ICS/IoT; AI/LLM; Cryptographic; and Supply-Chain attacks, plus the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
+    &#9888; <strong>Compendium in progress.</strong> Parts XII&ndash;XX (Wireless &amp; Radio; Physical/Hardware; Mobile; Cloud/Container; OT/ICS/IoT &amp; Embedded; AI/LLM; Cryptographic; Supply-Chain &amp; Insider attacks; and the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
   </div>
 
   <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
