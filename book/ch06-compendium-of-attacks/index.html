@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 6 — The Compendium of Attacks</title>
+<meta name="description" content="The thickest chapter: a comprehensive compendium of known attack vectors — reconnaissance, scanning, social engineering, web, network, exploitation, credentials, privilege escalation, persistence, C2, wireless, physical, mobile, cloud, ICS/IoT, AI/LLM, and cryptographic attacks — each with how it acts, a threat panel (Popularity, Simplicity, Impact, Risk), its MITRE ATT&CK mapping, a real-world incident, and a countermeasure. Chapter 6 of A Hacker's Guide to Survive. For defenders and authorized testers only.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Compendium of Attacks — Every Known Attack Vector, Rated">
+<meta property="og:description" content="Chapter 6 of A Hacker's Guide to Survive: a Hacking-Exposed-style compendium of known attacks across every domain, each with how it acts, a Popularity/Simplicity/Impact/Risk threat panel, its MITRE ATT&CK mapping, a real incident, and the countermeasure. The thickest chapter in the book.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch06-compendium-of-attacks/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Offensive Security / Reference">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Compendium of Attacks — Every Known Attack Vector, Rated">
+<meta name="twitter:description" content="Chapter 6 of A Hacker's Guide to Survive: a comprehensive, rated compendium of known attacks across every domain, with MITRE ATT&CK mappings, real incidents, and countermeasures. For defenders and authorized testers.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch06-compendium-of-attacks/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+    --r-low:#2f6f4f; --r-med:#a86a22; --r-high:#c2601f; --r-crit:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63;
+      --r-low:#6bbd8f; --r-med:#e0a256; --r-high:#e8894f; --r-crit:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:780px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 11px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 10px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:30px 0 8px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 15px;}
+  ul,ol{margin:0 0 16px; padding-left:23px;}
+  li{margin-bottom:6px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.88em; background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:1px 5px;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .danger{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  /* ===== Attack entry + Threat Panel ===== */
+  .attack{margin:0 0 26px; padding:0 0 4px;}
+  .attack h3{margin:26px 0 8px;}
+  .panel{
+    display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px;
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; margin:0 0 12px;
+    padding:8px 10px; background:var(--card); border:1px solid var(--rule); border-radius:6px; border-left-width:4px;
+  }
+  .panel.r-low{border-left-color:var(--r-low);} .panel.r-med{border-left-color:var(--r-med);}
+  .panel.r-high{border-left-color:var(--r-high);} .panel.r-crit{border-left-color:var(--r-crit);}
+  .rr{font-weight:700; color:var(--bg); padding:3px 9px; border-radius:4px; letter-spacing:.03em;}
+  .r-low .rr{background:var(--r-low);} .r-med .rr{background:var(--r-med);}
+  .r-high .rr{background:var(--r-high);} .r-crit .rr{background:var(--r-crit);}
+  .m{color:var(--muted);} .m b{color:var(--fg); font-weight:700;}
+  .panel .sep{color:var(--rule);}
+  .att,.cvss{color:var(--accent2); font-weight:600;}
+  .attack .how{margin:0 0 10px;}
+  .attack .fix{font-size:.95rem; margin:0 0 6px; padding-left:14px; border-left:3px solid var(--accent2);}
+  .attack .fix b{color:var(--accent2); font-family:'IBM Plex Mono',monospace; font-size:.8rem; text-transform:uppercase; letter-spacing:.06em;}
+  .attack .seen{font-size:.92rem; color:var(--muted); margin:0 0 10px;}
+  .attack .seen b{color:var(--fg);}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.24rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  .wip{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--accent); border:1px dashed var(--accent); border-radius:6px; padding:12px 16px; margin:24px 0;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Six</p>
+  <h1>The Compendium of Attacks</h1>
+  <p class="dek">Every known way in, rated and explained &mdash; how each attack acts, how dangerous it is, where it maps on the attacker&rsquo;s playbook, and how you stop it. The thickest chapter in the book, and the one you keep open on the second monitor.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; How to Read</a>
+    <a href="#part2">II &middot; Recon</a>
+    <a href="#part3">III &middot; Scanning</a>
+    <a href="#part4">IV &middot; Initial Access</a>
+    <a href="#part5">V &middot; Web</a>
+    <a href="#part6">VI &middot; Network</a>
+    <a href="#part7">VII &middot; Exploitation</a>
+    <a href="#part8">VIII &middot; Credentials</a>
+    <a href="#part9">IX &middot; PrivEsc</a>
+    <a href="#part10">X &middot; Persistence</a>
+    <a href="#part11">XI &middot; C2 &amp; Impact</a>
+    <a href="#part12">XII &middot; Wireless</a>
+    <a href="#part13">XIII &middot; Physical</a>
+    <a href="#part14">XIV &middot; Mobile</a>
+    <a href="#part15">XV &middot; Cloud</a>
+    <a href="#part16">XVI &middot; OT/IoT</a>
+    <a href="#part17">XVII &middot; AI/LLM</a>
+    <a href="#part18">XVIII &middot; Crypto</a>
+    <a href="#part19">XIX &middot; Supply Chain</a>
+    <a href="#part20">XX &middot; The Landscape</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>What this chapter is, and the one rule that governs it</h3>
+    <p>This is the compendium &mdash; the reference half of the book, built in the spirit of the <em>Hacking Exposed</em> series that taught a generation to think in &ldquo;secrets and solutions.&rdquo; It catalogs the known attack vectors across every domain, and for each one it answers four questions: <strong>what is it, how does it act, how dangerous is it, and how do you stop it?</strong> It is meant to be comprehensive and it is meant to be kept open while you work &mdash; a defender&rsquo;s field reference and an authorized tester&rsquo;s checklist, not a story to read once.</p>
+    <p>Because it is a living reference, it is being built and expanded across editions; sections still filling in are marked. Every entry is written at the level a defender needs to <em>recognize and stop</em> the attack &mdash; the concepts, the indicators, the countermeasures &mdash; not as copy-paste weaponry. And all of it sits behind the single rule that governs this entire book, stated here in bold because this is the chapter where it matters most:</p>
+    <p><strong>Everything in this compendium is documented for defense and for testing you are explicitly authorized to perform. Running any of it against a system you do not own or have written permission to test is a crime &mdash; in the United States, under the Computer Fraud and Abuse Act &mdash; and Chapter 10 is the long version of why that line is the only one that matters. The skills are neutral. The permission is everything.</strong></p>
+  </div>
+
+  <h2 id="part1">Part I &mdash; How to Read the Compendium</h2>
+  <h3>The Threat Panel, the map, and the gate</h3>
+
+  <p>Every attack below carries a <strong>Threat Panel</strong>, adapted from the risk-rating system <em>Hacking Exposed</em> made famous, and extended for the modern reader. It looks like this, and you read it left to right:</p>
+
+  <div class="attack">
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1190</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how" style="margin-bottom:0;"><strong>Popularity</strong> is how common the attack is in the wild (1 = rare, 10 = everywhere). <strong>Simplicity</strong> is how little skill it takes (1 = you must write your own zero-day; 10 = a point-and-click tool anyone can run). <strong>Impact</strong> is the damage a success does (1 = a trivial information leak; 10 = full control of the target). <strong>Risk</strong> is the average of the three, color-coded <span style="color:var(--r-low);font-weight:700;">low</span> / <span style="color:var(--r-med);font-weight:700;">medium</span> / <span style="color:var(--r-high);font-weight:700;">high</span> / <span style="color:var(--r-crit);font-weight:700;">critical</span>. Then the <strong>MITRE ATT&amp;CK</strong> technique ID (so this chapter doubles as an ATT&amp;CK-indexed reference), and the typical <strong>CVSS</strong> severity band where the attack maps to scored vulnerabilities. Each entry also names a real <strong>incident</strong> so the threat level is concrete, not abstract, and ends with the <strong>countermeasure.</strong></p>
+  </div>
+
+  <p>The ratings are deliberate, defensible estimates, not laboratory measurements &mdash; their job is to let you triage at a glance, the way a triage nurse uses vital signs. A point or two either way is noise; the <em>color</em> is the signal. Treat a critical-rated attack as something to defend against today and a low-rated one as something to be aware of, and you are using the panel correctly.</p>
+
+  <figure>
+    <img src="assets/lifecycle.svg" alt="The Attack Lifecycle diagram: the seven Cyber Kill Chain stages (Reconnaissance, Weaponization, Delivery, Exploitation, Installation, Command and Control, Actions on Objectives) across the top with the chapter's parts mapped beneath them; the cross-cutting domains (wireless, physical, mobile, cloud, OT/IoT, AI, crypto, supply chain) as chips; and a legend explaining the Threat Panel and its color-coded risk levels.">
+    <figcaption>The map for the whole chapter. Real intrusions move left to right through the kill chain, looping back constantly; the parts of this compendium follow that flow, then branch into the domains that have their own full lifecycle. Keep this in mind as you read: almost no real attack is a single technique &mdash; it is a <em>chain</em> of them, and the defender&rsquo;s job is to break the chain at any link.<span class="credit">Diagram: Savvy Security LLC, after the Lockheed Martin Cyber Kill Chain and MITRE ATT&amp;CK.</span></figcaption>
+  </figure>
+
+  <p>Two frameworks organize the field, and both are worth knowing by name. The <strong>Lockheed Martin Cyber Kill Chain</strong> (2011) breaks an intrusion into seven stages &mdash; reconnaissance, weaponization, delivery, exploitation, installation, command &amp; control, and actions on objectives &mdash; and its key insight is defensive: <em>break any one link and you break the attack.</em> <strong>MITRE ATT&amp;CK</strong> is the modern, far more granular standard &mdash; a living matrix of <strong>14 adversary tactics</strong> (the &ldquo;why&rdquo;: reconnaissance, resource development, initial access, execution, persistence, privilege escalation, defense evasion, credential access, discovery, lateral movement, collection, command and control, exfiltration, and impact) and hundreds of specific techniques (the &ldquo;how&rdquo;) beneath them, each with a <code>T####</code> identifier used throughout this chapter. Learn to think in both: the kill chain tells you where in the story you are; ATT&amp;CK tells you exactly which move you are looking at.</p>
+
+  <h2 id="part2">Part II &mdash; Reconnaissance &amp; Footprinting</h2>
+  <p>Every intrusion begins here, and most defenders never see it, because good reconnaissance touches nothing it is not allowed to touch. The attacker is building a map &mdash; of your people, your systems, your technology, and your mistakes &mdash; mostly from public sources. It is the cheapest phase for the attacker and the one that most rewards the defender who simply knows how much is exposed.</p>
+
+  <div class="attack">
+    <h3>Passive OSINT (Open-Source Intelligence)</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>2</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1589&ndash;T1591</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (pre-attack)</span>
+    </div>
+    <p class="how">The attacker assembles a profile of the target from entirely public sources &mdash; the corporate website and its job postings (which leak the exact technologies in use), press releases, LinkedIn org charts, conference talks, GitHub repositories, court filings, and social media. No packet ever touches the target&rsquo;s network, which is why it is nearly invisible and almost never illegal in itself. The output is a dossier: who works there, what they run, who reports to whom, and where the soft spots are. Tools like Maltego, SpiderFoot, and theHarvester automate the collection.</p>
+    <p class="seen"><b>In the wild:</b> essentially every targeted intrusion and nation-state campaign (Chapter 3) opens with OSINT; the social-engineering crews of Chapter 3 (Scattered Spider) built entire breaches on LinkedIn-sourced org charts and help-desk details.</p>
+    <p class="fix"><b>Defense</b> You cannot stop public research, but you can shrink the footprint: minimize technical detail in job posts, scrub metadata, train staff on what they overshare, and run OSINT <em>against yourself</em> regularly so you see what the attacker sees.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Google Dorking (search-engine reconnaissance)</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>4</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1593.002</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (exposure)</span>
+    </div>
+    <p class="how">Using advanced search operators (<code>site:</code>, <code>filetype:</code>, <code>intitle:</code>, <code>inurl:</code>) to find things the owner never meant to publish: exposed admin panels, password files, backup archives, config files, camera feeds, and documents full of internal detail. The technique &mdash; and the curated &ldquo;Google Hacking Database&rdquo; of pre-built queries &mdash; was pioneered by Johnny Long (Chapter 2). It finds what is already indexed; the exposure is the target&rsquo;s fault, not the search engine&rsquo;s.</p>
+    <p class="seen"><b>In the wild:</b> a perennial source of breaches &mdash; exposed <code>.env</code> files with live cloud keys, indexed database backups, and public S3 buckets (Part XV) are found this way daily.</p>
+    <p class="fix"><b>Defense</b> Don&rsquo;t put secrets on the web; use <code>robots.txt</code> and authentication, not obscurity; and run the dorks against your own domains to find what&rsquo;s leaking before someone else does.</p>
+  </div>
+
+  <div class="attack">
+    <h3>DNS Enumeration &amp; Zone Transfers</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>4</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1590.002</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Low&ndash;Medium</span>
+    </div>
+    <p class="how">The Domain Name System is a map of an organization&rsquo;s infrastructure, and it is often over-shared. Attackers query it (<code>dig</code>, <code>nslookup</code>, <code>dnsrecon</code>) to enumerate subdomains, mail servers, and IP ranges. A misconfigured server that permits a <strong>zone transfer</strong> (<code>AXFR</code>) will hand over its entire DNS record set &mdash; a complete internal map &mdash; to anyone who asks. Subdomain brute-forcing and certificate-transparency logs reveal the rest, including forgotten dev and staging hosts that are the softest targets on the network.</p>
+    <p class="seen"><b>In the wild:</b> forgotten subdomains surfaced this way are a leading cause of &ldquo;subdomain takeover&rdquo; and of breaches into staging systems that never got the production hardening.</p>
+    <p class="fix"><b>Defense</b> Restrict zone transfers to authorized secondaries only; inventory and decommission stale DNS records; monitor certificate-transparency logs for subdomains you forgot you had.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Shodan / Censys (the search engine for exposed devices)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>5</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1596</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (exposure)</span>
+    </div>
+    <p class="how">Shodan and Censys continuously scan the entire internet and index every device that answers &mdash; servers, routers, webcams, industrial controllers, databases, VPN gateways &mdash; along with its software versions and open ports. An attacker types a query (&ldquo;all unpatched Exchange servers in this country,&rdquo; &ldquo;all exposed ICS devices of this make&rdquo;) and gets a target list in seconds, with the vulnerable versions already identified. It turns mass exploitation into a shopping trip.</p>
+    <p class="seen"><b>In the wild:</b> ransomware crews (Chapter 3) routinely source victim lists from these engines; exposed industrial controllers (Part XVI) are found and catalogued here constantly.</p>
+    <p class="fix"><b>Defense</b> Know your own external footprint (query Shodan/Censys for your own IP ranges); nothing should be exposed to the whole internet that doesn&rsquo;t absolutely need to be; put admin interfaces behind a VPN.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Breach-Data &amp; Credential Harvesting</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>5</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1589.001</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (feeds Part VIII)</span>
+    </div>
+    <p class="how">Billions of username/password pairs from past breaches circulate in combolists and on criminal forums (Chapter 3). Attackers harvest an organization&rsquo;s email addresses (via theHarvester, hunter.io, LinkedIn) and cross-reference them against this corpus to find employees whose credentials have leaked elsewhere &mdash; then try those exact passwords, or close variants, against the target. This is the fuel for the credential-stuffing and password-spraying attacks of Part VIII, and it is why password reuse is catastrophic.</p>
+    <p class="seen"><b>In the wild:</b> the 2021 Colonial Pipeline breach (Chapter 3) began with a single leaked VPN password for an account with no MFA; countless breaches start the same way.</p>
+    <p class="fix"><b>Defense</b> Enforce MFA everywhere (it defeats the reused password); screen new passwords against breach corpora (e.g. Have I Been Pwned&rsquo;s Pwned Passwords); monitor for your domains appearing in dumps.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Metadata &amp; Document Footprinting</h3>
+    <div class="panel r-low">
+      <span class="rr">RISK 3</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>2</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1592</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (exposure)</span>
+    </div>
+    <p class="how">Public documents (PDFs, Office files, images) carry hidden metadata &mdash; author names, usernames, internal file paths, software versions, even GPS coordinates on photos. Tools like FOCA and ExifTool strip it out en masse, yielding a list of valid usernames (for Part VIII), internal server names, and the exact software to target. Low impact alone, but it feeds everything downstream.</p>
+    <p class="seen"><b>In the wild:</b> metadata in a published photo has repeatedly deanonymized its subject, including fugitives and, famously, contributed to locating high-profile targets.</p>
+    <p class="fix"><b>Defense</b> Scrub metadata from everything you publish (most tools have a &ldquo;remove properties&rdquo; option); treat internal usernames and paths as sensitive.</p>
+  </div>
+
+  <h2 id="part3">Part III &mdash; Scanning &amp; Enumeration</h2>
+  <p>Where reconnaissance is passive, scanning touches the target &mdash; and so it is both far more informative and far more detectable (and, against systems you don&rsquo;t own, already illegal). The goal is to turn the recon map into a live inventory: which hosts are up, which ports are open, which services and versions are running, and which of those have known holes.</p>
+
+  <div class="attack">
+    <h3>Port Scanning &amp; Host Discovery</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>10</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>3</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1595.001 / T1046</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (discovery)</span>
+    </div>
+    <p class="how">The foundational technique: send packets to a range of hosts and ports and infer, from the responses, which hosts are alive and which ports are open. <strong>Nmap</strong> (Chapter 2&rsquo;s Gordon Lyon wrote it) is the definitive tool &mdash; a full TCP connect scan, a stealthier SYN &ldquo;half-open&rdquo; scan, UDP scans, and timing controls to evade rate-based detection. The open-port list <em>is</em> the attack surface; everything else in this chapter targets something a scan found open.</p>
+    <p class="seen"><b>In the wild:</b> the internet is scanned constantly &mdash; a fresh server gets probed within minutes of coming online (the lesson that launched the Honeynet Project, Chapter 3).</p>
+    <p class="fix"><b>Defense</b> Close every port that isn&rsquo;t needed; firewall the rest; detect scans with IDS/IPS and rate-limiting; reduce attack surface so a scan finds as little as possible.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Service &amp; Version Detection, OS Fingerprinting</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>4</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1046 / T1592.002</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (discovery)</span>
+    </div>
+    <p class="how">An open port is only half the story; the attacker needs to know <em>what</em> is listening and which <em>version</em>. Banner grabbing and active probing (<code>nmap -sV</code>, <code>-O</code>) identify the exact service (&ldquo;OpenSSH 8.2,&rdquo; &ldquo;Apache 2.4.49,&rdquo; &ldquo;Windows Server 2019&rdquo;), which the attacker cross-references against vulnerability databases to find known exploits. A precise version number is often all that stands between recon and a working exploit.</p>
+    <p class="seen"><b>In the wild:</b> &ldquo;Apache 2.4.49&rdquo; in a banner told attackers exactly which servers were vulnerable to the 2021 path-traversal flaw (CVE-2021-41773), exploited at scale within days.</p>
+    <p class="fix"><b>Defense</b> Suppress or genericize version banners where possible; patch fast so a disclosed version isn&rsquo;t an exploitable one; the real fix is not hiding the version but not running the vulnerable one.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Vulnerability Scanning</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>5</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1595.002</span><span class="sep">&middot;</span>
+      <span class="cvss">varies by finding</span>
+    </div>
+    <p class="how">Automated scanners (Nessus, OpenVAS, Qualys, Nuclei) take the service inventory and test each item against a database of thousands of known vulnerabilities, producing a ranked list of what&rsquo;s exploitable and often a CVSS score for each. Defenders use the identical tools &mdash; this is the clearest example in the book of a dual-use technique where the attacker and the defender run the same scan; the only difference is who owns the target and who patches first.</p>
+    <p class="seen"><b>In the wild:</b> mass-exploitation campaigns (e.g. against unpatched VPNs and Exchange servers) are essentially industrialized vuln scanning followed by automated exploitation.</p>
+    <p class="fix"><b>Defense</b> Run authenticated vulnerability scans continuously against your own estate and remediate on a risk-based schedule; you want to find and fix it before the attacker&rsquo;s scan finds it.</p>
+  </div>
+
+  <div class="attack">
+    <h3>SMB, SNMP &amp; LDAP Enumeration</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>6</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1087 / T1046</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">Internal services are chatty. <strong>SMB</strong> (Windows file sharing) can leak user lists, shares, and password policies, sometimes to an anonymous &ldquo;null session.&rdquo; <strong>SNMP</strong> with a default community string (&ldquo;public&rdquo;) can dump a device&rsquo;s entire configuration. <strong>LDAP</strong> against Active Directory enumerates every user, group, and computer in the domain. Tools like <code>enum4linux</code>, <code>snmpwalk</code>, and BloodHound turn these into a complete map of the internal network and its privilege relationships &mdash; the groundwork for lateral movement (Part X).</p>
+    <p class="seen"><b>In the wild:</b> BloodHound&rsquo;s graph of &ldquo;who can reach domain admin&rdquo; is a staple of both red teams and real ransomware intrusions.</p>
+    <p class="fix"><b>Defense</b> Disable SMBv1 and anonymous access; change default SNMP community strings (or disable SNMP); segment and monitor; assume AD is enumerable from inside and harden the privilege paths BloodHound would find.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Web Content &amp; Directory Discovery</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>4</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1595.003</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (discovery)</span>
+    </div>
+    <p class="how">Web servers hide more than they show. Attackers use wordlist-driven tools (<code>gobuster</code>, <code>feroxbuster</code>, <code>ffuf</code>, Burp) to brute-force hidden directories, files, backups, admin panels, and API endpoints that aren&rsquo;t linked anywhere. A forgotten <code>/admin</code>, a <code>.git</code> directory, a <code>backup.zip</code>, or an undocumented API route is often the whole breach.</p>
+    <p class="seen"><b>In the wild:</b> exposed <code>.git</code> directories have leaked entire application source code and secrets; forgotten admin panels are a recurring initial-access vector.</p>
+    <p class="fix"><b>Defense</b> Don&rsquo;t deploy backups, <code>.git</code>, or admin panels to production web roots; require authentication on everything sensitive; monitor for the burst of 404s that signals a discovery scan.</p>
+  </div>
+
+  <h2 id="part4">Part IV &mdash; Initial Access &amp; Social Engineering</h2>
+  <p>This is the front door, and it is almost always a person. Year after year, the single most common way into an organization is not a clever exploit but a convincing lie &mdash; because, as Kevin Mitnick put it (Chapter 2), social engineering bypasses all technologies, including firewalls. These are the techniques that get the attacker their first foothold.</p>
+
+  <div class="attack">
+    <h3>Phishing</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>10</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1566</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (human)</span>
+    </div>
+    <p class="how">A fraudulent message &mdash; usually email &mdash; engineered to make the recipient click a malicious link, open a weaponized attachment, or enter credentials on a fake page. It is the most common initial-access vector in the world by a wide margin, because it scales infinitely and targets the one component with no patch: human trust. Modern phishing is polished, personalized, and increasingly AI-written (Chapter 5), erasing the spelling-error &ldquo;tells&rdquo; that once gave it away.</p>
+    <p class="seen"><b>In the wild:</b> the dominant entry point for ransomware and nation-state intrusions alike; verified year after year as the leading breach vector in Verizon&rsquo;s Data Breach Investigations Report.</p>
+    <p class="fix"><b>Defense</b> Phishing-resistant MFA (FIDO2/passkeys, which defeat credential phishing outright); email authentication (SPF/DKIM/DMARC); user training and easy reporting; and assume some click will succeed, so limit what one click can reach.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Spear Phishing &amp; Whaling</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1566 / T1534</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (human)</span>
+    </div>
+    <p class="how">Phishing aimed at a specific, researched individual (spear) or a high-value executive (whaling), using the OSINT of Part II to be devastatingly convincing &mdash; the right names, the right project, the right tone. Lower volume, far higher success and impact. This is how targeted intrusions and most serious nation-state campaigns actually begin.</p>
+    <p class="seen"><b>In the wild:</b> the 2016 breach of a U.S. presidential campaign chairman (Chapter 3&rsquo;s Fancy Bear) began with a spear-phishing email disguised as a Google security alert.</p>
+    <p class="fix"><b>Defense</b> Same as phishing, plus extra verification for high-value targets and for any request that moves money or access; executives are worth dedicated protection and rehearsal.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Business Email Compromise (BEC)</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1566 / T1656</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (human)</span>
+    </div>
+    <p class="how">A pure-confidence attack: the attacker, posing as a CEO, vendor, or lawyer (sometimes from a genuinely compromised mailbox), instructs an employee to wire money or change payment details. No malware at all &mdash; just authority, urgency, and a plausible story. By reported dollar losses it is one of the most damaging categories of cybercrime in the world, dwarfing many flashier attacks.</p>
+    <p class="seen"><b>In the wild:</b> the FBI&rsquo;s Internet Crime Complaint Center has tracked tens of billions of dollars in BEC losses; individual firms have wired millions to fraudsters on a single convincing email.</p>
+    <p class="fix"><b>Defense</b> Out-of-band verification for any payment or account change (call a known number, never the one in the email); dual authorization for wires; flag external and look-alike-domain senders.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Vishing &amp; Smishing (voice and SMS)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1566.004 / T1598</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (human)</span>
+    </div>
+    <p class="how">Social engineering over the phone (vishing) or text message (smishing), often impersonating IT support or a help desk. A phone call is harder to ignore than an email and easier to improvise against objections. The crews of Chapter 3 (Scattered Spider) turned a single help-desk phone call &mdash; &ldquo;I&rsquo;m a new employee, reset my MFA&rdquo; &mdash; into breaches of billion-dollar companies. AI voice-cloning now lets an attacker sound like a specific trusted person.</p>
+    <p class="seen"><b>In the wild:</b> the September 2023 MGM Resorts breach reportedly began with a vishing call to the IT help desk; AI-cloned-voice CEO scams have moved real money.</p>
+    <p class="fix"><b>Defense</b> Strong, scripted identity verification at the help desk (no MFA resets on a voice request alone); call-back verification; train staff that urgency + authority over the phone is the oldest trick in Chapter 2.</p>
+  </div>
+
+  <div class="attack">
+    <h3>MFA Fatigue / Push Bombing</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1621</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (human + auth)</span>
+    </div>
+    <p class="how">When the attacker already has a valid password (from Part II) but is stopped by push-notification MFA, they simply spam the victim with approval prompts &mdash; dozens, at 3 a.m. &mdash; until the exhausted or confused user taps &ldquo;approve&rdquo; to make it stop. It defeats the weakest form of MFA using nothing but persistence and annoyance.</p>
+    <p class="seen"><b>In the wild:</b> the 2022 breaches of Uber and others involved push-bombing an employee into approving a login.</p>
+    <p class="fix"><b>Defense</b> Use number-matching or phishing-resistant MFA (FIDO2/passkeys) instead of simple approve/deny push; rate-limit prompts; alert on repeated denials; teach users that a flood of prompts means their password is already stolen.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Malicious Attachments &amp; Macros</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1566.001 / T1204.002</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (delivery)</span>
+    </div>
+    <p class="how">The weaponized document: an Office file with a malicious macro, a booby-trapped PDF, a disk-image or archive hiding a script, or a shortcut (<code>.lnk</code>) that runs a command. Opening it executes attacker code and delivers the real payload. As Microsoft hardened macros, attackers pivoted to ISO/LNK/OneNote and HTML-smuggling delivery &mdash; the container changes, the trick (get the user to open it) does not.</p>
+    <p class="seen"><b>In the wild:</b> the Emotet and QakBot malware families distributed millions of macro-laden documents; the technique seeds a large share of ransomware intrusions.</p>
+    <p class="fix"><b>Defense</b> Block macros from the internet by default (Microsoft now does); strip risky attachment types at the gateway; application allow-listing; EDR to catch the post-open behavior.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Exploiting Public-Facing Applications</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 9</span>
+      <span class="m">Popularity <b>9</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1190</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">The other dominant initial-access route: directly exploiting a vulnerability in an internet-facing system &mdash; a VPN gateway, a mail server, a web app, a file-transfer appliance. No user interaction needed. When a critical flaw in a widely-deployed edge device is disclosed, mass exploitation often begins within <em>hours</em>, faster than most organizations can patch. This is the technique that turns a Part III scan into a breach.</p>
+    <p class="seen"><b>In the wild:</b> the 2023 MOVEit file-transfer flaw (exploited by the Cl0p ransomware crew) breached thousands of organizations; the 2021 ProxyLogon/ProxyShell Exchange flaws were exploited globally within days.</p>
+    <p class="fix"><b>Defense</b> Patch internet-facing systems fastest of all; minimize the edge attack surface; put admin interfaces behind a VPN; virtual-patch with a WAF while you remediate; monitor edge devices closely as the highest-value targets.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Watering Hole &amp; Drive-By Compromise</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK T1189 / T1608.004</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High&ndash;Critical</span>
+    </div>
+    <p class="how">Instead of coming to the victim, the attacker compromises a website the victim is known to visit (an industry forum, a supplier&rsquo;s site) and plants an exploit that fires on arrival &mdash; a &ldquo;drive-by,&rdquo; often needing no click at all if the browser or a plugin is vulnerable. Lower volume and higher skill, but a favored technique of nation-state actors against specific communities.</p>
+    <p class="seen"><b>In the wild:</b> watering-hole campaigns have targeted government, defense, and dissident communities; the technique was central to several APT operations against specific industries.</p>
+    <p class="fix"><b>Defense</b> Patch browsers and plugins aggressively; use modern browsers&rsquo; sandboxing; network egress filtering and EDR to catch the post-exploit stage; isolate high-risk browsing.</p>
+  </div>
+
+  <div class="wip">
+    &#9888; <strong>Compendium in progress.</strong> Parts V&ndash;XX (Web/OWASP, Network, Exploitation, Credentials, Privilege Escalation, Persistence &amp; Lateral Movement, C2 &amp; Impact, Wireless, Physical/Hardware, Mobile, Cloud/Container, OT/ICS/IoT, AI/LLM, Cryptographic, and Supply-Chain attacks, plus the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
+  </div>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
+  <p class="refs-group">Frameworks &amp; rating</p>
+  <ul class="refs">
+    <li>MITRE ATT&amp;CK&reg; &mdash; the enterprise matrix of 14 tactics and their techniques; the <code>T####</code> identifiers used throughout. <a href="https://attack.mitre.org/">attack.mitre.org</a>.</li>
+    <li>Lockheed Martin, &ldquo;Cyber Kill Chain&reg;&rdquo; (Hutchins, Cloppert, Amin, 2011) &mdash; the seven-stage intrusion model. <a href="https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html">lockheedmartin.com</a>.</li>
+    <li>McClure, Scambray, and Kurtz. <em>Hacking Exposed: Network Security Secrets &amp; Solutions</em> (7 editions, 1999&ndash;2012, McGraw-Hill), and the specialized series (Web, Windows, Linux, Wireless, Mobile, Malware &amp; Rootkits, ICS) &mdash; the Popularity/Simplicity/Impact Risk Rating this chapter adapts.</li>
+    <li>CVSS &mdash; the Common Vulnerability Scoring System (FIRST.org); CVE &mdash; the Common Vulnerabilities and Exposures catalog (MITRE/CISA); CWE &mdash; the Common Weakness Enumeration. <a href="https://www.first.org/cvss/">first.org/cvss</a>.</li>
+    <li>Verizon, <em>Data Breach Investigations Report</em> (annual) &mdash; the standard reference for which vectors actually cause breaches. <a href="https://www.verizon.com/business/resources/reports/dbir/">verizon.com/dbir</a>.</li>
+  </ul>
+  <p class="refs-group">Reconnaissance, scanning &amp; initial access</p>
+  <ul class="refs">
+    <li>OSINT tooling &mdash; Maltego, SpiderFoot, theHarvester; the Google Hacking Database (Exploit-DB), after Johnny Long (Chapter 2).</li>
+    <li>Shodan (<a href="https://www.shodan.io/">shodan.io</a>) and Censys &mdash; internet-wide device search.</li>
+    <li>Nmap (Gordon Lyon / &ldquo;Fyodor,&rdquo; Chapter 2) &mdash; <a href="https://nmap.org/">nmap.org</a>; Nessus, OpenVAS, Nuclei &mdash; vulnerability scanning; BloodHound &mdash; Active Directory attack-path mapping.</li>
+    <li>CISA / FBI advisories on MOVEit (CVE-2023-34362), ProxyLogon/ProxyShell (2021), and MFA push-bombing (2022); Colonial Pipeline and MGM Resorts incident reporting (see Chapters 3 and 11).</li>
+    <li>Have I Been Pwned &mdash; breach-data and Pwned Passwords screening. <a href="https://haveibeenpwned.com/">haveibeenpwned.com</a>.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> This compendium is a defensive and educational reference, written for security professionals and for testing performed only with explicit authorization. Threat-Panel ratings (Popularity / Simplicity / Impact / Risk) are considered estimates in the <em>Hacking Exposed</em> tradition, meant for at-a-glance triage, not precise measurement; MITRE ATT&amp;CK IDs and CVSS bands are given as the best current mapping and may span several sub-techniques. Real-world incidents are cited so threat levels are concrete. Where an attack maps more naturally to CWE/OWASP than to ATT&amp;CK (notably the web attacks in Part V), that is noted in the entry. This chapter is built and expanded across editions.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense. This is Chapter 6 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch05-the-machine-you-own/">&larr; Chapter 5 &mdash; The Machine You Own</a>
+    <a href="../">Next: Chapter 7 &mdash; The Field Manual &rarr;</a>
+  </nav>
+
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive &middot; Chapter Six</footer>
+</body>
+</html>
