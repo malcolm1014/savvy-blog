@@ -1217,8 +1217,258 @@
     <p class="fix"><b>Defense</b> The same hygiene stops them all &mdash; patch, least privilege, monitor for unexplained CPU/network use, and don&rsquo;t expose services; treat any of these as evidence of a deeper compromise to investigate, not just a nuisance to clean.</p>
   </div>
 
+  <h2 id="part12">Part XII &mdash; Wireless &amp; Radio Attacks</h2>
+  <p>Wireless erases the perimeter: the attacker no longer needs to plug in, only to be within radio range &mdash; a parking lot, a lobby, a drone overhead. This whole domain is the grandchild of the phone phreaks of Chapter 1, now armed with cheap software-defined radios. It has its own full lifecycle of recon, exploitation, and impact.</p>
+
+  <div class="attack">
+    <h3>Wi-Fi Cracking (WPA2 handshake, PMKID, WPS)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1557 / T1110.002</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">The attacker captures the WPA/WPA2 four-way handshake (or, faster, the PMKID from a single frame) and cracks the passphrase offline with hashcat (Part VIII) &mdash; trivial if the password is weak. <strong>WPS</strong> (the push-button setup feature) had a flaw (Pixie Dust / brute-forceable PIN) that hands over the key regardless of passphrase strength. Older <strong>WEP</strong> is breakable in minutes and should not exist. The whole toolkit (Aircrack-ng) runs off a cheap USB adapter.</p>
+    <p class="seen"><b>In the wild:</b> &ldquo;wardriving&rdquo; and corporate Wi-Fi cracking are standard on physical/red-team engagements; weak pre-shared keys remain a common entry into networks.</p>
+    <p class="fix"><b>Defense</b> Long random WPA2/WPA3 passphrases or 802.1X (enterprise auth with per-user credentials); disable WPS; retire WEP/WPA1; segment wireless from the core network.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Evil Twin &amp; Rogue Access Points</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1557</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">The attacker stands up a fake access point with the same name (SSID) as a trusted network &mdash; &ldquo;Airport_WiFi,&rdquo; &ldquo;CorpNet&rdquo; &mdash; often combined with a <strong>deauthentication</strong> attack that kicks victims off the real AP so they reconnect to the twin. Now the attacker is the network: a captive-portal page harvests credentials, and all traffic is theirs to read and modify (Part VI). A single device (a Wi-Fi Pineapple) automates the whole thing.</p>
+    <p class="seen"><b>In the wild:</b> evil-twin attacks against conference, hotel, and airport Wi-Fi are a perennial demonstration and real threat; the DEF CON &ldquo;Wall of Sheep&rdquo; (Chapter 4) exists because of exactly this.</p>
+    <p class="fix"><b>Defense</b> Use a VPN on any untrusted Wi-Fi (defeats interception); prefer cellular/hotspots for sensitive work; enterprise: wireless intrusion detection, 802.1X with server-cert validation, and client configs that won&rsquo;t silently join look-alike SSIDs.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Protocol Attacks: KRACK, Deauth &amp; WPA3 Dragonblood</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1557 / CVE-2017-13077</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">Flaws in the protocols themselves. <strong>KRACK</strong> (2017) broke the WPA2 handshake&rsquo;s key reinstallation, letting attackers decrypt traffic without the password. <strong>Deauthentication</strong> frames (unauthenticated in older Wi-Fi) let anyone forcibly disconnect clients &mdash; a denial of service and the setup for evil-twin and handshake capture. Even <strong>WPA3</strong> shipped with the &ldquo;Dragonblood&rdquo; flaws. Protocol attacks are rarer and harder but affect everyone running the standard until patched.</p>
+    <p class="seen"><b>In the wild:</b> KRACK forced a global round of Wi-Fi client and AP patches in 2017; deauth-based disruption is trivial and common.</p>
+    <p class="fix"><b>Defense</b> Patch clients and access points; adopt WPA3 and Protected Management Frames (802.11w, which authenticates deauth); encrypt at higher layers so link-layer decryption yields little.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Bluetooth &amp; BLE Attacks</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>5</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>6</b></span><span class="sep">&middot;</span>
+      <span class="att">T1557 / ATT&amp;CK Mobile</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">Bluetooth and Bluetooth Low Energy are everywhere &mdash; headsets, locks, medical devices, car keys, trackers &mdash; and often weakly secured. Attacks range from eavesdropping and sniffing BLE pairing, to replaying commands to a smart lock or device, to protocol flaws like <strong>BlueBorne</strong> (2017) that allowed remote takeover with no pairing. Short range limits exposure, but &ldquo;short&rdquo; is tens of meters with the right antenna.</p>
+    <p class="seen"><b>In the wild:</b> BlueBorne exposed billions of devices to remote exploitation; researchers have unlocked BLE smart locks and even relayed car-key signals to steal vehicles.</p>
+    <p class="fix"><b>Defense</b> Keep Bluetooth off when unused and non-discoverable; patch firmware; use devices with strong, authenticated pairing (and, for entry systems, with anti-relay distance bounding).</p>
+  </div>
+
+  <div class="attack">
+    <h3>RFID / NFC Cloning &amp; Relay</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>7</b></span><span class="sep">&middot;</span>
+      <span class="att">T1557 / T1200</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">The access badge in your pocket is often a low-frequency card with no real authentication. With a cheap reader (a Proxmark3 or even a Flipper Zero, Chapter 5) an attacker reads it from a short distance &mdash; brushing past you in an elevator &mdash; and writes a clone, walking into the building as you. <strong>Relay</strong> attacks extend the range (one device by the victim&rsquo;s card, one at the door). The same applies to many contactless and keyless-entry systems.</p>
+    <p class="seen"><b>In the wild:</b> badge cloning is a staple of physical red-team engagements (Chapter 2&rsquo;s Jayson Street built a career on walking in); keyless-car relay theft is now common.</p>
+    <p class="fix"><b>Defense</b> Use modern high-frequency smartcards with cryptographic challenge-response (not cloneable low-frequency cards); add PIN or biometric for sensitive doors; shield cards; anti-relay distance bounding for vehicles.</p>
+  </div>
+
+  <div class="attack">
+    <h3>SDR, GPS Spoofing &amp; Cellular (IMSI Catchers)</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1557 / T1200</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">With a software-defined radio (a $30 RTL-SDR to a HackRF, Chapter 5) the whole spectrum is in play. <strong>Replay</strong> attacks capture and re-send signals (garage doors, older key fobs; RollJam defeats rolling codes). <strong>GPS spoofing</strong> transmits false satellite signals to make a device believe it&rsquo;s somewhere it isn&rsquo;t &mdash; used against drones, ships, and timing systems. <strong>IMSI catchers</strong> (&ldquo;Stingrays&rdquo;) impersonate a cell tower to force phones to connect, revealing identity and location and enabling interception. High skill, high impact, and increasingly within hobbyist reach.</p>
+    <p class="seen"><b>In the wild:</b> GPS spoofing has misdirected ships and drones near conflict zones; IMSI catchers are used by law enforcement and, illicitly, by others; RollJam-style attacks defeat car remotes.</p>
+    <p class="fix"><b>Defense</b> Authenticated/encrypted signaling where it exists; multi-source positioning and GPS anti-spoofing for critical systems; rolling codes with proper implementation; treat the radio environment as hostile for anything safety-critical.</p>
+  </div>
+
+  <h2 id="part13">Part XIII &mdash; Physical &amp; Hardware Attacks</h2>
+  <p>All the cryptography in the world fails if the attacker can touch the device. Physical access is often game over, and it is the domain where the hacker community&rsquo;s lockpick villages (Chapter 4) meet the hardware benches of Chapter 5. These attacks bypass the digital defenses entirely by going underneath or around them.</p>
+
+  <div class="attack">
+    <h3>Physical Intrusion: Tailgating, Lockpicking &amp; Bypass</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T1200 / T1078</span><span class="sep">&middot;</span>
+      <span class="cvss">n/a (physical)</span>
+    </div>
+    <p class="how">Getting through the door &mdash; by <strong>tailgating</strong> (following an employee through, arms full of coffee), social-engineering the front desk (Chapter 2&rsquo;s Mitnick and Street), picking the lock, or bypassing it entirely (under-door tools, latch slipping, the &ldquo;request-to-exit&rdquo; sensor). Once inside, the attacker has physical access to network ports (Part VI drop boxes), unlocked workstations, and the server room. The most human link in the chain.</p>
+    <p class="seen"><b>In the wild:</b> physical red teams breach &ldquo;secure&rdquo; facilities with startling ease; Jayson Street (Chapter 2) famously robbed a bank wearing a DEF CON jacket.</p>
+    <p class="fix"><b>Defense</b> Layered physical security (mantraps/turnstiles against tailgating); a culture where challenging strangers is expected; locked workstations; secured network ports and server rooms; include physical in your penetration tests.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Malicious USB: BadUSB, Rubber Ducky &amp; Cables</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1200 / T1091</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">A USB device that lies about what it is. A <strong>BadUSB</strong> / <strong>Rubber Ducky</strong> presents itself as a keyboard and types attacker commands at machine speed the instant it&rsquo;s plugged in; malicious cables and chargers hide the same capability in an ordinary-looking lead. The classic delivery is the <strong>USB drop</strong> &mdash; scatter sticks in the parking lot and wait for curiosity. There is no software patch for &ldquo;the firmware claims to be a keyboard.&rdquo;</p>
+    <p class="seen"><b>In the wild:</b> dropped-USB experiments show ~half of found drives get plugged in; the FIN7 crew mailed malicious USB devices to targets as fake gift packages.</p>
+    <p class="fix"><b>Defense</b> USB device-control policy (block HID/storage by class or allow-list); disable autorun; physically block or epoxy ports on sensitive machines; train staff never to plug in found or gifted devices; data-blocker adapters for charging.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Hardware Implants &amp; Interdiction</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>2</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>2</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">T1200</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">A physical device secretly added to hardware: an inline keylogger on a keyboard cable, a tiny implant on a motherboard or in a peripheral, or a network tap. <strong>Interdiction</strong> intercepts equipment in the supply chain (shipping) to implant it before delivery &mdash; a documented nation-state capability. Rare and high-skill, but near-impossible to detect and total in impact (Chapter 2&rsquo;s &ldquo;trust the hardware you can&rsquo;t open&rdquo;).</p>
+    <p class="seen"><b>In the wild:</b> leaked catalogs revealed nation-state hardware-implant toolkits; inline hardware keyloggers have been found on corporate and government machines.</p>
+    <p class="fix"><b>Defense</b> Supply-chain integrity (trusted vendors, tamper-evident shipping/seals); physical inspection of critical hardware; hardware attestation where available; control physical access so implants can&rsquo;t be placed in the first place.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Debug-Port, Chip-Off &amp; Firmware Extraction (JTAG/UART/SPI)</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1200 / hardware</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">The hardware hacker&rsquo;s bread and butter (Chapter 5). Embedded devices expose debug interfaces &mdash; <strong>JTAG</strong>, <strong>UART</strong> serial consoles, <strong>SPI</strong> flash chips &mdash; that, if left enabled, let an attacker dump the firmware, extract secrets and keys, bypass authentication, or load their own code. <strong>Chip-off</strong> physically removes the flash chip to read it directly. This is how researchers find the backdoors and hardcoded passwords in IoT gear (Part XVI).</p>
+    <p class="seen"><b>In the wild:</b> countless IoT and router vulnerabilities &mdash; hardcoded credentials, exposed consoles &mdash; were found by dumping firmware over UART/SPI; forensic labs use chip-off to extract phone data.</p>
+    <p class="fix"><b>Defense</b> Disable or lock debug interfaces in production; encrypt firmware and sensitive storage; use secure elements for keys; set fuses to prevent readout; assume a determined attacker with the device will get the firmware &mdash; so don&rsquo;t hide secrets in it.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Side-Channel &amp; Fault-Injection Attacks</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>2</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">hardware / T1200</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Medium&ndash;High</span>
+    </div>
+    <p class="how">Extract secrets not from what a chip computes but from how it <em>physically behaves</em>. <strong>Side-channel</strong> attacks measure power consumption (DPA), electromagnetic emissions, timing, or even sound to recover cryptographic keys. <strong>Fault injection</strong> (&ldquo;glitching&rdquo;) deliberately disturbs the chip &mdash; a voltage or clock glitch, a laser pulse &mdash; to skip a security check (like a signature verification) at the critical instant. The elite end of hardware hacking, used to break secure elements, game consoles, and smartcards.</p>
+    <p class="seen"><b>In the wild:</b> voltage-glitching has unlocked secure microcontrollers and bypassed secure boot on numerous devices; Spectre/Meltdown (2018) were CPU side-channel classes affecting nearly every processor.</p>
+    <p class="fix"><b>Defense</b> Hardware designed to resist it (constant-time crypto, power/EM shielding and filtering, glitch and tamper sensors, redundant checks); certified secure elements; patch microarchitectural side-channels; it&rsquo;s a chip-design problem more than a configuration one.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Cold Boot, DMA &amp; Evil Maid</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">T1200 / T1542</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Attacks on an unattended device. A <strong>cold-boot</strong> attack exploits the fact that RAM retains data briefly after power-off &mdash; chill the memory, reboot into a tiny OS, and recover encryption keys from it. <strong>DMA</strong> attacks use high-speed ports (Thunderbolt/PCIe) to read memory directly, bypassing the OS. An <strong>evil maid</strong> attack is any tampering with a device left alone in a hotel room &mdash; implanting a bootkit (Part X) or keylogger to capture the disk-encryption password next time. Full-disk encryption protects a <em>powered-off</em> laptop, not one left running or repeatedly accessed.</p>
+    <p class="seen"><b>In the wild:</b> cold-boot and DMA attacks have defeated disk encryption on real laptops; &ldquo;evil maid&rdquo; is a genuine concern for travelers to high-risk regions.</p>
+    <p class="fix"><b>Defense</b> Full-disk encryption with a TPM and pre-boot PIN; power down (don&rsquo;t just sleep) when leaving a device; disable or restrict DMA ports (Kernel DMA Protection); tamper-evident seals; never leave sensitive devices unattended in untrusted places.</p>
+  </div>
+
+  <h2 id="part14">Part XIV &mdash; Mobile Attacks</h2>
+  <p>The phone is the most personal computer and the richest target &mdash; it holds the MFA, the email, the location, the camera, the microphone, and the bank. Mobile OSes are more hardened than desktops (strong sandboxing, app review), so attackers lean on apps, the human, and the carrier network. (MITRE maintains a separate ATT&amp;CK Mobile matrix for this domain.)</p>
+
+  <div class="attack">
+    <h3>Malicious &amp; Repackaged Apps</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>8</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>6</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK Mobile T1476/T1444</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">The main mobile vector: a hostile app. It may be malware disguised as a useful tool, a <strong>repackaged</strong> legitimate app with malicious code grafted in (common on third-party stores and via sideloading), or a &ldquo;legitimate&rdquo; app that abuses excessive permissions to spy. Banking trojans overlay fake login screens; stalkerware hides on a partner&rsquo;s phone; fake MFA apps steal codes. Android&rsquo;s openness to sideloading widens the door; iOS is narrower but not immune.</p>
+    <p class="seen"><b>In the wild:</b> Android banking trojans (Anubis, Cerberus) and overlay malware steal credentials at scale; malicious apps periodically slip through official store review.</p>
+    <p class="fix"><b>Defense</b> Install only from official stores; scrutinize permissions; keep the OS updated; mobile threat defense / EDR on managed devices; don&rsquo;t sideload; prefer hardware security keys over app-based MFA for high-value accounts.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Mobile OS Exploits &amp; Zero-Click Spyware</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>1</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>10</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK Mobile / T1203</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS Critical</span>
+    </div>
+    <p class="how">The apex mobile threat: exploiting the OS itself to achieve total device compromise, sometimes with <strong>zero clicks</strong> &mdash; a malicious message that compromises the phone with no user interaction at all. These chains of zero-days (Part VII) are extraordinarily expensive and are the product of commercial spyware vendors, sold to governments to target journalists, dissidents, and officials. Lowest popularity, lowest simplicity, maximum impact.</p>
+    <p class="seen"><b>In the wild:</b> NSO Group&rsquo;s <strong>Pegasus</strong> used zero-click iMessage exploits (FORCEDENTRY) to silently take over iPhones of journalists and activists worldwide &mdash; perhaps the most consequential mobile attacks ever documented.</p>
+    <p class="fix"><b>Defense</b> Patch immediately; enable the platform&rsquo;s hardened mode (Apple&rsquo;s Lockdown Mode) if you&rsquo;re a likely target; reboot regularly (disrupts some non-persistent implants); minimize attack surface; for high-risk individuals, assume targeting and get expert help.</p>
+  </div>
+
+  <div class="attack">
+    <h3>SIM Swapping</h3>
+    <div class="panel r-crit">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK Mobile / T1451</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">No malware &mdash; social engineering against the carrier. The attacker convinces (or bribes) a mobile provider to port the victim&rsquo;s number to a SIM they control, then receives the victim&rsquo;s calls and texts &mdash; including SMS-based MFA codes and password-reset links &mdash; and takes over email, bank, and crypto accounts. The favorite technique of &ldquo;the Com&rdquo; crews (Chapter 3) and a direct demonstration of why SMS MFA is weak.</p>
+    <p class="seen"><b>In the wild:</b> SIM-swapping rings have stolen hundreds of millions in cryptocurrency and hijacked high-profile accounts; it is a signature crime of the modern teenage-crew underground (Chapter 3).</p>
+    <p class="fix"><b>Defense</b> Use app-based or hardware MFA, <em>never</em> SMS, for anything valuable; set a carrier port-out PIN / number-lock; minimize the phone number&rsquo;s use as a recovery factor; carriers must harden their own identity verification.</p>
+  </div>
+
+  <div class="attack">
+    <h3>SS7 / Diameter Network Interception</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK Mobile / T1430</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">The global telephone signaling networks (<strong>SS7</strong>, and its 4G/5G successor Diameter) were built for a small club of trusted carriers and have almost no authentication. An attacker with access to them (a corrupt insider, a small telco, a purchased foothold) can track any phone&rsquo;s location, intercept its calls and texts, and &mdash; again &mdash; steal SMS MFA codes, from anywhere in the world, with the target doing nothing. The flaw the Chaos Computer Club (Chapter 4) has demonstrated for years.</p>
+    <p class="seen"><b>In the wild:</b> SS7 attacks have been used to drain bank accounts by intercepting MFA texts, and to track dissidents and officials; researchers have repeatedly shown live interception on stage.</p>
+    <p class="fix"><b>Defense</b> As an individual, don&rsquo;t rely on SMS for MFA or sensitive calls (use end-to-end encrypted apps and app/hardware MFA); as a carrier, deploy SS7/Diameter firewalls and monitoring; the structural fix is network-wide and slow.</p>
+  </div>
+
   <div class="wip">
-    &#9888; <strong>Compendium in progress.</strong> Parts XII&ndash;XX (Wireless &amp; Radio; Physical/Hardware; Mobile; Cloud/Container; OT/ICS/IoT &amp; Embedded; AI/LLM; Cryptographic; Supply-Chain &amp; Insider attacks; and the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
+    &#9888; <strong>Compendium in progress.</strong> Parts XV&ndash;XX (Cloud/Container; OT/ICS/IoT &amp; Embedded; AI/LLM; Cryptographic; Supply-Chain &amp; Insider attacks; and the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
+  </div> (Wireless &amp; Radio; Physical/Hardware; Mobile; Cloud/Container; OT/ICS/IoT &amp; Embedded; AI/LLM; Cryptographic; Supply-Chain &amp; Insider attacks; and the closing synthesis) are being written and will appear here in the next passes, each attack with the same Threat Panel, MITRE ATT&amp;CK mapping, real-world incident, and countermeasure. This is the thickest chapter in the book and is built in installments.
   </div>
 
   <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
