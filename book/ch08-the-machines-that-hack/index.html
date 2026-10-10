@@ -121,7 +121,8 @@
     <a href="#part6">VI &middot; The Dark Mirror</a>
     <a href="#part7">VII &middot; Sybils &amp; Poison</a>
     <a href="#part8">VIII &middot; The Vibe-Coded Arsenal</a>
-    <a href="#part9">IX &middot; Living With the Machines</a>
+    <a href="#part9">IX &middot; Where This Leads</a>
+    <a href="#part10">X &middot; Living With the Machines</a>
     <a href="#sources">Sources</a>
   </nav>
 
@@ -244,6 +245,25 @@
   </ul>
   <p>The consensus of every honest review is the one this book keeps arriving at: <em>there is no single best tool, only the best one for who you are and what you are building.</em> The skill that matters is not the tool; it is the <strong>prompt field manual of Chapter 7</strong> &mdash; decomposition, grounding, test-first, review-the-diff &mdash; applied with judgment.</p>
 
+  <h3>The offensive agents, up close</h3>
+  <p>Behind the headlines is a fast-maturing open-source ecosystem of offensive-security agents. These are real, documented projects &mdash; for authorized testing and research only (Chapter 9 is the long version of that sentence):</p>
+  <ul>
+    <li><strong>PentestGPT</strong> &mdash; the project that opened the wave, presented at <em>USENIX Security 2024</em>. It wraps an LLM in a structured penetration-testing workflow, keeping a running &ldquo;task tree&rdquo; so the model does not lose the thread across recon, exploitation, and privilege escalation &mdash; the Chapter 7 chain, driven by a model instead of a human.</li>
+    <li><strong>hackingBuddyGPT</strong> &mdash; a deliberately minimal research framework (presented at FSE&rsquo;23): roughly fifty lines of code that let an LLM attempt Linux privilege escalation and web testing on its own. Its smallness is the point &mdash; it shows how little scaffolding a capable model now needs to start hacking.</li>
+    <li><strong>CAI (Cybersecurity AI)</strong>, by Alias Robotics &mdash; a modular, bug-bounty-ready agent framework supporting hundreds of LLM backends, MIT-licensed for research with a separate commercial license. Its makers report strong CTF-benchmark results (a 3,600&times; speed claim over human testers that, as a vendor figure, I flag rather than endorse) and a top-ten finish in the 2025 Dragos industrial-control-systems CTF.</li>
+    <li><strong>EnIGMA</strong> and the <strong>SWE-agent</strong> family &mdash; agents built on the software-engineering-agent scaffold and repurposed to solve CTF and vulnerability tasks; the backbone of much of the benchmark work in Part III.</li>
+    <li><strong>Vulnhuntr</strong> (Protect AI) &mdash; uses LLM call-chain analysis to find vulnerabilities in Python codebases, and was credited with discovering a real remote-code-execution zero-day in the RAGFlow project. A defender&rsquo;s tool that is also an attacker&rsquo;s tool &mdash; the duality of this whole chapter in one repository.</li>
+  </ul>
+
+  <h3>The defenders&rsquo; agents, up close</h3>
+  <p>The defensive side commercialized just as fast, and this is where most working professionals will actually meet AI in 2026:</p>
+  <ul>
+    <li><strong>Google Big Sleep</strong> (Part IV) &mdash; the research flagship, alongside Google&rsquo;s open <strong>Sec-Gemini</strong> effort to put a security-tuned model in defenders&rsquo; hands.</li>
+    <li><strong>Microsoft Security Copilot</strong> &mdash; the clearest sign of the &ldquo;agentic SOC.&rdquo; In March 2025 Microsoft shipped autonomous agents into Security Copilot &mdash; a Phishing Triage Agent, a Conditional Access Optimization Agent, and partner agents &mdash; running on its Sentinel data lake and reachable over an MCP server, and by late 2025 folded into Microsoft 365 E5. The pitch is automating the repetitive Tier-1 analyst work of Chapter 7 (Parts V&ndash;VI) at machine speed (Microsoft&rsquo;s own &ldquo;up to 550% faster&rdquo; phishing-triage figure is a vendor claim).</li>
+    <li><strong>garak</strong> (NVIDIA) &mdash; an open-source <em>LLM vulnerability scanner</em> that probes a model for prompt injection, jailbreaks, and data leakage (Chapter 6, Part XVII). As AI becomes infrastructure, the scanner that tests the AI itself becomes as routine as a network vulnerability scanner is today.</li>
+    <li><strong>The agent frameworks</strong> everyone builds on &mdash; <strong>OpenHands</strong> (formerly OpenDevin), <strong>SWE-agent</strong>, Microsoft&rsquo;s <strong>AutoGen</strong>, <strong>CrewAI</strong>, and <strong>LangChain / LangGraph</strong> &mdash; the open scaffolding that turns a raw model into a tool-using, multi-step agent. A vibe coder with a Chromebook can assemble a custom red or blue agent from these in an afternoon.</li>
+  </ul>
+
   <h3>Where to point it: the open commons</h3>
   <p>The most hopeful projects in 2025&ndash;2026 are the ones that turn this chapter&rsquo;s offensive capability into public defense &mdash; and they are open source, which means a vibe coder with a Chromebook can read, run, and build on them:</p>
   <ul>
@@ -254,7 +274,30 @@
   <p>That is the invitation of this whole book, made concrete. The machines that hack are, line for line, the machines that build and the machines that defend. The nation-state in Part VI and the Chromebook founder in Chapter 5 are running the same software. What differs is the intent &mdash; and the authorization.</p>
 
   <!-- ===================== PART IX ===================== -->
-  <h2 id="part9">Part IX &mdash; Living With the Machines</h2>
+  <h2 id="part9">Part IX &mdash; Where This Leads (One Author&rsquo;s Read)</h2>
+  <p>I have spent this book refusing to sell you hype or doom, so I will not start now. But you did not read eight chapters to have the author dodge the only question that matters: <em>where is this going?</em> What follows is not fact &mdash; it is my informed read, built from the sources in this chapter and from doing the work the rest of the book describes. Predictions are cheap; I will tell you the reasoning so you can throw out the conclusion and keep the thinking. Treat every claim here as a hypothesis with a confidence level, not a prophecy.</p>
+
+  <h3>The near term (roughly 2026&ndash;2028): the half-life of a vulnerability collapses</h3>
+  <p>The clearest trend in this chapter is speed. When both attackers (XBOW, Part III) and defenders (Big Sleep, Part IV) can scan at machine speed, the window between a vulnerability becoming discoverable and becoming exploited shrinks from months to hours. The practical consequence for every defender: <strong>patching stops being a monthly chore and becomes a continuous, largely automated pipeline</strong>, because the human-speed patch cycle of Chapter 6 is simply too slow for a machine-speed adversary. The &ldquo;agentic SOC&rdquo; of Microsoft Security Copilot and its rivals becomes the default, not the premium tier &mdash; the Tier-1 analyst work of triage and correlation is the first job the machines take, and the humans move up to judgment and response. My confidence here is high; this is already happening.</p>
+  <p>Bug bounty and pentesting reshape around the XBOW result: autonomous agents own the broad, shallow sweep &mdash; the thousand-target first pass &mdash; and human testers move to the deep, novel, high-context work the agents still fail (the &ldquo;jagged frontier&rdquo; of Part V). The field does not shed people; it re-sorts them. The ones who thrive are the ones who, as Chapter 7 argues, can <em>command</em> the agent and judge its output, not the ones who competed with it on volume.</p>
+
+  <h3>The medium term (roughly 2028&ndash;2032): AI versus AI, and the crisis of trust</h3>
+  <p>Two forces from this chapter collide. First, the AIxCC pipeline (Part II) gets productized and open-sourced until <em>every</em> critical open-source dependency has an autonomous find-and-patch agent watching it &mdash; a genuine, durable win for the commons of Chapter 6, Part XIX. Second, the MIT economics argument (Part V) fully arrives: tailored, victim-by-victim attacks become cheap enough to run at population scale, so the generic phishing email of Chapter 6 gives way to the perfectly personalized one, written by a machine that read your whole public footprint. We enter a period of <strong>AI against AI</strong> &mdash; defensive agents triaging attacks launched by offensive agents, at a speed and volume no human dashboard can follow in real time.</p>
+  <p>The deeper disruption is the one in Part VII: the crisis of <em>trust</em>. When fake identities (Sybil) and fake content and fake training data (poison) are all free and indistinguishable, the assumptions that the internet was built on &mdash; that an account is probably a person, that a document is probably genuine, that a review is probably real &mdash; stop holding. My strong bet is that this forces the rise of a <strong>provenance layer</strong>: cryptographic content authenticity (signed media, verifiable credentials), proof-of-personhood systems, and hardware-rooted identity become not privacy-nerd niches but load-bearing infrastructure, because a world that cannot tell the humans from the swarm cannot function. The alternative &mdash; a &ldquo;dead internet&rdquo; where most traffic and most content is machine-generated noise &mdash; is the failure mode we will be spending the late 2020s trying to avoid.</p>
+
+  <h3>The wildcards, named honestly</h3>
+  <ul>
+    <li><strong>The offense&ndash;defense balance.</strong> The single biggest open question, and I do not know the answer. AI clearly favors the defender at the <em>commons</em> (one fix protects billions &mdash; Part IV) and clearly favors the attacker at <em>scale and personalization</em> (Part V&ndash;VII). Which effect dominates depends on choices not yet made &mdash; above all, whether defenders adopt the technology as fast as attackers. The worst outcome in this whole book is a world where only the attackers run AI. That is a choice, and it is still open.</li>
+    <li><strong>Nation-state normalization.</strong> GTG-1002 (Part VI) was called the <em>first</em> large-scale AI-orchestrated campaign. It will not be the last; it will be the template. Expect AI-run operations to become a standard tool of state actors, which means the defenses in Part IX&ndash;X stop being optional for anyone holding data a state might want.</li>
+    <li><strong>Capability surprise.</strong> The METR curve (Part IV) is exponential, and exponentials humble forecasters. If agents cross from &ldquo;hours of reliable autonomy&rdquo; to &ldquo;days,&rdquo; much of what I filed under &ldquo;medium term&rdquo; arrives early. I would rather be wrong-early than wrong-complacent.</li>
+  </ul>
+
+  <h3>What stays human</h3>
+  <p>Here is the part I hold with the most conviction, because the whole book argues for it. The machines are taking the <em>labor</em> of hacking and defending &mdash; the scanning, the enumeration, the first-pass triage, the boilerplate exploit. What they are not taking, and show no sign of taking soon, is the <strong>judgment</strong>: knowing which finding matters, when to trust a confidently-wrong model (the jagged frontier again), what is worth building, and &mdash; the subject of the next chapter &mdash; what you are <em>allowed</em> and <em>right</em> to do. Authorization cannot be automated. Accountability cannot be delegated to a model. And the creative leap on a truly novel target &mdash; the thing the best people in Chapters 2 and 3 did &mdash; is still, for now, ours.</p>
+  <p>So my bet for the vibe coders this book is written for is the one Chapter 5 already made with my own life: the future does not belong to the machine alone, or to the human who refuses the machine. It belongs to the <strong>centaur</strong> &mdash; the human who commands the machine with judgment, builds in the open commons, keeps provenance and authorization sacred, and never confuses what the tool <em>can</em> do with what they <em>should</em>. That is not a comfortable bet to rest a career on. It is the only honest one I have.</p>
+
+  <!-- ===================== PART X ===================== -->
+  <h2 id="part10">Part X &mdash; Living With the Machines</h2>
   <p>So how does a defender &mdash; or an honest builder &mdash; live in the world this chapter describes? The research points at a short, unglamorous set of answers, the same way Chapter 6 did.</p>
   <div class="lessons">
     <h3>The controls for the AI era</h3>
@@ -316,7 +359,7 @@
 
   <nav class="chapnav">
     <a href="../ch07-the-field-manual/">&larr; Chapter 7 &mdash; The Field Manual</a>
-    <a href="../">Next: Chapter 9 &mdash; The Law and the Line &rarr;</a>
+    <a href="../ch09-the-law-and-the-line/">Next: Chapter 9 &mdash; The Law and the Line &rarr;</a>
   </nav>
 </main>
 <footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive</footer>
