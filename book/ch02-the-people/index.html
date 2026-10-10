@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2 — The People</title>
+<meta name="description" content="The key figures of hacker culture, in their own words — the founders (Stallman, Thompson, Torvalds, Wozniak), the cryptographers (Diffie, Hellman, Zimmermann, Marlinspike), the outlaws who came back (Draper, Mitnick, Poulsen), the defenders (Schneier, Zatko, Moussouris, Kaminsky, Rutkowska), the culture-keepers (Goldstein, Moss, Long), the hardware hackers (Huang, Barnaby Jack, Miller & Valasek), the builders of the next machine (Hotz), and the cautionary and the lost (Gonzalez, Swartz, Hutchins). Chapter 2 of A Hacker's Guide to Survive. Sourced and cited.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The People — The Key Figures of Hacker Culture, in Their Own Words">
+<meta property="og:description" content="Chapter 2 of A Hacker's Guide to Survive: the founders, the cryptographers, the outlaws who came back, the defenders, the culture-keepers, the hardware hackers, and the cautionary and the lost — quoted in their own words. Sourced.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch02-the-people/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Hacker Culture / People">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The People — The Key Figures of Hacker Culture, in Their Own Words">
+<meta name="twitter:description" content="Chapter 2 of A Hacker's Guide to Survive: the founders, cryptographers, outlaws, defenders, culture-keepers, hardware hackers, and the lost. Sourced and cited.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch02-the-people/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  .handle{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--accent2); font-weight:600; display:block; margin:-4px 0 10px;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  .danger{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Two</p>
+  <h1>The People</h1>
+  <p class="dek">The ones who carried the fire &mdash; the founders, the cryptographers, the outlaws who came back, the defenders, the keepers, the makers, and the lost &mdash; in their own words.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; The Founders</a>
+    <a href="#part2">II &middot; The Cryptographers</a>
+    <a href="#part3">III &middot; The Returned</a>
+    <a href="#part4">IV &middot; The Defenders</a>
+    <a href="#part5">V &middot; The Keepers</a>
+    <a href="#part6">VI &middot; The Makers</a>
+    <a href="#part7">VII &middot; The Next Machine</a>
+    <a href="#part8">VIII &middot; The Lost</a>
+    <a href="#common">In Common</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>How to read a chapter full of people</h3>
+    <p>Chapter 1 was the fire. This is the people who carried it &mdash; because a culture is not an abstraction, it is a specific set of human beings who made specific choices, and you learn more from their lives than from any principle stated in the air. I have organized them not alphabetically but by the <em>role they played</em>: the ones who built the ground, the ones who made privacy computable, the outlaws who found their way back, the defenders who made it a profession, the keepers who built the commons, the makers who broke the physical world, the ones building the next machine, and &mdash; because this book is about survival &mdash; the ones who were lost.</p>
+    <p>Two honest notes before you start. First, this is a <strong>selection, not a hall of fame</strong>; for every name here, ten more earned a page, and later editions will add them. Second, wherever I could, I let people speak for themselves &mdash; direct quotes are marked as such, and where I summarize a documented view without quotation marks, it is a faithful paraphrase, not an invention. I have answered to &ldquo;hacker&rdquo; for thirty years and I have met a handful of the people in this chapter; I have tried to describe all of them the way the community actually talks about them &mdash; with affection, with argument, and without hagiography.</p>
+  </div>
+
+  <h2 id="part1">Part I &mdash; The Founders</h2>
+  <h3>The ones who built the ground you stand on</h3>
+
+  <p>Start with the people who did not break systems so much as <em>build</em> the systems everyone else now stands on. They are founders in the literal sense: without their code, there is no lab in Chapter 5 and no field manual in Chapter 7.</p>
+
+  <h3>Grace Hopper</h3>
+  <span class="handle">Amazing Grace &middot; the compiler, and &ldquo;the bug&rdquo;</span>
+
+  <p>Before the word existed, the mindset did, and it belonged to a Navy rear admiral. <strong>Grace Hopper</strong> (1906&ndash;1992) was a mathematician who, working on the earliest computers in the 1940s and 50s, refused to accept that a human had to speak the machine&rsquo;s raw numeric language. She built the first <strong>compiler</strong> &mdash; a program that translates human-readable instructions into machine code &mdash; and in doing so invented the idea that software could be written in something closer to English, the direct ancestor of every programming language in this book. She also, famously, taped a literal moth found in a relay of the Harvard Mark II into a logbook in 1947 and labeled it the &ldquo;first actual case of bug being found,&rdquo; cementing &ldquo;bug&rdquo; and &ldquo;debugging&rdquo; in the vocabulary forever. Her most-quoted line is the purest hacker ethic ever spoken by a flag officer:</p>
+
+  <blockquote>
+    <p>&ldquo;It&rsquo;s easier to ask forgiveness than it is to get permission.&rdquo;</p>
+    <p>&ldquo;The most dangerous phrase in the language is, &lsquo;We&rsquo;ve always done it this way.&rsquo;&rdquo;</p>
+    <cite>Rear Admiral Grace Hopper, United States Navy</cite>
+  </blockquote>
+
+  <p>Hold onto the first quote, but hold onto it carefully. Inside a lab, in your own systems, with your own permission, &ldquo;ask forgiveness&rdquo; is the engine of every good hack. Against a <em>stranger&rsquo;s</em> system it is the single sentence that fills the prisons in Part VIII. Hopper earned the right to say it because she said it about the machines she was authorized to command. Chapter 10 is the long footnote on exactly where that line sits.</p>
+
+  <h3>Richard Stallman</h3>
+  <span class="handle">rms &middot; GNU, the Free Software Foundation</span>
+
+  <p>No one in this book is more admired, more exasperating, or more <em>consistent</em> than Richard Stallman. Chapter 1 told the origin &mdash; the jammed printer, the four freedoms, the GNU Project, copyleft. What belongs here is the man&rsquo;s defining quality: an absolutism so total that it has cost him friends, jobs, and comfort, and that is also precisely why the freedoms he defined still stand. Stallman runs no proprietary software, has refused for decades to make the convenient compromise, and treats a software license the way a constitutional lawyer treats the Bill of Rights. You do not have to live as he does &mdash; almost no one can &mdash; to owe him the ground. Every time you read the source of a tool before you trust it, you are exercising a right he spent his life making non-negotiable.</p>
+
+  <blockquote>
+    <p>&ldquo;Think free as in free speech, not free beer.&rdquo;</p>
+    <p>&ldquo;With software there are only two possibilities: either the users control the program or the program controls the users.&rdquo;</p>
+    <cite>Richard Stallman, Free Software Foundation</cite>
+  </blockquote>
+
+  <p>It is easy to caricature Stallman as a zealot and miss that he is also one of the great programmers of the age. He personally wrote <strong>GNU Emacs</strong> (the editor many hackers still live inside), the <strong>GCC</strong> compiler, and the <strong>GDB</strong> debugger &mdash; tools so foundational that they built the software that built your software. His absolutism has a real cost: he has alienated allies, resisted compromises that might have spread free software faster, and his personal conduct has drawn serious and sustained criticism over the years. The community argues about the man constantly and will keep arguing. But the <em>argument itself</em> is the point &mdash; a culture that judges ideas on their merits has to be willing to separate a flawed person from a load-bearing idea, and the idea here is one you use every day. When you audit a binary, demand reproducible builds, or refuse to trust a black box, you are standing on ground Richard Stallman poured by hand and then refused, for forty years, to let anyone pave over.</p>
+
+  <h3>Ken Thompson &amp; Dennis Ritchie</h3>
+  <span class="handle">ken, dmr &middot; Unix, the C language, Bell Labs</span>
+
+  <p>If Stallman is the conscience, Thompson and Ritchie are the quiet gods. At Bell Labs around 1969&ndash;1973 they built <strong>Unix</strong> and the <strong>C</strong> programming language, and in doing so they wrote the DNA of essentially everything &mdash; Linux, macOS, Android, iOS, the cloud, your router, your car. They are the purest example of the hacker-as-builder: elegant, minimal, allergic to unnecessary complexity, working for the joy of a clean design. Ritchie, with characteristic modesty, said Unix was in some ways just the system they wanted for themselves.</p>
+
+  <p>Their aesthetic is worth naming because it is a security philosophy in disguise. The <strong>Unix philosophy</strong> &mdash; small tools that each do one thing well and combine through clean interfaces &mdash; produces systems you can actually reason about, and a system you can reason about is a system you can secure. Complexity is the enemy of security (a theme Bruce Schneier, below, has spent a career on), and Thompson and Ritchie&rsquo;s refusal of unnecessary complexity is why Unix&rsquo;s descendants still run the world fifty years on. The lineage is not even finished: Thompson, in his seventies, co-designed the <strong>Go</strong> programming language at Google in 2007, meaning one person&rsquo;s career spans from the birth of Unix to a language now used to build the modern cloud. When this book tells you to prefer simple, inspectable designs, it is handing you Thompson and Ritchie&rsquo;s oldest lesson.</p>
+
+  <p>Thompson also gave security its single most important philosophical lecture. Accepting the 1983 Turing Award, in a talk titled <strong>&ldquo;Reflections on Trusting Trust,&rdquo;</strong> he described a backdoor he could hide not in a program&rsquo;s source but in the <em>compiler that builds it</em> &mdash; a backdoor that would reinsert itself into every future compiler and leave no trace in any source code anyone could read. His conclusion is the deepest sentence in this field, and the foundation of everything Chapter 1 called auditability:</p>
+
+  <blockquote>
+    <p>&ldquo;You can&rsquo;t trust code that you did not totally create yourself. &hellip; No amount of source-level verification or scrutiny will protect you from using untrusted code.&rdquo;</p>
+    <cite>Ken Thompson, &ldquo;Reflections on Trusting Trust,&rdquo; Turing Award lecture, <em>Communications of the ACM</em>, August 1984</cite>
+  </blockquote>
+
+  <p>Sit with that, because it is the reason the supply-chain attacks of Chapters 6 and 9 are so dangerous and so hard to defend against. Thompson proved, in 1984, that trust in software is never absolute &mdash; it is always, eventually, trust in <em>people</em>. The whole modern discipline of reproducible builds exists to chip away at the problem he described, and it has still not fully solved it.</p>
+
+  <h3>Werner Koch</h3>
+  <span class="handle">GnuPG &middot; the one person the whole internet trusted</span>
+
+  <p>Thompson said trust is ultimately trust in people. <strong>Werner Koch</strong> is the proof, and the warning. For the better part of two decades, the free encryption software that secures a staggering fraction of the world&rsquo;s sensitive email &mdash; <strong>GnuPG</strong>, the open implementation of the PGP standard &mdash; was written and maintained, almost single-handedly, by this one quiet German programmer, working largely on donations and running out of both money and patience. In 2013 he nearly quit. In February 2015 a ProPublica headline said it plainly: &ldquo;The World&rsquo;s Email Encryption Software Relies on One Guy, Who Is Going Broke.&rdquo; At that point his ad-hoc fundraising had brought in about $21,000 total.</p>
+
+  <p>The story has a happy ending &mdash; the article shamed the industry into action, donations flooded in, he hit his funding goal, and companies like Facebook and Stripe pledged ongoing support &mdash; but you must not take the wrong lesson from the rescue. Koch is the human face of the problem the 2024 <strong>xz backdoor</strong> made unforgettable (Chapter 1): the critical infrastructure of the entire internet rests, in countless places, on exhausted, unpaid, single maintainers, and an attacker who understands that does not need a zero-day. He needs only patience and a maintainer who is tired. When this book tells you to care about the supply chain, Werner Koch is who it means. Go fund the tools you depend on.</p>
+
+  <blockquote>
+    <p>&ldquo;I&rsquo;m too idealistic. In early 2013 I was really about to give it all up and take a straight job.&rdquo;</p>
+    <cite>Werner Koch, on maintaining GnuPG (ProPublica, February 2015)</cite>
+  </blockquote>
+
+  <h3>Linus Torvalds</h3>
+  <span class="handle">Linux, Git</span>
+
+  <p>Where Stallman is a philosopher, <strong>Linus Torvalds</strong> is an engineer to the bone, and the contrast between them is one of the most productive tensions in the whole culture. In 1991 he released the Linux kernel with an email so modest it is now famous for how wrong it was &mdash; &ldquo;just a hobby, won&rsquo;t be big and professional.&rdquo; He then spent three decades running the largest collaborative software project in human history, and he built <strong>Git</strong> &mdash; the version-control system this very book is committed into &mdash; in a couple of weeks because the existing tools annoyed him. Torvalds is famously blunt, sometimes to a fault (he has publicly worked on being less brutal to contributors), and his bluntness encodes a value: the code is what matters, not your feelings about the code.</p>
+
+  <blockquote>
+    <p>&ldquo;Talk is cheap. Show me the code.&rdquo;</p>
+    <p>&ldquo;I&rsquo;m doing a (free) operating system (just a hobby, won&rsquo;t be big and professional like gnu).&rdquo;</p>
+    <cite>Linus Torvalds &mdash; the 2000 LKML line, and the 25 August 1991 announcement of Linux</cite>
+  </blockquote>
+
+  <p>Torvalds matters to a <em>security</em> book for two reasons beyond the kernel. First, Git: by making it trivial to track exactly who changed which line of code and when, cryptographically chained so history cannot be silently rewritten, he gave the world the forensic substrate that modern software integrity depends on &mdash; every supply-chain investigation in Chapter 9 starts from a commit graph he designed. Second, his evolution is itself a lesson. For years his review style was brutal, and in 2018 he did something rare for a figure of his stature: he stepped back, acknowledged the harm his words had done to contributors, and worked publicly on changing. A culture that prizes blunt technical honesty has to keep learning that honesty and cruelty are not the same thing &mdash; and the most powerful maintainer alive modeling that correction in public is worth as much as any line of code he wrote.</p>
+
+  <h3>Steve Wozniak</h3>
+  <span class="handle">Woz &middot; the blue box, Apple</span>
+
+  <p>Chapter 1 met <strong>Woz</strong> as a phreak; meet him here as the patron saint of the engineer who stayed kind. He built the Apple I and II almost single-handedly, with a famous elegance &mdash; doing in a handful of chips what competitors needed dozens for &mdash; and he gave his designs away at the Homebrew Computer Club before there was a company. Of the two founders of Apple, he is the one who never stopped being a hacker in the original sense: curious, generous, more interested in the beautiful solution than the empire. He is proof that you can carry the mindset all the way to the top without letting it curdle. His through-line from the blue box to the personal computer is the clearest single illustration of this book&rsquo;s first argument: the impulse that frightens people is the impulse that builds the future.</p>
+
+  <p>The engineering itself is worth dwelling on, because it teaches a value. Woz&rsquo;s designs are legendary for their <em>economy</em> &mdash; his floppy-disk controller for the Apple II did in a handful of chips and some ingenious timing what competitors needed whole boards to do, a solution so spare that other engineers described it as a kind of art. That instinct &mdash; the elegant minimum, the clever trick that makes the part count drop &mdash; is the same one you will admire in a tight exploit or a clean detection rule. And he never weaponized it. After Apple he quietly went back to teaching fifth-graders about computers for years, funded causes without fanfare, and stayed, by every account, exactly the generous enthusiast he was at Homebrew. In a culture that sometimes mistakes cruelty for rigor, Woz is the standing proof that you can be a genuine wizard and a kind one.</p>
+
+  <h2 id="part2">Part II &mdash; The Cryptographers</h2>
+  <h3>The ones who made privacy something you could compute</h3>
+
+  <p>Chapter 1 told the Crypto Wars as events. Here are the people who fought them &mdash; the mathematicians and builders who took privacy out of the exclusive hands of states and put it in yours.</p>
+
+  <h3>Whitfield Diffie &amp; Martin Hellman</h3>
+  <span class="handle">public-key cryptography</span>
+
+  <p>In 1976, <strong>Whitfield Diffie</strong> and <strong>Martin Hellman</strong> published &ldquo;New Directions in Cryptography&rdquo; and broke a problem that had stood for all of recorded history: how two people who have never met can agree on a secret in full view of an eavesdropper. Public-key cryptography is the invention that makes the padlock in your browser possible, and it was, at the time, an almost treasonous act &mdash; cryptography had been a government monopoly, and they handed it to the world. Diffie in particular framed it as a civil-liberties act from the start, worrying about a future of ubiquitous surveillance decades before anyone else took the threat seriously. They shared the 2015 Turing Award for it.</p>
+
+  <p>There is a detail here that the culture treasures. The core idea they published in 1976 &mdash; two strangers deriving a shared secret over an open line &mdash; had, it later emerged, been discovered a few years earlier inside Britain&rsquo;s GCHQ by James Ellis, Clifford Cocks, and Malcolm Williamson, and promptly <em>classified</em> and buried. The state found it first and locked it away; the hackers found it second and gave it to the world. That contrast is the whole argument of Chapter 1&rsquo;s Crypto Wars in a single historical accident. Diffie spent the following decades as one of the most thoughtful public voices on surveillance and policy, insisting that the right to a private conversation is not a technicality but a precondition of a free society &mdash; a position the Snowden disclosures would vindicate almost forty years later.</p>
+
+  <h3>Phil Zimmermann</h3>
+  <span class="handle">PGP</span>
+
+  <p><strong>Phil Zimmermann</strong> took the mathematics and turned it into a tool a human being could actually use. He wrote <strong>Pretty Good Privacy</strong> in 1991, released it for free, became the target of a federal criminal investigation for &ldquo;exporting a munition,&rdquo; and never backed down &mdash; the whole saga is in Chapter 1. What belongs here is <em>why</em> he did it, in his own words, because it is the cleanest statement of the defender&rsquo;s politics in this book:</p>
+
+  <blockquote>
+    <p>&ldquo;If privacy is outlawed, only outlaws will have privacy.&rdquo;</p>
+    <p>&ldquo;It&rsquo;s personal. It&rsquo;s private. And it&rsquo;s no one&rsquo;s business but yours.&rdquo;</p>
+    <cite>Phil Zimmermann, &ldquo;Why I Wrote PGP&rdquo; (1991, updated 1999)</cite>
+  </blockquote>
+
+  <h3>Moxie Marlinspike</h3>
+  <span class="handle">Signal, the Signal Protocol</span>
+
+  <p>A generation later, <strong>Moxie Marlinspike</strong> finished the job Zimmermann started: he made strong encryption <em>invisible</em>. PGP was powerful and almost unusably difficult; Signal is powerful and your grandmother can use it. Marlinspike &mdash; a cryptographer, a sailor, and a genuine eccentric in the best hacker tradition &mdash; co-designed the Signal Protocol, the end-to-end encryption that now protects not just the Signal app but WhatsApp, Google&rsquo;s messaging, and billions of conversations their users never think about. (That reach is the point: he got strong cryptography onto billions of phones by making it the invisible default, not an option a user had to understand.) His insight is a profound one for anyone building security: that a protection ordinary people cannot or will not use is not a protection at all, and that the highest craft in this field is making the secure path the <em>easy</em> path. Snowden&rsquo;s vindication of the cypherpunks (Chapter 1) only mattered because people like Marlinspike had built the usable tools to act on it.</p>
+
+  <h3>Daniel J. Bernstein</h3>
+  <span class="handle">djb &middot; qmail, djbdns, Curve25519</span>
+
+  <p>If Marlinspike made crypto usable, <strong>Daniel J. Bernstein</strong> &mdash; universally &ldquo;djb&rdquo; &mdash; made it <em>correct</em>, and fought for the right to publish it. Chapter 1 met him as the graduate student whose lawsuit forced the question of whether source code is protected speech. Here he is as the craftsman. He wrote <strong>qmail</strong> and <strong>djbdns</strong>, mail and DNS software so carefully constructed that he famously offered cash bounties for security holes and paid out almost nothing for years &mdash; and when Dan Kaminsky&rsquo;s 2008 flaw devastated the DNS world, djbdns was one of the few implementations that was never vulnerable, because djb had designed against exactly that class of attack a decade earlier. His later cryptographic work &mdash; the <strong>Curve25519</strong> and <strong>Ed25519</strong> algorithms &mdash; is now in Signal, SSH, TLS, and much of the modern internet. He is the embodiment of a value this book keeps pressing: that the highest form of offense is building something that offense cannot touch, and that correctness is a discipline, not an accident.</p>
+
+  <p>djb is also famously, productively difficult &mdash; the kind of adversarial reviewer who will tell you, in public and in detail, exactly why your cryptosystem is wrong, and be right. That abrasiveness is a feature of the culture, not a bug: cryptography is a field where polite deference gets people killed, and djb&rsquo;s refusal to let a flawed design slide has made everyone&rsquo;s code better. In recent years he has turned the same scrutiny on the post-quantum cryptography standardization process, pressing hard (including through public records fights) on whether the new algorithms meant to survive quantum computers have been chosen transparently and analyzed honestly. Agree with him or not, he models something this book wants you to internalize: in security, the person willing to be unpopular by insisting on correctness is often the person saving you from disaster.</p>
+
+  <h2 id="part3">Part III &mdash; The Outlaws Who Came Back</h2>
+  <h3>The redemption arc, told through three lives</h3>
+
+  <p>The culture has a deep, specific belief: that a young person&rsquo;s worst mistake should not be the last word on their life. These three prove it &mdash; each crossed the line, each paid, and each came back to do honest, valuable work. Hold them against the lost in Part VIII and you have the whole moral argument of this book.</p>
+
+  <h3>John Draper</h3>
+  <span class="handle">Captain Crunch</span>
+
+  <p><strong>John Draper</strong> is the living bridge from the phreaks to everything after. The man who found that a cereal-box whistle could seize the phone network (Chapter 1) was arrested, served time, and later wrote one of the first word processors for the early IBM PC. His life has been difficult and not without controversy, but his place is fixed: he is the human link between the 2,600 Hz tone and the personal-computer revolution, a reminder that the first hackers the law came for were, technically, some of the most gifted engineers of their generation. The word processor was <strong>EasyWriter</strong>, written partly while he was incarcerated, and it shipped on the original IBM PC &mdash; the man the phone monopoly sent to jail wrote software for the machine whose descendants would help end that monopoly. The curiosity the system tried to punish is the curiosity the system now runs on.</p>
+
+  <h3>Kevin Mitnick</h3>
+  <span class="handle">Condor</span>
+
+  <p><strong>Kevin Mitnick</strong> was the most-wanted hacker in America in the 1990s &mdash; not because he was the best coder, but because he was the best <em>talker</em>. His genius was social engineering: he could call an employee and, in five minutes, be handed the keys that no firewall would ever have given him. He was caught, imprisoned (including a stretch in solitary, after a prosecutor reportedly convinced a judge he could launch missiles by whistling into a phone &mdash; the WarGames panic of Chapter 1, weaponized in a courtroom), and then did the honorable thing: he came out, went legit, and spent the rest of his life as a defender, author, and the most sought-after social-engineering speaker alive, until his death in 2023. His central lesson is the one every CISO eventually learns the hard way:</p>
+
+  <blockquote>
+    <p>&ldquo;Companies spend millions of dollars on firewalls&hellip; and it&rsquo;s money wasted, because none of these measures address the weakest link in the security chain: the people.&rdquo;</p>
+    <p>&ldquo;Social engineering bypasses all technologies, including firewalls.&rdquo;</p>
+    <cite>Kevin Mitnick (1963&ndash;2023), <em>The Art of Deception</em> (2002)</cite>
+  </blockquote>
+
+  <p>The specifics of how he worked are the real curriculum. Mitnick rarely needed a novel exploit; he needed a name, a tone of voice, and the confidence to call a help desk and <em>sound like he belonged</em>. He would gather small, innocuous facts &mdash; an internal project name, a manager&rsquo;s vacation schedule, the jargon a department used &mdash; and assemble them into a performance of authority that no technical control was designed to stop. His capture in 1995, after a cross-country manhunt, came partly through the work of the security researcher Tsutomu Shimomura, whose own systems Mitnick had tapped &mdash; a story told in the book and film <em>Takedown</em>. What matters for you is the second act: the man who had been treated as a supervillain built a legitimate firm, <strong>Mitnick Security</strong>, and turned his gift for manipulation into the world&rsquo;s best training on how to <em>resist</em> it. He spent his last decades teaching organizations to recognize the exact tricks he had used against them &mdash; the attacker become the vaccine. Social engineering remains, thirty years on, the way most real breaches actually start, which is why he is in Chapter 6 as well as this one.</p>
+
+  <h3>Kevin Poulsen</h3>
+  <span class="handle">Dark Dante</span>
+
+  <p>The other famous Kevin ran the same arc at speed. <strong>Kevin Poulsen</strong> &mdash; the phreak who rigged a radio station&rsquo;s phone lines to win a Porsche, and broke into federal systems besides (Chapter 1) &mdash; served his time and became a <em>journalist</em>, rising to senior editor at <em>Wired</em>, where he broke major security stories and even built a tool that helped identify predators on social networks. The hacker&rsquo;s eye for how systems really work, turned to the public good. If you need one sentence for Part III, it is this: the skill was never the problem. The aim was.</p>
+
+  <h3>Mark Abene</h3>
+  <span class="handle">Phiber Optik &middot; Masters of Deception</span>
+
+  <p><strong>Mark Abene</strong> &mdash; <strong>Phiber Optik</strong> &mdash; was the most famous member of the Masters of Deception (Chapter 1), a telephone-network virtuoso who became, in the early 1990s, the public face of a generation of young hackers and a folk hero in New York. He was also made an example of: in 1994 he was sentenced to a year in prison, one of the harshest sentences handed to a hacker of that era, in a case many in the community saw as the state needing a scalp. What makes him a Part III story is what happened after. He came out, co-founded security consultancies, and became a respected professional &mdash; and the city that had prosecuted him had, in a small act of recognition, already seen <em>New York</em> magazine name him one of the city&rsquo;s most influential people. He is proof that the line between &ldquo;cautionary tale&rdquo; and &ldquo;respected elder&rdquo; is often just time, and the decision to come back.</p>
+
+  <div class="pullquote">The culture forgives the mistake and never the excuse. Come back, do the work, and you are one of us. Keep making excuses, and you are Part VIII.</div>
+
+  <h2 id="part4">Part IV &mdash; The Defenders</h2>
+  <h3>The ones who made it a profession, and a conscience</h3>
+
+  <p>These are the people who built the white-hat world you will actually work in &mdash; the public voice, the researchers, the bug-bounty founders, and the quiet heroes who fixed the internet while you slept.</p>
+
+  <h3>Bruce Schneier</h3>
+  <span class="handle">the security mindset</span>
+
+  <p><strong>Bruce Schneier</strong> is the field&rsquo;s public intellectual &mdash; a cryptographer who became its clearest writer and most trusted conscience. He coined <strong>&ldquo;security theater&rdquo;</strong> for measures that make people <em>feel</em> safe without making them safer (much of airport security, in his famous telling), and he has spent decades insisting that security is a <em>systems</em> and <em>human</em> problem, not a product you can buy. If you read one living author to develop judgment in this field, read Schneier.</p>
+
+  <blockquote>
+    <p>&ldquo;If you think technology can solve your security problems, then you don&rsquo;t understand the problems and you don&rsquo;t understand the technology.&rdquo;</p>
+    <p>&ldquo;Security is a process, not a product.&rdquo;</p>
+    <cite>Bruce Schneier, <em>Secrets and Lies</em> (2000) and <em>A Hacker&rsquo;s Mind</em> (2023)</cite>
+  </blockquote>
+
+  <p>Schneier earned the pulpit the hard way. His 1994 book <em>Applied Cryptography</em> taught a generation of developers how the math actually worked (and was itself caught up in the export fight of Chapter 1); he designed the Blowfish and Twofish ciphers; and for nearly thirty years his <em>Crypto-Gram</em> newsletter and blog have been where the field goes to think clearly. What makes him essential reading is the <em>trajectory</em> of his thinking: he started as a pure cryptographer who believed better math would fix security, and he publicly changed his mind, concluding that the hard problems are human, economic, and political &mdash; that security is about incentives and trade-offs, not just algorithms. Watching one of the sharpest people in the field revise his own core beliefs in public is a master class in the intellectual honesty this work demands. He now writes as much about power, AI, and democracy as about ciphers, because he follows the argument wherever it goes.</p>
+
+  <h3>Peiter &ldquo;Mudge&rdquo; Zatko</h3>
+  <span class="handle">Mudge &middot; L0pht, cDc, DARPA</span>
+
+  <p>Chapter 1 followed <strong>Mudge</strong> from the L0pht&rsquo;s 1998 Senate testimony (&ldquo;we can take down the internet in thirty minutes&rdquo;) to DARPA, to Google, to Twitter, and back to the witness table as a 2022 whistleblower. He is the single clearest proof that the underground and the establishment are the same people at different ages. His whole career is one unbroken act: telling powerful institutions the uncomfortable truth about their own security, whether he is doing it from a hacker loft or a corporate security office. That is the job. The chair changes; the function never does.</p>
+
+  <p>The L0pht itself deserves a line, because it was the template for the modern research collective. Operating out of a Boston loft in the 1990s, its members (Mudge among them) built and released real tools &mdash; most famously <strong>L0phtCrack</strong>, which exposed how weak Windows password hashing was by cracking it on commodity hardware and forced Microsoft to improve &mdash; and ran &ldquo;Hacker News Network&rdquo; before the industry had a press. Mudge was also a member of the Cult of the Dead Cow (Chapter 1), which tells you how small and interconnected this world is: the person testifying to the Senate, advising DARPA, and later serving as a corporate security chief came up in the same irreverent crew that released Back Orifice as a prank-with-a-point. His 2022 disclosures about security failures at a major social platform were not a reinvention; they were a fifty-year-old doing, from the inside, the exact thing he did at twenty-seven from a loft. Consistency is the whole career.</p>
+
+  <h3>Katie Moussouris</h3>
+  <span class="handle">bug bounties, Hack the Pentagon</span>
+
+  <p><strong>Katie Moussouris</strong> built the economy that lets a generation of hackers get paid, legally, for exactly the curiosity that once got people arrested. She created Microsoft&rsquo;s first bug-bounty program and then helped the U.S. Department of Defense launch <strong>Hack the Pentagon</strong> in 2016 &mdash; the first time the federal government formally invited hackers to break its systems and paid them for the holes. Her hard-won expertise is a crucial corrective to bounty hype: she argues relentlessly that a bounty is worthless if you have not first built the internal <em>capacity to fix</em> what it finds &mdash; that the hard part was never finding bugs, it was the process and the people behind the payout. She is also one of the most important women in a field that too often forgets how many there are.</p>
+
+  <p>Her most consequential work may be the least visible: she helped renegotiate the <strong>Wassenaar Arrangement</strong>, an international export-control pact whose well-meaning language would have made it a crime to share ordinary defensive security research and tools across borders &mdash; a direct replay of the Crypto Wars of Chapter 1, aimed this time at the researchers themselves. Moussouris understood the policy machinery well enough to go fix it from the inside, which is a kind of hacking most people never see: reading the rules of a system (here, international arms-control law), finding where they broke, and patching them before they could be used against the curious. She is the model for the security professional as <em>diplomat</em> &mdash; proof that the most important vulnerability you disclose in your career might be in a treaty, not a server.</p>
+
+  <h3>Dan Kaminsky</h3>
+  <span class="handle">the man who saved DNS</span>
+
+  <p>In 2008, <strong>Dan Kaminsky</strong> found a flaw so fundamental it threatened the entire Domain Name System &mdash; the address book of the internet. An attacker could poison it and silently redirect traffic for huge swaths of the web; the root cause was a design that allowed only 65,536 possible transaction IDs, few enough to guess. What Kaminsky did next is the model for responsible disclosure at scale: instead of publishing, he quietly convened sixteen researchers at Microsoft, coordinated a secret, simultaneous, multi-vendor patch across the whole industry, and only then went public at Black Hat. He discovered it, by his own account, almost by accident &mdash; &ldquo;I wasn&rsquo;t looking for this at all.&rdquo; He was also, by universal account, one of the kindest people the field has known. When he died suddenly in 2021 at forty-two, the DEF CON organizer Marc Rogers called him &ldquo;one of the brightest lights in information security&hellip; and probably the kindest soul I&rsquo;ve known.&rdquo;</p>
+
+  <p>His later work shows the range of a true defender. He became one of a handful of <strong>Trusted Community Representatives</strong> entrusted with the key ceremony that secures the cryptographic root of the DNS &mdash; literally one of the people holding a piece of the internet&rsquo;s master key. He was an early, skeptical reviewer of Bitcoin who tried hard to break it and came away impressed. And he spent real energy on making security <em>joyful</em> and humane rather than fear-driven, mentoring newcomers and pushing the field to be kinder to the people in it. Kaminsky is the answer to anyone who thinks you have to be ruthless to be great. He was proof of the opposite, and the outpouring of grief when he died &mdash; rare in a famously prickly field &mdash; was the community telling the truth about what it actually values.</p>
+
+  <div class="secread">
+    <span class="tag">Why Kaminsky matters to you</span>
+    <p>The Kaminsky DNS episode is the gold standard of what this book wants you to become. He found a civilization-scale flaw and had every incentive to grandstand. Instead he put the <em>internet</em> ahead of his own name, coordinated a fix in secret with the very vendors a lesser ego would have embarrassed, and disclosed responsibly. That is the white hat at its highest. It is also why the community loved him: in a field full of sharp edges, he was proof that you can be brilliant and kind at the same time, and that the two are not in tension.</p>
+  </div>
+
+  <h3>Dan Geer</h3>
+  <span class="handle">the economist of risk</span>
+
+  <p>If Schneier is the field&rsquo;s popular voice, <strong>Dan Geer</strong> is its deepest thinker &mdash; a security researcher with a biostatistician&rsquo;s training who insists that security is fundamentally a problem of <em>risk, economics, and trade-offs</em>, to be measured rather than merely felt. In 2003 he co-authored a report arguing that the world&rsquo;s reliance on a single dominant operating system was itself a national-security risk &mdash; a software &ldquo;monoculture&rdquo; as fragile as a monoculture crop &mdash; and he was reportedly fired from his position at the security firm @stake for saying so, because the dominant vendor was a partner. He was right, and the idea is now mainstream: diversity is a defense, and homogeneity is a single point of failure. Geer went on to serve as chief information security officer at In-Q-Tel, the CIA&rsquo;s venture arm, and his densely argued talks are among the most quoted in the field.</p>
+
+  <blockquote>
+    <p>&ldquo;Cybersecurity is the most intellectually demanding profession on the planet.&rdquo;</p>
+    <cite>Dan Geer, on the nature of the work</cite>
+  </blockquote>
+
+  <p>Geer matters to you because he is the antidote to magical thinking. He refuses the comforting idea that there is a product, a checklist, or a technology that makes you &ldquo;secure,&rdquo; and insists instead that every control is a trade-off bought at a price &mdash; in money, in freedom, in complexity &mdash; and that the professional&rsquo;s job is to reason honestly about which trade-offs are worth it. That is the mindset the whole second half of this book runs on.</p>
+
+  <h3>Joanna Rutkowska</h3>
+  <span class="handle">Blue Pill, Qubes OS</span>
+
+  <p>The field&rsquo;s defenders include some of its most feared offensive researchers, and <strong>Joanna Rutkowska</strong> is the exemplar. At Black Hat in 2006 she unveiled <strong>Blue Pill</strong>, a proof-of-concept rootkit using hardware virtualization to hide malware beneath the operating system itself &mdash; a demonstration that terrified the industry into taking a whole class of attacks seriously. Then she did the constructive thing: she built <strong>Qubes OS</strong>, an operating system organized around &ldquo;security by isolation,&rdquo; which compartmentalizes your digital life so that a compromise in one place cannot spread. She is the embodiment of a core truth of this book &mdash; that the best defenders think exactly like attackers, and that breaking something is often the first honest step toward building something that holds.</p>
+
+  <h3>HD Moore</h3>
+  <span class="handle">Metasploit</span>
+
+  <p>No single tool democratized offensive security like <strong>Metasploit</strong>, and <strong>HD Moore</strong> built it. In the summer of 2003 he started it as a public resource for exploit code; the first release that October had eleven exploits. Within a few years, rewritten and expanded, Metasploit turned the once-arcane craft of writing and launching exploits into something a newcomer could learn in a lab &mdash; a standardized framework where an attack is a module you load, configure, and fire. That was controversial: handing powerful offensive tooling to everyone, free, horrified people who preferred that such knowledge stay scarce. But it is the single clearest expression of the hacker ethic&rsquo;s auditability principle applied to attack &mdash; if defenders can only defend against what they understand, then the exploits must be in the open, reproducible, and in everyone&rsquo;s hands. Metasploit (acquired by Rapid7 in 2009) is a backbone of Chapter 7&rsquo;s field manual, and it exists because Moore decided the knowledge belonged to the commons. He later turned the same instinct toward <em>seeing</em> the whole attack surface, mapping what is actually exposed on networks &mdash; the defender&rsquo;s version of the same curiosity. His later company grew out of a deceptively simple observation that every defender learns eventually: <strong>you cannot secure what you do not know you have.</strong> Most real breaches exploit the forgotten server, the shadow device, the system nobody remembered was on the internet &mdash; so Moore built tooling to find all of it, turning the attacker&rsquo;s reconnaissance skill (Chapter 6) into the defender&rsquo;s inventory. From writing the exploits to mapping the ground they land on, his whole career is the same move: drag what is hidden into the light where everyone can see it and deal with it.</p>
+
+  <h3>Parisa Tabriz</h3>
+  <span class="handle">the Security Princess</span>
+
+  <p><strong>Parisa Tabriz</strong> is what the defender looks like at the scale of billions of users. She joined Google as a security engineer, broke so many of the company&rsquo;s own systems so effectively that she put &ldquo;Security Princess&rdquo; on her business cards (Google made it semi-official), and rose to lead security for <strong>Chrome</strong> &mdash; the browser that is, for most of humanity, the actual front line between them and the internet. Under her, Chrome drove the web&rsquo;s migration to HTTPS-by-default and normalized a defender&rsquo;s mindset of treating every input as hostile at planetary scale. She is a necessary answer to the lazy image of &ldquo;the hacker&rdquo; as a lone young man: she runs one of the most important defensive operations on earth, and she thinks like a breaker because that is the only way to defend what she defends.</p>
+
+  <p>Tabriz also writes and speaks sharply about <em>how security work actually gets done</em> inside a giant organization &mdash; the long, unglamorous grind of changing a culture, winning arguments with product teams, and treating security as a &ldquo;wicked problem&rdquo; that is never solved, only managed. That is a crucial counter-lesson for a newcomer dazzled by the lone-genius exploit: at scale, the hard part is not finding the bug, it is the organizational judo of getting thousands of engineers to build safely by default. Google&rsquo;s elite offensive research and its famously strict disclosure deadlines &mdash; the industry-shaping norm that a vendor gets a fixed window to fix a reported flaw before it goes public &mdash; come from the same philosophy she embodies: use world-class breaking to force the whole ecosystem to get better, on a clock.</p>
+
+  <h2 id="part5">Part V &mdash; The Keepers</h2>
+  <h3>The ones who built the commons where the rest of us gather</h3>
+
+  <p>Some people&rsquo;s greatest hack was an <em>institution</em> &mdash; a magazine, a conference, a charity &mdash; that gave the scattered tribe a home. Chapter 4 is devoted to the gatherings themselves; here are three of the people who built them.</p>
+
+  <h3>Emmanuel Goldstein</h3>
+  <span class="handle">Eric Corley &middot; 2600, HOPE</span>
+
+  <p>For forty years, <strong>Eric Corley</strong> &mdash; writing as <strong>Emmanuel Goldstein</strong>, after the dissident in Orwell&rsquo;s <em>1984</em> &mdash; has edited <em>2600: The Hacker Quarterly</em> and defended, with real legal and personal risk, the single idea at the root of this whole culture: that curiosity is not a crime. He has run the monthly 2600 meetings that are the lowest-stakes door into the community, hosted the long-running radio show <em>Off the Hook</em>, founded the biennial <strong>HOPE</strong> conference, and stood as a defendant in landmark cases about the right to publish and to tinker. He is the culture&rsquo;s stubborn, principled institutional memory.</p>
+
+  <p>He has also paid for it. In 2000, <em>2600</em> was sued in <em>Universal v. Reimerdes</em> for publishing &mdash; and linking to &mdash; <strong>DeCSS</strong>, the code that unscrambled DVD encryption, in one of the first great tests of whether the Digital Millennium Copyright Act could criminalize the publication of code (an echo of the Bernstein fight over whether code is speech). Corley lost, and the case stands as a sobering counterweight to Bernstein: the right to publish security research is real but contested, and it has to be defended case by case. Through it all &mdash; the lawsuits, the four decades of quarterly issues, the weekly radio show he kept broadcasting even through the chaos in New York after 9/11 &mdash; he has refused to let the word be surrendered to its worst users. If Chapter 1 has a living narrator, it is Emmanuel Goldstein, who has simply never stopped insisting, in print and on air, that the curious are not criminals.</p>
+
+  <h3>Jeff Moss</h3>
+  <span class="handle">The Dark Tangent &middot; DEF CON, Black Hat</span>
+
+  <p><strong>Jeff Moss</strong> turned a going-away party into the capital city of hacker culture. He founded <strong>DEF CON</strong> in 1993 and <strong>Black Hat</strong> in 1997, built the bridge the whole community walks across every summer &mdash; the same people, respected on a stage instead of hunted &mdash; and has advised the U.S. government on security while keeping the con unmistakably itself. His definitions are the ones Chapter 1 quoted (&ldquo;curiosity plus skills&hellip; hackers are civil society speaking truth to power&rdquo;), and his social contract is printed on every sign at DEF CON: <strong>be excellent to each other.</strong> It is not decoration. It is the code of conduct, and the goons enforce it.</p>
+
+  <p>What makes Moss a keeper rather than merely a promoter is that he used the platform to force the establishment and the underground into the same room &mdash; and made each take the other seriously. DEF CON&rsquo;s villages now let anyone pick locks, hack cars, probe medical devices, and attack voting machines in the open; its <strong>Voting Village</strong> has repeatedly demonstrated flaws in election equipment that officials insisted were secure, doing in a Las Vegas ballroom what the Chaos Computer Club did to Germany&rsquo;s systems in Chapter 1. Moss himself crossed fully into the establishment &mdash; serving on the U.S. Department of Homeland Security Advisory Council and in a security role at ICANN, which helps steward the internet&rsquo;s core infrastructure &mdash; without ever losing the con. He is living proof of this book&rsquo;s recurring claim: the bridge between the hacker and the institution is not a betrayal of either. It is the whole point.</p>
+
+  <h3>Johnny Long</h3>
+  <span class="handle">Hackers for Charity</span>
+
+  <p><strong>Johnny Long</strong> wrote the book on &ldquo;Google hacking&rdquo; &mdash; using ordinary search queries to find exposed systems &mdash; and then did something almost no one in any industry does: he gave the skill away. In 2009 he moved his family to Jinja, Uganda, and founded <strong>Hackers for Charity</strong>, connecting the idle technical talent of the community to small charities in the developing world that could never afford it. His motto is the whole philosophy in three words: <strong>&ldquo;I hack charities.&rdquo;</strong> He is the living answer to anyone who thinks the word means harm.</p>
+
+  <p>His technical work carries the same humane streak. His book <em>No-Tech Hacking</em> is a quietly brilliant argument that the most effective attacks often require no computer at all &mdash; dumpster diving, shoulder surfing, tailgating through a door behind someone with their hands full, reading a badge over a coffee. It is a defender&rsquo;s gift disguised as an attacker&rsquo;s manual: once you see how much a determined person can learn from your trash and your body language, you start protecting against it. Long funded Hackers for Charity partly by giving his conference talks and donating the proceeds, turning the con circuit itself into a fundraising engine. He is the clearest living proof of Chapter 1&rsquo;s &ldquo;better angels&rdquo; &mdash; a world-class hacker who decided the highest use of the skill was to give it away to people who could never pay for it.</p>
+
+  <h2 id="part6">Part VI &mdash; The Makers</h2>
+  <h3>The ones who proved the physical world is just software you can touch</h3>
+
+  <p>Not all hacking happens on a screen. These three dragged the mindset into atoms &mdash; silicon, cash machines, cars, and human hearts &mdash; and proved that everything with a chip in it is now in scope.</p>
+
+  <h3>Andrew &ldquo;bunnie&rdquo; Huang</h3>
+  <span class="handle">bunnie &middot; open hardware</span>
+
+  <p><strong>Bunnie Huang</strong> is the dean of hardware hacking &mdash; an MIT-trained engineer who reverse-engineered the original Xbox as a graduate student, wrote the book on it (<em>Hacking the Xbox</em>), and has spent his career fighting for the right to understand and modify the devices you own. His story intersects this book&rsquo;s conscience directly: when his Xbox book&rsquo;s original publisher got cold feet over legal threats, he self-published; and in 2013 he released the book <em>free</em> in honor of Aaron Swartz (Part VIII), writing that &ldquo;Aaron&rsquo;s treatment by MIT is not unfamiliar to me&rdquo; &mdash; he too had received a letter from MIT&rsquo;s lawyers repudiating his work and leaving him to face a corporation alone. Huang went on to design open hardware from the Novena open laptop to the kind of verifiable, keepable security silicon that Savvy Security covered in its DEFCON 34 Baochip briefing. He is the clearest voice for the idea that you cannot trust &mdash; or truly own &mdash; a machine you are forbidden to open.</p>
+
+  <blockquote>
+    <p>&ldquo;I agreed to release this book for free in part because Aaron&rsquo;s treatment by MIT is not unfamiliar to me.&rdquo;</p>
+    <cite>Andrew &ldquo;bunnie&rdquo; Huang, open letter releasing <em>Hacking the Xbox</em> free, March 2013</cite>
+  </blockquote>
+
+  <p>Huang&rsquo;s deeper contribution is a way of <em>thinking</em> about hardware that the software-centric security world badly needs. In <em>The Hardware Hacker</em> he documented the open-hardware culture of Shenzhen &mdash; the <em>gongkai</em> ecosystem where designs circulate semi-freely &mdash; and argued, against Western reflexes, that it is a powerful engine of innovation. He builds what he preaches: open-hardware projects from laptops to security devices, designed so that a user can inspect and verify them down to the circuit board. His guiding worry is the one Ken Thompson raised about software, pushed down into silicon: if you cannot see inside the chip, you are simply trusting the people who made it, and a chip can lie. In an age when the hardware in your pocket is a sealed, un-openable black box, Huang is the most important voice arguing that the right to understand your own machine is not nostalgia &mdash; it is the only basis for trusting it at all. That is exactly why Savvy Security covered his verifiable, keepable DEFCON 34 security chip with such interest.</p>
+
+  <h3>Barnaby Jack</h3>
+  <span class="handle">jackpotting</span>
+
+  <p><strong>Barnaby Jack</strong> was the showman who made the stakes impossible to ignore. At Black Hat in 2010 he stood on stage and made two <strong>ATMs spew cash</strong> on command &mdash; a demonstration he called &ldquo;jackpotting,&rdquo; and the single most viral proof that embedded systems were wide open. Then he turned to something far more serious: medical devices. He showed that he could wirelessly compromise insulin pumps and implanted cardiac defibrillators &mdash; warning, chillingly, that he could stop a man&rsquo;s heart from thirty feet away. His work pushed regulators and manufacturers toward taking wireless medical security seriously. In July 2013, a week before he was to present his pacemaker research at Black Hat, he died suddenly in San Francisco at thirty-six. One vendor&rsquo;s backhanded tribute captured the whole value of his provocations: &ldquo;Barnaby got his fifteen megabytes of fame, and we improved the security of our product.&rdquo;</p>
+
+  <p>That tribute is also the ethical defense of the whole spectacle, and it is worth making explicit because you will face the same choice. Barnaby Jack&rsquo;s demonstrations were theatrical, but they were not reckless with the <em>details</em>: he worked with manufacturers, and the point of the showmanship was never to arm criminals &mdash; it was to make an abstract risk undeniable to the people with the power to fix it. &ldquo;An insulin pump could theoretically be attacked&rdquo; moves no one; a researcher making one dump its entire reservoir on command moves regulators. His death at thirty-six, on the eve of his biggest talk, fed years of conspiracy theories precisely because he was the kind of person whose work made powerful industries uncomfortable &mdash; but the mundane, documented truth is simply that the field lost one of its most effective communicators far too early. The lesson he leaves you is the hardest one in disclosure: sometimes the only thing that forces a life-saving fix is a demonstration frightening enough that no one can look away &mdash; and doing that responsibly, without handing the weapon to the wrong people, is a genuine art.</p>
+
+  <h3>Charlie Miller &amp; Chris Valasek</h3>
+  <span class="handle">the Jeep hack</span>
+
+  <p>In 2015, <strong>Charlie Miller</strong> and <strong>Chris Valasek</strong> ended the comfortable fiction that your car was not a computer. With a <em>Wired</em> journalist, Andy Greenberg, driving a Jeep Cherokee down a St. Louis highway, the two of them &mdash; sitting at a laptop miles away, reaching the vehicle through its cellular-connected infotainment system &mdash; turned on the air conditioning, cut the transmission, and finally disabled the brakes, sending the Jeep into a ditch. The demonstration forced Fiat Chrysler to recall <strong>1.4 million vehicles</strong>, the first recall in history driven by a cybersecurity flaw. It was controversial &mdash; critics called it reckless &mdash; and Valasek&rsquo;s answer is the entire argument for public demonstration in one line:</p>
+
+  <blockquote>
+    <p>&ldquo;If we didn&rsquo;t have the <em>Wired</em> article writing about how we did what we did, there wouldn&rsquo;t have been a recall.&rdquo;</p>
+    <cite>Chris Valasek, on the 2015 Jeep Cherokee demonstration</cite>
+  </blockquote>
+
+  <p>The Jeep was their second act, not their first. In 2013, with DARPA funding, the pair had already shown they could meddle with a Toyota Prius and a Ford Escape &mdash; but only with a laptop physically plugged into the car, which let manufacturers wave it away as unrealistic. The 2015 Jeep hack closed that escape hatch by doing it all <em>remotely, over the cellular network</em>, from miles away, which is the only reason it forced a recall. The lesson is one every maker in this part teaches: a vulnerability is a story about reachability, and the gap between &ldquo;possible with physical access&rdquo; and &ldquo;possible from the internet&rdquo; is the gap between a shrug and a 1.4-million-vehicle recall. Both researchers went on to work on the security of self-driving cars &mdash; the attackers hired to defend the most safety-critical computers most of us will ever ride in. Your car is a computer now. They are the ones who proved it on a highway.</p>
+
+  <h3>Kevin Fu</h3>
+  <span class="handle">medical-device security</span>
+
+  <p>Behind the showmen stand the academics who do the patient, peer-reviewed work, and in the medical-device world that is <strong>Kevin Fu</strong>. Years before Barnaby Jack&rsquo;s stage demonstrations, Fu&rsquo;s research group did the foundational study showing that an implanted cardiac defibrillator could be wirelessly reprogrammed by an attacker &mdash; the work that inspired Jack and that pushed the entire field, and eventually the U.S. Food and Drug Administration, to take the security of devices inside human bodies seriously. Fu went on to serve as the FDA&rsquo;s first acting director of medical-device cybersecurity. He is the model of the other kind of maker &mdash; not the viral demo, but the rigorous lab result and the regulatory change that follows &mdash; and a reminder that the academy (MIT, Michigan, and others) is as much a part of this culture as any con.</p>
+
+  <h3>Samy Kamkar</h3>
+  <span class="handle">Samy &middot; &ldquo;but most of all, Samy is my hero&rdquo;</span>
+
+  <p><strong>Samy Kamkar</strong> is Part III and Part VI at once &mdash; an outlaw who came back and became one of the most inventive makers alive. In October 2005, at nineteen, he released the <strong>Samy worm</strong>, the first self-propagating cross-site-scripting worm, which added the line &ldquo;but most of all, Samy is my hero&rdquo; to a MySpace profile and then to roughly <strong>a million</strong> more within about twenty hours &mdash; forcing MySpace offline and earning him a felony guilty plea, probation, community service, and an internet ban. He could have been a Part VIII footnote. Instead he came back as a prolific, generous builder who releases his work openly: <strong>SkyJack</strong>, a drone that hijacks other drones; <strong>MagSpoof</strong>, a tiny device that emulates a credit-card magnetic stripe; <strong>Evercookie</strong>, a tracking cookie so persistent it turned up in a Snowden-leaked NSA document. His arc is the whole moral of this chapter compressed into one career: the teenage mistake, the reckoning, and the choice to point the identical gift at understanding instead of harm &mdash; in the open, for everyone to learn from.</p>
+
+  <p>The &ldquo;for everyone to learn from&rdquo; part is what makes him a keeper as much as a maker. Kamkar documents his projects meticulously &mdash; detailed write-ups, source code, and videos that walk you through exactly how each device works and how to build your own. He has turned himself into one of the most effective <em>teachers</em> of applied hacking alive, demystifying hardware and radio and web attacks for a generation that learns on YouTube rather than on IRC. That is the Homebrew ethic of Chapter 1, reborn for the streaming age: figure out something clever, then give away the knowledge so the next curious kid can stand on it. The teenager who took MySpace down is now, in effect, running a free school.</p>
+
+  <h2 id="part7">Part VII &mdash; The Builders of the Next Machine</h2>
+  <h3>Where the fire goes next</h3>
+
+  <p>Every chapter of this book argues that the newest generation forms around the newest machine, and that the machine this time is one that understands back. The bridge figure &mdash; the one whose career runs straight from classic hacking into the AI era &mdash; makes the point better than any argument.</p>
+
+  <h3>George Hotz</h3>
+  <span class="handle">geohot</span>
+
+  <p><strong>George Hotz</strong> is what the lineage looks like when it reaches 2026. At seventeen, in 2007, he became the first person to carrier-unlock the iPhone &mdash; and, in a perfectly hacker gesture, traded one of the unlocked phones for a sports car. He went on to crack open the PlayStation 3, which earned him a lawsuit from Sony (settled with an injunction) and made him a folk hero of the right-to-tinker. Then he did the thing that matters for <em>this</em> book: he pivoted the exact same mindset into artificial intelligence. He founded <strong>comma.ai</strong> to build open self-driving technology, and he writes <strong>tinygrad</strong>, a lean deep-learning framework built in deliberate opposition to the bloated mainstream stacks &mdash; the same &ldquo;do it minimally, do it yourself, don&rsquo;t trust the black box&rdquo; instinct that drove Wozniak&rsquo;s chip counts and Torvalds&rsquo;s kernel, now aimed at the machine that defines the coming decade.</p>
+
+  <p>Hotz is brash, polarizing, and not to everyone&rsquo;s taste &mdash; which is itself part of the tradition. But his arc is the thesis of Chapter 9 in a single r&eacute;sum&eacute;: the hacker who grew up jailbreaking phones is now building, breaking, and refusing to blindly trust AI. That is where the fire is going, and the people carrying it there learned to carry it on the machines of the last era. The rest of this book is about joining them.</p>
+
+  <p>There is one more reason Hotz belongs here, and it points straight at this book&rsquo;s theme of AI-assisted, &ldquo;vibe-coding&rdquo; work. He builds <em>in public</em>: for years he has livestreamed himself programming for hours at a stretch, thinking out loud, failing, and fixing it on camera &mdash; turning the solitary craft of the hacker into something closer to performance and teaching. That openness, the willingness to be watched struggling with a hard problem, is a surprisingly modern virtue and a healthy counter to the mystique of the lone genius. It also models the right relationship with powerful new tools: Hotz uses and builds AI aggressively while refusing to treat it as magic &mdash; tinygrad exists precisely so the machine stays small enough that a human can still read and trust it. That is the exact posture Chapter 5 and Chapter 9 will ask of you: lean on the new machine, hard, but never stop being the person who could explain what it did.</p>
+
+  <h2 id="part8">Part VIII &mdash; The Lost</h2>
+  <h3>The ones this book is named for</h3>
+
+  <p>The word in the title is <em>survive</em>, and you cannot understand what that means without the people who didn&rsquo;t. These are not villains to be mocked; two of them are tragedies the whole community still grieves. Read them as the stakes.</p>
+
+  <h3>Albert Gonzalez</h3>
+  <span class="handle">the one who chose wrong</span>
+
+  <p><strong>Albert Gonzalez</strong> had the same gift as any white hat in this chapter and made the opposite choice. Using SQL injection and packet-sniffing, he and his crew stole more than <strong>170 million</strong> payment-card numbers from TJX, Heartland, and others &mdash; at the time the largest such theft in history. The detail you must not miss, because it is the oldest lesson in this book: after an early arrest he became a Secret Service <em>informant</em>, and kept running his crimes the entire time. In 2010 he was sentenced to <strong>twenty years</strong> in federal prison.</p>
+
+  <p>The details are a masterclass in why the black path is a trap. Gonzalez ran his thefts like a business &mdash; his own operation was reportedly nicknamed &ldquo;Operation Get Rich or Die Tryin&rsquo;&rdquo; &mdash; using SQL injection and wardriving to breach retailers, with a crew and a fencing operation to launder the cards. And the whole time he was being paid roughly $75,000 a year as a Secret Service <em>informant</em>, supposedly helping catch the very kind of criminal he was. He lived the double life the sneer in Chapter 1 promises you can get away with, and it collapsed exactly the way that chapter warns: the money was unspendable without laundering, the crew was penetrable, and the clock never stopped. Same skills as Mitnick. Different hat. Two decades gone. He is not in Part III, because he never came back &mdash; he is the control group for every redemption story in this chapter.</p>
+
+  <h3>Jonathan James</h3>
+  <span class="handle">c0mrade</span>
+
+  <p><strong>Jonathan James</strong> was fifteen years old when, in 1999, he broke into systems at the Defense Threat Reduction Agency &mdash; installing a backdoor through which he intercepted thousands of internal emails &mdash; and at NASA&rsquo;s Marshall Space Flight Center, where he reached source code related to the International Space Station&rsquo;s life-support systems. In 2000 he became the <strong>first juvenile in the United States sentenced to serve time for hacking</strong>, spending six months in detention. His motive, by his own account, was the oldest one in this book: he wanted to learn, and the systems were there. His ending is the one that should make you angriest and most careful. In 2008, James was questioned as a suspect in the massive TJX breach masterminded by Albert Gonzalez (above) &mdash; a crime he denied any part in. Facing the prospect of prosecution for something he said he did not do, he took his own life at twenty-five. His reported note said he had lost faith that the justice system would treat him fairly. He is the hinge between the two halves of Part VIII: a curious kid who was punished as a criminal, and then, years later, destroyed by the mere fear of being punished again.</p>
+
+  <h3>Aaron Swartz</h3>
+  <span class="handle">the tragedy</span>
+
+  <p><strong>Aaron Swartz</strong> is the name that still makes this community go quiet. A prodigy &mdash; he helped build RSS, Markdown, and Reddit as a teenager &mdash; he was, above all, a believer in the oldest tenet of the hacker ethic: that knowledge should be free. In 2008 he wrote the <strong>Guerilla Open Access Manifesto</strong>, which opens with two words: &ldquo;Information is power.&rdquo; In 2010&ndash;2011 he used MIT&rsquo;s network to download roughly 4.8 million academic articles from the JSTOR archive, intending &mdash; by every reasonable reading &mdash; to liberate publicly-funded research from paywalls. JSTOR itself settled and asked the government to drop the case. <strong>The government did not.</strong> Federal prosecutors charged him with thirteen felonies carrying a theoretical maximum of thirty-five years and a million dollars, and pursued him relentlessly. On 11 January 2013, facing that machine, Aaron Swartz took his own life. He was twenty-six.</p>
+
+  <p>What makes the loss unbearable is how much of what you use he helped build before he could legally drink. As a young teenager he co-authored the <strong>RSS 1.0</strong> specification that powered the early web of feeds; he helped design <strong>Markdown</strong> (the format much of the modern web, and this author&rsquo;s own notes, are written in) and the technical underpinnings of <strong>Creative Commons</strong>; he built the framework that became part of <strong>Reddit</strong>. Then he turned from building tools to building <em>a fairer world with them</em>: he led the online fight that killed the SOPA internet-censorship bill, liberated millions of federal court records that the government had hidden behind per-page fees, and founded groups to put political power back in ordinary hands. He was not a thief who happened to code. He was a civic hacker in the oldest and best sense of Chapter 1 &mdash; someone who understood systems, including legal and political ones, deeply enough to try to fix them &mdash; and he was destroyed by one of those systems for acting on the first tenet of the ethic that raised him.</p>
+
+  <div class="danger">
+    <span class="tag">What Swartz&rsquo;s death changed</span>
+    <p>Swartz is the hinge between this chapter and Chapter 10. His death turned a generation of hackers into reformers, galvanized the fight against the Computer Fraud and Abuse Act&rsquo;s brutal vagueness and prosecutorial overreach, and left a permanent mark on how this community sees the law: not as a neutral referee, but as a weapon that can be aimed at the curious and the idealistic by a prosecutor seeking a win. The academics who mourned him released their own paywalled papers under the hashtag #PDFtribute. Bunnie Huang freed his Xbox book. We cite our sources and we fight the CFAA, both, because of what was done to Aaron Swartz. Read the manifesto. Then read Chapter 10, and understand exactly where the line is and why it is drawn in his memory.</p>
+  </div>
+
+  <h3>Marcus Hutchins</h3>
+  <span class="handle">MalwareTech &middot; the near-miss</span>
+
+  <p>And then the one who should frighten every talented kid, because he <em>almost</em> made it clean. <strong>Marcus Hutchins</strong> is the researcher who, in May 2017, found and triggered the &ldquo;kill switch&rdquo; that stopped the <strong>WannaCry</strong> ransomware worm as it tore through hospitals worldwide &mdash; an overnight global hero. Three months later, trying to fly home from DEF CON, he was arrested by the FBI at the Las Vegas airport for malware he had written years earlier, as a teenager. He pleaded guilty and, in 2019, a judge weighing the good against the old wrong sentenced him to time served. He got lucky, and he knows it. His lesson is not that it works out. His lesson is that <strong>the thing you build at seventeen can be waiting for you at the airport at twenty-three, on your way home from the best week of your year.</strong> Karl Koch (Chapter 1) did not get Hutchins&rsquo;s ending. Neither did Swartz. The margin between the near-miss and the tragedy is thinner than you want it to be.</p>
+
+  <p>Give the story its honest ending, though, because it also belongs in Part III. Hutchins came through it. He has become a respected defensive researcher and writer, works openly on protecting people rather than exploiting them, and &mdash; rarest of all &mdash; has written with real candor about his own path from teenage malware author to accidental hero to defendant, refusing to launder the ugly parts. That candor is itself a form of service: a talented kid reading this is far better served by Hutchins&rsquo;s unvarnished account than by any lecture. He is, in the end, the whole book in one person &mdash; the mistake, the brush with disaster, and the choice to spend the rest of it on the right side of the line, telling the truth about how close it was.</p>
+
+  <div class="pullquote">Every name in Part III came back. Every name in Part VIII is a reason the word in this book&rsquo;s title is <em>survive</em>.</div>
+
+  <h2 id="common">What They Have in Common</h2>
+  <h3>The shape under all the stories</h3>
+
+  <p>Lay these three dozen lives side by side and the differences are enormous &mdash; a Navy admiral and a teenage worm author, a Finnish kernel engineer and a Ugandan-based charity founder, a cryptographer who sails alone and a showman who made ATMs vomit cash. But hold them to the light and the same shape shows through all of them, and it is the shape this whole book is trying to press into you.</p>
+
+  <p><strong>They could not leave a system alone.</strong> Every one of them, confronted with a box that was supposed to work a certain way, had to know what happened if you pushed on it sideways. That compulsion is the entire job description, and it does not come with a conscience attached &mdash; Gonzalez had it too. <strong>What separated the lives was never the skill; it was the aim, the honesty, and the willingness to come back.</strong> Mitnick, Poulsen, Abene, Kamkar, and Hutchins crossed the line and returned to do honest work, and the culture took them back because the culture believes in return. Gonzalez, Koch (Karl, of Chapter 1), James, and Swartz did not get that ending &mdash; two by their own worst choices, two by a system that could not tell a curious idealist from a criminal and destroyed them anyway. That difference &mdash; between the ones who came back and the ones the word <em>survive</em> is for &mdash; is not a tidy moral. It is partly character and partly luck and partly mercy, and you do not get to know in advance which you will need.</p>
+
+  <p><strong>And the best of them built more than they broke.</strong> The names that will still be spoken in fifty years &mdash; Hopper, Thompson, Ritchie, Stallman, Torvalds, Diffie, Zimmermann &mdash; are remembered for what they <em>made</em>. Breaking is how you learn and how you prove; building is how you last. Every defender in Part IV is someone who learned to break first and then pointed it at protection. That is the arc the rest of this book is training you to walk.</p>
+
+  <div class="secread">
+    <span class="tag">A note from the author</span>
+    <p>I am, in a very small way, one of these people &mdash; a hacker of almost thirty years who took the path Part III and Part IV describe rather than the one in Part VIII, and who is still here, in daylight, with his real name on the work. (That story is on this blog, in &ldquo;Built on Rock and Roll.&rdquo;) I did not put myself in the roster because the roster is for the people who changed the field, and I am a reader of it like you. But I wrote this chapter the way I did &mdash; with the redemption arcs given as much weight as the founders, and the lost given their full dignity &mdash; because I have watched, up close, how thin the margin is. The people in Part VIII were not stupid and they were not evil. Most of them were curious kids who made one wrong turn, or who made no wrong turn at all and met a system having a cruel day. Read them as family, because in this community they are.</p>
+  </div>
+
+  <h3>Carry these out of Chapter 2</h3>
+  <ol class="lessons">
+    <li><strong>The builders outlast the breakers.</strong> The most durable names here &mdash; Thompson, Ritchie, Torvalds, Woz &mdash; are remembered for what they <em>made</em>, not what they broke. Build something.</li>
+    <li><strong>Trust is always, eventually, trust in people.</strong> Thompson proved you can&rsquo;t fully trust code you didn&rsquo;t write. Verify what you can, and know whose work you are standing on.</li>
+    <li><strong>The highest craft is making the secure path the easy path.</strong> Zimmermann made privacy possible; Marlinspike made it effortless. A protection no one can use is not a protection.</li>
+    <li><strong>Disclose like Kaminsky.</strong> When you find something big, the move that earns you a thirty-year career is coordination and restraint, not a grandstand.</li>
+    <li><strong>Coming back is real &mdash; and it is not guaranteed.</strong> Mitnick and Poulsen returned. Gonzalez, Swartz, and Koch did not. The difference is partly the choice and partly the mercy of a system that does not always grant it.</li>
+    <li><strong>Everything with a chip is in scope.</strong> Barnaby Jack&rsquo;s ATMs and Miller &amp; Valasek&rsquo;s Jeep are now your phone, your car, your insulin pump. The makers saw it first.</li>
+    <li><strong>The next machine is already here.</strong> Hotz&rsquo;s path from jailbreaking phones to building AI is the one this book is training you to walk. Learn the old machines well enough to be trusted with the new one.</li>
+  </ol>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">The founders</p>
+  <ul class="refs">
+    <li>Stallman, Richard. Writings at the Free Software Foundation; &ldquo;Why Open Source Misses the Point of Free Software.&rdquo; <a href="https://www.gnu.org/">gnu.org</a>. Biography: Sam Williams, <em>Free as in Freedom</em> (O&rsquo;Reilly, 2002).</li>
+    <li>Thompson, Ken. &ldquo;Reflections on Trusting Trust.&rdquo; Turing Award lecture, <em>Communications of the ACM</em> 27, no. 8 (August 1984): 761&ndash;763. <a href="https://www.cs.cmu.edu/~rdriley/487/papers/Thompson_1984_ReflectionsonTrustingTrust.pdf">full text</a>.</li>
+    <li>Ritchie, Dennis, and Ken Thompson. &ldquo;The UNIX Time-Sharing System.&rdquo; <em>CACM</em>, 1974; the C programming language (Bell Labs, 1972&ndash;73).</li>
+    <li>Torvalds, Linus. The 25 August 1991 comp.os.minix announcement; &ldquo;Talk is cheap. Show me the code,&rdquo; LKML, 2000; Torvalds and David Diamond, <em>Just for Fun</em> (2001). Git (2005).</li>
+    <li>Wozniak, Steve, with Gina Smith. <em>iWoz.</em> W. W. Norton, 2006.</li>
+    <li>Hopper, Grace (1906&ndash;1992) &mdash; the first compiler; the 1947 Harvard Mark II logbook &ldquo;bug.&rdquo; See Kurt Beyer, <em>Grace Hopper and the Invention of the Information Age</em> (MIT Press, 2009).</li>
+    <li>Koch, Werner &mdash; GnuPG; the 2013&ndash;2015 funding crisis. Julia Angwin, &ldquo;The World&rsquo;s Email Encryption Software Relies on One Guy, Who Is Going Broke,&rdquo; <em>ProPublica</em>, 5 February 2015.</li>
+  </ul>
+
+  <p class="refs-group">The cryptographers</p>
+  <ul class="refs">
+    <li>Diffie, Whitfield, and Martin Hellman. &ldquo;New Directions in Cryptography.&rdquo; <em>IEEE Transactions on Information Theory</em>, 1976; 2015 ACM Turing Award.</li>
+    <li>Zimmermann, Phil. &ldquo;Why I Wrote PGP.&rdquo; 1991 (updated 1999). <a href="https://www.philzimmermann.com/EN/essays/WhyIWrotePGP.html">philzimmermann.com</a>.</li>
+    <li>Marlinspike, Moxie (Matthew Rosenfeld). The Signal Protocol; Signal Foundation. <a href="https://signal.org/">signal.org</a>.</li>
+    <li>Bernstein, Daniel J. (&ldquo;djb&rdquo;) &mdash; qmail; djbdns; Curve25519 / Ed25519; <em>Bernstein v. U.S.</em> (Chapter 1). <a href="https://cr.yp.to/">cr.yp.to</a>.</li>
+  </ul>
+
+  <p class="refs-group">The outlaws who came back</p>
+  <ul class="refs">
+    <li>Draper, John (&ldquo;Captain Crunch&rdquo;). See Phil Lapsley, <em>Exploding the Phone</em> (2013).</li>
+    <li>Mitnick, Kevin (1963&ndash;2023). <em>The Art of Deception</em> (2002); <em>Ghost in the Wires</em> (2011).</li>
+    <li>Poulsen, Kevin (&ldquo;Dark Dante&rdquo;). <em>Kingpin</em> (2011); senior editor, <em>Wired</em>.</li>
+    <li>Abene, Mark (&ldquo;Phiber Optik&rdquo;) &mdash; Masters of Deception; 1994 sentencing. See Slatalla and Quittner, <em>Masters of Deception</em> (1995).</li>
+  </ul>
+
+  <p class="refs-group">The defenders</p>
+  <ul class="refs">
+    <li>Schneier, Bruce. <em>Secrets and Lies</em> (2000); <em>Beyond Fear</em> (2003, on &ldquo;security theater&rdquo;); <em>A Hacker&rsquo;s Mind</em> (2023); <a href="https://www.schneier.com/">Schneier on Security</a>.</li>
+    <li>Zatko, Peiter &ldquo;Mudge&rdquo; &mdash; L0pht Senate testimony (1998); DARPA; 2022 Twitter whistleblower disclosures. See Joseph Menn, <em>Cult of the Dead Cow</em> (2019).</li>
+    <li>Moussouris, Katie &mdash; Microsoft bug bounty; &ldquo;Hack the Pentagon&rdquo; (2016); founder/CEO, Luta Security.</li>
+    <li>Kaminsky, Dan (1979&ndash;2021) &mdash; the 2008 DNS cache-poisoning flaw and coordinated multi-vendor patch; Black Hat 2008. &ldquo;I wasn&rsquo;t looking for this at all.&rdquo; Tribute by Marc Rogers. See <a href="https://en.wikipedia.org/wiki/Dan_Kaminsky">overview</a>.</li>
+    <li>Rutkowska, Joanna &mdash; &ldquo;Blue Pill&rdquo; (Black Hat 2006); Qubes OS and &ldquo;security by isolation.&rdquo; <a href="https://www.qubes-os.org/">qubes-os.org</a>.</li>
+    <li>Moore, HD &mdash; the Metasploit Project (2003); Metasploit Framework (acquired by Rapid7, 2009). <a href="https://www.metasploit.com/">metasploit.com</a>.</li>
+    <li>Tabriz, Parisa &mdash; &ldquo;Security Princess&rdquo;; VP of Chrome and Chrome security at Google; the web&rsquo;s migration to HTTPS.</li>
+    <li>Geer, Dan &mdash; &ldquo;CyberInsecurity: The Cost of Monopoly&rdquo; (2003, on software monoculture); CISO, In-Q-Tel; collected talks and writings at <a href="http://geer.tinho.net/pubs">geer.tinho.net/pubs</a>.</li>
+  </ul>
+
+  <p class="refs-group">The keepers</p>
+  <ul class="refs">
+    <li>Corley, Eric (&ldquo;Emmanuel Goldstein&rdquo;) &mdash; <em>2600: The Hacker Quarterly</em>; <em>Off the Hook</em>; the HOPE conference. <a href="https://www.2600.com/">2600.com</a>.</li>
+    <li>Moss, Jeff (&ldquo;The Dark Tangent&rdquo;) &mdash; DEF CON (1993), Black Hat (1997). <a href="https://defcon.org/">defcon.org</a>.</li>
+    <li>Long, Johnny &mdash; <em>Google Hacking for Penetration Testers</em>; Hackers for Charity (Jinja, Uganda, 2009). <a href="https://www.hackersforcharity.org/">hackersforcharity.org</a>.</li>
+  </ul>
+
+  <p class="refs-group">The makers</p>
+  <ul class="refs">
+    <li>Huang, Andrew &ldquo;bunnie.&rdquo; <em>Hacking the Xbox</em> (2003; freed 2013 in honor of Aaron Swartz); <em>The Hardware Hacker</em> (No Starch, 2017); the Novena laptop. <a href="https://www.bunniestudios.com/">bunniestudios.com</a>. See also the Savvy Security article &ldquo;The DEFCON 34 Badge&hellip; Baochip&rdquo; (this blog).</li>
+    <li>Barnaby Jack (1977&ndash;2013) &mdash; ATM &ldquo;jackpotting&rdquo; (Black Hat 2010); wireless attacks on insulin pumps and cardiac devices. See <a href="https://en.wikipedia.org/wiki/Barnaby_Jack">overview</a>.</li>
+    <li>Miller, Charlie, and Chris Valasek &mdash; the remote Jeep Cherokee hack (2015); Andy Greenberg, &ldquo;Hackers Remotely Kill a Jeep on the Highway,&rdquo; <em>Wired</em>, 21 July 2015; FCA recall of ~1.4M vehicles.</li>
+    <li>Fu, Kevin &mdash; medical-device security research (implantable defibrillators); first acting director of medical-device cybersecurity, U.S. FDA. See Halperin et al., &ldquo;Pacemakers and Implantable Cardiac Defibrillators&hellip;,&rdquo; IEEE S&amp;P, 2008.</li>
+    <li>Kamkar, Samy &mdash; the Samy worm (October 2005); SkyJack (2013); MagSpoof (2015); Evercookie. <a href="https://samy.pl/">samy.pl</a>.</li>
+  </ul>
+
+  <p class="refs-group">The next machine</p>
+  <ul class="refs">
+    <li>Hotz, George (&ldquo;geohot&rdquo;) &mdash; the 2007 iPhone unlock; the 2010 PS3 work and 2011 Sony suit; comma.ai (2015); tinygrad (2022). See <a href="https://en.wikipedia.org/wiki/George_Hotz">overview</a>.</li>
+  </ul>
+
+  <p class="refs-group">The lost</p>
+  <ul class="refs">
+    <li>United States v. Albert Gonzalez &mdash; the TJX/Heartland payment-card thefts; 20-year federal sentence, 2010 (U.S. DOJ).</li>
+    <li>Jonathan James (&ldquo;c0mrade,&rdquo; 1983&ndash;2008) &mdash; the 1999 DTRA and NASA intrusions; first U.S. juvenile sentenced to detention for hacking (2000); questioned in the TJX investigation before his death in 2008. See <a href="https://en.wikipedia.org/wiki/Jonathan_James">overview</a>.</li>
+    <li>Swartz, Aaron (1986&ndash;2013). &ldquo;Guerilla Open Access Manifesto&rdquo; (2008); <em>United States v. Swartz</em>. See <a href="https://en.wikipedia.org/wiki/United_States_v._Swartz">overview</a> and the documentary <em>The Internet&rsquo;s Own Boy</em> (2014).</li>
+    <li>Hutchins, Marcus (&ldquo;MalwareTech&rdquo;) &mdash; the WannaCry kill switch (May 2017); arrest after DEF CON (August 2017); sentenced to time served (2019).</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> Every quotation above is attributed to the person or document it came from; direct quotes are drawn from the cited source or a verified public record, and summaries given without quotation marks are faithful paraphrases of documented public statements, not inventions. Dates and figures that vary across sources (the JSTOR article count, a death date, a recall total) are given as the best-supported value. This is a selection, not a ranking; many who belong here &mdash; among them more of the women, international, and present-day figures who carry the culture now &mdash; will be added in later editions. There are deliberately no photographs; this book uses portraits only from properly licensed, correctly credited sources.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense. This is Chapter 2 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch01-the-word-and-the-fire/">&larr; Chapter 1 &mdash; The Word and the Fire</a>
+    <a href="../ch03-the-tribes/">Next: Chapter 3 &mdash; The Tribes &rarr;</a>
+  </nav>
+
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive &middot; Chapter Two</footer>
+</body>
+</html>

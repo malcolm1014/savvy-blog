@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 4 — The Gatherings</title>
+<meta name="description" content="A deep field guide to where the hacker tribe becomes real — DEF CON and its villages, Black Hat, ShmooCon, BSides, HackMiami and the regional cons, HOPE and the 2600 meetings, the Chaos Communication Congress, and the ancestors: USENET, the BBS, and the Linux user groups. Chapter 4 of A Hacker's Guide to Survive. Sourced and cited.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Gatherings — A Deep Field Guide to the Hacker Conventions">
+<meta property="og:description" content="Chapter 4 of A Hacker's Guide to Survive: DEF CON, Black Hat, ShmooCon, BSides, HackMiami, HOPE, 2600 meetings, the Chaos Communication Congress, and the ancestors — USENET, the BBS, and the Linux user groups. Where the culture gathers in person. Sourced.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch04-the-gatherings/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Hacker Culture / Conventions">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Gatherings — A Deep Field Guide to the Hacker Conventions">
+<meta name="twitter:description" content="Chapter 4 of A Hacker's Guide to Survive: DEF CON, ShmooCon, BSides, HackMiami, HOPE, the CCC Congress, and the ancestors (USENET, BBS, Linux user groups). Sourced.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch04-the-gatherings/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  .handle{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--accent2); font-weight:600; display:block; margin:-4px 0 10px;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  .danger{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Four</p>
+  <h1>The Gatherings</h1>
+  <p class="dek">Where the tribe stops being an abstraction and becomes a room you can walk into &mdash; the cons, the camps, the monthly meetings, and the ancestors they all descend from.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; Why We Gather</a>
+    <a href="#part2">II &middot; DEF CON</a>
+    <a href="#part3">III &middot; Black Hat</a>
+    <a href="#part4">IV &middot; ShmooCon</a>
+    <a href="#part5">V &middot; BSides</a>
+    <a href="#part6">VI &middot; The Regionals</a>
+    <a href="#part7">VII &middot; HOPE &amp; 2600</a>
+    <a href="#part8">VIII &middot; The Congress</a>
+    <a href="#part9">IX &middot; The Ancestors</a>
+    <a href="#part10">X &middot; How to Walk In</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>The body of the culture</h3>
+    <p>Chapter 3 argued that the tribe worth joining is the open, legal, durable one &mdash; the kind that doesn&rsquo;t have to hide. This chapter is the address book for it. Because here is the thing the headlines never tell you: <strong>hacker culture is not, at its heart, an online phenomenon.</strong> It is a travelling circus of conferences, all-night villages, and first-Friday meetings in food courts, and the fastest way to understand it &mdash; and the only way to join it &mdash; is to physically go.</p>
+    <p>I made the <em>career</em> case for showing up at length in a companion piece on this blog, &ldquo;Hack the Handshake&rdquo;: in an age when a r&eacute;sum&eacute;, a profile, and even a video interview can be generated by a machine, a stranger who watched you work and will vouch for you is the one credential that cannot be forged. I won&rsquo;t re-argue that here. This chapter does something different: it is a <strong>deep field guide to the gatherings themselves</strong> &mdash; where they came from, what each one is actually like, and the living history that connects a packed Las Vegas ballroom to a mimeographed newsletter and a 1980 Unix mailing list. Everything is sourced, and where I could not confirm a 2026 date I say so and point you to the organizer.</p>
+  </div>
+
+  <h2 id="part1">Part I &mdash; Why We Gather</h2>
+  <h3>A ritual, not a trade show</h3>
+
+  <p>Anthropologists who have studied this culture noticed something that frequent attendees feel but rarely articulate: the hacker con is not really a conference in the ordinary sense. The scholar <strong>Gabriella Coleman</strong> described it as a &ldquo;ritual condensation&rdquo; &mdash; a brief, intense gathering where a normally dispersed community compresses itself into one place and one week, and in doing so becomes <em>real to itself.</em> The rest of the year you are a handle in a chat and a name on a commit. For four days a year, you are a body in a room full of people who do what you do, and that physical fact changes everything.</p>
+
+  <p>This is why the oldest and best advice about cons has nothing to do with the talks. <strong>The talks are recorded; the hallway is not.</strong> The real conference &mdash; the &ldquo;hallway track&rdquo; &mdash; is the conversations, the villages, the late-night lobby, the people you meet in line. And the mechanism by which a stranger becomes a colleague is not performance but <em>repetition</em>: the first time you show up you are a stranger, the second time a face, the third time a regular. Careers start on the third visit, because that is when people begin to vouch for you. Nobody is grading your entrance. They are noticing whether you come back.</p>
+
+  <p>There is a cost spectrum here, and it runs opposite to what newcomers assume. The famous flagship &mdash; a Black Hat training, a week in Las Vegas &mdash; can run into thousands of dollars. But the <em>community</em> layer beneath it is almost entirely free or nearly so: a 2600 meeting costs nothing, a DEF CON Group costs nothing, an OWASP chapter meeting costs nothing, a regional BSides costs the price of a lunch, and a local con offers student pricing precisely so money is never the barrier. This inversion is deliberate and it is the culture&rsquo;s quiet act of justice: the people who built these institutions understood that talent is distributed evenly and opportunity is not, so they made the on-ramp free. The expensive rooms are optional. The free ones are where it actually starts, and they are the ones this chapter most wants you to find.</p>
+
+  <div class="danger">
+    <span class="tag">The one rule that matters more than all the others</span>
+    <p><strong>Never touch the network.</strong> Do not scan, sniff, probe, or &ldquo;just test&rdquo; anything at a con, a meetup, or the venue around it. It is the single fastest way to get permanently thrown out of everything, and it is the one mistake this community does not forgive. DEF CON famously runs the <strong>&ldquo;Wall of Sheep,&rdquo;</strong> which publicly displays the usernames and masked passwords of people careless enough to log in to sensitive accounts over the hostile conference Wi-Fi &mdash; a gentle, humiliating public lesson. Treat every con network as actively adversarial (it is), bring a clean device if you bring one at all, and only ever test systems you are explicitly authorized to test. The whole of Chapter 10 is the long version of this paragraph.</p>
+  </div>
+
+  <h2 id="part2">Part II &mdash; DEF CON: The Capital City</h2>
+  <h3>From a going-away party to tens of thousands</h3>
+
+  <p><strong>DEF CON</strong> is the capital of this world, and like most capitals it started as an accident. In June <strong>1993</strong>, an eighteen-year-old named <strong>Jeff Moss</strong> &mdash; handle <strong>The Dark Tangent</strong> &mdash; threw a going-away party for a friend who ran a hacker bulletin-board network and who had to leave the country. The friend left early; rather than cancel, Moss invited everyone he knew from every board he could reach, and about a hundred people turned up at the Sands in Las Vegas. The name nods to the film <em>WarGames</em> and to the DEF button on a telephone keypad. They asked him to do it again. Thirty-plus years later it fills multiple convention halls and draws tens of thousands &mdash; and it has never stopped being a place where a nobody can become a somebody over a single long weekend. (I told the origin from the people&rsquo;s side in Chapter 2 and the career side in &ldquo;Hack the Handshake&rdquo;; here the focus is the institution and its culture.)</p>
+
+  <h3>The villages are the real DEF CON</h3>
+
+  <p>If you only go to talks, you have missed it. The heart of DEF CON is the <strong>villages</strong> &mdash; topic-focused micro-conferences, each a world of its own, running hands-on all day. There is a <strong>Lockpicking Village</strong> (where someone will teach you single-pin picking in twenty minutes), a <strong>Car Hacking Village</strong>, an <strong>ICS/industrial-control village</strong>, a <strong>Biohacking Village</strong>, an <strong>Aerospace Village</strong>, a <strong>Voting Village</strong> that has repeatedly embarrassed election-equipment makers by breaking their machines in the open, an <strong>AI Village</strong> now running tracks on attacks against autonomous agents, and the <strong>r00tz Asylum</strong>, where hundreds of kids learn to pick locks and play their own Capture the Flag. The villages are where the Hands-On Imperative of Chapter 1 physically lives. You do not watch; you do.</p>
+
+  <h3>The games, the badge, and the lifelong trophy</h3>
+
+  <p>DEF CON institutionalized competition as a teaching tool. Its <strong>Capture the Flag</strong> contest has run since DEF CON 4 in 1996 and is effectively the world championship of hacking; its lineage of contests includes Hacker Jeopardy, Capture the Packet, and the Social Engineering CTF. Win certain contests and you earn a <strong>Black Badge</strong> &mdash; the community&rsquo;s highest honor, granting free admission to DEF CON for life. And in a sign of how fully the culture has embraced the machine, the first <em>non-human</em> to earn that recognition was Mayhem, the autonomous system that won DARPA&rsquo;s Cyber Grand Challenge on the DEF CON 24 stage in 2016; in 2025, an AI system from Team Atlanta took the $4-million top prize in DARPA&rsquo;s AI Cyber Challenge on the same stage. The machines were welcomed &mdash; but notice they had to earn it <em>in the room, in front of people,</em> like everyone else.</p>
+
+  <h3>The folklore: Spot the Fed, the goons, and badgelife</h3>
+
+  <p>DEF CON&rsquo;s culture is encoded in its rituals. <strong>&ldquo;Spot the Fed&rdquo;</strong> is a game Moss invented where an attendee who thinks they&rsquo;ve identified an undercover federal agent can call it out; if the crowd agrees, both the spotter and the good-natured fed win a t-shirt. (The relationship with the government is genuinely complicated: the feds come to recruit, because the talent is here &mdash; and in 2013, after the Snowden revelations, Moss publicly asked the feds to sit a year out, framing DEF CON as a community built on &ldquo;openness, verified trust, and mutual respect.&rdquo;) The red-shirted volunteer staff are the <strong>goons</strong>, who run the event and enforce its code of conduct, summarized on every sign in three words that are not a decoration but a rule: <strong>be excellent to each other.</strong> And the electronic conference badges spawned an entire art-and-engineering subculture, <strong>#badgelife</strong>, in which independent makers design and sell elaborate working circuit-board badges &mdash; a folk craft of the hardware-hacker tribe. The word stamped on most of them is <strong>HUMAN</strong>, which, in 2026, lands differently than it used to.</p>
+
+  <p>Finally, DEF CON understood early that a once-a-year pilgrimage is not a community, so in 2004 it launched <strong>DEF CON Groups</strong> (DCGs) &mdash; official local chapters that meet monthly, everywhere, so you have your people the other fifty-one weeks of the year. Find your nearest DCG and you have a standing monthly appointment with your field.</p>
+
+  <p>A word on scale and texture, because DEF CON intimidates newcomers and shouldn&rsquo;t. It is enormous &mdash; the first-morning registration line has been reported at nearly three hours &mdash; and it is cash-only at the door by tradition, partly as a privacy stance. It runs around the clock: the talks and villages by day, then the parties, the chillout rooms with ambient music, Hacker Jeopardy late at night, and the hallway conversations that are the actual event. It is also, for all its fearsome reputation, one of the more genuinely welcoming places you will ever go once you are inside the door, because the organizing ethic &mdash; you are judged by what you know and whether you&rsquo;re decent, not by your title &mdash; is real and enforced. The t-shirt economy, the sticker-swapping, the badge-hacking in the hallway at 2 a.m.: all of it is the culture teaching itself, in person, the way it has since the TMRC clubroom of Chapter 1.</p>
+
+  <div class="secread">
+    <span class="tag">For your first con</span>
+    <p>Three rules that will save you. <strong>One:</strong> treat every network as hostile and don&rsquo;t log in to anything that matters (see the Wall of Sheep, above). <strong>Two:</strong> ask before you photograph anyone &mdash; a lot of excellent people have very good reasons not to be on camera, and it is the fastest way to be remembered badly. <strong>Three:</strong> the hallway is the conference. Skip a talk you could watch on video later, go to a village, pick up a lockpick, lose a round of CTF, and <em>talk to the person next to you.</em> You are not there to consume content. You are there to meet your field.</p>
+  </div>
+
+  <h2 id="part3">Part III &mdash; Black Hat: The Suit Side</h2>
+  <h3>The commercial sibling, and a useful tension</h3>
+
+  <p>A year after DEF CON found its feet, Moss founded <strong>Black Hat</strong> (1997) as its professional sibling &mdash; the same caliber of research, delivered in a corporate setting that a CISO could expense and a vendor could sponsor. The two run back-to-back in Las Vegas each summer, a stretch the industry calls <strong>&ldquo;Hacker Summer Camp&rdquo;</strong> (with BSides Las Vegas in the middle). Black Hat is where serious vulnerability research gets its formal premiere &mdash; the Black Hat Briefings have launched some of the most important disclosures in the field&rsquo;s history &mdash; and it is also, increasingly, a sprawling trade show with a vendor floor.</p>
+
+  <p>The tension between Black Hat and DEF CON is worth understanding, because it is the professionalization story of Chapter 1 made into two buildings. Black Hat is the suit; DEF CON is the t-shirt. One is where the industry does business; the other is where the culture renews itself. Veterans will tell you to do Black Hat for the briefings and the networking if your employer pays, and to do DEF CON for your soul. Both are true, and the fact that the <em>same person</em> founded both is the whole point: the bridge between the hacker and the professional is not a wall but a shuttle bus running up the Strip.</p>
+
+  <p>Black Hat week keeps the culture&rsquo;s sense of humor even in a suit. The <strong>Pwnie Awards</strong> &mdash; the field&rsquo;s tongue-in-cheek &ldquo;Oscars,&rdquo; handed out as little gold pony trophies &mdash; celebrate the year&rsquo;s best research and, pointedly, its worst failures (the &ldquo;Most Epic Fail&rdquo; and &ldquo;Lamest Vendor Response&rdquo; categories keep the powerful honest). And the broader ecosystem includes the competitive exploitation the field treats as a blood sport: <strong>Pwn2Own</strong>, run by Trend Micro&rsquo;s Zero Day Initiative (and held at events such as CanSecWest in Vancouver), where researchers win cash and the device itself for demonstrating a working zero-day against a fully-patched target live on stage. These contests are the professional cousins of DEF CON&rsquo;s CTF: proof, performed in public, that the skill is real &mdash; the same verification principle driving everything in this chapter, just with a vendor&rsquo;s check attached.</p>
+
+  <h2 id="part4">Part IV &mdash; ShmooCon: The East Coast</h2>
+  <h3>The one that sold out in seconds, and bowed out on top</h3>
+
+  <p>For twenty years, the East Coast had its own beloved institution, and its story is a near-perfect model of how to run &mdash; and how to end &mdash; a community con. <strong>ShmooCon</strong> was founded by <strong>Bruce Potter</strong> and the <strong>Shmoo Group</strong>, and the origin is pure hacker: sitting through a Black Hat talk full of dubious claims and waiting in vain for someone in the audience to challenge the speaker, Potter and a co-founder (handle <strong>Beetle</strong>) decided to build a conference where someone <em>would</em> &mdash; so, the story goes, Beetle took out a second mortgage on his house to secure a venue. The first ShmooCon, in February <strong>2005</strong> in Washington, DC, drew about 400 people. It grew to roughly 2,200.</p>
+
+  <p>ShmooCon drew a distinctly Beltway crowd &mdash; researchers, academics, government people, lawyers, and policy wonks mixing with the underground &mdash; which gave it a flavor no other con had. Its demand became legendary: <strong>every ShmooCon sold out from 2007 on</strong>, with tickets released in timed tranches that each vanished in <em>seconds</em>, a small annual masterpiece of community devotion (and server load). Its signature bit of folklore was the <strong>shmooball</strong> &mdash; soft foam balls the audience could throw at a speaker making a claim they didn&rsquo;t buy, the literal embodiment of the con&rsquo;s founding &ldquo;challenge the dubious&rdquo; ethic.</p>
+
+  <p>And then it did the rarest thing of all: it ended <em>on purpose, while still great.</em> The founders announced during ShmooCon 2024 that the next year would be the last, and the twentieth and final ShmooCon took place in January <strong>2025</strong>. There was no scandal and no collapse &mdash; just a group of volunteers deciding, after two decades, to stop while the thing they built was still beloved. In a culture littered with institutions that overstayed or burned out, ShmooCon&rsquo;s clean, chosen ending is its own kind of lesson: the people who pour themselves into these rooms get to decide when they&rsquo;re done, and walking away at the peak is a gift to the community, not a betrayal of it.</p>
+
+  <p>ShmooCon&rsquo;s design is worth remembering because it was quietly excellent. Its talk tracks were famously organized around three verbs &mdash; roughly, <em>Build It</em> (construction and defense), <em>Belay It</em> (breaking and attack), and <em>Bring It On</em> (debate and the harder edges) &mdash; a structure that insisted the con was about making and defending as much as breaking. It ran strong hands-on contests (including a &ldquo;Hack Fortress&rdquo; that fused a video game with live hacking challenges), kept its single-track intimacy even as it grew, and poured its surplus into the community rather than anyone&rsquo;s pocket. Bruce Potter himself went on to senior security roles in industry and government, the familiar pipeline again. The Shmoo Group has kept a smaller &ldquo;ShmooCon Epilogue&rdquo; gathering alive for the DC community, because the people don&rsquo;t vanish when the big show ends &mdash; they just find a smaller room. That is the resilience of a real community: the institution can close and the tribe remains.</p>
+
+  <h2 id="part5">Part V &mdash; BSides: The B-Side of the Record</h2>
+  <h3>The con the community built out of the rejects</h3>
+
+  <p>If DEF CON is the capital and Black Hat is the marketplace, <strong>Security BSides</strong> is the people&rsquo;s con &mdash; and for most newcomers, it is the single best first con there is. It was born in <strong>2009</strong> from an act of exclusion: Black Hat received far more talk submissions than it had room for, and a group of strong speakers were turned away &mdash; not for quality, but for space. Rather than accept it, <strong>Mike Dahn, Jack Daniel, and Chris Nickerson</strong> rented a house and ran the rejected talks themselves. They named it <strong>BSides</strong>, after the flip side of a vinyl single &mdash; the track that wasn&rsquo;t the hit but was often better.</p>
+
+  <p>That origin became a global movement. BSides is now a franchise of hundreds of independent, volunteer-run, free-or-cheap events in cities all over the world &mdash; BSides Las Vegas, BSides London, BSides Orlando, BSides Tampa, and very likely a BSides within driving distance of you. The genius of the model is the on-ramp: a local BSides is almost always the friendliest room a newcomer can walk into, and &mdash; crucially &mdash; it is where most people in this field <em>give their first talk.</em> The bar is lower and the welcome warmer than the big stages, and a first BSides talk has launched more careers than any certificate. If you take one practical action from this chapter, make it finding your nearest BSides and submitting a talk to it.</p>
+
+  <p>The mechanics are friendlier than you fear. Each BSides is independent and volunteer-run, funded by small sponsors and run on love; most publish an open <strong>Call for Papers</strong> that explicitly welcomes first-time and student speakers, and many pair newcomers with mentors to polish a talk. BSides Las Vegas &mdash; the original, now a fixture of &ldquo;Hacker Summer Camp&rdquo; between Black Hat and DEF CON &mdash; even runs a dedicated <strong>&ldquo;Proving Ground&rdquo;</strong> track built specifically to give new speakers their first stage with a veteran mentor at their side. One of the movement&rsquo;s co-founders, <strong>Jack Daniel</strong> &mdash; an instantly recognizable figure with a beard worthy of a Viking &mdash; has spent years evangelizing exactly this: that the community grows by lowering the barrier, not raising it. A first BSides talk is the cheapest, highest-return career move available to a newcomer in this entire field, and the room is rooting for you to land it.</p>
+
+  <h2 id="part6">Part VI &mdash; The Regional Constellation</h2>
+  <h3>Where the culture is most itself</h3>
+
+  <p>The famous cons are the fireworks; the regional cons are the hearth, and they are where the community is most genuinely itself. There are dozens, nearly every region has one, and they are worth more to a working career than any flagship.</p>
+
+  <h3>HackMiami &mdash; South Florida</h3>
+  <span class="handle">est. 2008 (meetings), 2013 (conference)</span>
+
+  <p>Close to home for this blog &mdash; <strong>HackMiami</strong> grew the way the best ones do: from the ground up. It began informally in 2008 as biweekly meetings of computer-science students and became one of the first hackerspaces to come out of South Florida, incorporating in 2009; its first full conference ran in Miami Beach in May 2013. Co-founded by <strong>Alexander Heid</strong> (who had worked on the front lines of the Operation Ababil DDoS campaigns), <strong>Rod Soto</strong>, and <strong>James Ball</strong>, HackMiami has consistently tracked the bleeding edge: its programming leaned into deepfakes in 2024 and pivoted hard to AI and &ldquo;agentic&rdquo; security in 2026. It is proof that a serious, agenda-setting con can be built in a mid-sized regional scene by a handful of students who kept showing up &mdash; exactly the pattern this book keeps pressing.</p>
+
+  <p>The HackMiami story is worth dwelling on for anyone who thinks they live too far from the action. It did not start as a conference; it started as a <strong>hackerspace</strong> and a recurring meetup &mdash; a room and a standing appointment &mdash; and the conference grew out of the community, not the other way around. Its founders are working practitioners, not celebrities: Heid did threat-intelligence work during the Operation Ababil wave of bank denial-of-service attacks and went on to a research role at a major security-ratings firm; Rod Soto is a well-known offensive-security researcher and CTF organizer. That matters because it is the replicable version of this whole book&rsquo;s argument. You do not need Las Vegas. You need a few committed people, a cheap recurring room (a library, a hackerspace, a bar&rsquo;s back room), and the patience to keep showing up until the thing has a life of its own. For a reader on Florida&rsquo;s Nature Coast or anywhere else off the beaten path, HackMiami is the proof of concept: the scene you want to join is sometimes the scene you have to help build, and building it is itself the fastest way in.</p>
+
+  <h3>DerbyCon &mdash; the family</h3>
+  <span class="handle">Louisville, 2011&ndash;2019</span>
+
+  <p>Ask veterans which dead con they miss most and a startling number will say <strong>DerbyCon</strong>. Founded in 2011 in a Louisville pizza shop after a Metasploit course by <strong>Dave Kennedy</strong>, Martin Bos, Adrian &ldquo;Irongeek&rdquo; Crenshaw, and Alex Kah, it drew about a thousand people its first year and ran for nine. When Kennedy announced the final 2019 event, he did not talk about talks or sponsors; he talked about what it had actually built &mdash; &ldquo;family, community and friendship&rdquo; &mdash; and noted that none of the founders ever took a profit. That word, <em>family</em>, is the one you will hear most once you are inside this world, and DerbyCon is the con that made it the standard. (It ended, pointedly, because of &ldquo;negativity and disruption&rdquo; from a small group &mdash; a reminder that these volunteer-run rooms are fragile, and worth protecting.)</p>
+
+  <h3>The long tail</h3>
+
+  <p>Beyond these: <strong>CircleCityCon</strong> (Indianapolis), <strong>SkyDogCon</strong> (Nashville, beginner-friendly and weird in the best way), <strong>Outerz0ne</strong> (Atlanta, free admission), <strong>CarolinaCon</strong>, <strong>CactusCon</strong> (Arizona), <strong>Wild West Hackin&rsquo; Fest</strong>, <strong>ToorCon</strong>, <strong>ThotCon</strong> (Chicago), and on and on. Most offer student pricing, many are free, nearly all run on volunteers and survive on swap-and-auction fundraisers and small grants. The point of the long tail is accessibility: the answer to &ldquo;prove you&rsquo;re real&rdquo; should never be a plane ticket to Las Vegas &mdash; it should be the cheap regional con or the free Tuesday meeting two towns over. Find the one nearest you and go.</p>
+
+  <h3>OWASP &mdash; the professional guild</h3>
+  <span class="handle">est. 2001, Mark Curphey</span>
+
+  <p>If the cons are the culture, <strong>OWASP</strong> is the trade guild &mdash; and for anyone trying to turn the hacker mindset into a legitimate paycheck, it is the single most useful room in town. The <strong>Open Worldwide Application Security Project</strong> (originally &ldquo;Open Web&rdquo;) was founded by <strong>Mark Curphey</strong> on 9 September <strong>2001</strong> and became a nonprofit foundation in 2004. Its <strong>Top Ten</strong> &mdash; a ranked list of the most critical web-application security risks, first published in 2003 &mdash; is the single most-referenced document in all of application security, cited in contracts, compliance standards, and job descriptions worldwide; if you learn one list in this field, learn that one (and you will meet it again in Chapter 6).</p>
+
+  <p>But OWASP matters to <em>this</em> chapter because of how it gathers. It runs free <strong>local chapters in over a hundred countries</strong>, holding regular, open, free meetings that are deliberately welcoming to beginners and, not coincidentally, packed with exactly the senior engineers and managers who do the hiring. It also runs serious regional conferences &mdash; the <strong>OWASP Global AppSec</strong> events in the Americas, Europe, and Asia &mdash; and stewards an enormous library of free tools and projects (the ZAP proxy, the Application Security Verification Standard, the Cheat Sheet Series, the Juice Shop training app). Where a 2600 meeting is the grassroots door for the curious teenager and a BSides is the on-ramp to the con world, your local OWASP chapter is the <em>career</em> door: the lowest-barrier way to stand in a room with the people who will eventually hire you, built entirely around the one thing this field respects &mdash; demonstrated knowledge of how software actually breaks.</p>
+
+  <h2 id="part7">Part VII &mdash; HOPE and the 2600 World</h2>
+  <h3>The East Coast&rsquo;s other lineage, and the grassroots beneath it all</h3>
+
+  <p>There is an older, more explicitly political strand of the American con, and it runs through the magazine that has carried this culture for forty years. <strong>HOPE</strong> &mdash; <strong>Hackers on Planet Earth</strong> &mdash; was first held in <strong>1994</strong> at the <strong>Hotel Pennsylvania</strong> in Manhattan, sponsored by <em>2600: The Hacker Quarterly</em> to mark the magazine&rsquo;s tenth anniversary. More than a thousand people came; it was the first hacker conference of its size attempted in the United States, and it drew its inspiration not from America but from the <strong>Dutch outdoor hacker camps</strong> (the Galactic Hacker Party of 1989 and its successors), giving HOPE a European, activist sensibility from the start.</p>
+
+  <p>HOPE has run biennially every summer since, mostly at the Hotel Pennsylvania &mdash; through <em>Beyond HOPE</em> (1997), <em>H2K</em> (2000), and a long run of editions &mdash; until that storied hotel was slated for demolition and the conference moved; the fifteenth HOPE, in 2024, was held at St. John&rsquo;s University in Queens. HOPE is the con where the hacker meets the civil libertarian: its stages have hosted whistleblowers, cryptographers, and privacy activists alongside the lockpickers, reflecting the worldview of its parent magazine and that magazine&rsquo;s long-time editor, who writes as <strong>Emmanuel Goldstein</strong> (Chapter 2).</p>
+
+  <p>Its program over thirty years is a civil-liberties roll call. At H2K in 2000, <strong>Kevin Mitnick</strong> &mdash; newly released and still barred from touching a computer &mdash; addressed the conference, one of his first public appearances as a free man. Later editions featured <strong>Daniel Ellsberg</strong> of the Pentagon Papers, a young <strong>Aaron Swartz</strong> (Chapter 2) talking about open access and the fight that would later consume him, and &mdash; at HOPE X in 2014, by video link &mdash; <strong>Edward Snowden</strong> himself, addressing the community in the wake of his 2013 disclosures. HOPE is where the hacker community does its thinking out loud about power, surveillance, and conscience &mdash; the American con that most resembles the European Congress in Part VIII, and the clearest living proof that &ldquo;hacker&rdquo; and &ldquo;citizen&rdquo; were never opposites.</p>
+
+  <h3>2600 meetings &mdash; the oldest ritual, and the cheapest door</h3>
+
+  <p>You do not need a plane ticket, a badge, or a single dollar to start &mdash; and this is the most important paragraph in the chapter for a true beginner. On the <strong>first Friday of every month</strong>, in cities all over the world, readers of <em>2600</em> gather in a public place &mdash; historically a mall food court or a lobby, somewhere anyone can simply walk up &mdash; for a <strong>2600 meeting</strong>. They are free, open to absolutely anyone, and deliberately un-exclusive; the whole point is that a curious fifteen-year-old and a thirty-year veteran sit at the same table. If there is a 2600 meeting near you, that is the lowest-stakes, lowest-cost door into this entire world. The magazine also runs the long-running radio show <em>Off the Hook</em> out of WBAI in New York. Four decades on, the first-Friday meeting remains the grassroots root system beneath every glamorous con in this chapter.</p>
+
+  <p>If the idea of walking up to strangers terrifies you, know how low the bar actually is. A 2600 meeting is just people &mdash; often a handful, sometimes a crowd &mdash; sitting together in a public spot, talking about technology, projects, and whatever is in the news. The magazine publishes a list of active meetings and a short set of guidelines (meet in a public, open area; be welcoming; it is not a members-only club), and the whole ethic is anti-exclusive by design. You do not need to know anything to attend; you need to be curious and willing to listen. Show up, introduce yourself once, and mostly just <em>be there.</em> The same three-visit rule applies in miniature: by your third first-Friday, you are a regular, and a regular at a 2600 meeting is plugged into a network that reaches, by a few handshakes, every room in this chapter.</p>
+
+  <h2 id="part8">Part VIII &mdash; The Congress</h2>
+  <h3>Europe&rsquo;s answer, and the other great gathering on earth</h3>
+
+  <p>DEF CON is not the only convention of its scale. Every year, between Christmas and New Year, the <strong>Chaos Communication Congress</strong> &mdash; run by the Chaos Computer Club (Chapters 1 and 3) &mdash; gathers tens of thousands of hackers in Germany for what is, with DEF CON, one of the two most important hacker gatherings in the world. It has been held at the end of the year since <strong>1984</strong>, settling into its now-traditional <strong>27&ndash;30 December</strong> slot in 2005, and it is known by number: 37C3, 38C3, and so on, with 39C3 in 2025 and 40C3 expected in 2026. Over the decades it has moved between Hamburg, Berlin, and Leipzig, following the venues large enough to hold it.</p>
+
+  <p>The Congress has a character distinct from its American cousin, and the difference is instructive. Where DEF CON is exuberant, commercial-adjacent, and Vegas-loud, the Congress is more explicitly <em>political and infrastructural</em> &mdash; it reflects the CCC&rsquo;s conviction that technology is a public and civic matter, foregrounding surveillance, digital rights, and the responsibilities of the hacker to society. It is famous for its elaborate volunteer-built infrastructure (a temporary city&rsquo;s worth of networking and art), its emphasis on <em>Kunst und Kultur</em> (art and culture) alongside deep technical talks, and the sheer competence of a community that treats running the event as itself a hack. In the off years, the CCC runs the open-air <strong>Chaos Communication Camp</strong>, a several-thousand-person tent city of hackers &mdash; the European sibling of the Dutch camps that inspired HOPE. If DEF CON is where you feel the culture&rsquo;s energy, the Congress is where you feel its conscience.</p>
+
+  <p>The Congress runs on a model worth studying in its own right. It is built almost entirely by volunteers &mdash; called <strong>&ldquo;angels&rdquo;</strong> &mdash; who construct, for four days, a fully-functioning miniature city: its own phone network, its own power and fiber, elaborate light-and-art installations, assemblies where niche communities cluster, and a culture of &ldquo;be excellent&rdquo; that predates and parallels DEF CON&rsquo;s. And its stages have produced some of the most consequential security disclosures in the world: research exposing deep flaws in the <strong>SS7</strong> telephone-signaling network that let attackers track and intercept any mobile phone, the defeat of biometric systems, electronic-voting teardowns, and foundational talks on Tor and anonymity. The Congress is where the European tradition of Chapter 1 &mdash; hacking as a civic and political act, with a written ethic and a conscience bolted on &mdash; renews itself every December. For an American hacker, going once is a revelation: it shows you a version of the culture that took the &ldquo;information wants to be free&rdquo; argument and built durable public institutions on top of it, rather than start-ups.</p>
+
+  <h2 id="part9">Part IX &mdash; The Ancestors</h2>
+  <h3>Where everyone gathered before there were cons</h3>
+
+  <p>None of these rooms came from nowhere. Before DEF CON, before HOPE, the tribe already had places to gather &mdash; they were just made of text and phone lines. Understanding them is not nostalgia; it is understanding the DNA of every community space you will ever use, from a Discord to a mailing list to a village at a con.</p>
+
+  <h3>USENET &mdash; the first global commons</h3>
+
+  <p>In <strong>1979</strong>, two graduate students at Duke University, <strong>Tom Truscott</strong> and <strong>Jim Ellis</strong>, had an idea: use <strong>UUCP</strong> (Unix-to-Unix Copy) to pass messages between Unix machines, so that people in the Unix community could share news. With <strong>Steve Bellovin</strong> at the nearby University of North Carolina writing the first version as shell scripts, <strong>USENET</strong> went live around the start of 1980 with a grand total of three sites, and was described at that January&rsquo;s USENIX conference. It grew into the first great global discussion system &mdash; a decentralized network of <strong>newsgroups</strong> organized into hierarchies (<code>comp.*</code> for computing, <code>sci.*</code> for science, and, after a 1987 revolt against the staid official hierarchy, the gloriously ungoverned <code>alt.*</code>, where anything could be discussed). For the hacker, groups like <code>comp.security</code> and the legendary <code>alt.2600</code> were a global, searchable, always-on seminar &mdash; the direct ancestor of every security forum since.</p>
+
+  <p>USENET also taught the culture two permanent lessons, both of which you live with today. The first is the value of <em>open, archived, communal knowledge</em> &mdash; decades of problem-solving preserved and searchable, the Homebrew ethic at internet scale. The second is darker and is called the <strong>&ldquo;Eternal September.&rdquo;</strong> Every September, a wave of new university students would flood USENET and have to be taught the norms, then settle in. But in <strong>1993</strong>, America Online connected its enormous subscriber base to USENET all at once &mdash; and the flood of newcomers never stopped, never acculturated, and overwhelmed the old norms permanently. &ldquo;September 1993&rdquo; is the month, old-timers joke, that never ended. It is the first and still the clearest case study in how a healthy online community dies by scaling faster than it can transmit its culture &mdash; a lesson every platform since has re-learned the hard way.</p>
+
+  <p>USENET is also where much of the internet&rsquo;s civic vocabulary was invented, for better and worse. It gave us <strong>&ldquo;netiquette&rdquo;</strong> and the FAQ (frequently-asked-questions files written precisely so veterans wouldn&rsquo;t have to re-answer newcomers), the flame war, and the troll. It gave us the first large-scale <strong>spam</strong>: in 1994, two lawyers, Canter and Siegel, blasted an advertisement for green-card services to thousands of newsgroups at once, and the net&rsquo;s furious, improvised response to that violation effectively invented the modern fight against spam. It even gave us the <strong>&ldquo;Great Renaming&rdquo;</strong> of 1987, a contentious reorganization of the newsgroup hierarchies whose politics &mdash; who gets to decide the structure of a shared commons? &mdash; are the same politics every platform&rsquo;s moderation fights replay today. For the hacker specifically, USENET was the first place the global tribe could argue, teach, and show off at scale, archived forever; much of it survives in the Google Groups archive, a readable fossil record of the culture&rsquo;s adolescence. If you want to understand why online communities behave the way they do, you are really asking a question USENET answered first.</p>
+
+  <h3>The BBS &mdash; the bedroom nation</h3>
+
+  <p>Alongside USENET ran the <strong>bulletin board system</strong> (Chapter 1): a computer in someone&rsquo;s bedroom that others dialed into directly, one at a time, to trade messages and files. The BBS was the hacker underground&rsquo;s first real nation &mdash; local (long-distance calls cost money), intimate, and organized around individual sysops who set the rules of their own small worlds. DEF CON itself, remember, began as a party for a BBS network. When you feel the intimacy of a small Discord or a private group chat, you are feeling the BBS; when you feel the sprawl of a global forum, you are feeling USENET. The whole modern landscape of online community is those two ancestors, recombined.</p>
+
+  <h3>The Linux world &mdash; where the builders gather</h3>
+
+  <p>There is a parallel universe of gatherings that an attacker-focused newcomer often misses entirely, and it is the one that built the ground you stand on: the <strong>free and open-source software</strong> community (Chapter 1). Its grassroots unit is the <strong>Linux User Group</strong> (LUG) &mdash; local clubs, active since the 1990s, that meet to talk about and tinker with Linux and famously run <strong>installfests</strong>, where volunteers help newcomers get Linux running on their machines for free. The LUG is the FOSS world&rsquo;s version of the 2600 meeting: the cheapest, friendliest local door in.</p>
+
+  <p>At the larger scale, the builders have their own great conventions. <strong>FOSDEM</strong> &mdash; the Free and Open Source Developers&rsquo; European Meeting &mdash; has been held every February in Brussels since <strong>2001</strong> (it was renamed at Richard Stallman&rsquo;s suggestion), is entirely free and volunteer-run, and draws thousands of developers to the ULB campus for the densest weekend of open-source collaboration on earth. In the United States there is <strong>SCALE</strong> (the Southern California Linux Expo); in the Southern Hemisphere, the beloved <strong>linux.conf.au</strong>; and historically the German <strong>Linux Kongress</strong>. And at the artistic edge sits the <strong>demoscene</strong> &mdash; the European subculture of coders who gather at &ldquo;demoparties&rdquo; like Assembly and Revision to compete at producing jaw-dropping audiovisual art in tiny amounts of code, the purest celebration of pure skill the computing world has. These rooms are less about breaking and more about building &mdash; but they are the same tribe, and the defender who has never talked to the people who <em>maintain</em> the software will never fully understand how to protect it.</p>
+
+  <p>The demoscene deserves its own word because its origin is pure hacker and often forgotten. It grew directly out of the 1980s software-<em>cracking</em> scene: crackers who removed copy protection from Commodore 64 and Amiga games began prepending short animated &ldquo;crack intros&rdquo; to show off and sign their work, and that competitive showing-off detached from piracy and became an art form in its own right. Today&rsquo;s demoparties &mdash; Assembly in Finland, Revision in Germany &mdash; are competitions to produce stunning real-time audiovisual art, sometimes squeezed into absurdly tiny amounts of code (a famous category is the &ldquo;64k intro,&rdquo; a whole audiovisual world in sixty-four kilobytes). It is the same deep-systems mastery that produces a great exploit, pointed at beauty instead of access &mdash; the clearest proof that the hacker instinct and the artist&rsquo;s are, at root, the same drive to make a machine do something its makers never imagined. And the installfest, at the humble end of this world, is the single kindest ritual in computing: strangers volunteering a Saturday to help other strangers free their machines, asking nothing in return. If the con teaches you how the culture competes, the installfest teaches you how it cares.</p>
+
+  <h2 id="part10">Part X &mdash; How to Walk In</h2>
+  <h3>Turning a badge into a career, and a weekend into a life</h3>
+
+  <p>The whole chapter comes down to a door, and walking through it is most of the battle. But a few habits turn a single weekend into a network that pays you back for decades. I gave the long version in &ldquo;Hack the Handshake&rdquo;; here is the field-stripped version.</p>
+
+  <ol class="lessons">
+    <li><strong>Go three times.</strong> Pick one recurring thing &mdash; a 2600 meeting, a DCG, an OWASP chapter, a BSides &mdash; and attend it three times running. Stranger, face, regular. The third visit is where it starts.</li>
+    <li><strong>Work the hallway, not the schedule.</strong> The talks are recorded; the conversations are not. Go to the villages, lose a CTF, pick a lock, and <em>talk to people.</em></li>
+    <li><strong>Protect the network and the people.</strong> Never touch systems you&rsquo;re not authorized to touch. Ask before you photograph anyone &mdash; many excellent people have very good reasons not to be on camera. &ldquo;Be excellent to each other&rdquo; is the actual, enforced rule.</li>
+    <li><strong>Bring your OPSEC.</strong> Treat the con network as hostile, bring a clean or minimal device, patch before you travel, and don&rsquo;t log in to anything you&rsquo;d hate to see on the Wall of Sheep.</li>
+    <li><strong>Ask specific questions.</strong> Not &ldquo;how do I get into cyber?&rdquo; but &ldquo;I built a home detection lab and I&rsquo;m targeting analyst roles &mdash; what gap would you notice first?&rdquo; Specific questions get generous answers.</li>
+    <li><strong>Give more than you take.</strong> Volunteer at registration, help run a village, write up a talk nobody else did, submit to your local BSides. Every organizer in this chapter started by contributing to a room, not extracting from it. That is not charity; it is the mechanism.</li>
+  </ol>
+
+  <h3>The through-line</h3>
+
+  <p>From a 1980 mailing list of three Unix machines, to a bedroom BBS, to a going-away party in Las Vegas, to a tent city in Germany and a food-court table on the first Friday of the month &mdash; the form keeps changing and the function never does. The gatherings are how a culture of pseudonymous, scattered, adversarial, intensely private people manages, against all odds, to be a <em>community</em> &mdash; to teach its newcomers, vouch for its members, bury its dead, and renew its ethic, face to face, year after year. In the age of the synthetic everything, that is not a quaint survival. It is the whole advantage. The machine can generate the r&eacute;sum&eacute;, the profile, and the face. It cannot shake your hand, and it cannot be the stranger who watched you work and said, to someone who mattered, <em>this one is real.</em></p>
+
+  <div class="pullquote">The badge was never the point. The handle on it, and the person who earned it, were &mdash; and you earn it by walking in.</div>
+
+  <h3>Carry these out of Chapter 4</h3>
+  <ol class="lessons">
+    <li><strong>The culture is physical.</strong> It lives in rooms, not feeds. You cannot join it from a couch, and you cannot fake having been there.</li>
+    <li><strong>Start cheap and local.</strong> A 2600 meeting, a LUG, a DEF CON Group, a regional BSides &mdash; free or nearly so, and a better first step than any flagship.</li>
+    <li><strong>The hallway is the conference.</strong> Repetition beats performance; the third visit is where careers begin.</li>
+    <li><strong>Know the ancestors.</strong> USENET and the BBS invented the dynamics of every community space you use &mdash; including how they die (the Eternal September).</li>
+    <li><strong>Honor the builders&rsquo; rooms too.</strong> FOSDEM, the LUG, the demoscene &mdash; the people who maintain the software are the same tribe, and you cannot defend what they build without knowing them.</li>
+    <li><strong>Give back, and never touch the network.</strong> The two rules that make you welcome forever, or get you thrown out for good.</li>
+  </ol>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">The ritual, and the companion piece</p>
+  <ul class="refs">
+    <li>Savvy Security LLC. &ldquo;Hack the Handshake: Why the Age of AI Makes the Hacker Con More Important Than Ever&rdquo; (this blog, 2026) &mdash; the career and verification case, with 45 sources.</li>
+    <li>Coleman, E. Gabriella. &ldquo;The Hacker Conference: A Ritual Condensation and Celebration of a Lifeworld.&rdquo; <em>Anthropological Quarterly</em>, 2010.</li>
+    <li>Zar&oacute;d, Marcin. <em>The Sociology of Cybersecurity.</em> Routledge, 2025.</li>
+  </ul>
+
+  <p class="refs-group">DEF CON &amp; Black Hat</p>
+  <ul class="refs">
+    <li>DEF CON (est. June 1993); Jeff Moss / The Dark Tangent; the villages, CTF (since DEF CON 4, 1996), the Black Badge, &ldquo;Spot the Fed,&rdquo; the goons, the Wall of Sheep, DEF CON Groups (2004). <a href="https://defcon.org/">defcon.org</a>.</li>
+    <li>DEF CON and the feds (2013) &mdash; Jeff Moss&rsquo;s request that federal agents sit out; &ldquo;openness, verified trust, and mutual respect.&rdquo; See CBS News and <em>The Register</em>, July 2013.</li>
+    <li>DARPA Cyber Grand Challenge (DEF CON 24, 2016, &ldquo;Mayhem&rdquo;); DARPA AI Cyber Challenge (2025, Team Atlanta). <a href="https://www.darpa.mil/">darpa.mil</a>.</li>
+    <li>Black Hat Briefings (est. 1997); the Pwnie Awards; Pwn2Own (Trend Micro Zero Day Initiative, held at events including CanSecWest). <a href="https://www.blackhat.com/">blackhat.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">ShmooCon</p>
+  <ul class="refs">
+    <li>ShmooCon (2005&ndash;2025); Bruce Potter and the Shmoo Group; Washington, DC. First event February 2005 (~400 attendees), grew to ~2,200; sold out every year from 2007; shmooballs; final (20th) event January 2025. See CSO Online, &ldquo;ShmooCon to take its final bow in 2025&rdquo;; DomainTools, &ldquo;Building a Hacker Conference from Scratch.&rdquo;</li>
+  </ul>
+
+  <p class="refs-group">BSides &amp; the regionals</p>
+  <ul class="refs">
+    <li>Security BSides (est. 2009); Mike Dahn, Jack Daniel, Chris Nickerson; the global free/low-cost network. <a href="https://bsides.org/">bsides.org</a>.</li>
+    <li>HackMiami &mdash; informal meetings from 2008, incorporated 2009, first conference May 2013; Alexander Heid, Rod Soto, James Ball. <a href="https://hackmiami.org/">hackmiami.org</a>.</li>
+    <li>DerbyCon (Louisville, 2011&ndash;2019); Dave Kennedy, Martin Bos, Adrian Crenshaw, Alex Kah; &ldquo;family, community and friendship.&rdquo;</li>
+    <li>CircleCityCon, SkyDogCon, Outerz0ne, CarolinaCon, CactusCon, Wild West Hackin&rsquo; Fest, ThotCon, ToorCon &mdash; regional cons; see each con&rsquo;s site.</li>
+  </ul>
+
+  <p class="refs-group">HOPE &amp; 2600</p>
+  <ul class="refs">
+    <li>Hackers on Planet Earth (HOPE) &mdash; first held 1994 at the Hotel Pennsylvania, New York; sponsored by <em>2600</em> (10th anniversary); inspired by the Dutch hacker camps; biennial; HOPE XV (2024) at St. John&rsquo;s University, Queens. <a href="https://www.hope.net/">hope.net</a>.</li>
+    <li><em>2600: The Hacker Quarterly</em>; monthly first-Friday meetings; <em>Off the Hook</em> (WBAI); Eric Corley / &ldquo;Emmanuel Goldstein.&rdquo; <a href="https://www.2600.com/meetings/">2600.com/meetings</a>.</li>
+  </ul>
+
+  <p class="refs-group">The Chaos Communication Congress</p>
+  <ul class="refs">
+    <li>Chaos Communication Congress (annual since 1984; 27&ndash;30 December slot since 2005; Hamburg / Berlin / Leipzig; numbered NNC3); the Chaos Communication Camp (open-air, off years). <a href="https://events.ccc.de/congress/">events.ccc.de</a>.</li>
+  </ul>
+
+  <p class="refs-group">The ancestors</p>
+  <ul class="refs">
+    <li>USENET &mdash; Tom Truscott and Jim Ellis (Duke, 1979); Steve Bellovin (UNC); UUCP; &ldquo;A News&rdquo; / &ldquo;B News&rdquo;; the newsgroup hierarchies and the <code>alt.*</code> revolt (1987). See Peter H. Salus, <em>Casting the Net</em>, and the USENIX histories.</li>
+    <li>The &ldquo;Eternal September&rdquo; (AOL joins USENET, 1993).</li>
+    <li>Linux User Groups and installfests; FOSDEM (Brussels, since 2001; renamed at Richard Stallman&rsquo;s suggestion, 2002); SCALE; linux.conf.au; the demoscene (Assembly, Revision). <a href="https://fosdem.org/">fosdem.org</a>.</li>
+    <li>The Dutch outdoor hacker camps &mdash; Galactic Hacker Party (1989), Hacking at the End of the Universe (1993), and successors (HIP, HAL, WTH, HAR, OHM, SHA, MCH).</li>
+    <li>The demoscene &mdash; its origins in 1980s Commodore 64 / Amiga crack intros; demoparties (Assembly, Revision); size-coding (the 64k and 4k intro). The BBS era is documented in Jason Scott&rsquo;s <em>BBS: The Documentary</em> (2005) and textfiles.com.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> Convention dates, attendance figures, and venues vary across sources and change year to year; where a figure is approximate or a 2026 date could not be confirmed, the text says so and points to the organizer. This chapter deliberately avoids re-arguing the career case made in &ldquo;Hack the Handshake&rdquo; and instead deepens the institutional history, filling in the gatherings that piece did not cover (ShmooCon, HOPE, the Chaos Communication Congress, USENET, and the Linux world). Direct quotes are drawn from the cited sources. There are deliberately no photographs here; this book uses images only from properly licensed, correctly credited sources, and the companion article &ldquo;Hack the Handshake&rdquo; carries a fully-credited photo set.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense. This is Chapter 4 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch03-the-tribes/">&larr; Chapter 3 &mdash; The Tribes</a>
+    <a href="../ch05-the-machine-you-own/">Next: Chapter 5 &mdash; The Machine You Own &rarr;</a>
+  </nav>
+
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive &middot; Chapter Four</footer>
+</body>
+</html>

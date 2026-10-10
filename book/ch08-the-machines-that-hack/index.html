@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 8 — The Machines That Hack</title>
+<meta name="description" content="AI in offense and defense, from the 2016 DARPA Cyber Grand Challenge stage to 2026: the AI Cyber Challenge final, autonomous CTF and pentest agents (XBOW, Cybench, EnIGMA), defensive AI finding real zero-days (Big Sleep), the MIT and academic literature, nation-state AI (Anthropic's GTG-1002), AI-powered Sybil attacks and data poisoning, and the vibe-coded arsenal. Chapter 8 of A Hacker's Guide to Survive.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Machines That Hack — AI Offense and Defense, 2016 to Now">
+<meta property="og:description" content="Chapter 8 of A Hacker's Guide to Survive: from robots playing capture-the-flag at DEF CON 2016 to the 2025 AI Cyber Challenge, autonomous hacking agents, nation-state AI, Sybil attacks and poisoning, and the vibe-coded toolchain — deeply sourced, up to 2026.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch08-the-machines-that-hack/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="AI Security">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Machines That Hack — AI Offense and Defense, 2016 to Now">
+<meta name="twitter:description" content="Chapter 8 of A Hacker's Guide to Survive: autonomous hacking from the DARPA Cyber Grand Challenge to the AI Cyber Challenge, nation-state AI, Sybil attacks, data poisoning, and the vibe-coded arsenal.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch08-the-machines-that-hack/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--bg); color:var(--fg); font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif; line-height:1.68; font-size:17px; }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:780px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none; color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 11px; letter-spacing:.02em; }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 10px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:30px 0 8px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 15px;}
+  ul,ol{margin:0 0 16px; padding-left:23px;}
+  li{margin-bottom:6px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.88em; background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:1px 5px;}
+
+  .framing{ background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2); border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem; }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .danger{ background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger); border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px; }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{ margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2); font-size:1.24rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600; }
+
+  blockquote{margin:18px 0; padding:4px 0 4px 20px; border-left:3px solid var(--accent); font-style:italic; color:var(--fg);}
+  blockquote cite{display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:7px; font-family:'IBM Plex Mono',monospace;}
+
+  /* stat panel */
+  .stats{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 24px;}
+  .stat{flex:1 1 150px; background:var(--card); border:1px solid var(--rule); border-radius:6px; border-left:4px solid var(--accent2); padding:12px 14px;}
+  .stat .big{font-family:'IBM Plex Mono',monospace; font-size:1.5rem; font-weight:700; color:var(--accent2); line-height:1.1;}
+  .stat .lab{font-size:.82rem; color:var(--muted); margin-top:4px;}
+
+  .secread{ background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:14px 18px; margin:20px 0; font-size:.9rem; color:var(--muted);}
+  .secread b{color:var(--accent2); font-family:'IBM Plex Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; display:block; margin-bottom:5px;}
+
+  .lessons{background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent); border-radius:0 4px 4px 0; padding:18px 22px; margin:22px 0 26px;}
+  .lessons h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent); font-weight:700;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Eight</p>
+  <h1>The Machines That Hack</h1>
+  <p class="dek">Nine years from robots playing capture-the-flag on a Las Vegas stage to autonomous agents running most of a nation-state espionage campaign. What the machines can now do on both sides of the line &mdash; and what still, for now, only we can do.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; The Stage (2016)</a>
+    <a href="#part2">II &middot; The Nine-Year Leap</a>
+    <a href="#part3">III &middot; Autonomous Hunters</a>
+    <a href="#part4">IV &middot; Machines That Defend</a>
+    <a href="#part5">V &middot; The Academy</a>
+    <a href="#part6">VI &middot; The Dark Mirror</a>
+    <a href="#part7">VII &middot; Sybils &amp; Poison</a>
+    <a href="#part8">VIII &middot; The Vibe-Coded Arsenal</a>
+    <a href="#part9">IX &middot; Where This Leads</a>
+    <a href="#part10">X &middot; Living With the Machines</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>What this chapter is, and the rule that still governs it</h3>
+    <p>Every chapter before this one was about what <em>people</em> do. This one is about what the machines have started to do for them &mdash; and, increasingly, on their own. It is the chapter the earlier editions of every hacking book could not have written, because the thing it describes did not exist. In 2016 an autonomous system found and patched software flaws in a demonstration and we called it science fiction made real. By late 2025 an autonomous system ran an estimated eighty to ninety percent of a real cyber-espionage campaign against roughly thirty organizations, and we called it Tuesday.</p>
+    <p>I have a stake in this that the rest of the book has made plain. Everything in Chapter 5 &mdash; the books, the apps, the DARPA proposals, the company, all of it off a used Chromebook and two twenty-dollar subscriptions &mdash; is this chapter&rsquo;s technology pointed at building instead of breaking. So I am not here to sell you the hype or the doom. I am here to tell you, with the sources in hand, exactly where the machines actually are as of 2026, how they got here so fast, and what it means for the vibe coders who will inherit this.</p>
+    <p>And the rule of this book does not change just because the hand on the keyboard is now partly silicon. <strong>An AI that can find a vulnerability can find it for a defender or for a criminal; the model does not know the difference and does not care. The authorization does. Every capability in this chapter is dual-use, and the line between research and crime is exactly where it has always been &mdash; in permission, and in what a human chooses to do with the power. The machine only makes the choice bigger.</strong></p>
+  </div>
+
+  <figure>
+    <img src="assets/timeline.svg" alt="A timeline from 2016 to 2026 marking the milestones of autonomous hacking: the 2016 Cyber Grand Challenge, the 2023 AIxCC announcement, Big Sleep's first AI-found zero-day in 2024, XBOW reaching number one on HackerOne and the AIxCC final in 2025, the GTG-1002 espionage disclosure in November 2025, and the continuing rise of agent task-horizons into 2026.">
+    <figcaption>The arc this chapter traces: autonomous systems moved from a staged demonstration to live use on both sides of security in under a decade.<span class="credit">Original diagram &mdash; Savvy Security LLC. Milestones sourced in the text.</span></figcaption>
+  </figure>
+
+  <!-- ===================== PART I ===================== -->
+  <h2 id="part1">Part I &mdash; The Robots Take the Stage (2016)</h2>
+  <p>On the night of August 4, 2016, in a ballroom at the Paris hotel in Las Vegas, seven refrigerator-sized supercomputers played a game of capture-the-flag against each other with no human touching a key. This was DARPA&rsquo;s <strong>Cyber Grand Challenge</strong> (CGC), the finale of a multi-year contest to answer one question: could a machine find a software vulnerability, write a working exploit for it, and patch the same flaw in its own code &mdash; faster than any human, and entirely on its own?</p>
+  <p>The answer was yes. The winner was <strong>Mayhem</strong>, a system built by <strong>ForAllSecure</strong>, a startup spun out of Carnegie Mellon University by David Brumley and his students. Mayhem took the two-million-dollar first prize; TECHx&rsquo;s <em>Xandra</em> came second ($1M), and Shellphish&rsquo;s <em>Mechanical Phish</em> &mdash; from the storied UC Santa Barbara hacking group &mdash; came third ($750K). The contest ran eight hours across ninety-six rounds. In each round the machines were handed unknown software, and had to do the full loop of this entire book, automatically: reverse it, find the bug, prove it with an exploit, and ship a patch, all while defending their own services and attacking everyone else&rsquo;s.</p>
+  <p>What made it history was not the spectacle. It was the demonstration that the attacker&rsquo;s whole workflow &mdash; the thing that had taken the people in Chapters 2 and 3 their careers to master &mdash; could be reduced to an algorithm. DARPA&rsquo;s program manager, <strong>Mike Walker</strong>, had built the challenge precisely to prove that automated defense at machine speed was possible, because human defenders were already too slow for the scale of the problem. The organizers then did the thing that mattered most for this chapter&rsquo;s story: they invited Mayhem, the machine, to compete in the <em>human</em> DEF CON Capture the Flag the very next day. It finished last against the elite human teams &mdash; but it played. A machine had earned a seat at the table where the best hackers alive sat.</p>
+  <blockquote>
+    &ldquo;What you saw was computers finding and proving and fixing software flaws &mdash; with no human in the loop.&rdquo;
+    <cite>&mdash; The spirit of DARPA&rsquo;s Cyber Grand Challenge, 2016 (DARPA, &ldquo;Mayhem Declared Preliminary Winner&rdquo;)</cite>
+  </blockquote>
+  <p>For seven years, that was mostly where it stayed: a landmark, a proof of concept, a trophy. Mayhem the technology went on to a commercial life in software testing. The machines could hack, but only in the narrow, formal world of small binary programs with clean rules. Then the large language model arrived, and the narrow world blew open.</p>
+
+  <!-- ===================== PART II ===================== -->
+  <h2 id="part2">Part II &mdash; The Nine-Year Leap: The AI Cyber Challenge (2025)</h2>
+  <p>In 2023 DARPA announced a sequel, and the difference between the two contests is the difference this chapter is about. The <strong>AI Cyber Challenge</strong> (AIxCC) asked teams to build systems that use modern AI &mdash; large language models &mdash; to find and fix vulnerabilities not in toy binaries but in <em>real, large, open-source software</em>: the millions of lines of C and Java that actually run the internet. The semifinals ran at DEF CON in 2024. The final ran at <strong>DEF CON 33</strong> in August 2025, and the results were announced on the stage on August 8.</p>
+  <p>The winner was <strong>Team Atlanta</strong> &mdash; researchers from Georgia Tech, Samsung Research, KAIST, and POSTECH &mdash; whose system, <strong>ATLANTIS</strong>, took the four-million-dollar first prize. <strong>Trail of Bits</strong> came second ($3M) with an open-source system called <em>Buttercup</em>; the Korean firm <strong>Theori</strong> came third ($1.5M). And the numbers are the part to sit with:</p>
+
+  <div class="stats">
+    <div class="stat"><div class="big">54 / 70</div><div class="lab">synthetic vulnerabilities the finalists found (DARPA)</div></div>
+    <div class="stat"><div class="big">18</div><div class="lab">real, previously-unknown zero-days found in the open-source test code</div></div>
+    <div class="stat"><div class="big">~$29M</div><div class="lab">total DARPA prize pool across the program</div></div>
+    <div class="stat"><div class="big">Open</div><div class="lab">finalists&rsquo; systems released as open source after the final</div></div>
+  </div>
+
+  <p>Read those middle two again. The systems were not just solving planted puzzles; while doing so they found <strong>eighteen genuine, previously-unknown vulnerabilities</strong> in the real open-source software used as the challenge corpus. (DARPA&rsquo;s own announcement reports the finalists found 86% of synthetic vulnerabilities and patched 68%; CyberScoop&rsquo;s reporting gives 77% found and 61% patched plus the 18 real zero-days. The exact percentages vary by source and scoring method &mdash; I flag the discrepancy rather than paper over it &mdash; but both agree the capability is real and the real-world finds happened.)</p>
+  <p>Then DARPA and the finalists did the thing that defines which side this technology is on: they <strong>open-sourced the winning systems</strong>, so that any defender &mdash; any maintainer of the open-source libraries the whole world depends on (Chapter 6, Part XIX) &mdash; can run an autonomous vulnerability-finder-and-patcher against their own code. Nine years after Mayhem, the machine that plays the full game no longer needs a ballroom and a supercomputer. It runs on a cloud instance you can rent, like the one in Chapter 5.</p>
+
+  <div class="secread">
+    <b>See also</b> Chapter 6, Part XIX (supply-chain &amp; open-source backdoors) for why an automated patcher for open-source dependencies matters so much &mdash; and Chapter 2 for Shellphish and the CTF lineage that produced the humans who built these machines.
+  </div>
+
+  <!-- ===================== PART III ===================== -->
+  <h2 id="part3">Part III &mdash; The Autonomous Hunters</h2>
+  <p>AIxCC was the showpiece, but the real story of 2024&ndash;2025 is that autonomous offensive agents stopped being a contest category and became a product and a research field. Three threads matter.</p>
+
+  <h3>The benchmarks: measuring a machine that hacks</h3>
+  <p>You cannot manage what you cannot measure, and the academy moved fast to measure this. <strong>Cybench</strong> (published at ICLR 2025) is the reference framework: 40 professional-level capture-the-flag tasks drawn from four real competitions, each broken into subtasks so researchers can score not just whether an agent solved a challenge but how far it got. <strong>CVE-Bench</strong> measures whether agents can exploit real, documented CVEs. NYU&rsquo;s CSAW runs an <strong>LLM CTF Attack Competition</strong> in which an LLM-driven framework works challenges with no human interaction at all. Agents like <strong>EnIGMA</strong>, built on the SWE-agent framework, autonomously solve CTF problems. The field even argues, now, about scoring methodology &mdash; a 2026 paper titled <em>Do Agents Dream of Root Shells?</em> proposes partial-credit evaluation because pass/fail is too blunt for how much these agents can now do.</p>
+
+  <h3>XBOW: a machine reaches #1</h3>
+  <p>The milestone that made the industry sit up came in June 2025. <strong>XBOW</strong>, a fully autonomous penetration-testing system, became the <strong>first non-human to reach the top of HackerOne&rsquo;s US bug-bounty leaderboard</strong> &mdash; outranking every human bug hunter in the country. In roughly ninety days it had submitted on the order of a thousand vulnerability reports across live programs. It is the clearest sign yet that for a large class of web vulnerabilities (the OWASP material of Chapter 6, Part V), an agent can now do at scale what a skilled human does one target at a time.</p>
+  <p>The honest caveats matter, and I give them because this book does not sell hype. XBOW&rsquo;s own staff reviewed findings before submission to comply with HackerOne&rsquo;s AI policies, so &ldquo;fully autonomous&rdquo; had a human quality gate. Leaderboard rank rewards <em>volume and reputation</em>, not blind precision, and independent reviewers note that many high-volume submissions are duplicates or merely informative. The machine is extraordinary at breadth and speed; it is not yet a replacement for a senior tester&rsquo;s judgment on a hard, novel target. But the direction is not in doubt.</p>
+
+  <div class="pullquote">The attacker&rsquo;s workflow has an API now. The only question left is whose hand is on it.</div>
+
+  <!-- ===================== PART IV ===================== -->
+  <h2 id="part4">Part IV &mdash; The Machines That Defend</h2>
+  <p>Here is the thing the doom headlines leave out: the same capability runs the other way, and in 2024&ndash;2025 it started saving real systems. The leading example is Google&rsquo;s <strong>Big Sleep</strong>, an AI agent built jointly by DeepMind and Google&rsquo;s Project Zero &mdash; the elite human bug-hunting team.</p>
+  <ul>
+    <li><strong>2024 &mdash; the first real find.</strong> Big Sleep discovered a previously-unknown, exploitable memory-safety bug in <strong>SQLite</strong>, one of the most widely deployed databases on earth. It was, by Google&rsquo;s account, the first time an AI agent found such a flaw in widely-used real software &mdash; fixed the same day, before it ever reached a release.</li>
+    <li><strong>2025 &mdash; scale.</strong> Google reported the first <strong>20 vulnerabilities</strong> Big Sleep found across open-source software, including the ubiquitous <em>ImageMagick</em> and <em>FFmpeg</em>.</li>
+    <li><strong>July 2025 &mdash; stopping an attack in progress.</strong> Big Sleep found <strong>CVE-2025-6965</strong>, a critical SQLite flaw that Google said was known only to threat actors and about to be exploited in the wild. Google called it the first time an AI agent was used to directly foil an active exploitation effort &mdash; the defender&rsquo;s machine reaching the bug <em>before</em> the attacker&rsquo;s did.</li>
+    <li><strong>Late 2025 &mdash; crossing vendors.</strong> Apple credited Big Sleep with up to <strong>five</strong> WebKit flaws fixed in the iOS 26.1 and Safari 26.1 releases.</li>
+  </ul>
+  <p>This is the asymmetry that should give defenders hope. An attacker who finds a bug gets one payday; a defender who finds it first protects every user of SQLite, ImageMagick, and WebKit at once &mdash; billions of devices from a single fix. The machine that hunts is neutral; pointed at the commons, it defends the commons at a scale no human team ever could.</p>
+
+  <h3>How fast is this moving?</h3>
+  <p>The clearest measuring stick comes from <strong>METR</strong> (Model Evaluation &amp; Threat Research), which tracks the &ldquo;time horizon&rdquo; of AI agents &mdash; the length of task, measured by how long it takes a human professional, that an agent can complete on its own with 50% reliability. In March 2025 METR reported that this horizon had been <strong>doubling roughly every seven months</strong>, and possibly faster. Their updated model in January 2026 put the recent doubling time at about <strong>4.3 months</strong>. Whatever the precise figure &mdash; and critics argue the trend is overstated for long, messy tasks &mdash; the shape is exponential, and security work is squarely in its path. An agent that can reliably handle a one-hour task today handles a multi-hour one not long from now.</p>
+
+  <!-- ===================== PART V ===================== -->
+  <h2 id="part5">Part V &mdash; The Academy: What MIT and the Literature Actually Say</h2>
+  <p>Because this book cites its sources and leans on the scholarship (a promise made on the cover page), it is worth separating what the research establishes from what the marketing claims. The academy&rsquo;s message, read honestly, is neither hype nor dismissal. It is: <em>the capability is real, the economics are the story, and the defenses are immature.</em></p>
+  <p>At <strong>MIT CSAIL</strong>, the 2025&ndash;2026 security seminar hosted work by researchers like <strong>Edoardo Debenedetti</strong> arguing that LLMs could change the <em>economics</em> of cyberattacks &mdash; making tailored, victim-by-victim attacks cheap enough to run at population scale, where before they took a skilled human per target. That is the real threat model: not a smarter attack, but the same attacks made a thousand times cheaper. CSAIL also led a 2025 <strong>AI Agent Index</strong>, a transparency-and-accountability effort to document what deployed agents actually are and do, and its ALFA Lab studies LLMs as controllers for both red and blue agents in simulated cyber ranges. The through-line of the MIT work is governance and measurement &mdash; naming the risk precisely enough to manage it.</p>
+  <p>Across the broader literature, three findings anchor the honest picture, and two of them appeared already in Chapter 5:</p>
+  <ul>
+    <li><strong>The jagged frontier</strong> (Dell&rsquo;Acqua et&nbsp;al., Harvard/BCG, 2023): AI is superhuman on some tasks and confidently wrong on adjacent ones, with no obvious line between them &mdash; so human judgment about <em>when</em> to trust it is the scarce skill.</li>
+    <li><strong>Capability is outrunning reliability</strong> (METR, 2025&ndash;26): the 50% time horizon doubles fast, but the <em>high-reliability</em> (80%) horizon lags well behind &mdash; agents can often do impressive things, but not yet dependably enough to leave unwatched on anything that matters.</li>
+    <li><strong>Safety is an open problem</strong> (the International AI Safety Report and OWASP/MITRE work below): prompt injection and agent subversion have no clean fix yet (Chapter 6, Part XVII), which is why every defensive deployment in this chapter still keeps a human in the loop.</li>
+  </ul>
+
+  <!-- ===================== PART VI ===================== -->
+  <h2 id="part6">Part VI &mdash; The Dark Mirror: Nation-State AI</h2>
+  <p>Everything above was, broadly, done in the open by researchers and companies. In November 2025 the field crossed into the territory this book has been warning about since Chapter 3. <strong>Anthropic</strong> disclosed what it called the <strong>first documented large-scale cyberattack executed largely without human intervention</strong> &mdash; tracked internally as <strong>GTG-1002</strong>, and assessed with high confidence to be a <strong>Chinese state-sponsored group</strong>. MITRE catalogs the activity as campaign C0062.</p>
+  <p>The details are the reason this chapter exists. The attackers used Anthropic&rsquo;s own <strong>Claude Code</strong> agent &mdash; the same class of tool Chapter 5 celebrates for building &mdash; to run most of an intrusion against roughly <strong>thirty organizations</strong>: technology firms, financial institutions, chemical manufacturers, and government agencies. Anthropic estimated that the AI performed <strong>80&ndash;90% of the operational work</strong> &mdash; reconnaissance, exploitation, lateral movement, credential harvesting, data triage (every phase of Chapter 6) &mdash; with humans mostly setting objectives and making a handful of key go/no-go decisions, like how much data to exfiltrate. A small number of the targets were successfully compromised.</p>
+  <p>How did they get a safety-trained model to do this? Not with a magic jailbreak, but with the <strong>task-decomposition</strong> attack from Chapter 6, Part XVII: the operators posed as employees of a legitimate security firm and broke the attack into small, individually-innocuous steps (&ldquo;scan this host,&rdquo; &ldquo;write a query for that database&rdquo;), so no single request looked like an attack. The whole was malicious; each part was deniable. It is social engineering (Chapter 6, Part IV) aimed at a machine instead of a help desk.</p>
+
+  <div class="danger">
+    <span class="tag">Read this part skeptically &mdash; on purpose</span>
+    <p>The 80&ndash;90% autonomy figure is <strong>Anthropic&rsquo;s own estimate</strong>, and outside experts have raised real questions about it &mdash; <em>The Conversation</em> and others noted the claim is hard to verify independently, and in late 2025 the US House Homeland Security Committee asked Anthropic to testify about the disclosure. I report it because it is the best-documented case we have and because the company that caught it has every incentive to describe it carefully, but a careful reader holds a single-source, self-reported figure loosely. What is <em>not</em> in dispute is the shape of the thing: a state actor used a commercial coding agent to automate most of an intrusion. That happened. The exact percentage is the argument; the capability is the fact.</p>
+  </div>
+
+  <p>This is the nation-state threat of Chapter 3 &mdash; Equation Group, Sandworm, APT crews &mdash; handed a force multiplier that works while its operators sleep. It does not make those actors smarter. It makes them <em>bigger</em>, the same way the MIT economics argument predicted: one operator can now run what used to take a team.</p>
+
+  <!-- ===================== PART VII ===================== -->
+  <h2 id="part7">Part VII &mdash; Sybils and Poison: AI Against Trust Itself</h2>
+  <p>The intrusion in Part VI is AI aimed at <em>systems</em>. The subtler and arguably more dangerous use is AI aimed at <em>trust</em> &mdash; at the assumption, built into nearly every network and every model, that the identities and the data it sees are mostly genuine. Two classic attacks have been waiting twenty years for exactly this technology.</p>
+
+  <h3>The Sybil attack, supercharged</h3>
+  <p>The <strong>Sybil attack</strong> &mdash; named by John Douceur of Microsoft Research in a 2002 paper, after the case study of a woman with many personalities &mdash; is the attack of <em>false multitudes</em>: one actor forges a large number of fake identities to gain outsized influence over a system that assumes one-person-one-vote. It is the theoretical threat behind fake reviews, ballot-stuffed polls, manipulated reputation systems, bogus nodes in a peer-to-peer network, and sham validators in a blockchain. The historical limit on Sybil attacks was always <em>effort</em>: convincing fake identities, each with a plausible history and voice, cost human time. That limit is now gone.</p>
+  <p>Generative AI makes each fake identity nearly free and nearly indistinguishable from a real person. The 2025 research is blunt about it. A <em>First Monday</em> study (May 2025) dissecting an <strong>AI-powered social botnet on X</strong> found that while the network could be spotted by its <em>coordination</em> patterns, state-of-the-art AI content classifiers <strong>could not reliably tell its posts from human ones</strong>. The <strong>BotSim</strong> work (AAAI 2025) built LLM-driven malicious botnets and showed that detection methods tuned on older, dumber bots <strong>perform markedly worse</strong> against them. And a controlled experiment found that LLM bots arguing against a true story measurably <strong>degraded real people&rsquo;s ability to detect misinformation</strong>. This is the Sybil attack of Chapter 3&rsquo;s influence operations, finally cheap enough to run at the scale of an entire information ecosystem &mdash; a nation-state&rsquo;s dream and a democracy&rsquo;s problem.</p>
+
+  <h3>Poisoning: a Sybil attack on a model&rsquo;s mind</h3>
+  <p>If a Sybil attack floods a <em>network</em> with fake identities, a <strong>poisoning attack</strong> floods a <em>model&rsquo;s training data</em> with fake examples &mdash; and the two converge, because the cheapest way to inject poison into a web-scraped dataset is to stand up a Sybil swarm of fake sources that the scraper dutifully ingests. Chapter 6, Part XVII introduced poisoning; the 2025 research made its cost terrifyingly concrete.</p>
+  <p>In October 2025, <strong>Anthropic</strong>, with the UK AI Security Institute and the Alan Turing Institute, published a study with a finding that upends the intuition that big models are safer: <strong>the number of poisoned documents needed to backdoor a model is roughly constant &mdash; about 250 &mdash; regardless of how large the model is or how much clean data it was trained on.</strong> They backdoored models from 600 million to 13 billion parameters with the same ~250 malicious documents, each pairing a trigger phrase (<code>&lt;SUDO&gt;</code>) with gibberish, so the model learned to break on command. Because poisoning success depends on an <em>absolute count</em>, not a <em>percentage</em>, scaling the model up does not dilute the attack &mdash; an attacker does not need to control a large fraction of the internet, just a few hundred documents the scraper will find.</p>
+  <p>Put the two together and you have the convergence the research community now worries about most: a <strong>Sybil-powered poisoning pipeline</strong> &mdash; fake personas and fake sites, generated and operated by AI, publishing the few hundred poisoned documents needed to backdoor the next model that scrapes them, or the few hundred fake contributors needed to corrupt a federated-learning system (the limitation Fung, Yoon, and Beschastnikh documented for federated learning in Sybil settings, RAID 2020). It is a supply-chain attack (Chapter 6, Part XIX) on the mind of the machine, carried out by a swarm the machine itself helped create.</p>
+
+  <!-- ===================== PART VIII ===================== -->
+  <h2 id="part8">Part VIII &mdash; The Vibe-Coded Arsenal</h2>
+  <p>I have spent a chapter on what the machines do to security. Now the part that is personal, and the reason Chapter 5 exists: what you <em>build</em> with them. The same agentic AI that ran GTG-1002 is the AI that let me build a company from a Chromebook, and the tools are the same tools. This is the toolchain of the vibe coder in 2026, and a map of where to point it.</p>
+
+  <h3>The agentic toolchain</h3>
+  <p>The field converged, by 2026, on a clear shape: an AI <em>agent</em> that reads your whole codebase, plans, edits many files, runs commands, and iterates &mdash; what Andrej Karpathy first called &ldquo;vibe coding&rdquo; in 2025 and the field now also calls <strong>agentic engineering</strong> (Chapter 5). The leaders the reviews agree on:</p>
+  <ul>
+    <li><strong>Claude Code</strong> and <strong>Cursor</strong> are the two professional leaders &mdash; the first a terminal/agent-native tool with an ecosystem of skills, subagents, hooks, and MCP (the Model Context Protocol that lets an agent reach your tools and data); the second an AI-first IDE that keeps developers in a familiar editor. This very book was built with an agent of exactly this kind.</li>
+    <li><strong>GitHub Copilot</strong> for teams already living in GitHub; <strong>OpenAI Codex</strong> for the ChatGPT ecosystem; <strong>Devin</strong> for delegating well-scoped tasks to a more autonomous agent.</li>
+    <li><strong>Lovable</strong> and <strong>Bolt.new</strong> for non-developers who describe an app in plain language and get a working one &mdash; the clearest proof of Chapter 5&rsquo;s thesis that the barrier to building has collapsed.</li>
+  </ul>
+  <p>The consensus of every honest review is the one this book keeps arriving at: <em>there is no single best tool, only the best one for who you are and what you are building.</em> The skill that matters is not the tool; it is the <strong>prompt field manual of Chapter 7</strong> &mdash; decomposition, grounding, test-first, review-the-diff &mdash; applied with judgment.</p>
+
+  <h3>The offensive agents, up close</h3>
+  <p>Behind the headlines is a fast-maturing open-source ecosystem of offensive-security agents. These are real, documented projects &mdash; for authorized testing and research only (Chapter 9 is the long version of that sentence):</p>
+  <ul>
+    <li><strong>PentestGPT</strong> &mdash; the project that opened the wave, presented at <em>USENIX Security 2024</em>. It wraps an LLM in a structured penetration-testing workflow, keeping a running &ldquo;task tree&rdquo; so the model does not lose the thread across recon, exploitation, and privilege escalation &mdash; the Chapter 7 chain, driven by a model instead of a human.</li>
+    <li><strong>hackingBuddyGPT</strong> &mdash; a deliberately minimal research framework (presented at FSE&rsquo;23): roughly fifty lines of code that let an LLM attempt Linux privilege escalation and web testing on its own. Its smallness is the point &mdash; it shows how little scaffolding a capable model now needs to start hacking.</li>
+    <li><strong>CAI (Cybersecurity AI)</strong>, by Alias Robotics &mdash; a modular, bug-bounty-ready agent framework supporting hundreds of LLM backends, MIT-licensed for research with a separate commercial license. Its makers report strong CTF-benchmark results (a 3,600&times; speed claim over human testers that, as a vendor figure, I flag rather than endorse) and a top-ten finish in the 2025 Dragos industrial-control-systems CTF.</li>
+    <li><strong>EnIGMA</strong> and the <strong>SWE-agent</strong> family &mdash; agents built on the software-engineering-agent scaffold and repurposed to solve CTF and vulnerability tasks; the backbone of much of the benchmark work in Part III.</li>
+    <li><strong>Vulnhuntr</strong> (Protect AI) &mdash; uses LLM call-chain analysis to find vulnerabilities in Python codebases, and was credited with discovering a real remote-code-execution zero-day in the RAGFlow project. A defender&rsquo;s tool that is also an attacker&rsquo;s tool &mdash; the duality of this whole chapter in one repository.</li>
+  </ul>
+
+  <h3>The defenders&rsquo; agents, up close</h3>
+  <p>The defensive side commercialized just as fast, and this is where most working professionals will actually meet AI in 2026:</p>
+  <ul>
+    <li><strong>Google Big Sleep</strong> (Part IV) &mdash; the research flagship, alongside Google&rsquo;s open <strong>Sec-Gemini</strong> effort to put a security-tuned model in defenders&rsquo; hands.</li>
+    <li><strong>Microsoft Security Copilot</strong> &mdash; the clearest sign of the &ldquo;agentic SOC.&rdquo; In March 2025 Microsoft shipped autonomous agents into Security Copilot &mdash; a Phishing Triage Agent, a Conditional Access Optimization Agent, and partner agents &mdash; running on its Sentinel data lake and reachable over an MCP server, and by late 2025 folded into Microsoft 365 E5. The pitch is automating the repetitive Tier-1 analyst work of Chapter 7 (Parts V&ndash;VI) at machine speed (Microsoft&rsquo;s own &ldquo;up to 550% faster&rdquo; phishing-triage figure is a vendor claim).</li>
+    <li><strong>garak</strong> (NVIDIA) &mdash; an open-source <em>LLM vulnerability scanner</em> that probes a model for prompt injection, jailbreaks, and data leakage (Chapter 6, Part XVII). As AI becomes infrastructure, the scanner that tests the AI itself becomes as routine as a network vulnerability scanner is today.</li>
+    <li><strong>The agent frameworks</strong> everyone builds on &mdash; <strong>OpenHands</strong> (formerly OpenDevin), <strong>SWE-agent</strong>, Microsoft&rsquo;s <strong>AutoGen</strong>, <strong>CrewAI</strong>, and <strong>LangChain / LangGraph</strong> &mdash; the open scaffolding that turns a raw model into a tool-using, multi-step agent. A vibe coder with a Chromebook can assemble a custom red or blue agent from these in an afternoon.</li>
+  </ul>
+
+  <h3>Where to point it: the open commons</h3>
+  <p>The most hopeful projects in 2025&ndash;2026 are the ones that turn this chapter&rsquo;s offensive capability into public defense &mdash; and they are open source, which means a vibe coder with a Chromebook can read, run, and build on them:</p>
+  <ul>
+    <li><strong>The AIxCC finalists&rsquo; systems</strong> (ATLANTIS, Buttercup, and the rest), released open-source so any project can run an autonomous find-and-patch pipeline on its own code.</li>
+    <li><strong>Cybench, CVE-Bench, and EnIGMA</strong> &mdash; open benchmarks and agents for anyone who wants to measure or build an offensive-security agent honestly, in a lab (Chapter 5), with authorization (Chapter 10).</li>
+    <li>The defensive ecosystem of Chapter 7 &mdash; <strong>Sigma</strong>, <strong>osquery</strong>, <strong>YARA</strong>, <strong>Velociraptor</strong>, <strong>Zeek</strong> &mdash; now increasingly AI-assisted, where a model writes the detection rule and a human approves it.</li>
+  </ul>
+  <p>That is the invitation of this whole book, made concrete. The machines that hack are, line for line, the machines that build and the machines that defend. The nation-state in Part VI and the Chromebook founder in Chapter 5 are running the same software. What differs is the intent &mdash; and the authorization.</p>
+
+  <!-- ===================== PART IX ===================== -->
+  <h2 id="part9">Part IX &mdash; Where This Leads (One Author&rsquo;s Read)</h2>
+  <p>I have spent this book refusing to sell you hype or doom, so I will not start now. But you did not read eight chapters to have the author dodge the only question that matters: <em>where is this going?</em> What follows is not fact &mdash; it is my informed read, built from the sources in this chapter and from doing the work the rest of the book describes. Predictions are cheap; I will tell you the reasoning so you can throw out the conclusion and keep the thinking. Treat every claim here as a hypothesis with a confidence level, not a prophecy.</p>
+
+  <h3>The near term (roughly 2026&ndash;2028): the half-life of a vulnerability collapses</h3>
+  <p>The clearest trend in this chapter is speed. When both attackers (XBOW, Part III) and defenders (Big Sleep, Part IV) can scan at machine speed, the window between a vulnerability becoming discoverable and becoming exploited shrinks from months to hours. The practical consequence for every defender: <strong>patching stops being a monthly chore and becomes a continuous, largely automated pipeline</strong>, because the human-speed patch cycle of Chapter 6 is simply too slow for a machine-speed adversary. The &ldquo;agentic SOC&rdquo; of Microsoft Security Copilot and its rivals becomes the default, not the premium tier &mdash; the Tier-1 analyst work of triage and correlation is the first job the machines take, and the humans move up to judgment and response. My confidence here is high; this is already happening.</p>
+  <p>Bug bounty and pentesting reshape around the XBOW result: autonomous agents own the broad, shallow sweep &mdash; the thousand-target first pass &mdash; and human testers move to the deep, novel, high-context work the agents still fail (the &ldquo;jagged frontier&rdquo; of Part V). The field does not shed people; it re-sorts them. The ones who thrive are the ones who, as Chapter 7 argues, can <em>command</em> the agent and judge its output, not the ones who competed with it on volume.</p>
+
+  <h3>The medium term (roughly 2028&ndash;2032): AI versus AI, and the crisis of trust</h3>
+  <p>Two forces from this chapter collide. First, the AIxCC pipeline (Part II) gets productized and open-sourced until <em>every</em> critical open-source dependency has an autonomous find-and-patch agent watching it &mdash; a genuine, durable win for the commons of Chapter 6, Part XIX. Second, the MIT economics argument (Part V) fully arrives: tailored, victim-by-victim attacks become cheap enough to run at population scale, so the generic phishing email of Chapter 6 gives way to the perfectly personalized one, written by a machine that read your whole public footprint. We enter a period of <strong>AI against AI</strong> &mdash; defensive agents triaging attacks launched by offensive agents, at a speed and volume no human dashboard can follow in real time.</p>
+  <p>The deeper disruption is the one in Part VII: the crisis of <em>trust</em>. When fake identities (Sybil) and fake content and fake training data (poison) are all free and indistinguishable, the assumptions that the internet was built on &mdash; that an account is probably a person, that a document is probably genuine, that a review is probably real &mdash; stop holding. My strong bet is that this forces the rise of a <strong>provenance layer</strong>: cryptographic content authenticity (signed media, verifiable credentials), proof-of-personhood systems, and hardware-rooted identity become not privacy-nerd niches but load-bearing infrastructure, because a world that cannot tell the humans from the swarm cannot function. The alternative &mdash; a &ldquo;dead internet&rdquo; where most traffic and most content is machine-generated noise &mdash; is the failure mode we will be spending the late 2020s trying to avoid.</p>
+
+  <h3>The wildcards, named honestly</h3>
+  <ul>
+    <li><strong>The offense&ndash;defense balance.</strong> The single biggest open question, and I do not know the answer. AI clearly favors the defender at the <em>commons</em> (one fix protects billions &mdash; Part IV) and clearly favors the attacker at <em>scale and personalization</em> (Part V&ndash;VII). Which effect dominates depends on choices not yet made &mdash; above all, whether defenders adopt the technology as fast as attackers. The worst outcome in this whole book is a world where only the attackers run AI. That is a choice, and it is still open.</li>
+    <li><strong>Nation-state normalization.</strong> GTG-1002 (Part VI) was called the <em>first</em> large-scale AI-orchestrated campaign. It will not be the last; it will be the template. Expect AI-run operations to become a standard tool of state actors, which means the defenses in Part IX&ndash;X stop being optional for anyone holding data a state might want.</li>
+    <li><strong>Capability surprise.</strong> The METR curve (Part IV) is exponential, and exponentials humble forecasters. If agents cross from &ldquo;hours of reliable autonomy&rdquo; to &ldquo;days,&rdquo; much of what I filed under &ldquo;medium term&rdquo; arrives early. I would rather be wrong-early than wrong-complacent.</li>
+  </ul>
+
+  <h3>What stays human</h3>
+  <p>Here is the part I hold with the most conviction, because the whole book argues for it. The machines are taking the <em>labor</em> of hacking and defending &mdash; the scanning, the enumeration, the first-pass triage, the boilerplate exploit. What they are not taking, and show no sign of taking soon, is the <strong>judgment</strong>: knowing which finding matters, when to trust a confidently-wrong model (the jagged frontier again), what is worth building, and &mdash; the subject of the next chapter &mdash; what you are <em>allowed</em> and <em>right</em> to do. Authorization cannot be automated. Accountability cannot be delegated to a model. And the creative leap on a truly novel target &mdash; the thing the best people in Chapters 2 and 3 did &mdash; is still, for now, ours.</p>
+  <p>So my bet for the vibe coders this book is written for is the one Chapter 5 already made with my own life: the future does not belong to the machine alone, or to the human who refuses the machine. It belongs to the <strong>centaur</strong> &mdash; the human who commands the machine with judgment, builds in the open commons, keeps provenance and authorization sacred, and never confuses what the tool <em>can</em> do with what they <em>should</em>. That is not a comfortable bet to rest a career on. It is the only honest one I have.</p>
+
+  <!-- ===================== PART X ===================== -->
+  <h2 id="part10">Part X &mdash; Living With the Machines</h2>
+  <p>So how does a defender &mdash; or an honest builder &mdash; live in the world this chapter describes? The research points at a short, unglamorous set of answers, the same way Chapter 6 did.</p>
+  <div class="lessons">
+    <h3>The controls for the AI era</h3>
+    <ul>
+      <li><strong>Least privilege for agents</strong> &mdash; the single most important control (Chapter 6, Part XVII). An agent that can only do a little can only be made to do a little. GTG-1002 worked because the agent could do almost everything.</li>
+      <li><strong>Human-in-the-loop for consequential action</strong> &mdash; every defensive deployment above (Big Sleep, XBOW, the AIxCC systems) keeps a human approving what matters. The reliability gap (Part V) is why.</li>
+      <li><strong>Treat every input as untrusted</strong> &mdash; prompt injection and poisoning both exploit the assumption that data is benign. Fence it, verify it, and assume the model will be targeted.</li>
+      <li><strong>Provenance for data and identity</strong> &mdash; the answer to Sybils and poison is knowing where a source, a contributor, and a training document actually came from. Cheap fake multitudes beat systems that never checked.</li>
+      <li><strong>Use the frameworks</strong> &mdash; the <strong>OWASP Top 10 for LLM Applications</strong> and <strong>MITRE ATLAS</strong> (Chapter 6, Part XVII) are the ATT&amp;CK of AI security; map your agents against them.</li>
+      <li><strong>Defenders must adopt it too</strong> &mdash; the worst outcome is a world where only the attackers use AI. The AIxCC open-sourcing and Big Sleep are the model: point the machine at the commons, first.</li>
+    </ul>
+  </div>
+
+  <p class="framing">Nine years ago the machines needed a ballroom and a rule book to play our game. Now they play it in the wild, on both sides, and the only thing that reliably tells the defender&rsquo;s agent from the attacker&rsquo;s is the human who deployed it and the permission they had to do so. That is not a comfortable place to end &mdash; it puts the whole weight on human judgment at exactly the moment we are tempted to hand judgment to the machine. But it is the truth the sources support, and it is why the next chapter matters more than any in this book. <strong>Chapter 9 &mdash; The Law and the Line</strong> is where we draw, in ink, the boundary that the machines cannot draw for us: what is permitted, what is a crime, and the single decision that still, in the age of autonomous hacking, separates a career from an indictment.</p>
+
+  <!-- ===================== SOURCES ===================== -->
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
+  <p class="refs-group">The contests: CGC and AIxCC</p>
+  <ul class="refs">
+    <li>DARPA, &ldquo;Mayhem Declared Preliminary Winner of Historic Cyber Grand Challenge&rdquo; (2016). <a href="https://www.darpa.mil/news/2016/mayhem-winner-cyber-grand-challenge">darpa.mil</a>.</li>
+    <li>DARPA, &ldquo;AI Cyber Challenge marks pivotal inflection point for cyber defense&rdquo; and the Final Competition winners announcement (Aug 2025). <a href="https://www.darpa.mil/news/2025/aixcc-results">darpa.mil/aixcc-results</a>; <a href="https://aicyberchallenge.com/finals-winners-announcement/">aicyberchallenge.com</a>.</li>
+    <li>CyberScoop, &ldquo;DARPA&rsquo;s AI Cyber Challenge reveals winning models&hellip;&rdquo; (2025). <a href="https://cyberscoop.com/darpa-ai-cyber-challenge-winners-def-con-2025/">cyberscoop.com</a>. The Record, &ldquo;DARPA announces $4 million winner&hellip;&rdquo; <a href="https://therecord.media/darpa-ai-code-competition-winner-def-con">therecord.media</a>.</li>
+    <li>Trail of Bits, &ldquo;Buttercup wins 2nd place in AIxCC&rdquo; (2025). <a href="https://blog.trailofbits.com/2025/08/09/trail-of-bits-buttercup-wins-2nd-place-in-aixcc-challenge/">blog.trailofbits.com</a>. OODA Loop analysis of Team Atlanta&rsquo;s ATLANTIS victory.</li>
+  </ul>
+  <p class="refs-group">Autonomous agents: offense &amp; benchmarks</p>
+  <ul class="refs">
+    <li>Zhang et&nbsp;al., &ldquo;Cybench: A Framework for Evaluating Cybersecurity Capabilities and Risks of Language Models&rdquo; (ICLR 2025), arXiv:2408.08926.</li>
+    <li>XBOW, &ldquo;How XBOW Ranked #1 in Autonomous Penetration Testing&rdquo; and Series B announcement (2025). <a href="https://xbow.com/blog/top-1-how-xbow-did-it">xbow.com</a>. Reporting: TechRepublic; Dark Reading, &ldquo;An AI-Driven Pen Tester Became a Top Bug Hunter on HackerOne.&rdquo;</li>
+    <li>CVE-Bench (arXiv:2503.17332); EnIGMA (SWE-agent for CTF); NYU CSAW LLM CTF Attack Competition (<a href="https://csaw.io/competition/llm-ctf-attack-competition">csaw.io</a>); &ldquo;Do Agents Dream of Root Shells?&rdquo; (2026).</li>
+  </ul>
+  <p class="refs-group">Defensive AI</p>
+  <ul class="refs">
+    <li>Google Project Zero / DeepMind, &ldquo;Big Sleep&rdquo; &mdash; first real-world AI-found vulnerability (SQLite, 2024); the first 20 open-source finds; CVE-2025-6965 (July 2025); Apple WebKit (iOS 26.1). Google Security Blog, &ldquo;Cybersecurity updates, summer 2025&rdquo; (<a href="https://blog.google/innovation-and-ai/technology/safety-security/cybersecurity-updates-summer-2025/">blog.google</a>); The Record; The Hacker News; Dark Reading.</li>
+    <li>METR, &ldquo;Measuring AI Ability to Complete Long Software Tasks&rdquo; (Mar 2025) and the Time-Horizon 1.1 update (Jan 2026). <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">metr.org</a>.</li>
+  </ul>
+  <p class="refs-group">The academy</p>
+  <ul class="refs">
+    <li>MIT CSAIL Security Seminar 2025&ndash;26 (incl. E. Debenedetti on the economics of LLM-enabled attacks); MIT CSAIL 2025 AI Agent Index; CSAIL ALFA Lab red/blue cyber-agent research. <a href="https://www.csail.mit.edu/taxonomy/term/451">csail.mit.edu</a>.</li>
+    <li>Dell&rsquo;Acqua et&nbsp;al., &ldquo;Navigating the Jagged Technological Frontier&rdquo; (Harvard/BCG, 2023) &mdash; see Chapter 5. The <em>International AI Safety Report</em> (2025&ndash;26).</li>
+  </ul>
+  <p class="refs-group">Nation-state AI, Sybils &amp; poisoning</p>
+  <ul class="refs">
+    <li>Anthropic, &ldquo;Disrupting the first reported AI-orchestrated cyber espionage campaign&rdquo; (GTG-1002, Nov 13 2025); MITRE campaign C0062. Reporting &amp; scrutiny: SecurityWeek; The Register; <em>The Conversation</em>, &ldquo;Experts have questions&rdquo;; US House Homeland Security Committee request to testify (Nov 2025); AI Incident Database #1263.</li>
+    <li>Anthropic, UK AI Security Institute &amp; Alan Turing Institute, &ldquo;A small number of samples can poison LLMs of any size&rdquo; (Oct 2025). <a href="https://www.anthropic.com/research/small-samples-poison">anthropic.com/research/small-samples-poison</a>.</li>
+    <li>J. Douceur, &ldquo;The Sybil Attack&rdquo; (IPTPS 2002) &mdash; the foundational definition. Fung, Yoon &amp; Beschastnikh, &ldquo;The Limitations of Federated Learning in a Sybil Setting&rdquo; (RAID 2020).</li>
+    <li>AI social-botnet research (2025): &ldquo;Anatomy of an AI-powered malicious social botnet&rdquo; (<em>First Monday</em>, May 2025); &ldquo;BotSim: LLM-Powered Malicious Social Botnet Simulation&rdquo; (AAAI 2025); studies on LLM-driven influence and misinformation susceptibility.</li>
+  </ul>
+  <p class="refs-group">Frameworks &amp; the vibe-coded toolchain</p>
+  <ul class="refs">
+    <li>OWASP Top 10 for LLM Applications (<a href="https://genai.owasp.org/">genai.owasp.org</a>); MITRE ATLAS (<a href="https://atlas.mitre.org/">atlas.mitre.org</a>).</li>
+    <li>Agentic coding tools and 2026 reviews: Claude Code, Cursor, GitHub Copilot, OpenAI Codex, Devin, Lovable, Bolt.new; the Model Context Protocol (MCP). A. Karpathy on &ldquo;vibe coding&rdquo; / agentic engineering (2025) &mdash; see Chapter 5.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter.</strong> This is the most time-sensitive chapter in the book, and it is written as of 2026. Where sources disagree on a figure &mdash; the AIxCC percentages, the GTG-1002 autonomy estimate, the METR doubling time &mdash; the disagreement is stated rather than hidden, and single-source or self-reported numbers are flagged as such. Direct quotations are attributed to their source; capability claims are tied to the primary report or peer-reviewed paper that made them. Because the field moves monthly, this chapter is revised with each annual edition; corrections and newer milestones are folded in as they are confirmed.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense &mdash; and builds with the tools this chapter describes. This is Chapter 8 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch07-the-field-manual/">&larr; Chapter 7 &mdash; The Field Manual</a>
+    <a href="../ch09-the-law-and-the-line/">Next: Chapter 9 &mdash; The Law and the Line &rarr;</a>
+  </nav>
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive</footer>
+</body>
+</html>

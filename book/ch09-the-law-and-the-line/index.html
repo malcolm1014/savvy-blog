@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 9 — The Law and the Line</title>
+<meta name="description" content="The law of hacking in full: the CFAA and the cases that shaped it, the DMCA, wiretap and surveillance law, the FTC, export controls, and the world's laws (Budapest, the UN Cybercrime Convention, the UK Computer Misuse Act, Germany's 202c, NIS2, GDPR, the EU Cyber Resilience Act, China, India); the cases hackers won and lost; the Electronic Frontier Foundation; coordinated disclosure; the white hat's do's and don'ts; a call for more hackers in law; and the full path to working for the US government. Chapter 9 of A Hacker's Guide to Survive. Not legal advice.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Law and the Line — The Law of Hacking, in Full">
+<meta property="og:description" content="Chapter 9 of A Hacker's Guide to Survive: US and global cyber law in depth, the landmark cases hackers won and lost, the EFF, coordinated disclosure, the ethical-hacker's do's and don'ts, a call for more hackers in law, and how to work for Uncle Sam.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/book/ch09-the-law-and-the-line/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Law &amp; Ethics">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Law and the Line — The Law of Hacking, in Full">
+<meta name="twitter:description" content="Chapter 9 of A Hacker's Guide to Survive: cyber law in depth, the cases hackers won and lost, the EFF, disclosure, the do's and don'ts, a call for hackers in law, and working for the government.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/book/assets/cover.svg">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/book/ch09-the-law-and-the-line/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f6f4f; --card:#fbf8f0; --term:#166534;
+    --danger:#b23b2e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#6bbd8f; --card:#191b15; --term:#4ade80; --danger:#e06b63; }
+  }
+  *{box-sizing:border-box}
+  body{ margin:0; background:var(--bg); color:var(--fg); font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif; line-height:1.68; font-size:17px; }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  main{max-width:780px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none; color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 11px; letter-spacing:.02em; }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 10px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:30px 0 8px; color:var(--fg); font-weight:700;}
+  h4{font-family:'IBM Plex Mono',monospace; font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); margin:22px 0 8px; font-weight:700;}
+  p{margin:0 0 15px;}
+  ul,ol{margin:0 0 16px; padding-left:23px;}
+  li{margin-bottom:6px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+  code{font-family:'IBM Plex Mono',monospace; font-size:.88em; background:var(--card); border:1px solid var(--rule); border-radius:3px; padding:1px 5px;}
+
+  .framing{ background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2); border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem; }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .danger{ background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--danger); border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px; }
+  .danger .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--danger); font-weight:700; margin-bottom:9px;}
+  .danger p{font-size:.96rem; margin:0 0 12px;} .danger p:last-child{margin-bottom:0;}
+
+  blockquote{margin:18px 0; padding:4px 0 4px 20px; border-left:3px solid var(--accent); font-style:italic; color:var(--fg);}
+  blockquote cite{display:block; font-style:normal; font-size:.82rem; color:var(--muted); margin-top:7px; font-family:'IBM Plex Mono',monospace;}
+
+  .pullquote{ margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2); font-size:1.24rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600; }
+
+  /* law card */
+  .law{background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent); border-radius:0 5px 5px 0; padding:14px 18px; margin:16px 0;}
+  .law .cite{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 4px;}
+  .law h3{margin:0 0 6px; font-size:1.05rem;}
+  .law p{margin:0 0 8px; font-size:.95rem;} .law p:last-child{margin-bottom:0;}
+
+  /* case verdict tags */
+  .verdict{font-family:'IBM Plex Mono',monospace; font-size:.64rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:2px 8px; border-radius:10px; margin-right:9px; vertical-align:middle; white-space:nowrap;}
+  .verdict.won{color:var(--accent2); border:1px solid var(--accent2);}
+  .verdict.lost{color:var(--danger); border:1px solid var(--danger);}
+  .verdict.mixed{color:var(--accent); border:1px solid var(--accent);}
+  .case{margin:0 0 20px;}
+  .case h3{margin:24px 0 6px; display:flex; align-items:center; flex-wrap:wrap; gap:4px;}
+  .case .cref{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); margin:0 0 6px;}
+
+  /* do / don't */
+  .dos,.donts{border:1px solid var(--rule); border-radius:6px; padding:16px 20px 16px; margin:16px 0;}
+  .dos{background:var(--card); border-left:4px solid var(--accent2);}
+  .donts{background:var(--card); border-left:4px solid var(--danger);}
+  .dos h3,.donts h3{margin:0 0 8px; font-size:.82rem; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.06em;}
+  .dos h3{color:var(--accent2);} .donts h3{color:var(--danger);}
+  .dos ul,.donts ul{margin:0; padding-left:20px;} .dos li,.donts li{margin-bottom:7px; font-size:.95rem;}
+
+  .lessons{background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent); border-radius:0 4px 4px 0; padding:18px 22px; margin:22px 0 26px;}
+  .lessons h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent); font-weight:700;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .chapnav{display:flex; justify-content:space-between; gap:12px; margin:40px 0 0; padding-top:22px; border-top:2px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:.8rem;}
+  .chapnav a{text-decoration:none; color:var(--accent2);}
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+<main>
+  <p class="backlink"><a href="../">&larr; Table of contents</a> &middot; <a href="../../">All articles</a></p>
+  <p class="kicker">A Hacker&rsquo;s Guide to Survive &middot; Chapter Nine</p>
+  <h1>The Law and the Line</h1>
+  <p class="dek">Every chapter before this taught you what you <em>can</em> do. This one is about what you are <em>allowed</em> to do &mdash; the laws here and abroad, the cases hackers won and lost, the people who fight for your rights, and the single decision that separates a thirty-year career from a federal case file.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; Edition One &middot; 2026</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; The CFAA</a>
+    <a href="#part2">II &middot; The US Legal Map</a>
+    <a href="#part3">III &middot; The World&rsquo;s Laws</a>
+    <a href="#part4">IV &middot; Won &amp; Lost</a>
+    <a href="#part5">V &middot; The EFF</a>
+    <a href="#part6">VI &middot; Disclosure</a>
+    <a href="#part7">VII &middot; Do&rsquo;s &amp; Don&rsquo;ts</a>
+    <a href="#part8">VIII &middot; Hackers in Law</a>
+    <a href="#part9">IX &middot; Working for Uncle Sam</a>
+    <a href="#part10">X &middot; The Line</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="danger">
+    <span class="tag">Read this first &mdash; it is not optional</span>
+    <p><strong>This chapter is not legal advice, and I am not your lawyer.</strong> I am a security founder who has spent the better part of thirty years staying on the right side of these lines and, as Chapter 5 describes, is building a company inside the federal system right now. What follows is a practitioner&rsquo;s map, carefully sourced, written to keep you out of trouble and help you build a career. But laws change, they differ by country and by state, and they turn on facts I cannot see from here. Before you act on anything in this chapter &mdash; a disclosure, a contract, a clearance application, a gray-area test &mdash; <strong>talk to a qualified attorney licensed in your jurisdiction.</strong> The cost of an hour of legal advice is nothing against the cost of the cases in Part IV.</p>
+  </div>
+
+  <div class="framing">
+    <h3>The whole book in one sentence</h3>
+    <p>Here is the thing every prior chapter has been circling, stated plainly: <strong>the skills are neutral; the permission is everything.</strong> The exact same <code>nmap</code> scan, the same exploit, the same AI agent is a paid engagement or a felony depending on one fact &mdash; whether the owner of that system authorized you to touch it. There is no technical difference between the white hat and the criminal. There is only the authorization, the intent, and what you do with what you find. This chapter is the long, detailed version of that one sentence, because it is the sentence that decides whether the previous eight chapters make you a professional or a defendant.</p>
+    <p>I have put more into this chapter than any other except the compendium, and doubled it from the first draft, for one reason: <strong>the law is the part of this craft that can take your freedom.</strong> A missed patch costs money. A misread statute costs years. The people in Part IV were, nearly all of them, as technically gifted as anyone in Chapters 2 and 3 &mdash; and the ones who went to prison did not lose on skill. They lost on law. Learn it like your liberty depends on it, because one day it might.</p>
+  </div>
+
+  <!-- ===================== PART I ===================== -->
+  <h2 id="part1">Part I &mdash; The Big One: The Computer Fraud and Abuse Act</h2>
+  <p>If you hack in or against the United States, one law governs your life more than any other: the <strong>Computer Fraud and Abuse Act</strong>, 18 U.S.C. &sect;&nbsp;1030, passed in 1986 in a panic partly inspired by the movie <em>WarGames</em>, and amended repeatedly since. It is the anti-hacking statute &mdash; both a <em>criminal</em> law the government prosecutes you under and a <em>civil</em> law companies sue you under (&sect;&nbsp;1030(g)). Understand it, because almost everything else is commentary on it.</p>
+
+  <h3>The two magic phrases</h3>
+  <p>The whole CFAA turns on two phrases: accessing a computer <strong>&ldquo;without authorization&rdquo;</strong> or in a way that <strong>&ldquo;exceeds authorized access.&rdquo;</strong> The first is the outsider who was never allowed in. The second is the insider who was allowed in <em>somewhere</em> but went where they were not allowed. For thirty years, what &ldquo;exceeds authorized access&rdquo; actually meant was the most dangerous ambiguity in the field &mdash; and in 2021 the Supreme Court finally answered it (Part IV).</p>
+  <p>The other trap is the definition of a <strong>&ldquo;protected computer.&rdquo;</strong> It sounds narrow; it is nearly universal. The statute covers any computer &ldquo;used in or affecting interstate or foreign commerce&rdquo; &mdash; which, in practice, is <em>any device connected to the internet, anywhere</em>. There is no &ldquo;it was just a little web server&rdquo; exception. If it has an IP address, the CFAA reaches it.</p>
+
+  <h3>What the CFAA actually prohibits (the subsections)</h3>
+  <div class="law">
+    <p class="cite">18 U.S.C. &sect; 1030(a) &mdash; the seven prohibited acts</p>
+    <ul>
+      <li><strong>(a)(1)</strong> &mdash; obtaining national-security or classified information by unauthorized access (the espionage clause).</li>
+      <li><strong>(a)(2)</strong> &mdash; intentionally accessing without/exceeding authorization and <em>obtaining information</em>. This is the broad workhorse charge &mdash; most researcher trouble lives here.</li>
+      <li><strong>(a)(3)</strong> &mdash; trespassing in a U.S. government computer.</li>
+      <li><strong>(a)(4)</strong> &mdash; unauthorized access <em>to commit fraud</em> and obtain something of value.</li>
+      <li><strong>(a)(5)</strong> &mdash; causing <em>damage</em>: (A) knowingly transmitting code that damages a protected computer (malware, wipers); (B) and (C) causing damage by unauthorized access. This is the DoS / malware / &ldquo;I broke it&rdquo; clause.</li>
+      <li><strong>(a)(6)</strong> &mdash; trafficking in passwords or access credentials.</li>
+      <li><strong>(a)(7)</strong> &mdash; <em>extortion</em> involving threats to a computer (&ldquo;pay me or I&rsquo;ll release/damage/lock your data&rdquo;). This is where a bug report that demands money becomes a crime &mdash; remember it in Part VI.</li>
+    </ul>
+  </div>
+  <p><strong>Penalties</strong> range from a misdemeanor to serious felonies. A first offense can carry up to one, five, or ten years depending on the subsection and intent; repeat offenses and offenses in furtherance of other crimes or causing significant damage can reach <strong>twenty years</strong>. &ldquo;Damage&rdquo; and &ldquo;loss&rdquo; are counted broadly &mdash; the cost of <em>responding</em> to and repairing an intrusion counts, so even a &ldquo;harmless&rdquo; probe that triggers an expensive incident response can clear the $5,000 felony threshold. This breadth is exactly why the cases in Part IV could threaten decades of prison for conduct that, to a technologist, looked minor. The CFAA is not a scalpel. It is a net.</p>
+  <p>And remember the CFAA&rsquo;s <strong>civil</strong> half (&sect;&nbsp;1030(g)): even if no prosecutor ever charges you, a company can <em>sue</em> you for unauthorized access and recover its losses &mdash; which is how <em>Power Ventures</em> and the civil side of <em>hiQ</em> actually played out. You can &ldquo;win&rdquo; the criminal question and still be bankrupted by the civil one. Treat a cease-and-desist letter as the serious legal event it is, not as spam.</p>
+
+  <h3>The doctrine, case by case</h3>
+  <p>Four decades of courts have fought over what those phrases mean, and the fight is not over. The cases are told in full in Part IV, but the doctrine they built is this: the first-ever CFAA jury conviction (<em>United States v. Morris</em>, 1990, the Morris Worm) established that releasing damaging code is squarely criminal. The terms-of-service theory &mdash; the idea that breaking a website&rsquo;s fine print is federal hacking &mdash; rose in cases like <em>United States v. Drew</em> and was ultimately <strong>rejected</strong>. The insider-and-credentials question split the courts: in <em>United States v. Nosal</em> (2016) the Ninth Circuit held that using someone else&rsquo;s password, even with their blessing, <em>can</em> be CFAA access &ldquo;without authorization.&rdquo; And the revocation question &mdash; <em>Facebook v. Power Ventures</em> &mdash; held that once a company tells you to stop (a cease-and-desist), continuing to access its systems crosses the line even if users invited you. Then, in 2021, <strong>Van Buren</strong> narrowed the whole thing. Keep those names; you will meet them again.</p>
+
+  <!-- ===================== PART II ===================== -->
+  <h2 id="part2">Part II &mdash; The Rest of the US Legal Map</h2>
+  <p>The CFAA is the headline, but a hacker brushes against a dozen other laws. These are the ones that catch people who thought they were only dealing with the CFAA.</p>
+
+  <div class="law">
+    <p class="cite">17 U.S.C. &sect; 1201 &mdash; DMCA anti-circumvention</p>
+    <h3>The DMCA (1998)</h3>
+    <p>Section 1201 makes it illegal to <em>circumvent</em> a technological protection measure (DRM, license checks, encryption guarding copyrighted work) &mdash; which can sweep in reverse-engineering and hardware/firmware research (Chapter 6, Part XIII). There is a permanent <strong>&sect;&nbsp;1201(j) &ldquo;security testing&rdquo; exemption</strong> (narrow, and it requires authorization), and every three years the Library of Congress&rsquo;s triennial rulemaking grants temporary exemptions &mdash; the ninth proceeding&rsquo;s final rule (effective October 28, 2024) renewed a good-faith security-research exemption for lawfully-acquired devices. But the section has teeth: it was the basis of the DeCSS and ElcomSoft prosecutions in Part IV, and the EFF has argued for years (in <em>Green v. DOJ</em>) that &sect;&nbsp;1201 is so broad it violates the First Amendment. Vendors have claimed that authentication handshakes, code signing, obfuscation, and protocol encryption are all &ldquo;protection measures&rdquo; you may not touch &mdash; which is how a copyright law became a weapon against security researchers.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">18 U.S.C. &sect; 2510 et seq. / &sect; 2701 et seq. &mdash; ECPA</p>
+    <h3>Wiretap Act, Stored Communications Act &amp; the surveillance stack</h3>
+    <p>The <strong>Wiretap Act</strong> criminalizes intercepting communications <em>in transit</em> &mdash; which is exactly what a packet sniffer does (Chapter 7, Part VII). The <strong>Stored Communications Act</strong> criminalizes unauthorized access to communications <em>at rest</em> &mdash; email on a server, messages in a database. Above these sit the surveillance laws that cut the other way, governing what the <em>government</em> may do: <strong>FISA</strong> and its Section 702 (reauthorized in 2024), Executive Order 12333, and the reforms that followed Edward Snowden&rsquo;s 2013 disclosures (the USA FREEDOM Act ended bulk phone-metadata collection in 2015). You should understand both halves: the laws that constrain you, and the laws that constrain the people watching you.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">The Fourth Amendment, gone digital</p>
+    <h3>Surveillance, Snowden &amp; your rights against the state</h3>
+    <p>The flip side of the laws that constrain you is the constitutional law that constrains the government &mdash; and it has been rewritten for the digital age in your lifetime. The old <strong>third-party doctrine</strong> (<em>Smith v. Maryland</em>) held that data you hand to a company carries no privacy protection; the <strong>2013 Snowden disclosures</strong> revealed the government using exactly that theory to collect Americans&rsquo; records in bulk (PRISM; the phone-metadata program). The courts have since pulled back: <em>Riley v. California</em> (2014) requires a <strong>warrant to search a phone</strong> seized on arrest, and <em>Carpenter v. United States</em> (2018) requires one for <strong>historical cell-site location data</strong> &mdash; the Supreme Court finally recognizing that digital life does not forfeit the Fourth Amendment. The fight continues over Section 702, encryption, and device searches at the border. For a hacker this is not abstract: it is the body of law that decides what the state may take from <em>your</em> devices.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">18 U.S.C. &sect; 793 et seq. &mdash; the Espionage Act</p>
+    <h3>The law that governs classified information</h3>
+    <p>If you take the government path in Part IX and hold a clearance, a century-old law becomes one of the most dangerous in your life: the <strong>Espionage Act of 1917</strong>. It criminalizes the unauthorized retention or disclosure of national-defense information &mdash; and it is what the government charges leakers under, from Chelsea Manning to Reality Winner to the counts pending against Edward Snowden. It does not require that you be a spy, or that you meant to help a foreign power; simply <em>mishandling</em> classified material can be enough. For a clearance holder the lesson is absolute: the rules about what you may say, store, and carry home are not bureaucratic nagging &mdash; they are felony lines, and &ldquo;I thought the public should know&rdquo; is not a defense the statute recognizes.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">15 U.S.C. &sect; 45 &mdash; FTC Act, Section 5</p>
+    <h3>The FTC: how companies get punished for bad security</h3>
+    <p>Here is the law that governs the <em>other</em> side &mdash; the company whose system you&rsquo;re testing. The Federal Trade Commission uses its authority over &ldquo;unfair or deceptive&rdquo; practices to punish organizations with negligent security. It established, in the <em>Wyndham</em> litigation, that the FTC <em>can</em> police corporate data security at all; it has extracted major settlements (the Equifax breach settlement reached roughly $575&ndash;700 million). For you, the lesson is strategic: the law increasingly expects organizations to <em>want</em> your findings, which is the legal wind at the back of the disclosure programs in Part VI.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">Export controls &mdash; EAR &amp; the Wassenaar Arrangement</p>
+    <h3>When a tool or an exploit is a regulated export</h3>
+    <p>Few researchers realize that code can be a controlled <em>export</em>. The <strong>Wassenaar Arrangement</strong> (41 countries) added &ldquo;intrusion software&rdquo; and surveillance technology to its control list in 2013 &mdash; a move that alarmed the security community because, as written, it threatened to make sharing an exploit or a pen-testing tool across borders a licensable act. After years of pressure the language was revised in 2017 to carve out <em>vulnerability disclosure</em> and <em>cyber-incident response</em>, and the U.S. implemented its version (with License Exception ACE) in 2022. Encryption export is the other half of this story &mdash; the regime that <em>Bernstein</em> (Part V) fought and loosened. The practical takeaway: if your work involves selling or sharing offensive tooling internationally, export law is a real and separate body of rules.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">The VEP &amp; the ban on &ldquo;hacking back&rdquo;</p>
+    <h3>Two powers the government keeps for itself</h3>
+    <p>Two lesser-known rules shape the field. The <strong>Vulnerabilities Equities Process (VEP)</strong> is the framework by which the U.S. government decides, when one of its agencies discovers a zero-day, whether to <em>disclose</em> it for fixing or <em>retain</em> it for intelligence and offensive use &mdash; the formal machinery behind the tension in Chapter 8, and the reason some of the worst vulnerabilities in history (EternalBlue, Chapter 11) sat in a government stockpile until they leaked and were turned against the world. And &ldquo;<strong>hacking back</strong>&rdquo; &mdash; counter-attacking whoever attacked you &mdash; is itself <em>illegal</em> for a private party under the same CFAA that protects you; the proposed Active Cyber Defense Certainty (ACDC) Act that would have permitted limited retaliation never became law. If you are breached, you call law enforcement. You do not launch your own counter-strike, however satisfying it would feel.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">State, sector &amp; the crypto wars</p>
+    <h3>Fifty states, the regulated industries, and the fight over encryption</h3>
+    <p>Every U.S. state has its own computer-crime statute, many <em>broader</em> than the CFAA &mdash; a state can charge you even when federal prosecutors decline (the DOJ policy in Part IV does not bind them). States run their own breach-notification and privacy laws (California&rsquo;s CCPA/CPRA the furthest-reaching). Sector rules pile on: <strong>HIPAA</strong> (health), <strong>GLBA</strong> (financial), <strong>FERPA</strong> (education), the contractual <strong>PCI-DSS</strong> (cards). And running under all of it is the permanent <strong>&ldquo;crypto war&rdquo;</strong> &mdash; the government&rsquo;s recurring push to weaken encryption, from the 1990s Clipper Chip, to <em>Apple v. FBI</em> (2016, Part IV), to the repeatedly-introduced EARN IT Act. Where you stand on strong encryption is, in this field, a professional position, not just a political one.</p>
+  </div>
+
+  <!-- ===================== PART III ===================== -->
+  <h2 id="part3">Part III &mdash; The World&rsquo;s Laws (Because Your Packets Cross Borders)</h2>
+  <p>The internet has no border control, but the law does. A scan launched from a Chromebook in Florida that lands on a server in Frankfurt has implicated the laws of the United States, Germany, and the European Union at once. You are subject to the law wherever your packets arrive &mdash; <strong>extraterritoriality is the rule, not the exception</strong> &mdash; and &ldquo;I didn&rsquo;t know it was hosted abroad&rdquo; has never been a defense. The major regimes:</p>
+
+  <div class="law">
+    <p class="cite">Council of Europe, 2001 (+ Second Protocol, 2022)</p>
+    <h3>The Budapest Convention on Cybercrime</h3>
+    <p>The first and most influential international cybercrime treaty, with roughly 70 parties including the United States. It harmonizes what counts as a computer crime across signatories and builds the machinery for <strong>cross-border cooperation and extradition</strong> &mdash; the reason a hacker in one country can be investigated and sent to stand trial in another (see McKinnon and Love in Part IV). Its 2022 Second Additional Protocol speeds cross-border access to electronic evidence. &ldquo;They&rsquo;ll never reach me across the border&rdquo; is usually wrong, and this treaty is why.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">United Nations, adopted 2024 &middot; opened for signature Oct 2025 (Hanoi)</p>
+    <h3>The UN Convention against Cybercrime</h3>
+    <p>The newest and most contested. The UN General Assembly adopted it in December 2024; it opened for signature on October 25, 2025 in Hanoi, where roughly 65&ndash;70+ states signed, and it enters force after 40 ratifications. <strong>The United States did not sign; the European Union did</strong> (October 27, 2025). Human-rights groups &mdash; the EFF (Part V) prominent among them &mdash; warn it could expand state surveillance and compelled cross-border data-sharing without adequate safeguards. It is a live, unfolding example of the law of this field being written and fought over right now.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">United Kingdom, 1990 (reform debated 2026)</p>
+    <h3>The Computer Misuse Act</h3>
+    <p>Britain&rsquo;s equivalent of the CFAA, and widely criticized as outdated: it has <strong>no statutory defense for good-faith security researchers</strong>, so UK researchers have long operated under real legal risk for ordinary testing. The CyberUp campaign has pushed for reform; as of 2026, an amendment to the Cyber Security and Resilience Bill would require the government to <em>review</em> whether such a defense is needed &mdash; a review, not yet a protection. If you research from or against the UK, this gap is your problem to manage.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">Germany, StGB &sect; 202c (2007)</p>
+    <h3>The &ldquo;Hacker Tools&rdquo; law</h3>
+    <p>Germany&rsquo;s notorious <em>Hackerparagraf</em> criminalizes producing, obtaining, or distributing tools designed to commit computer crimes &mdash; language so broad that, on its face, it appeared to outlaw the dual-use tools of Chapter 7 (<code>nmap</code>, Metasploit) that defenders use every day. It had a real chilling effect; some German researchers pulled tools offline. The Federal Constitutional Court narrowed it in 2009 to require <em>malicious intent</em>, but the ambiguity remains a cautionary example of how a law aimed at &ldquo;hacking tools&rdquo; inevitably threatens the people defending systems with the same tools.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">European Union</p>
+    <h3>NIS2, the GDPR, and the Cyber Resilience Act</h3>
+    <p>Three regimes to know. <strong>NIS2</strong> (national transposition from late 2024) imposes cybersecurity and incident-reporting duties on &ldquo;essential&rdquo; and &ldquo;important&rdquo; entities, with personal liability for management. The <strong>GDPR</strong> is the one that should scare a careless researcher: if your testing accesses <em>personal data</em> of EU residents, you are in scope, and its fines reach <strong>&euro;20 million or 4% of global turnover</strong>, whichever is higher (Meta was fined &euro;1.2 billion in 2023). And the new <strong>Cyber Resilience Act</strong> (in force December 2024) requires makers of products with &ldquo;digital elements&rdquo; to report <em>actively exploited</em> vulnerabilities &mdash; its reporting duties went live September 11, 2026, on a 24-hour / 72-hour / 14-day clock to national CSIRTs and ENISA. The EU is now the world&rsquo;s most aggressive writer of cyber law; if you build or sell anything that touches Europe, it reaches you.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">China, India &amp; the disclosure-control model</p>
+    <h3>When the state claims your vulnerabilities</h3>
+    <p>Some governments treat vulnerabilities as state resources. <strong>China&rsquo;s</strong> 2021 regulations (RMSV) require anyone who finds a vulnerability in a network product to report it to the Ministry of Industry and Information Technology within <strong>48 hours</strong>, forbid publishing exploit code, and &mdash; critically &mdash; <strong>forbid sharing vulnerability details with overseas parties</strong> other than the product&rsquo;s maker. Researchers call the result &ldquo;bug bounties with Chinese characteristics,&rdquo; and Microsoft has linked the regime to a surge in zero-days reaching the state before vendors. <strong>India&rsquo;s</strong> 2022 CERT-In directions require covered entities to report many incidents within <strong>six hours</strong> and retain extensive logs. The lesson for a researcher: disclosure norms that are virtuous in one country (Part VI) can be <em>illegal</em> in another, and where you report can matter as much as what you found.</p>
+  </div>
+
+  <div class="law">
+    <p class="cite">The rest of the map, in brief</p>
+    <h3>Everywhere else has a law too</h3>
+    <p>Assume any country you touch has an anti-hacking statute. <strong>Singapore&rsquo;s</strong> Computer Misuse Act is among the strictest, criminalizing even <em>dealing in</em> hacking tools or in data obtained by hacking, with explicit extraterritorial reach. <strong>Australia&rsquo;s</strong> Criminal Code and <strong>Canada&rsquo;s</strong> Criminal Code &sect;&nbsp;342.1 broadly mirror the CFAA. <strong>Brazil&rsquo;s</strong> LGPD echoes the GDPR for personal data. And <strong>Russia</strong> and several other states enforce their laws selectively &mdash; tolerant of cybercrime aimed outward, severe toward anything aimed at the state. The uniform lesson: there is no jurisdiction where unauthorized access is simply legal, and the friendlier a country looks to criminals operating abroad, the more dangerous it is to an honest researcher inside it.</p>
+  </div>
+
+  <!-- ===================== PART IV ===================== -->
+  <h2 id="part4">Part IV &mdash; The Cases Hackers Won and Lost</h2>
+  <p>Law is not an abstraction; it is a pile of real people who stood where you might stand. Study these the way a pilot studies crash reports &mdash; and the way an athlete studies the wins. Nearly every person here was as gifted as anyone in this book. What separated the free from the imprisoned was rarely skill. It was the law, the facts, and the choices.</p>
+
+  <h3>The wins &mdash; the ground researchers stand on</h3>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> Bernstein v. United States</h3>
+    <p class="cref">9th Cir., 1996&ndash;1999 &middot; EFF-litigated &middot; &ldquo;code is speech&rdquo;</p>
+    <p>Daniel Bernstein, a Berkeley math PhD student, wanted to publish an encryption algorithm (&ldquo;Snuffle&rdquo;), its source code, and a paper &mdash; but 1990s export rules treated publishing crypto like exporting a munition. With the EFF, he sued. Judge Marilyn Hall Patel ruled in 1996 that <strong>source code is speech protected by the First Amendment</strong> &mdash; the first court ever to say so &mdash; and the Ninth Circuit affirmed in 1999, striking down the export restrictions as unconstitutional prior restraint. The win cracked open the right to publish cryptography and underpins the entire modern open-source security world. <strong>Lesson:</strong> the most important hacker-rights victory in history was won in a courtroom, by a grad student and a nonprofit, not at a keyboard.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> United States v. ElcomSoft &amp; Dmitry Sklyarov</h3>
+    <p class="cref">N.D. Cal., 2001&ndash;2002 &middot; first criminal DMCA trial</p>
+    <p>Russian programmer Dmitry Sklyarov was arrested by the FBI in 2001 at DEF CON, in Las Vegas, for his company&rsquo;s software that stripped DRM from Adobe e-books &mdash; the first criminal test of the DMCA. A public outcry followed (Adobe itself, after meeting the EFF, called for the charges to be dropped); Sklyarov&rsquo;s charges were dismissed in exchange for his testimony, and in December 2002 a jury <strong>acquitted ElcomSoft entirely</strong>, finding the company had not <em>willfully</em> broken a law whose boundaries were genuinely unclear. <strong>Lesson:</strong> juries can be the researcher&rsquo;s friend when the law is murky &mdash; and arresting a foreign speaker at a hacker conference is how you create a movement.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> United States v. Drew</h3>
+    <p class="cref">C.D. Cal., 2009 &middot; the end of the terms-of-service theory</p>
+    <p>Lori Drew was prosecuted under the CFAA for a cruel MySpace hoax that preceded a teenager&rsquo;s suicide &mdash; on the theory that violating MySPace&rsquo;s <em>terms of service</em> was unauthorized access. A jury convicted; the judge then <strong>threw the conviction out</strong>, holding that making a terms-of-service breach a federal crime would be unconstitutionally vague, turning every fibbing user into a criminal. <strong>Lesson:</strong> it helped kill the idea that breaking fine print is &ldquo;hacking&rdquo; &mdash; the principle the Supreme Court later cemented in Van Buren.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> Van Buren v. United States</h3>
+    <p class="cref">U.S. Supreme Court, 2021 &middot; the statute narrowed</p>
+    <p>A police sergeant used his legitimate access to a license-plate database to run a lookup for a bribe. The government argued he &ldquo;exceeded authorized access&rdquo; by using his access for an <em>improper purpose</em> &mdash; the theory that any policy or terms violation could be a federal crime. The Court, 6&ndash;3, rejected it.</p>
+    <blockquote>
+      An individual &ldquo;exceeds authorized access&rdquo; when he accesses a computer with authorization but then obtains information located in particular areas of the computer &mdash; such as files, folders, or databases &mdash; that are off-limits to him.
+      <cite>&mdash; Van Buren v. United States, 593 U.S. ___ (2021), Barrett, J.</cite>
+    </blockquote>
+    <p>In plain English: the CFAA is about <strong>where you are allowed to go, not what you do once you&rsquo;re there.</strong> <strong>Lesson:</strong> the single most important pro-researcher development in the statute&rsquo;s history &mdash; but it protects you from the &ldquo;improper purpose&rdquo; theory, not from reaching data you were never permitted to reach.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> hiQ Labs v. LinkedIn &middot; <span class="verdict won">Won</span> Sandvig v. Barr</h3>
+    <p class="cref">9th Cir. &amp; D.D.C., 2019&ndash;2022 &middot; public data &amp; research</p>
+    <p>Two wins for access to <em>public</em> information. In <strong>hiQ</strong>, the Ninth Circuit held that scraping data a site makes <em>publicly available</em> &mdash; no login &mdash; does not violate the CFAA&rsquo;s &ldquo;without authorization&rdquo; clause, even after a cease-and-desist. In <strong>Sandvig</strong>, a court held that researchers studying algorithmic discrimination by creating test accounts (violating sites&rsquo; terms) were not committing a CFAA crime. <strong>Lesson &amp; the catch:</strong> public-data research has real protection &mdash; but hiQ still ultimately <em>lost</em> on LinkedIn&rsquo;s breach-of-contract claim, paid a $500,000 judgment, and shut down. Clearing the CFAA is not the same as clearing a contract.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> Apple v. FBI &middot; <span class="verdict won">Won</span> Apple v. Corellium</h3>
+    <p class="cref">2016 &amp; 2020 &middot; encryption and research tooling</p>
+    <p>In the <strong>2016 San Bernardino</strong> standoff, the FBI tried to force Apple, under the centuries-old All Writs Act, to build a backdoor into iOS. Apple refused; a national fight erupted; the government <strong>withdrew</strong> after paying a third party for an exploit &mdash; leaving strong encryption legally intact. In <strong>Corellium</strong>, a federal court found that a company making a virtualized iOS environment for security researchers was protected by copyright <em>fair use</em>. <strong>Lesson:</strong> the right to build and defend strong security tools has been defended successfully &mdash; when someone with resources chose to fight.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict mixed">Mixed</span> MDY Industries v. Blizzard</h3>
+    <p class="cref">9th Cir., 2010 &middot; software terms, bots &amp; the DMCA</p>
+    <p>A maker of a <em>World of Warcraft</em> automation bot (&ldquo;Glider&rdquo;) was sued by Blizzard. The Ninth Circuit drew a line that still matters for reverse-engineers: breaking a software license term is <em>copyright infringement</em> only when the term is a true &ldquo;condition&rdquo; of the license, not a mere &ldquo;covenant&rdquo; &mdash; but it also held the bot violated the <strong>DMCA</strong> by circumventing Blizzard&rsquo;s &ldquo;Warden&rdquo; anti-cheat protection. MDY lost overall. <strong>Lesson:</strong> the DMCA&rsquo;s anti-circumvention reach (Part II) extends to the protections around <em>any</em> software, games included, and &ldquo;it&rsquo;s just a EULA&rdquo; is not the shield people assume &mdash; some terms carry copyright&rsquo;s full weight.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict won">Won</span> The researchers who were <em>not</em> prosecuted &mdash; cars, pacemakers &amp; the FDA</h3>
+    <p class="cref">2015&ndash;present &middot; research that changed policy instead of ending careers</p>
+    <p>Not every landmark is a courtroom. When Charlie Miller and Chris Valasek remotely hacked a Jeep on the highway in 2015 (Chapter 2), and when researchers exposed life-threatening flaws in pacemakers and insulin pumps, they faced <em>no charges</em> &mdash; because they worked with the makers, disclosed responsibly (Part VI), and aimed at fixing the problem, not profiting from it. The result was the opposite of prison: a 1.4-million-vehicle recall, and formal <strong>FDA guidance</strong> treating medical-device security as a patient-safety issue. <strong>Lesson:</strong> the single clearest predictor of whether dangerous research makes you a hero or a defendant is <em>how you handled the disclosure</em>. The same research, done with coordination and without self-dealing, rewrites policy instead of breaking you.</p>
+  </div>
+
+  <h3>The losses &mdash; the graves at the edge of the map</h3>
+
+  <div class="case">
+    <h3><span class="verdict lost">Lost</span> United States v. Morris</h3>
+    <p class="cref">2nd Cir., 1990 &middot; the first CFAA conviction</p>
+    <p>Robert Tappan Morris, a Cornell grad student, released the 1988 &ldquo;Morris Worm&rdquo; (Chapter 11) &mdash; meant, he said, to measure the internet, it spread out of control and crashed thousands of machines. He became the <strong>first person ever convicted under the CFAA</strong>: three years&rsquo; probation, 400 hours of community service, a fine. <strong>Lesson:</strong> intent to measure is no defense to the damage you cause; &ldquo;I didn&rsquo;t mean for it to spread&rdquo; is where the statute was born. (Morris later became an MIT professor and startup founder &mdash; a reminder that a conviction need not be the end, but it is never the plan.)</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict lost">Lost</span> Aaron Swartz</h3>
+    <p class="cref">2011&ndash;2013 &middot; the case that haunts the field</p>
+    <p>The programmer and open-access activist used MIT&rsquo;s network to mass-download millions of academic articles from JSTOR. He was charged under the CFAA with multiple felonies carrying a theoretical maximum of decades in prison &mdash; for downloading papers. Facing that pressure, he died by suicide in January 2013, at 26, before trial. His death became the permanent symbol of the statute&rsquo;s disproportion and the rallying cry for reform (&ldquo;Aaron&rsquo;s Law,&rdquo; which never passed). <strong>Lesson:</strong> prosecutorial discretion under a broad law can turn a disproportionate fact pattern into a life-destroying one &mdash; which is exactly why the <em>wins</em> above, narrowing that discretion, matter so much.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict lost">Lost</span> Universal v. Reimerdes / Corley (DeCSS)</h3>
+    <p class="cref">2nd Cir., 2001 &middot; the DMCA upheld against publishers</p>
+    <p>When the DVD-decryption program DeCSS appeared, the movie industry sued, and <em>2600: The Hacker Quarterly</em> and its editor Eric Corley were enjoined from <strong>posting or even linking to</strong> the code. The courts upheld the DMCA against a First Amendment challenge, treating distribution of circumvention code as regulable conduct. <strong>Lesson:</strong> <em>Bernstein</em> made code speech, but DeCSS marked the limit &mdash; publishing circumvention tools can still be enjoined under the DMCA, and even <em>linking</em> was found to be too far.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict lost">Lost</span> Albert Gonzalez &middot; <span class="verdict lost">Lost</span> Jeremy Hammond</h3>
+    <p class="cref">2010 &amp; 2013 &middot; when it is actually crime</p>
+    <p>Not every case is a researcher caught by a vague law. <strong>Albert Gonzalez</strong> led the TJX and Heartland payment-card thefts &mdash; tens of millions of cards &mdash; and got <strong>20 years</strong>, among the longest hacking sentences in U.S. history. <strong>Jeremy Hammond</strong>, an Anonymous-affiliated activist, breached the intelligence firm Stratfor and leaked its data; he got <strong>10 years</strong>. <strong>Lesson:</strong> the line this chapter draws is real in both directions. Theft for profit and politically-motivated intrusion are crimes, prosecuted as crimes, and the &ldquo;hacktivist&rdquo; label is not a legal defense.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict lost">Lost</span> United States v. Joe Sullivan</h3>
+    <p class="cref">N.D. Cal., 2022 &middot; the breach <em>cover-up</em> conviction</p>
+    <p>A warning aimed at the defenders, not the attackers. Uber&rsquo;s chief security officer, <strong>Joe Sullivan</strong>, was criminally convicted in 2022 for his role in <em>covering up</em> a 2016 data breach &mdash; routing a $100,000 payment to the intruders through the bug-bounty program and dressing it up as a routine disclosure, while an FTC investigation into an earlier breach was underway. He was found guilty of obstruction and misprision of a felony. <strong>Lesson:</strong> this was the first time a security executive was personally, criminally convicted for mishandling a breach &mdash; the law now reaches the <em>response</em>, not just the intrusion. How you handle an incident is itself a legal act, and concealment is its own crime.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict lost">Lost</span> Kevin Mitnick</h3>
+    <p class="cref">1995&ndash;2000 &middot; the legend, made the hard way</p>
+    <p>The most famous hacker of the 1990s (Chapter 2) spent years as a fugitive and roughly five in prison &mdash; including a stretch in solitary confinement, after a prosecutor claimed he could launch nuclear missiles by whistling into a payphone, a myth that captures how badly the system understood what he actually did. He was largely a <em>social engineer</em> and explorer, not a thief for profit, yet the fear around him produced a draconian result. <strong>Lesson:</strong> Mitnick came out, went straight, and became a celebrated security consultant, author, and company founder until his death in 2023 &mdash; the redemption arc is real, but the price he paid for taking the illegal road first was enormous, and entirely avoidable.</p>
+  </div>
+
+  <div class="case">
+    <h3><span class="verdict mixed">Mixed</span> weev, Marcus Hutchins, Michael Lynn &amp; the Coalfire two</h3>
+    <p class="cref">2012&ndash;2019 &middot; the gray zone, where most careers actually live</p>
+    <p>The instructive cases are the ambiguous ones. <strong>weev</strong> (Andrew Auernheimer) collected ~114,000 iPad-owner emails from an unauthenticated AT&amp;T endpoint; convicted under the CFAA in 2012, <em>conviction vacated</em> in 2014 &mdash; on a venue technicality, not vindication. <strong>Marcus Hutchins</strong>, who <em>stopped</em> the WannaCry worm (Chapter 11), was arrested months later for malware he&rsquo;d written years earlier as a teen; he pleaded guilty and got time served &mdash; proof your past follows you and the law does not grade on later heroism. <strong>Michael Lynn</strong> resigned from his job to disclose a serious Cisco flaw at Black Hat in 2005 (&ldquo;Ciscogate&rdquo;) and was promptly sued into a settlement and injunction &mdash; the classic muzzling of a researcher. And the <strong>Coalfire</strong> penetration testers were <em>arrested and jailed</em> in 2019 for breaking into an Iowa courthouse they had been <em>hired by the state court to test</em>, because the state and the county sheriff disagreed about scope; charges were eventually dropped. <strong>Lesson:</strong> these four names power all of Part VII &mdash; authorization is only as good as the paper that defines it, your past is discoverable, and doing the right thing the wrong way still puts you in a cell overnight.</p>
+  </div>
+
+  <div class="note">
+    <p><strong>The &ldquo;View Source&rdquo; chill (2021).</strong> A journalist who found teachers&rsquo; Social Security numbers exposed in the HTML source of a Missouri state website &mdash; visible to anyone who pressed F12 &mdash; was publicly accused of &ldquo;hacking&rdquo; by the governor, who called for prosecution. No charges followed, and technologists ridiculed the claim, but it cost the reporter months of stress for responsibly reporting a government leak. <strong>Lesson:</strong> even doing everything right can draw a threat &mdash; which is why you disclose carefully, document everything, and have a lawyer&rsquo;s number ready <em>before</em> you need it.</p>
+  </div>
+
+  <h3>The pattern across all of them</h3>
+  <p>Read the wins and losses side by side and the rule emerges. Researchers tend to <strong>win</strong> when they are publishing knowledge (Bernstein), testing with authorization or on public data (hiQ, Sandvig), or when a law was stretched past its text (Drew, Van Buren). They tend to <strong>lose</strong> when they caused real damage (Morris), crossed into theft or intrusion for its own ends (Gonzalez, Hammond), distributed circumvention tools (DeCSS), or acted in a legal gray zone without airtight authorization (weev, Coalfire). The next six parts are how you stay on the winning side of that line.</p>
+
+  <!-- ===================== PART V ===================== -->
+  <h2 id="part5">Part V &mdash; The Electronic Frontier Foundation</h2>
+  <p>You are not alone out here, and that is largely thanks to one organization. If the hacker world has a legal guardian, it is the <strong>Electronic Frontier Foundation</strong> &mdash; and every working hacker should know its story, support it, and keep its number handy.</p>
+
+  <h3>Born from a raid</h3>
+  <p>The EFF was founded on July 10, 1990, by <strong>Mitch Kapor</strong> (creator of Lotus 1-2-3), <strong>John Perry Barlow</strong> (essayist and Grateful Dead lyricist), and <strong>John Gilmore</strong> (an early Sun Microsystems engineer), with early funding from Apple co-founder Steve Wozniak. Its catalyst was a government overreach straight out of Chapter 1&rsquo;s culture clash. During the Secret Service&rsquo;s 1990 &ldquo;Operation Sundevil,&rdquo; agents raided <strong>Steve Jackson Games</strong> &mdash; a tabletop game publisher &mdash; seizing its computers on the suspicion that an employee had a copied phone-company document, and nearly destroying a small business over a file that didn&rsquo;t even turn out to be there. Barlow and Kapor, alarmed at how little anyone in power understood the digital world or cared about the rights of the people in it, built an organization to defend them. The EFF&rsquo;s lawsuit, <em>Steve Jackson Games v. Secret Service</em> (1993), was a landmark win for electronic privacy.</p>
+
+  <h3>What it has done for you</h3>
+  <p>In the decades since, the EFF has been the force behind an astonishing share of the wins in Part IV and the infrastructure you use daily:</p>
+  <ul>
+    <li><strong>Established that code is speech</strong> &mdash; it litigated <em>Bernstein</em>, the ruling that freed cryptography and, with it, the open-source security world.</li>
+    <li><strong>The Coders&rsquo; Rights Project</strong> (launched at Black Hat in 2008) &mdash; it defends security researchers directly, publishes the authoritative <em>Reverse Engineering</em> and <em>Vulnerability Reporting</em> FAQs, and <strong>staffs lawyers at DEF CON, Black Hat, and BSides every year</strong> to answer researchers&rsquo; legal questions on the spot. If you present research, this is your safety net.</li>
+    <li><strong>Fights the DMCA and the CFAA</strong> &mdash; it challenges &sect;&nbsp;1201 as unconstitutional (<em>Green v. DOJ</em>), filed influential briefs in the CFAA cases, and defends researchers against compelled decryption on Fifth Amendment grounds and against invasive device searches at the border.</li>
+    <li><strong>Built tools that protect everyone</strong> &mdash; it co-created <strong>Let&rsquo;s Encrypt</strong> (free TLS certificates for the whole web), <strong>Certbot</strong>, <strong>Privacy Badger</strong>, and the HTTPS-everywhere push, and has long supported the Tor network.</li>
+    <li><strong>Shapes the law globally</strong> &mdash; it provides policy advice on new computer-crime legislation and treaties, and is among the loudest critics of the surveillance risks in the new UN Cybercrime Convention (Part III).</li>
+    <li><strong>Fought mass surveillance in court</strong> &mdash; in <em>Jewel v. NSA</em> it litigated for over a decade against warrantless dragnet surveillance of ordinary Americans, and it filed influential briefs in the <em>Carpenter</em> and <em>Riley</em> cases that reshaped digital privacy.</li>
+    <li><strong>Protected ordinary speech online</strong> &mdash; in <em>Lenz v. Universal</em> (the &ldquo;dancing baby&rdquo; case) it established that copyright holders must actually consider fair use before firing off a DMCA takedown.</li>
+  </ul>
+  <blockquote>
+    Each year EFF staffs lawyers from the Coders&rsquo; Rights Project at Black Hat, BSides, and DEF CON to answer legal questions from security researchers.
+    <cite>&mdash; EFF, Coders&rsquo; Rights Project</cite>
+  </blockquote>
+  <p>Two practical things follow from this. First: <strong>if you do security research, know the EFF exists before you need it</strong> &mdash; read the Coders&rsquo; Rights FAQs, and if you ever get a threatening letter for honest work, contact them. Second: this protection is not free. The EFF is a nonprofit that runs on members. If this book&rsquo;s world matters to you, a membership is the cheapest insurance policy in the field &mdash; and the one that protects the <em>next</em> researcher too.</p>
+
+  <!-- ===================== PART VI ===================== -->
+  <h2 id="part6">Part VI &mdash; Responsible Disclosure: How to Report Without Getting Burned</h2>
+  <p>You found a real vulnerability in something you don&rsquo;t own. This is the moment that makes or breaks white hats, because doing the <em>right</em> thing the <em>wrong</em> way has put honest people in handcuffs (ask Michael Lynn). There are three postures, and you should almost always choose the middle one.</p>
+  <ul>
+    <li><strong>Full disclosure</strong> &mdash; publish everything immediately. Maximizes pressure to fix; also arms attackers and maximizes your legal exposure. Rarely the right first move.</li>
+    <li><strong>Coordinated (responsible) disclosure</strong> &mdash; report privately to the vendor, give reasonable time to fix, then publish. The professional standard.</li>
+    <li><strong>Non-disclosure</strong> &mdash; tell no one. Sometimes contractually required; sometimes the quiet path of least risk; but it leaves users exposed.</li>
+  </ul>
+
+  <h3>Coordinated Vulnerability Disclosure (CVD), done right</h3>
+  <p>The mature process has a name and even ISO standards behind it &mdash; <strong>ISO/IEC 29147</strong> (how to receive and disclose) and <strong>ISO/IEC 30111</strong> (how to handle and fix). The researcher&rsquo;s side of it:</p>
+  <ul>
+    <li><strong>Find the channel first.</strong> Look for a <code>security.txt</code> file, a security@ address, a <strong>Vulnerability Disclosure Program (VDP)</strong>, or a <strong>bug bounty</strong> (a VDP invites reports and offers legal safe harbor; a bounty adds payment). CISA&rsquo;s <strong>BOD 20-01</strong> requires U.S. federal civilian agencies to run a VDP, so government systems have a front door.</li>
+    <li><strong>Read the scope and the safe harbor.</strong> The best programs adopt the <strong>disclose.io &ldquo;Gold Standard Safe Harbor&rdquo;</strong> language, which authorizes good-faith testing and waives the CFAA/DMCA claims against you <em>for in-scope work</em>. That waiver is your legal shield &mdash; and it only covers what the scope says it covers.</li>
+    <li><strong>Prove it, don&rsquo;t plunder it.</strong> Access the minimum needed to demonstrate the flaw. One screenshot of one record proves a data-exposure bug; downloading the whole database turns a research finding into an exfiltration charge.</li>
+    <li><strong>Give reasonable time.</strong> Industry norms are a <strong>90-day</strong> window (Google Project Zero&rsquo;s standard) or CERT/CC&rsquo;s 45-day default, extendable for good-faith fixes. Get a <strong>CVE</strong> assigned (via MITRE or a CVE Numbering Authority) so the finding is tracked. Publish coordinated, after a fix or after the window &mdash; not before.</li>
+    <li><strong>Know the jurisdiction.</strong> As Part III showed, &ldquo;responsible&rdquo; disclosure in the U.S. can be <em>illegal</em> elsewhere &mdash; China forbids sharing details abroad; the EU&rsquo;s CRA now imposes its own reporting clock on vendors. Where the system and its maker sit changes the rules.</li>
+    <li><strong>Never attach a demand.</strong> &ldquo;Here is the bug; I&rsquo;d appreciate a bounty if you have one&rdquo; is fine. &ldquo;Pay me or this goes public&rdquo; is <strong>extortion under CFAA &sect;&nbsp;1030(a)(7)</strong> &mdash; the single most common way a would-be white hat becomes a defendant.</li>
+  </ul>
+
+  <div class="lessons">
+    <h3>A disclosure, start to finish (the shape to aim for)</h3>
+    <ol>
+      <li><strong>Day 0 &mdash; find the door.</strong> You discover a flaw. Before touching anything further, you look for a <code>security.txt</code>, a VDP, or a bug-bounty scope, and you read its safe-harbor terms.</li>
+      <li><strong>Day 0 &mdash; prove minimally.</strong> You capture the <em>least</em> evidence that demonstrates the bug &mdash; one redacted screenshot, a request/response pair &mdash; and stop. You do not enumerate other users or pull the database.</li>
+      <li><strong>Day 1 &mdash; report privately.</strong> You submit through the program (or to security@) with clear reproduction steps, impact, and a suggested fix. You request a CVE. You attach <em>no</em> payment demand.</li>
+      <li><strong>Days 1&ndash;90 &mdash; coordinate.</strong> You give the vendor reasonable time (90 days is the norm), answer questions, and agree on a disclosure date. You keep records of every message.</li>
+      <li><strong>After the fix (or day 90) &mdash; publish, coordinated.</strong> You release your write-up once users are protected, crediting the vendor&rsquo;s cooperation. Your reputation grows; no one goes to jail.</li>
+    </ol>
+    <p>That timeline is the whole difference between Michael Lynn&rsquo;s lawsuit and a career-making CVE. The facts were often similar; the <em>process</em> was not.</p>
+  </div>
+
+  <h3>The disclosure ecosystem &mdash; where to actually report</h3>
+  <p>You rarely disclose into a void anymore. A whole ecosystem exists to route findings safely: <strong>bug-bounty platforms</strong> (HackerOne, Bugcrowd, Intigriti, YesWeHack) broker the relationship, host the scope and safe-harbor terms, and handle payment; <strong>CERT/CC</strong> and national CSIRTs coordinate the hard multi-vendor and critical-infrastructure bugs; and the <strong>CVE program</strong>, run by MITRE through a global network of CVE Numbering Authorities (CNAs), assigns the identifiers that let the whole world track a flaw. For a researcher, the practical path is almost always: check for a program, report through it, get a CVE, and let the platform&rsquo;s terms be your safe harbor. The lone-wolf email to <code>info@</code> is the riskiest route, and the last resort.</p>
+  <div class="note">
+    <p><strong>If honest research still draws a threat.</strong> Sometimes you do everything right and a cease-and-desist or legal threat arrives anyway (ask Michael Lynn, Part IV). Do not panic, and do not angrily go public. Stop testing, preserve your notes, say nothing you don&rsquo;t have to, and <strong>get a lawyer</strong> &mdash; the EFF&rsquo;s Coders&rsquo; Rights Project (Part V) exists for exactly this moment and can often help or refer you. A measured legal response beats a reckless public one every time.</p>
+  </div>
+
+  <!-- ===================== PART VII ===================== -->
+  <h2 id="part7">Part VII &mdash; The White Hat&rsquo;s Do&rsquo;s and Don&rsquo;ts</h2>
+  <p>Everything above compresses into a working code. Tape it to your monitor. This is how you use all the power of Chapters 6, 7, and 8 and stay a professional &mdash; and stay free.</p>
+
+  <div class="dos">
+    <h3>Do</h3>
+    <ul>
+      <li><strong>Get authorization in writing, first, always.</strong> A signed scope / statement of work / rules-of-engagement before a single packet. Verbal authorization is worth exactly nothing when the sheriff arrives (ask Coalfire).</li>
+      <li><strong>Make sure the person who authorized you actually can.</strong> The signature must come from someone with authority over <em>every</em> system and building in scope &mdash; and everyone who could call the police must know you&rsquo;re coming.</li>
+      <li><strong>Stay rigorously inside the scope.</strong> The in-scope targets, the approved techniques, the agreed hours, the rules on social engineering and physical access. If it isn&rsquo;t named, it isn&rsquo;t authorized.</li>
+      <li><strong>Minimize and protect data.</strong> Access the least needed to prove the finding; prove, don&rsquo;t exfiltrate; encrypt what you must keep; delete it when the engagement ends.</li>
+      <li><strong>Log everything you do</strong> &mdash; timestamps, commands, targets. Your contemporaneous notes are your defense and your deliverable.</li>
+      <li><strong>Use a VDP or bug bounty with real safe-harbor language</strong> (disclose.io Gold Standard) for anything you don&rsquo;t own or have a contract for &mdash; and read the EFF&rsquo;s FAQs (Part V).</li>
+      <li><strong>Practice on your own lab (Chapter 5).</strong> Your Hetzner box, your home network, deliberately-vulnerable VMs. Unlimited, legal, free.</li>
+      <li><strong>Run it like a business:</strong> an LLC for liability separation, professional/cyber liability insurance, written contracts, a relationship with a lawyer who knows this field.</li>
+      <li><strong>When scope is ambiguous, stop and ask &mdash; in writing.</strong> A two-line email confirming &ldquo;yes, that host is in scope&rdquo; has saved more careers than any tool.</li>
+    </ul>
+  </div>
+
+  <div class="donts">
+    <h3>Don&rsquo;t</h3>
+    <ul>
+      <li><strong>Don&rsquo;t touch anything you don&rsquo;t own or aren&rsquo;t authorized to test.</strong> Not the neighbor&rsquo;s Wi-Fi, not the ex-employer&rsquo;s portal, not the site that annoyed you. This is the whole ballgame.</li>
+      <li><strong>Don&rsquo;t rely on &ldquo;it was public&rdquo; or &ldquo;I was curious.&rdquo;</strong> weev and the View-Source journalist show how thin that ice is.</li>
+      <li><strong>Don&rsquo;t pivot beyond scope</strong> because you found an interesting path. The interesting path is where the felony lives.</li>
+      <li><strong>Don&rsquo;t exfiltrate real user data</strong> to &ldquo;prove&rdquo; a bug. One record, redacted, is proof; a database is a charge.</li>
+      <li><strong>Never attach a payment demand to a vulnerability report.</strong> That is extortion (&sect;&nbsp;1030(a)(7)), not bug bounty.</li>
+      <li><strong>Don&rsquo;t go public before coordinating.</strong> Full disclosure with no warning burns the vendor, the users, and often you.</li>
+      <li><strong>Don&rsquo;t test production systems &ldquo;just to check&rdquo;</strong> without permission &mdash; a harmless-looking probe can trigger an expensive incident response that becomes your &ldquo;damage.&rdquo;</li>
+      <li><strong>Don&rsquo;t assume a bug-bounty program authorizes out-of-scope assets.</strong> The scope page is the contract; everything else is trespassing.</li>
+      <li><strong>Don&rsquo;t &ldquo;hack back.&rdquo;</strong> Counter-attacking whoever hit you is itself a CFAA crime for a private party (Part II). Breached? Call law enforcement, not revenge.</li>
+      <li><strong>Don&rsquo;t cover up an incident.</strong> Joe Sullivan (Part IV) went down for the cover-up, not the breach. Disclose as the law and your contracts require.</li>
+      <li><strong>Don&rsquo;t point an AI agent (Chapter 8) at a target you aren&rsquo;t authorized to test.</strong> &ldquo;The model did it autonomously&rdquo; is not a defense &mdash; it is the GTG-1002 fact pattern.</li>
+    </ul>
+  </div>
+
+  <div class="pullquote">Authorization is a document, not a feeling. If you can&rsquo;t show it to a judge, you don&rsquo;t have it.</div>
+
+  <!-- ===================== PART VIII ===================== -->
+  <h2 id="part8">Part VIII &mdash; A Call for More Hackers in Law</h2>
+  <p>Now the argument I most want you to hear, because almost no one makes it to the people who need to. <strong>This field desperately needs hackers who understand the law &mdash; and lawmakers, lawyers, and judges who understand hacking.</strong> The gap between the two is where nearly every injustice in Part IV was born.</p>
+  <p>Look again at those cases. The CFAA was written in 1986, before the web existed, by people reacting to a movie. &ldquo;Exceeds authorized access&rdquo; stayed dangerously undefined for <em>thirty-five years</em> because the people drafting and interpreting it did not understand what access actually is. Germany criminalized &ldquo;hacker tools&rdquo; without grasping that defenders use the same tools. Prosecutors stacked decades of charges on Aaron Swartz for downloading papers because the statute let them and no one in the room could explain why that was absurd. The UK still has no researcher defense. Every one of these is a <strong>translation failure</strong> &mdash; a place where technical reality and legal language failed to meet, and a person paid for it.</p>
+  <p>That gap is an opportunity, and a calling. The people who can close it are rare and badly needed:</p>
+  <ul>
+    <li><strong>Hackers who go to law school</strong> &mdash; the technologist who can read a packet capture <em>and</em> a statute is one of the most valuable people in any courtroom, legislature, or agency. They become the expert witnesses who keep juries from convicting on nonsense, the legislative staffers who draft laws that distinguish research from crime, the prosecutors and defenders who get the technical facts right.</li>
+    <li><strong>Lawyers who learn to hack</strong> &mdash; even the field manual of Chapter 7 at a working level makes a lawyer dramatically better at tech policy, privacy, and criminal defense. The bar needs people who have actually run <code>nmap</code>.</li>
+    <li><strong>Policy technologists</strong> &mdash; CISA, the FTC, legislative offices, and courts all need people who can translate. Clerkships, fellowships (the EFF and groups like it hire technologists), and public-interest tech programs are real paths.</li>
+    <li><strong>Researchers who show up</strong> &mdash; file comments in the DMCA triennial rulemaking, support the EFF and the CyberUp campaign, testify, write. The good law in Part IV&rsquo;s wins exists because technical people engaged with the legal process instead of dismissing it.</li>
+  </ul>
+  <p>The paths are more concrete than they look. Law schools now run technology-law clinics and cybersecurity tracks; public-interest groups like the EFF, the ACLU, Access Now, and the Center for Democracy &amp; Technology hire and train technologists; fellowships place engineers directly into policymaking (TechCongress embeds technologists in congressional offices; a range of public-interest-technology programs do the same across agencies and courts); and CISA, the FTC, and legislative offices have carved out technologist roles precisely because they were drowning without them. You do not have to abandon hacking to walk any of these &mdash; the most valuable people in those rooms are the ones who still read code on the weekend.</p>
+  <p>I will say it plainly, because the book has earned it: <strong>if you are good at this and you have ever thought about law or policy, the field is begging for you.</strong> We have no shortage of people who can find the bug. We have a desperate shortage of people who can stand in a courtroom or a committee hearing and explain, correctly, why finding it was not a crime. Every great founder in Chapters 2 and 3 fought a battle over what hacking <em>means</em>. The next generation of those battles will be won or lost by people fluent in both languages &mdash; and there are not nearly enough of them. Be one.</p>
+
+  <!-- ===================== PART IX ===================== -->
+  <h2 id="part9">Part IX &mdash; Working for Uncle Sam</h2>
+  <p>Here is where the line becomes a <em>career</em>, and where my own story (Chapter 5) lives. The U.S. government is the largest employer of hackers on earth &mdash; at NSA, CISA, Cyber Command, the FBI, the national labs, and the vast contractor ecosystem around them. There are two doors in: become an <strong>employee</strong>, or become a <strong>contractor</strong>. Both run through the same two gates: a clearance, and compliance.</p>
+
+  <h3>The clearance</h3>
+  <p>Most serious government security work requires a <strong>security clearance</strong>, and the first thing to know is that <strong>you cannot get one on your own</strong> &mdash; you must be <em>sponsored</em> by a federal agency or a cleared contractor hiring you for a role that needs it. The levels:</p>
+  <ul>
+    <li><strong>Confidential</strong> and <strong>Secret</strong> &mdash; Secret uses a Tier 3 background investigation.</li>
+    <li><strong>Top Secret</strong> &mdash; a deeper Tier 5 investigation.</li>
+    <li><strong>TS/SCI</strong> &mdash; Top Secret plus <em>Sensitive Compartmented Information</em> access, an add-on granted per-program by a Special Security Officer, often with a polygraph.</li>
+  </ul>
+  <p>The process: your sponsor submits you; you complete the <strong>SF-86</strong> (the exhaustive Questionnaire for National Security Positions); the <strong>Defense Counterintelligence and Security Agency (DCSA)</strong> runs the investigation; the agency adjudicates it against thirteen guidelines; and if cleared, you&rsquo;re enrolled in <strong>continuous vetting</strong> (ongoing monitoring, not a one-time check). As of 2026, timelines run roughly 1&ndash;6 months for Secret, 4&ndash;12 for Top Secret, and 6&ndash;18 for TS/SCI, with reciprocity speeding transfers between agencies.</p>
+
+  <div class="danger">
+    <span class="tag">What gets a clearance denied &mdash; and why Parts I&ndash;VII matter here</span>
+    <p>Adjudicators weigh your whole life: <strong>finances</strong> (unresolved debt is the single most common reason clearances are denied &mdash; it signals vulnerability to bribery), <strong>foreign contacts and travel</strong>, <strong>drug use</strong> (including cannabis, which remains federally illegal and disqualifying regardless of state law), <strong>criminal conduct</strong>, and above all <strong>personal conduct and honesty</strong>. The cardinal rule: <strong>lying on the SF-86 is worse than almost anything you&rsquo;d be lying about.</strong> A past mistake disclosed honestly is often survivable; the same mistake concealed and discovered is disqualifying. And this is where the whole chapter converges on your career: <strong>a CFAA conviction &mdash; or even a credible allegation of unauthorized hacking &mdash; can end a clearance before it starts.</strong> The kid who couldn&rsquo;t resist scanning the school network may be closing a door they&rsquo;ll want open at thirty. Staying a white hat (Part VII) is not just ethics. It is career infrastructure.</p>
+  </div>
+
+  <p>The investigation is judged against <strong>thirteen adjudicative guidelines</strong>, and it is worth knowing them, because they are a map of what the government considers a risk: (A) allegiance to the United States; (B) foreign influence; (C) foreign preference; (D) sexual behavior; (E) personal conduct; (F) financial considerations; (G) alcohol consumption; (H) drug involvement; (I) psychological conditions; (J) criminal conduct; (K) handling protected information; (L) outside activities; and (M) use of information technology. Note what dominates that list: not your politics, but your <em>reliability and judgment</em> &mdash; money, honesty, substances, and how you handle other people&rsquo;s data and systems. Guideline M (misuse of IT) and J (criminal conduct) are where a hacking past lands directly; E (personal conduct) is where <em>concealing</em> it lands even harder.</p>
+
+  <h3>The employee path</h3>
+  <p>Federal jobs are posted on <strong>USAJobs.gov</strong>, graded on the GS pay scale, and increasingly use special cyber hiring authorities to compete with industry. The agencies that hire hackers directly &mdash; NSA, CISA, FBI Cyber, the military services and Cyber Command, DOE national labs &mdash; often recruit through internships, scholarship-for-service programs (the NSF <strong>CyberCorps Scholarship for Service</strong> pays for your degree in exchange for government service), and university partnerships. This is the salaried, benefits-and-pension door.</p>
+
+  <h3>The contractor path (my road, from Chapter 5)</h3>
+  <p>The other door is the one I walked, and it is open to a one-person company run from a Chromebook. The mechanics, in order:</p>
+  <ul>
+    <li><strong>Form the entity</strong> &mdash; register your business with your state (for me, Florida&rsquo;s Sunbiz).</li>
+    <li><strong>Register in SAM.gov</strong> &mdash; the System for Award Management, the mandatory front door for every federal contractor. This gets you a <strong>Unique Entity ID (UEI)</strong> and a <strong>CAGE code</strong>, and you&rsquo;ll classify your work with <strong>NAICS</strong> and <strong>PSC</strong> codes.</li>
+    <li><strong>Find the work</strong> &mdash; opportunities post on SAM.gov; agencies publish forecasts; small-business set-asides (small business, 8(a), SDVOSB, WOSB, HUBZone) exist specifically to get new, small players in the door.</li>
+    <li><strong>Use the R&amp;D on-ramps</strong> &mdash; the <strong>SBIR/STTR</strong> programs fund small-business research for agencies including DARPA, which is precisely the path Chapter 5 describes me pursuing. They are designed for exactly the small, technical innovator this book is written for.</li>
+    <li><strong>Meet the compliance bar</strong> &mdash; and this is the real gate. DoD contractors handling sensitive information must meet <strong>CMMC 2.0</strong> (the Cybersecurity Maturity Model Certification; its final rule came in 2024 and Phase 1 took effect November 10, 2025 &mdash; Level 1 self-assessment, Level 2 mapping to the 110 controls of <strong>NIST SP 800-171</strong> with third-party (C3PAO) assessment; the Phase 2 rollout was paused in mid-2026 pending program review). Cloud services handling government data need <strong>FedRAMP</strong> authorization, and the governing contract clause is <strong>DFARS 252.204-7012</strong>. Yes, it is a lot of paperwork. It is also the moat that keeps the field professional.</li>
+  </ul>
+  <p>One more reality of the contractor road, because it is how small players actually win: <strong>you rarely start as the prime.</strong> New, small companies get in by <em>teaming</em> &mdash; subcontracting under an established prime, signing teaming agreements to bid jointly, and building the &ldquo;past performance&rdquo; record that every future award demands. The government runs on-ramps for exactly this: the SBA&rsquo;s <strong>Mentor-Prot&eacute;g&eacute; Program</strong> pairs small firms with experienced ones; large multiple-award vehicles (<strong>GWACs</strong> and <strong>IDIQ</strong> contracts) pool opportunities; and set-asides reserve work for small, disadvantaged, veteran-owned, and woman-owned businesses. The move is not to chase a billion-dollar prime contract on day one &mdash; it is to sub, deliver, document the win, and climb. That is the realistic shape of the path Chapter 5 describes.</p>
+
+  <p>And one word of hard honesty, the same the rest of this book insists on: the government path is <strong>slow, relational, and compliance-heavy</strong>, and pursuing it is not the same as winning it. As Chapter 5 says plainly, I have built the registrations, written the proposals, and chased the on-ramps &mdash; and as of this writing, <em>nothing has been awarded</em>. I tell you that because the people selling you a fast track to government cyber riches are lying, and because the honest long game is the only one that survives a background investigation. Build the company right, stay clean (Part VII), and play the decade, not the quarter.</p>
+
+  <!-- ===================== PART X ===================== -->
+  <h2 id="part10">Part X &mdash; The Line</h2>
+  <p>Nine chapters, and it all comes down to a single decision you make over and over, every time your fingers find the keyboard: <strong>am I authorized to do this?</strong> Not &ldquo;can I&rdquo; &mdash; Chapters 6, 7, and 8 already answered that, and the answer is yes, terrifyingly often. The question is always &ldquo;may I,&rdquo; and the answer has to come from someone with the authority to give it, in a form you could show a judge.</p>
+  <p>That is the whole line. On one side is a profession that will pay you, clear you, and let you defend things that matter for thirty years. On the other side is a case file with your name on it, a conviction that forecloses the clearance and the career, and &mdash; in the worst of the cases in Part IV &mdash; a grave. The distance between those two lives is not talent. The most gifted people in this book&rsquo;s history stood on both sides of that line, and some crossed it. The distance is the decision, made correctly, every single time &mdash; and the willingness to fight for a better law when the line is drawn in the wrong place.</p>
+  <p>The machines of Chapter 8 cannot make that decision for you. An agent will scan whatever target you point it at and never once ask whether you had the right. <strong>Authorization cannot be automated, and accountability cannot be delegated.</strong> That is not a limitation of the technology. It is the last, irreducible job of the human in the loop &mdash; and it is the job this entire book has been preparing you to do well.</p>
+
+  <p class="framing">You now have the history, the people, the tribes, the lab, the attacks, the commands, the machines, and the law. What remains is to see all of it move &mdash; to read the great incidents of the last forty years as the single, continuing story they are, and to learn to read tomorrow&rsquo;s breach in the newspaper the way a defender does. That is <strong>Chapter 10 &mdash; The News and the Reckoning</strong>: the hacks that changed the world, what each one taught us, and how to survive the next one. Because surviving the next one &mdash; staying safe, staying free, and staying on the right side of this line &mdash; was the point of the whole book.</p>
+
+  <!-- ===================== SOURCES ===================== -->
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
+  <p class="refs-group">US law</p>
+  <ul class="refs">
+    <li>Computer Fraud and Abuse Act, 18 U.S.C. &sect; 1030; DMCA, 17 U.S.C. &sect; 1201; ECPA (18 U.S.C. &sect;&sect; 2510, 2701); FTC Act &sect; 5 (15 U.S.C. &sect; 45). Statute text via Cornell LII.</li>
+    <li>DOJ, revised CFAA charging policy (May 19, 2022). U.S. Copyright Office, Ninth Triennial &sect; 1201 Rulemaking (final rule eff. Oct. 28, 2024). SEC cyber disclosure rules (2023); CIRCIA (2022).</li>
+    <li>Export controls: the Wassenaar Arrangement &ldquo;intrusion software&rdquo; controls (2013; revised 2017); U.S. BIS implementation and License Exception ACE (2022). Surveillance: FISA &sect; 702 (reauthorized 2024); USA FREEDOM Act (2015).</li>
+  </ul>
+  <p class="refs-group">Cases</p>
+  <ul class="refs">
+    <li><em>Van Buren v. United States</em>, 593 U.S. ___ (2021); <em>hiQ Labs v. LinkedIn</em> (9th Cir. 2019/2022, settled 2022); <em>Sandvig v. Barr</em> (D.D.C. 2020); <em>United States v. Nosal</em> (9th Cir. 2012, 2016); <em>Facebook v. Power Ventures</em> (9th Cir. 2016/2019); <em>United States v. Drew</em> (C.D. Cal. 2009).</li>
+    <li><em>Bernstein v. United States</em> (9th Cir. 1999); <em>United States v. Elcom Ltd.</em> / Sklyarov (acquittal 2002); <em>Universal v. Reimerdes/Corley</em> (2d Cir. 2001, DeCSS); <em>Apple v. FBI</em> (2016); <em>Apple v. Corellium</em> (S.D. Fla. 2020).</li>
+    <li>Convictions &amp; cautionary cases: <em>United States v. Morris</em> (2d Cir. 1990); Aaron Swartz (2011&ndash;13); Albert Gonzalez (20 yrs, 2010); Jeremy Hammond (10 yrs, 2013); <em>United States v. Auernheimer</em> (&ldquo;weev,&rdquo; 2012, vacated 2014); Marcus Hutchins (2017&ndash;19); Michael Lynn / &ldquo;Ciscogate&rdquo; (2005); the Coalfire Iowa arrests (2019); Kevin Mitnick; Gary McKinnon &amp; Lauri Love (UK extraditions blocked, 2012 &amp; 2018); the 2021 Missouri &ldquo;View Source&rdquo; episode.</li>
+  </ul>
+  <p class="refs-group">International law</p>
+  <ul class="refs">
+    <li>Council of Europe Convention on Cybercrime (Budapest, 2001; Second Additional Protocol, 2022). UN Convention against Cybercrime (adopted Dec. 2024; opened for signature Oct. 25, 2025, Hanoi; US did not sign, EU signed Oct. 27, 2025) &mdash; UNODC; UN News; Just Security (critique).</li>
+    <li>UK Computer Misuse Act 1990 and the 2026 Cyber Security and Resilience Bill reform debate (CyberUp Campaign; <em>Computer Weekly</em>). Germany, StGB &sect; 202c (2007; BVerfG 2009).</li>
+    <li>EU: NIS2 Directive (2022/2555); GDPR; Cyber Resilience Act (Reg. (EU) 2024/2847; reporting live Sept. 11, 2026). China: 2021 vulnerability-disclosure regulations (RMSV) &mdash; The Record; ASPI; Dark Reading; SecurityWeek. India: CERT-In 2022 directions.</li>
+  </ul>
+  <p class="refs-group">The EFF, disclosure &amp; government work</p>
+  <ul class="refs">
+    <li>Electronic Frontier Foundation &mdash; history and founding (1990; Kapor, Barlow, Gilmore); <em>Steve Jackson Games v. Secret Service</em> (1993); the Coders&rsquo; Rights Project; <em>Green v. DOJ</em>; Let&rsquo;s Encrypt / Certbot / Privacy Badger. eff.org (&ldquo;Legal Victories,&rdquo; &ldquo;Coders&rsquo; Rights Project&rdquo;).</li>
+    <li>ISO/IEC 29147 &amp; 30111; CISA BOD 20-01; disclose.io &ldquo;Gold Standard Safe Harbor&rdquo;; Google Project Zero 90-day policy; CERT/CC CVD; the CVE / MITRE program.</li>
+    <li>Government work: DCSA; SF-86; clearance levels and 2026 timelines (ClearedJobs; IntelligenceCareers.gov); NSF CyberCorps SFS; USAJobs.gov; SAM.gov (UEI/CAGE/NAICS/PSC); SBIR/STTR (sbir.gov); CMMC 2.0 final rule (2024; Phase 1 eff. Nov. 10, 2025) &amp; NIST SP 800-171; FedRAMP; DFARS 252.204-7012.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this chapter &mdash; and one more time: this is not legal advice.</strong> Law is jurisdiction-specific, fact-specific, and changes constantly; several items here (the UN Convention&rsquo;s ratifications, UK reform, CMMC&rsquo;s phased rollout, the EU CRA&rsquo;s reporting rollout) were in motion as this edition went out and may have moved by the time you read it. Statutes are cited so you can read the primary text; case descriptions are summaries written for lay understanding, not holdings you should rely on; and nothing here substitutes for a qualified attorney licensed where you operate. This chapter is revised each annual edition as the law develops.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith is the founder of Savvy Security LLC and has answered to &ldquo;hacker&rdquo; for the better part of thirty years. He writes on security architecture, hacker culture, and autonomous defense, and is building Savvy Security inside the federal system described in Part IX. This is Chapter 9 of <em>A Hacker&rsquo;s Guide to Survive</em>, a living compendium published once a year.</p>
+
+  <nav class="chapnav">
+    <a href="../ch08-the-machines-that-hack/">&larr; Chapter 8 &mdash; The Machines That Hack</a>
+    <a href="../ch10-the-news-and-the-reckoning/">Next: Chapter 10 &mdash; The News and the Reckoning &rarr;</a>
+  </nav>
+</main>
+<footer>Savvy Security LLC &middot; A Hacker&rsquo;s Guide to Survive</footer>
+</body>
+</html>

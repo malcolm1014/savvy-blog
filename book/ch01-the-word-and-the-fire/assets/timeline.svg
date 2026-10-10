@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1180" viewBox="0 0 900 1180" role="img" font-family="'IBM Plex Mono', monospace" aria-label="A vertical timeline, The Keepers of the Fire, from 1959 to 2026. 1959: MIT Tech Model Railroad Club writes down 'hack' and 'hacker'. 1971: the 2600-hertz tone and blue boxes; Esquire publishes Secrets of the Little Blue Box. 1975: the Homebrew Computer Club meets in Menlo Park. 1981: the Chaos Computer Club is founded in Berlin. 1983: Richard Stallman announces the GNU Project. 1984: Steven Levy writes down the hacker ethic; 2600 magazine begins; the CCC's Btx hack. 1986: the Mentor writes the Hacker Manifesto in Phrack; Congress passes the Computer Fraud and Abuse Act. 1988: the Morris Worm; Cliff Stoll traces the Cuckoo's Egg. 1990: Operation Sundevil and the founding of the Electronic Frontier Foundation. 1991: Linus Torvalds releases Linux; Phil Zimmermann releases PGP. 1993: the first DEF CON; the Clipper chip fight and the Cypherpunks. 1998: L0pht testifies to the US Senate. 2016 to 2026: Hack the Pentagon, bug bounties, and the AI era.">
+  <defs>
+    <linearGradient id="spine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a86a22"/>
+      <stop offset="1" stop-color="#2f6f4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1180" fill="#fbf8f0"/>
+  <text x="48" y="54" font-size="22" font-weight="600" fill="#1a1712">The Keepers of the Fire</text>
+  <text x="48" y="78" font-size="12.5" fill="#5d5545">Sixty-seven years, one unbroken line &#8212; from a clubroom to the machines that hack</text>
+
+  <!-- spine -->
+  <rect x="150" y="110" width="4" height="1010" fill="url(#spine)"/>
+
+  <!-- node helper: circle + year + text -->
+  <!-- 1959 -->
+  <circle cx="152" cy="140" r="9" fill="#a86a22"/>
+  <text x="60" y="145" font-size="15" font-weight="700" fill="#a86a22" text-anchor="end">1959</text>
+  <text x="178" y="137" font-size="14" font-weight="700" fill="#1a1712">The word is written down</text>
+  <text x="178" y="156" font-size="12" fill="#5d5545">MIT Tech Model Railroad Club: a &#8220;hack&#8221; is done for the joy of it</text>
+
+  <!-- 1971 -->
+  <circle cx="152" cy="210" r="7" fill="#2f6f4f"/>
+  <text x="60" y="215" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1971</text>
+  <text x="178" y="207" font-size="14" font-weight="700" fill="#1a1712">The phone is a computer</text>
+  <text x="178" y="226" font-size="12" fill="#5d5545">The 2600 Hz tone, blue boxes, Esquire&#8217;s &#8220;Little Blue Box&#8221;</text>
+
+  <!-- 1975 -->
+  <circle cx="152" cy="280" r="7" fill="#2f6f4f"/>
+  <text x="60" y="285" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1975</text>
+  <text x="178" y="277" font-size="14" font-weight="700" fill="#1a1712">The machine comes home</text>
+  <text x="178" y="296" font-size="12" fill="#5d5545">The Homebrew Computer Club meets in Menlo Park</text>
+
+  <!-- 1981 -->
+  <circle cx="152" cy="350" r="7" fill="#2f6f4f"/>
+  <text x="60" y="355" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1981</text>
+  <text x="178" y="347" font-size="14" font-weight="700" fill="#1a1712">The other shore</text>
+  <text x="178" y="366" font-size="12" fill="#5d5545">The Chaos Computer Club is founded in Berlin</text>
+
+  <!-- 1983 -->
+  <circle cx="152" cy="420" r="7" fill="#2f6f4f"/>
+  <text x="60" y="425" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1983</text>
+  <text x="178" y="417" font-size="14" font-weight="700" fill="#1a1712">Free as in freedom</text>
+  <text x="178" y="436" font-size="12" fill="#5d5545">Richard Stallman announces the GNU Project</text>
+
+  <!-- 1984 -->
+  <circle cx="152" cy="490" r="9" fill="#a86a22"/>
+  <text x="60" y="495" font-size="15" font-weight="700" fill="#a86a22" text-anchor="end">1984</text>
+  <text x="178" y="487" font-size="14" font-weight="700" fill="#1a1712">The ethic, and the quarterly</text>
+  <text x="178" y="506" font-size="12" fill="#5d5545">Levy writes the ethic down; 2600 begins; the CCC&#8217;s Btx hack</text>
+
+  <!-- 1986 -->
+  <circle cx="152" cy="560" r="7" fill="#2f6f4f"/>
+  <text x="60" y="565" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1986</text>
+  <text x="178" y="557" font-size="14" font-weight="700" fill="#1a1712">The manifesto, and the law</text>
+  <text x="178" y="576" font-size="12" fill="#5d5545">The Mentor writes it in Phrack; Congress passes the CFAA</text>
+
+  <!-- 1988 -->
+  <circle cx="152" cy="630" r="7" fill="#2f6f4f"/>
+  <text x="60" y="635" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1988</text>
+  <text x="178" y="627" font-size="14" font-weight="700" fill="#1a1712">The first worm, the first catch</text>
+  <text x="178" y="646" font-size="12" fill="#5d5545">The Morris Worm; Cliff Stoll traces the Cuckoo&#8217;s Egg</text>
+
+  <!-- 1990 -->
+  <circle cx="152" cy="700" r="9" fill="#b23b2e"/>
+  <text x="60" y="705" font-size="15" font-weight="700" fill="#b23b2e" text-anchor="end">1990</text>
+  <text x="178" y="697" font-size="14" font-weight="700" fill="#1a1712">The Crackdown &#8212; and the answer</text>
+  <text x="178" y="716" font-size="12" fill="#5d5545">Operation Sundevil; the EFF is founded to push back</text>
+
+  <!-- 1991 -->
+  <circle cx="152" cy="770" r="7" fill="#2f6f4f"/>
+  <text x="60" y="775" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1991</text>
+  <text x="178" y="767" font-size="14" font-weight="700" fill="#1a1712">The kernel and the key</text>
+  <text x="178" y="786" font-size="12" fill="#5d5545">Torvalds releases Linux; Zimmermann releases PGP</text>
+
+  <!-- 1993 -->
+  <circle cx="152" cy="840" r="9" fill="#a86a22"/>
+  <text x="60" y="845" font-size="15" font-weight="700" fill="#a86a22" text-anchor="end">1993</text>
+  <text x="178" y="837" font-size="14" font-weight="700" fill="#1a1712">The tribe gets a home</text>
+  <text x="178" y="856" font-size="12" fill="#5d5545">The first DEF CON; the Clipper fight; the Cypherpunks</text>
+
+  <!-- 1998 -->
+  <circle cx="152" cy="910" r="7" fill="#2f6f4f"/>
+  <text x="60" y="915" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">1998</text>
+  <text x="178" y="907" font-size="14" font-weight="700" fill="#1a1712">Speaking truth to power</text>
+  <text x="178" y="926" font-size="12" fill="#5d5545">L0pht tells the US Senate it can take down the net in 30 minutes</text>
+
+  <!-- 2016 -->
+  <circle cx="152" cy="980" r="7" fill="#2f6f4f"/>
+  <text x="60" y="985" font-size="15" font-weight="700" fill="#5d5545" text-anchor="end">2016</text>
+  <text x="178" y="977" font-size="14" font-weight="700" fill="#1a1712">The government says please</text>
+  <text x="178" y="996" font-size="12" fill="#5d5545">Hack the Pentagon: the first federal bug bounty</text>
+
+  <!-- 2026 -->
+  <circle cx="152" cy="1050" r="9" fill="#a86a22"/>
+  <text x="60" y="1055" font-size="15" font-weight="700" fill="#a86a22" text-anchor="end">2026</text>
+  <text x="178" y="1047" font-size="14" font-weight="700" fill="#1a1712">The machines join the fire</text>
+  <text x="178" y="1066" font-size="12" fill="#5d5545">Autonomous agents find and write exploits &#8212; the story continues</text>
+
+  <text x="48" y="1120" font-size="10.5" fill="#8a8275">Diagram: Savvy Security LLC &#183; gold = hinges &#183; red = the warning</text>
+</svg>

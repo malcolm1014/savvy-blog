@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" font-family="'IBM Plex Mono', monospace" aria-label="A diagram, The Attack Lifecycle, showing the seven stages of the Cyber Kill Chain across the top (Reconnaissance, Weaponization, Delivery, Exploitation, Installation, Command and Control, Actions on Objectives) and, below, how this chapter's parts map onto them: recon and scanning feed the early stages; initial access, web, network, and exploitation sit in the middle; privilege escalation, persistence, evasion, lateral movement, C2 and exfiltration sit at the end. A legend at the bottom explains the Threat Panel: Popularity, Simplicity, and Impact each rated 1 to 10, averaged into a Risk Rating, colored green for low, amber for medium, and red for high to critical.">
+  <rect width="900" height="470" fill="#fbf8f0"/>
+  <text x="40" y="44" font-size="22" font-weight="600" fill="#1a1712">The Attack Lifecycle</text>
+  <text x="40" y="68" font-size="12.5" fill="#5d5545">How the parts of this compendium map onto the stages of a real intrusion</text>
+
+  <!-- kill chain flow -->
+  <g font-size="11.5">
+    <!-- stage boxes -->
+    <g>
+      <rect x="40" y="96" width="112" height="44" rx="5" fill="#f3ece0" stroke="#a86a22"/>
+      <text x="96" y="116" text-anchor="middle" font-weight="700" fill="#1a1712">Recon</text>
+      <text x="96" y="131" text-anchor="middle" fill="#5d5545" font-size="10">parts 2&ndash;3</text>
+
+      <rect x="162" y="96" width="112" height="44" rx="5" fill="#f3ece0" stroke="#a86a22"/>
+      <text x="218" y="116" text-anchor="middle" font-weight="700" fill="#1a1712">Weaponize</text>
+      <text x="218" y="131" text-anchor="middle" fill="#5d5545" font-size="10">parts 7, 17</text>
+
+      <rect x="284" y="96" width="112" height="44" rx="5" fill="#f3ece0" stroke="#a86a22"/>
+      <text x="340" y="116" text-anchor="middle" font-weight="700" fill="#1a1712">Deliver</text>
+      <text x="340" y="131" text-anchor="middle" fill="#5d5545" font-size="10">part 4</text>
+
+      <rect x="406" y="96" width="112" height="44" rx="5" fill="#f3ece0" stroke="#a86a22"/>
+      <text x="462" y="116" text-anchor="middle" font-weight="700" fill="#1a1712">Exploit</text>
+      <text x="462" y="131" text-anchor="middle" fill="#5d5545" font-size="10">parts 5&ndash;8</text>
+
+      <rect x="528" y="96" width="112" height="44" rx="5" fill="#f3ece0" stroke="#a86a22"/>
+      <text x="584" y="116" text-anchor="middle" font-weight="700" fill="#1a1712">Install</text>
+      <text x="584" y="131" text-anchor="middle" fill="#5d5545" font-size="10">parts 9&ndash;10</text>
+
+      <rect x="650" y="96" width="112" height="44" rx="5" fill="#f3ece0" stroke="#a86a22"/>
+      <text x="706" y="116" text-anchor="middle" font-weight="700" fill="#1a1712">C2</text>
+      <text x="706" y="131" text-anchor="middle" fill="#5d5545" font-size="10">part 11</text>
+
+      <rect x="772" y="96" width="88" height="44" rx="5" fill="#eaf1ec" stroke="#2f6f4f"/>
+      <text x="816" y="113" text-anchor="middle" font-weight="700" fill="#1a1712">Actions</text>
+      <text x="816" y="129" text-anchor="middle" fill="#5d5545" font-size="10">part 11</text>
+    </g>
+    <!-- arrows between -->
+    <g stroke="#a86a22" stroke-width="2" fill="none">
+      <line x1="152" y1="118" x2="160" y2="118"/><line x1="274" y1="118" x2="282" y2="118"/>
+      <line x1="396" y1="118" x2="404" y2="118"/><line x1="518" y1="118" x2="526" y2="118"/>
+      <line x1="640" y1="118" x2="648" y2="118"/><line x1="762" y1="118" x2="770" y2="118"/>
+    </g>
+  </g>
+
+  <text x="40" y="178" font-size="12.5" fill="#5d5545">The domains cut <tspan font-style="italic">across</tspan> every stage &mdash; wireless, physical, mobile, cloud, ICS/IoT, AI, and crypto each have their own recon, exploit, and impact:</text>
+  <g font-size="11" fill="#1a1712">
+    <rect x="40" y="192" width="135" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="107" y="211" text-anchor="middle">12 &#183; Wireless</text>
+    <rect x="185" y="192" width="135" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="252" y="211" text-anchor="middle">13 &#183; Physical/HW</text>
+    <rect x="330" y="192" width="120" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="390" y="211" text-anchor="middle">14 &#183; Mobile</text>
+    <rect x="460" y="192" width="155" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="537" y="211" text-anchor="middle">15 &#183; Cloud/Container</text>
+    <rect x="625" y="192" width="135" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="692" y="211" text-anchor="middle">16 &#183; OT/ICS/IoT</text>
+    <rect x="40" y="228" width="120" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="100" y="247" text-anchor="middle">17 &#183; AI/LLM</text>
+    <rect x="170" y="228" width="120" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="230" y="247" text-anchor="middle">18 &#183; Crypto</text>
+    <rect x="300" y="228" width="175" height="30" rx="14" fill="#fff" stroke="#ddd6c4"/><text x="387" y="247" text-anchor="middle">19 &#183; Insider/Supply</text>
+  </g>
+
+  <!-- legend -->
+  <line x1="40" y1="286" x2="860" y2="286" stroke="#ddd6c4"/>
+  <text x="40" y="312" font-size="14" font-weight="700" fill="#1a1712">Reading a Threat Panel</text>
+  <g font-size="11.5" fill="#5d5545">
+    <text x="40" y="336"><tspan font-weight="700" fill="#1a1712">Popularity</tspan> how common in the wild (1 rare &rarr; 10 everywhere)</text>
+    <text x="40" y="356"><tspan font-weight="700" fill="#1a1712">Simplicity</tspan> skill needed (1 = write your own 0-day &rarr; 10 = point-and-click)</text>
+    <text x="40" y="376"><tspan font-weight="700" fill="#1a1712">Impact</tspan> damage if it works (1 = trivial leak &rarr; 10 = full control)</text>
+    <text x="40" y="396"><tspan font-weight="700" fill="#1a1712">Risk</tspan> the average &mdash; plus the MITRE ATT&amp;CK ID, a CVSS band, and a real incident</text>
+  </g>
+  <!-- risk color key -->
+  <g font-size="11">
+    <rect x="560" y="322" width="22" height="16" rx="3" fill="#2f6f4f"/><text x="590" y="335" fill="#5d5545">1&ndash;3 low</text>
+    <rect x="560" y="344" width="22" height="16" rx="3" fill="#a86a22"/><text x="590" y="357" fill="#5d5545">4&ndash;6 medium</text>
+    <rect x="560" y="366" width="22" height="16" rx="3" fill="#c2601f"/><text x="590" y="379" fill="#5d5545">7&ndash;8 high</text>
+    <rect x="560" y="388" width="22" height="16" rx="3" fill="#b23b2e"/><text x="590" y="401" fill="#5d5545">9&ndash;10 critical</text>
+  </g>
+  <text x="40" y="440" font-size="11.5" fill="#b23b2e" font-weight="700">Every technique here is documented for defenders and authorized testers only. Running them uninvited is Chapter 10&rsquo;s subject &mdash; and a felony.</text>
+  <text x="40" y="460" font-size="10.5" fill="#8a8275">Diagram: Savvy Security LLC &#183; lifecycle after the Lockheed Martin Cyber Kill Chain and MITRE ATT&amp;CK</text>
+</svg>
