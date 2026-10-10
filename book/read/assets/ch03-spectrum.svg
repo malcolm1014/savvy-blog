@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" font-family="'IBM Plex Mono', monospace" aria-label="A diagram, The Spectrum of Tribes, plotting hacker group types along a horizontal axis from loose to tight organization. From left (loose, hard to destroy, hard to control) to right (tight, capable, durable): the faceless mob (Anonymous), the crew (Legion of Doom, Masters of Deception, LulzSec), the supergroup (Cult of the Dead Cow, L0pht), the open institution (Chaos Computer Club, Honeynet Project, OWASP), the ransomware syndicate (Conti, REvil, LockBit), and the nation-state unit (Equation Group, APT1, Fancy Bear, Lazarus). A note reads: the tighter a group solves the trust problem, the more capable and durable it becomes; the open institution is the only tight tribe you can join in daylight.">
+  <rect width="900" height="520" fill="#fbf8f0"/>
+  <text x="40" y="48" font-size="22" font-weight="600" fill="#1a1712">The Spectrum of Tribes</text>
+  <text x="40" y="72" font-size="12.5" fill="#5d5545">Plotted by how fully each solves the trust problem &#8212; and what that costs</text>
+
+  <!-- axis -->
+  <defs>
+    <linearGradient id="ax" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b23b2e"/>
+      <stop offset="0.5" stop-color="#a86a22"/>
+      <stop offset="1" stop-color="#2f6f4f"/>
+    </linearGradient>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5d5545"/></marker>
+  </defs>
+  <line x1="60" y1="300" x2="840" y2="300" stroke="url(#ax)" stroke-width="4" marker-end="url(#arr)"/>
+  <text x="60" y="330" font-size="12" fill="#b23b2e" font-weight="700">LOOSE</text>
+  <text x="60" y="346" font-size="10.5" fill="#5d5545">hard to kill, can&#8217;t be trusted or controlled</text>
+  <text x="840" y="330" font-size="12" fill="#2f6f4f" font-weight="700" text-anchor="end">TIGHT</text>
+  <text x="840" y="346" font-size="10.5" fill="#5d5545" text-anchor="end">capable, durable, well-governed</text>
+
+  <!-- nodes along the axis -->
+  <!-- each: x, dot, label above or below -->
+  <g font-size="12.5" fill="#1a1712">
+    <!-- faceless mob -->
+    <circle cx="120" cy="300" r="8" fill="#b23b2e"/>
+    <text x="120" y="250" text-anchor="middle" font-weight="700">Faceless mob</text>
+    <text x="120" y="268" text-anchor="middle" font-size="11" fill="#5d5545">Anonymous</text>
+    <text x="120" y="382" text-anchor="middle" font-size="10.5" fill="#5d5545">no vetting</text>
+
+    <!-- crew -->
+    <circle cx="265" cy="300" r="8" fill="#b23b2e"/>
+    <text x="265" y="250" text-anchor="middle" font-weight="700">Crew</text>
+    <text x="265" y="268" text-anchor="middle" font-size="11" fill="#5d5545">LoD &#183; MoD &#183; LulzSec</text>
+    <text x="265" y="382" text-anchor="middle" font-size="10.5" fill="#5d5545">dies to the informant</text>
+
+    <!-- supergroup -->
+    <circle cx="410" cy="300" r="8" fill="#a86a22"/>
+    <text x="410" y="250" text-anchor="middle" font-weight="700">Supergroup</text>
+    <text x="410" y="268" text-anchor="middle" font-size="11" fill="#5d5545">cDc &#183; L0pht</text>
+    <text x="410" y="382" text-anchor="middle" font-size="10.5" fill="#5d5545">grew up, went legit</text>
+
+    <!-- open institution -->
+    <circle cx="555" cy="300" r="10" fill="#2f6f4f"/>
+    <text x="555" y="244" text-anchor="middle" font-weight="700" fill="#2f6f4f">Open institution</text>
+    <text x="555" y="262" text-anchor="middle" font-size="11" fill="#5d5545">CCC &#183; Honeynet &#183; OWASP</text>
+    <text x="555" y="382" text-anchor="middle" font-size="10.5" fill="#2f6f4f" font-weight="700">join this one</text>
+
+    <!-- syndicate -->
+    <circle cx="690" cy="300" r="8" fill="#a86a22"/>
+    <text x="690" y="250" text-anchor="middle" font-weight="700">Syndicate</text>
+    <text x="690" y="268" text-anchor="middle" font-size="11" fill="#5d5545">Conti &#183; REvil &#183; LockBit</text>
+    <text x="690" y="382" text-anchor="middle" font-size="10.5" fill="#5d5545">killed by heat &amp; leaks</text>
+
+    <!-- state unit -->
+    <circle cx="820" cy="300" r="10" fill="#2f6f4f"/>
+    <text x="820" y="250" text-anchor="middle" font-weight="700">State unit</text>
+    <text x="820" y="268" text-anchor="middle" font-size="11" fill="#5d5545">APTs &#183; Lazarus</text>
+    <text x="820" y="382" text-anchor="middle" font-size="10.5" fill="#5d5545">payroll solves trust</text>
+  </g>
+
+  <line x1="40" y1="420" x2="860" y2="420" stroke="#ddd6c4" stroke-width="1"/>
+  <text x="40" y="452" font-size="12" fill="#1a1712" font-weight="600">The uncomfortable conclusion:</text>
+  <text x="40" y="472" font-size="12" fill="#5d5545">the romantic outlaw crew lost. The tribes that survived solved trust with governance (left-green)</text>
+  <text x="40" y="490" font-size="12" fill="#5d5545">or with a state (right-green). Only the open institution lets you be a member at fifty, in daylight.</text>
+  <text x="40" y="512" font-size="10.5" fill="#8a8275">Diagram: Savvy Security LLC</text>
+</svg>
