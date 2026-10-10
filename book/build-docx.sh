@@ -41,8 +41,12 @@ for d in "${BOOK_DIR}"/ch*/; do
   [ -d "${d}" ] && build_one "${d}"
 done
 
-# Combined full-book document (chapters in order)
+# Appendices (separate from the ch* naming, built explicitly)
+[ -d "${BOOK_DIR}/appendices" ] && build_one "${BOOK_DIR}/appendices"
+
+# Combined full-book document (chapters in order, appendices last)
 mapfile -t CHAPTERS < <(find "${BOOK_DIR}" -maxdepth 2 -name index.html -path '*/ch*' | sort)
+[ -f "${BOOK_DIR}/appendices/index.html" ] && CHAPTERS+=("${BOOK_DIR}/appendices/index.html")
 if [ "${#CHAPTERS[@]}" -gt 0 ]; then
   echo "building A-Hackers-Guide-to-Survive-full.docx"
   pandoc "${CHAPTERS[@]}" \
