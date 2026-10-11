@@ -161,6 +161,7 @@
     <a href="#part18">XVIII &middot; Crypto</a>
     <a href="#part19">XIX &middot; Supply Chain</a>
     <a href="#part20">XX &middot; The Landscape</a>
+    <a href="#part21">XXI &middot; Emerging Vectors</a>
     <a href="#sources">Sources</a>
   </nav>
 
@@ -1899,6 +1900,69 @@
   </div>
 
   <p class="framing">This was the thickest chapter in the book, and it had to be: you cannot defend against what you cannot name. But a catalog of attacks is only half an education. The chapters ahead turn the map around &mdash; <strong>Chapter 7</strong> puts the attacker&rsquo;s commands in your hands as an authorized tester (the Red field manual), <strong>Chapter 8</strong> builds the defenses that break the chains above (the Blue line), and <strong>Chapter 9</strong> goes deep on the machines &mdash; the AI and automation now reshaping both sides at once. Keep the lifecycle diagram in mind as you read them. Everything an attacker does, a defender can anticipate &mdash; if they have seen it first. Now you have.</p>
+
+  <h2 id="part21">Part XXI &mdash; Emerging &amp; Niche Vectors</h2>
+  <p>A living compendium has a growing edge. These are the surfaces moving fastest from &ldquo;research curiosity&rdquo; to &ldquo;real-world incident&rdquo; &mdash; the places the next decade&rsquo;s headlines (Chapter 10) will come from. Expect this Part to grow the most, edition over edition.</p>
+
+  <div class="attack">
+    <h3>Automotive &amp; CAN-Bus Attacks</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 7</span>
+      <span class="m">Popularity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK / CAPEC</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High (safety)</span>
+    </div>
+    <p class="how">A modern car is a network on wheels &mdash; dozens of electronic control units chatting over the <strong>CAN bus</strong>, a protocol designed for reliability, not authentication (the OT lesson of Part XVI, at 70 mph). Reach the bus &mdash; through the infotainment system, a cellular telematics unit, the OBD-II port, or a compromised key fob &mdash; and you can inject messages that brakes, steering, and the engine will obey.</p>
+    <p class="seen"><b>In the wild:</b> the 2015 Miller&ndash;Valasek remote Jeep hack (Chapter 2) caused a 1.4-million-vehicle recall; keyless-entry relay and rolling-code attacks steal cars in the real world today.</p>
+    <p class="fix"><b>Defense</b> Segment the vehicle network (isolate infotainment from drivetrain); authenticate critical CAN messages; intrusion detection on the bus; secure the telematics gateway; and treat the car as the safety-critical computer it is.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Aviation &amp; Avionics (ADS-B, ACARS)</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 5</span>
+      <span class="m">Popularity <b>2</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>4</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">ATT&amp;CK ICS</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High (safety)</span>
+    </div>
+    <p class="how">Aviation runs on legacy radio protocols built before anyone imagined a cheap software-defined radio. <strong>ADS-B</strong>, which broadcasts aircraft position, is unauthenticated and unencrypted &mdash; spoofable to create &ldquo;ghost&rdquo; aircraft on controllers&rsquo; and pilots&rsquo; screens. <strong>ACARS</strong> messaging is similarly exposed. The avionics buses inside the aircraft are the serious target, and are heavily regulated and isolated for exactly that reason.</p>
+    <p class="seen"><b>In the wild:</b> researchers at DEF CON&rsquo;s Aviation Village (Chapter 4) have repeatedly demonstrated ADS-B spoofing; regulators now treat aircraft cybersecurity as an airworthiness issue.</p>
+    <p class="fix"><b>Defense</b> Authentication and multilateration cross-checks for position data; strict isolation of flight-critical buses from passenger and comms systems; the emerging regulatory regime (DO-326A and kin); coordinated disclosure with manufacturers.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Satellite &amp; Space-System Attacks</h3>
+    <div class="panel r-med">
+      <span class="rr">RISK 6</span>
+      <span class="m">Popularity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>3</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>9</b></span><span class="sep">&middot;</span>
+      <span class="att">T0866 / ICS</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">Space is infrastructure now &mdash; GPS, comms, imagery, and the ground stations and user terminals that connect to them. Attacks run the span: GPS <strong>jamming and spoofing</strong> (increasingly common in conflict zones), compromise of the <strong>ground segment</strong> (the real soft underbelly), and attacks on satellite <strong>user terminals</strong> and the links between them.</p>
+    <p class="seen"><b>In the wild:</b> the 2022 Viasat KA-SAT hack disabled tens of thousands of modems across Europe at the start of the Ukraine invasion (Chapter 10); GPS spoofing now routinely disrupts aviation and shipping.</p>
+    <p class="fix"><b>Defense</b> Harden and monitor the ground segment like any critical IT; authenticated/encrypted command links; anti-jam and spoof-resistant receivers; resilient PNT (position, navigation, timing) alternatives so one jammed signal is not catastrophic.</p>
+  </div>
+
+  <div class="attack">
+    <h3>Deepfake &amp; Voice-Clone Fraud</h3>
+    <div class="panel r-high">
+      <span class="rr">RISK 8</span>
+      <span class="m">Popularity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Simplicity <b>7</b></span><span class="sep">&middot;</span>
+      <span class="m">Impact <b>8</b></span><span class="sep">&middot;</span>
+      <span class="att">AI-enabled &middot; Part IV/XVII</span><span class="sep">&middot;</span>
+      <span class="cvss">CVSS High</span>
+    </div>
+    <p class="how">AI turned social engineering (Part IV) photorealistic and real-time. A few seconds of a target&rsquo;s voice clones it; a few minutes of video enables a convincing deepfake. Attackers now impersonate executives on video calls and relatives on the phone to authorize wire transfers and extract secrets &mdash; the pretext of the oldest con with the one tell (it doesn&rsquo;t <em>sound</em> like them) removed. This is the Chapter 8 machine pointed straight at human trust.</p>
+    <p class="seen"><b>In the wild:</b> in 2024 a finance worker in Hong Kong wired ~$25 million after a video call in which every other participant &mdash; the &ldquo;CFO&rdquo; and colleagues &mdash; was an AI deepfake; voice-clone &ldquo;grandparent&rdquo; and CEO-fraud scams are now routine.</p>
+    <p class="fix"><b>Defense</b> Out-of-band verification for anything that moves money or secrets (a call-back on a known number, a shared code word); process controls that no single urgent request can override; employee awareness that voice and video are no longer proof of identity; provenance/content-authenticity tech (Chapter 8).</p>
+  </div>
 
   <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources &amp; Standards</h2>
   <p class="refs-group">Frameworks &amp; rating</p>

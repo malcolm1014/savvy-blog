@@ -256,6 +256,17 @@
 
   <p>The deepest use of the lab, and the one this book cares about most, is <strong>building and debugging advanced software in a controlled, reproducible environment.</strong> When Savvy Security develops something that has to run in a specific, constrained setting &mdash; a particular kernel version, an air-gapped-like configuration, a weird dependency stack &mdash; the cloud lab lets me <em>recreate that target environment exactly</em>, run the software under a debugger, instrument it, break it, and restore from a snapshot when an experiment corrupts it. That is how you develop serious systems software without a rack of hardware in a spare room: you rent the exact machine you need for the afternoon you need it, script its entire setup so it&rsquo;s reproducible, and tear it down. The reproducibility is itself a security property &mdash; &ldquo;works on my machine&rdquo; stops being a liability when &ldquo;my machine&rdquo; is a disposable server defined entirely in a setup script anyone can re-run.</p>
 
+  <h3>Building it, step by step</h3>
+  <p>Enough principle &mdash; here is the actual spine of the lab I run, the one that fits in a coffee budget. Treat this as a recipe, not scripture; the full copy-paste version lives in Appendix C.</p>
+  <ol>
+    <li><strong>Rent the box.</strong> A small cloud instance (I use Hetzner; any provider works) is a few dollars a month. You want your own Linux machine that is <em>yours to break</em>, separate from anything you care about.</li>
+    <li><strong>Lock it down before you do anything else.</strong> Generate an SSH key (<code>ssh-keygen -t ed25519</code>), disable password login, create a non-root user, and turn on the firewall allowing only SSH. Then &mdash; always &mdash; <code>apt update &amp;&amp; apt upgrade</code>. You are practicing the Chapter 6 lesson on your own box first.</li>
+    <li><strong>Install the kit.</strong> <code>tmux</code> so you never lose a session, <code>git</code> for everything, <code>docker</code> to run disposable targets, and your language runtimes. Snapshot the clean state so you can roll back after experiments.</li>
+    <li><strong>Stand up legal targets.</strong> Run deliberately-vulnerable apps in Docker (DVWA, OWASP Juice Shop), or use hosted ranges that come with built-in authorization &mdash; TryHackMe, Hack The Box, the PortSwigger Web Security Academy. <em>Never</em> point your tools at anything you do not own or have written permission to test (Chapter 9 is the long version of that sentence).</li>
+    <li><strong>Add the agent.</strong> Wire in your coding model of choice and version-control the work from commit one. Now your lab is also your studio &mdash; the same machine where this book was built.</li>
+  </ol>
+  <p>That is the whole on-ramp. No datacenter, no five-figure rig, no permission from a gatekeeper &mdash; a used laptop, a cloud instance, and the discipline to keep the offense inside the fence.</p>
+
   <h2 id="part5">Part V &mdash; Shipping Real Things</h2>
   <h3>What one person can actually build now</h3>
 
