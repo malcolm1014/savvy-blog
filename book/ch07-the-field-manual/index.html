@@ -534,6 +534,17 @@
   </div>
 
   <!-- ===================== PART VIII ===================== -->
+  <h4>Cloud &amp; identity defense (Blue)</h4>
+  <dl class="fm">
+    <div><dt>aws cloudtrail lookup-events --max-items 50</dt><dd>Review recent control-plane API calls &mdash; the cloud&rsquo;s audit log; hunt for unexpected IAM changes or new keys (Ch. 6, Part XV).</dd></div>
+    <div><dt>aws iam get-account-authorization-details</dt><dd>Dump every user, role, and policy at once to audit who can do what &mdash; find the over-permissioned role before an attacker does.</dd></div>
+    <div><dt>aws guardduty list-findings --detector-id ID</dt><dd>Pull GuardDuty&rsquo;s threat findings and triage the highest severity first.</dd></div>
+    <div><dt>az monitor activity-log list  /  gcloud logging read</dt><dd>The Azure and GCP equivalents &mdash; read the cloud audit trail for whichever provider you run.</dd></div>
+    <div><dt>kubectl get events -A --sort-by=.lastTimestamp</dt><dd>Cluster-wide Kubernetes events, newest last &mdash; spot crash-looping or suspicious pod activity.</dd></div>
+    <div><dt>kubectl logs -n NS POD --since=1h</dt><dd>Pull a pod&rsquo;s recent logs during an incident.</dd></div>
+    <div><dt>audit: new IAM users, fresh access keys, MFA-disabled accounts, logins from new regions</dt><dd>The cloud IOC checklist &mdash; identity is the perimeter now, so watch it like one (Ch. 6, Part XV).</dd></div>
+  </dl>
+
   <h2 id="part8">Part VIII &mdash; The Prompt Field Manual</h2>
   <div class="roles"><span class="role prompt">OSINT</span><span class="role prompt">Researcher</span><span class="role prompt">Vibe Coder</span><span class="role red">Red</span><span class="role blue">Blue</span></div>
   <p>This is the manual the old field manuals never had. Two languages run the modern operator&rsquo;s day that <code>nmap</code> and <code>grep</code> never touched: the <strong>query language of search engines</strong> (Google-Fu &mdash; the art I have practiced for twenty years) and the <strong>instruction language of large language models</strong> (prompt engineering &mdash; Chapter 5&rsquo;s whole premise). Both are command sets. Both reward precision. Both are, done well, a genuine force multiplier &mdash; and both are neutral tools governed by the same authorization rule as every other command in this book.</p>

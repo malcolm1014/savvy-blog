@@ -221,6 +221,13 @@
   </div>
 
   <!-- ===================== PART V ===================== -->
+  <div class="incident">
+    <h3>Capital One (2019)</h3>
+    <p class="meta">Root cause: an SSRF flaw + an over-permissioned cloud role &middot; ~100M applicants</p>
+    <p>A former cloud engineer exploited a misconfigured web application firewall (an SSRF flaw, Chapter 6 Parts V and XV) to reach the AWS instance-metadata service, steal the role&rsquo;s temporary credentials, and read ~100 million credit-card applications out of S3. The archetypal cloud breach &mdash; not a broken wall, a misconfigured one.</p>
+    <p class="lesson"><b>Lesson</b> The cloud kill-chain in one case: SSRF &rarr; metadata &rarr; data. IMDSv2 and a least-privilege role would each have broken it (Chapter 6, Part XV). The perimeter is identity now.</p>
+  </div>
+
   <h2 id="part5">Part V &mdash; The Ransomware Era</h2>
   <p>2017 was the hinge. Two attacks weaponized the leaked EternalBlue exploit and ushered in the era that still dominates the news: extortion at global scale.</p>
 
@@ -278,6 +285,13 @@
   </div>
 
   <!-- ===================== PART VII ===================== -->
+  <div class="incident">
+    <h3>MOVEit (2023)</h3>
+    <p class="meta">Root cause: a zero-day in a file-transfer product &middot; 2,700+ orgs, 90M+ people</p>
+    <p>The Cl0p crew mass-exploited a SQL-injection zero-day in Progress MOVEit Transfer &mdash; a file-transfer tool embedded in thousands of enterprises &mdash; to steal data from everyone running it, all at once, then extorted the victims. No encryption, no ransomware payload: just theft and a threat. It became one of the largest data-theft campaigns in history.</p>
+    <p class="lesson"><b>Lesson</b> One flaw in one widely-used product equals thousands of downstream victims (the supply-chain lesson, Part VI) &mdash; and extortion no longer needs to encrypt anything; your data leaving the building is the whole crime now.</p>
+  </div>
+
   <h2 id="part7">Part VII &mdash; The Present Front (2024&ndash;2026)</h2>
   <p>Which brings us to now &mdash; the headlines as this edition goes out, and a preview of where Chapter 8&rsquo;s machines are taking us.</p>
 
