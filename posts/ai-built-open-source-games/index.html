@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two Free Games, Built With AI: Gambit Chess, VoltCraft 3D, and the New Era of Open-Source Learning</title>
+<meta name="description" content="A security researcher who doesn't write code by hand built a 3D chess variant and a 3D electronics lab with AI coding tools. What worked, what the research says about learning through games, and what to verify.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Two Free Games, Built With AI: Gambit Chess, VoltCraft 3D, and the New Era of Open-Source Learning">
+<meta property="og:description" content="I don't write code by hand, yet I shipped a dice-and-traps chess variant and a 3D electronics lab. What AI changes about making games, what the research says about learning through play, and what to verify.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/ai-built-open-source-games/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two Free Games. Built With AI. Screenshots of Gambit Chess and VoltCraft 3D Pro Ultimate.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/ai-built-open-source-games/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:published_time" content="2026-10-16T10:00:00-04:00">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Two Free Games, Built With AI: Gambit Chess, VoltCraft 3D, and the New Era of Open-Source Learning">
+<meta name="twitter:description" content="What AI changes about making games, what the research says about learning through play, and what to verify.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/ai-built-open-source-games/assets/cover.png">
+<meta name="twitter:image:alt" content="Two Free Games. Built With AI. Screenshots of Gambit Chess and VoltCraft 3D Pro Ultimate.">
+
+<style>
+  :root{
+    --bg:#f8fafc; --fg:#0f172a; --muted:#475569; --rule:#e2e8f0;
+    --accent:#16a34a; --card:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0b1220; --fg:#e5e7eb; --muted:#94a3b8; --rule:#1e293b; --accent:#4ade80; --card:#0f172a; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65;
+  }
+  .hero{
+    background:#0b1220 url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-size:1.9rem; line-height:1.25; margin:0 0 6px;}
+  .byline{color:var(--muted); font-size:.95rem; margin:0 0 32px;}
+  h2{font-size:1.3rem; margin:40px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  p{margin:0 0 18px;}
+  ul,ol{margin:0 0 18px; padding-left:22px;}
+  li{margin-bottom:8px;}
+  a{color:var(--accent);}
+  sup a{text-decoration:none; font-weight:700;}
+  figure{margin:28px 0;}
+  figure img{width:100%; height:auto; display:block; border:1px solid var(--rule); border-radius:10px;}
+  figcaption{color:var(--muted); font-size:.85rem; margin-top:8px;}
+  table{width:100%; border-collapse:collapse; margin:0 0 22px; font-size:.92rem;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  th{color:var(--muted); font-size:.78rem; text-transform:uppercase; letter-spacing:.06em;}
+  .callout{border-left:4px solid var(--accent); background:var(--card); padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 22px;}
+  .callout p{margin:0;}
+  .sources{font-size:.85rem; color:var(--muted);}
+  .sources li{margin-bottom:6px;}
+  .cta{
+    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--card);
+  }
+  .cta p{margin:0 0 14px;}
+  .btn{
+    display:inline-block; background:var(--accent); color:#052e16 !important; text-decoration:none;
+    padding:10px 18px; border-radius:6px; font-weight:700; font-size:.9rem; margin:0 8px 8px 0;
+  }
+  .btn.alt{background:transparent; color:var(--accent) !important; border:1px solid var(--accent);}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Two Free Games. Built With AI. Screenshots of Gambit Chess and VoltCraft 3D Pro Ultimate."></div>
+
+<main>
+  <p><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC</p>
+  <h1>Two Free Games, Built With AI: Gambit Chess, VoltCraft 3D, and the New Era of Open-Source Learning</h1>
+  <p class="byline">By Malcolm R. Smith &middot; Savvy Security LLC &middot; October 16, 2026</p>
+
+  <p>I don't write code by hand. What I have is twenty years of practice asking precise questions and turning vague ideas into exact instructions, and it turns out that is now a way to build software. This year I used AI coding tools, including Claude Code, Google's Jules agent and Gemini, to build two games I had always wanted to exist. Both run in a web browser. Neither needs an install, an account or a credit card.</p>
+
+  <p><strong>Gambit Chess</strong> is a chess variant with dice-rolled stats, a sacrifice economy and hidden traps. <strong>VoltCraft 3D Pro Ultimate</strong> is a 3D electronics workbench where you wire real parts onto a breadboard and measure them with a virtual multimeter.</p>
+
+  <p>This article is about what those two projects show about a bigger shift: one person with a clear idea can now build playable, teachable software on top of open-source foundations. It is also about the limits of that shift, because the evidence says it deserves some skepticism, and a security firm should say so out loud.</p>
+
+  <h2>Game one: Gambit Chess</h2>
+  <p>Gambit Chess keeps chess movement (with a few simplifications, such as no castling and one-square pawn steps) and changes how captures work. Every piece has an Offense and a Defense stat set by its role, and a capture succeeds only if the attacker's Offense is at least the defender's Defense.<sup><a href="#ref-1">[1]</a></sup> Before move one, each player rolls 6d8 three times, keeps the best total, and spends those points on individual pieces. Both sides also start with 10 Gambit Points (GP), which pay for cards: Rally (+2 Offense), Sprint (a pawn moves two squares) and Pitfall, a hidden trap that destroys any non-King piece that steps on it.</p>
+
+  <figure>
+    <img src="assets/fig-combat-threshold.png" alt="Table of base Offense and Defense stats for each chess piece, with four worked capture examples showing which captures are allowed or blocked." width="1200" height="640" loading="lazy">
+    <figcaption>Figure 1. The core rule, using the base stats published in the Gambit Chess README.<sup><a href="#ref-1">[1]</a></sup> Dice points added during setup raise individual pieces further.</figcaption>
+  </figure>
+
+  <p>Under the hood it is a modern web stack: React and TypeScript for the interface, Three.js (through react-three-fiber) for the 3D board, and Vite to build it into a static site.<sup><a href="#ref-1">[1]</a></sup> The computer opponent is a real alpha-beta search engine with four strengths. The top tier is called the Archmage, which is why I sometimes call the game Wizard's Chess. The game's own estimates put the four tiers at roughly 900 (Squire), 1,400 (Knight), 1,800 (Warlord) and 2,100 (Archmage) Elo, with the Archmage thinking for about five seconds per move.<sup><a href="#ref-1">[1]</a></sup></p>
+
+  <figure>
+    <img src="assets/fig-gambit-chess.jpg" alt="Gambit Chess title artwork: a 3D wooden chess board beside the words Gambit Chess and the tagline chess with dice-rolled stats, a sacrifice economy and hidden traps." width="1200" height="630" loading="lazy">
+    <figcaption>Figure 2. Gambit Chess, the share image from the game's own page. Play it free in a browser.<sup><a href="#ref-1">[1]</a></sup></figcaption>
+  </figure>
+
+  <p>The project began as a one-page rules document written for an AI agent. The first design brief in the repository is addressed to Google's Jules, a coding agent that works asynchronously: it clones a repository into a cloud virtual machine, shows its plan, and returns changes for you to review.<sup><a href="#ref-4">[4]</a></sup> That brief set both sides' starting points at zero GP. The shipped game starts each side at 10. The rules changed as I played, and that is the point: the spec is cheap to change, so you can find out what is fun by playing, not by arguing.</p>
+
+  <h2>Game two: VoltCraft 3D Pro Ultimate</h2>
+  <p>VoltCraft is the opposite kind of project. It is a single HTML file that uses Three.js to draw a breadboard, parts and probes in 3D.<sup><a href="#ref-5">[5]</a></sup> You pick from 47 parts, from resistors and LEDs to 555 timers, servos, an ultrasonic sensor and a Raspberry Pi header, click two holes to place one, and a solver computes the voltages. Overload an LED and it releases a puff of "magic smoke," a particle effect that fires when a part exceeds its current or power rating.</p>
+
+  <figure>
+    <img src="assets/fig-voltcraft-builds.png" alt="VoltCraft's 52 pre-fabricated builds gallery showing cards such as Traffic Light Sequencer, Precision 2.50V Reference Divider and Smart LDR Twilight Night-Light." width="1440" height="810" loading="lazy">
+    <figcaption>Figure 3. The 52-build gallery. Clicking a card places a complete circuit on the 3D board. This is a capture of the interface; the 3D viewport sits behind it.</figcaption>
+  </figure>
+
+  <p>Around that core sits a lot of teaching scaffolding: 52 prebuilt reference circuits, 18 themed "arena" builds (conference-badge, robotics and open-hardware projects), a multimeter with voltage, current, resistance and continuity modes, a thermal-camera view, an X-ray view of the breadboard's hidden connections, and a fault-injection mode that hides a defect for you to find with the meter.</p>
+
+  <figure>
+    <img src="assets/fig-voltcraft-manual.png" alt="VoltCraft's built-in Operator's Field Manual, showing a three-step quick start and a diagram of breadboard power rails and terminal strips." width="1440" height="810" loading="lazy">
+    <figcaption>Figure 4. The built-in field manual explains how breadboard rails and five-hole strips are connected before you place a single part.</figcaption>
+  </figure>
+
+  <div class="callout">
+    <p><strong>An honest note on the numbers.</strong> VoltCraft advertises 5,000 lessons. They are generated from 40 core circuit patterns (eight per tier, across five tiers), varied by task type, pin position and part choice. That is a useful way to give a learner endless practice, but it is not 5,000 hand-written lessons, and the simulator is a simplified teaching model, not SPICE. LEDs and diodes use piecewise models and the solver iterates toward node voltages. Say what it is.</p>
+  </div>
+
+  <h2>What AI actually did, and what it did not</h2>
+  <p>The term "vibe coding" was coined by Andrej Karpathy in February 2025 for a style of programming where you describe what you want and accept what the model writes, sometimes without reading it. It was a throwaway-weekend-project idea; by the end of 2025 Collins English Dictionary had named it Word of the Year.<sup><a href="#ref-2">[2]</a></sup> Professional use has moved fast too. Reports cited in Wikipedia's overview say Microsoft put AI-written code at 20 to 30 percent for some projects in April 2025, Snap at least 65 percent of new code by April 2026, and Google roughly three-quarters of new code, all reviewed by human engineers.<sup><a href="#ref-3">[3]</a></sup> Tools like Claude Code make that practical for a solo builder: it reads your codebase, edits files, runs commands and works with git.<sup><a href="#ref-6">[6]</a></sup></p>
+
+  <p>What AI did for me is the part that used to be a wall: scaffolding a 3D scene, wiring React state, writing a search engine, and standing up a deployment pipeline. What it did not do is decide what is fun, what is correct, or what is safe. Those stayed my job, and the evidence suggests that is where the risk lives:</p>
+  <ul>
+    <li><strong>Speed is not guaranteed.</strong> In a randomized trial summarized on Wikipedia, experienced developers took 19 percent longer with AI tools on 246 tasks, while believing they had been about 20 percent faster.<sup><a href="#ref-2">[2]</a></sup></li>
+    <li><strong>Quality needs a check.</strong> A December 2025 analysis of 470 open-source pull requests found AI co-authored code carried about 1.7 times more major issues and 2.74 times more security vulnerabilities.<sup><a href="#ref-2">[2]</a></sup> Germany's federal cybersecurity agency (BSI) warned in September 2025 that AI coding assistants used without experienced oversight can produce incorrect solutions about half the time.<sup><a href="#ref-3">[3]</a></sup></li>
+    <li><strong>Games get cloned.</strong> Circana analyst Mat Piscatella warned in July 2026 that AI makes copying a successful game so cheap that clones can bury the originals in store search.<sup><a href="#ref-10">[10]</a></sup></li>
+  </ul>
+
+  <h2>The security angle</h2>
+  <p>Since this is a security firm's blog, here is what a quick review of my own two projects turned up. It is the kind of review any AI-assisted project should get.</p>
+  <ul>
+    <li><strong>Gambit Chess has a small attack surface.</strong> Vite bundles it into static files. It has no accounts and no game server, its code makes no network calls, and it uses browser storage only to remember your rating and board theme. Its one outside request is a Google Fonts stylesheet for the typography, which is the kind of dependency worth self-hosting. A "math audit" test suite covers the dice generator, the probability formulas, the combat rule (checked exhaustively across piece roles), card costs, checkmate and stalemate, and the search engine's move generation, and it runs in the deployment pipeline before every publish.<sup><a href="#ref-1">[1]</a></sup></li>
+    <li><strong>VoltCraft has a supply-chain gap.</strong> It loads Tailwind, Three.js, OrbitControls, Font Awesome and Google Fonts from third-party hosts at runtime, with no Subresource Integrity hashes. If a host that serves one of those scripts were compromised, the page would run the attacker's code. The fix is routine: self-host or pin the files and add integrity hashes. AI tools tend to reach for the convenient CDN snippet, so someone has to ask.</li>
+  </ul>
+
+  <h2>Do games actually teach?</h2>
+  <p>This is where the hype needs the most care. The most rigorous test of "chess makes kids smarter" is a randomized trial of the Chess in Schools and Communities program: about 4,000 Year 5 pupils (roughly ages 9 to 10) in 100 English primary schools, with chess replacing a weekly lesson for roughly 30 hours in the 50 schools that got it. One year later it found no effect on maths, reading or science.<sup><a href="#ref-7">[7]</a></sup> The authors attribute much bigger results in earlier studies to small samples and weak outcome tests, and they note that social and enjoyment benefits were not measured.</p>
+  <p>The wider evidence on game-based learning is modestly positive. A 2025 meta-analysis of 13 studies found a small positive effect (g = 0.134) on students' higher-order maths thinking, with results varying by factors such as education level and how long the intervention ran.<sup><a href="#ref-8">[8]</a></sup> A general overview of the field likewise describes parts of the evidence as limited and notes that teachers need training and support to use games well.<sup><a href="#ref-9">[9]</a></sup></p>
+  <p>So I do not claim these games make you smarter. The honest claim is narrower and still worthwhile: a game can make an abstract rule visible and let you test it as many times as you like. In VoltCraft you can watch an LED dim when you swap a resistor, or pop when you leave it out. In Gambit Chess you get a feel for probability by seeing why the best of three 6d8 rolls averages about 32 points.<sup><a href="#ref-1">[1]</a></sup> Whether that transfers to a classroom is a question for measurement, not marketing.</p>
+
+  <h2>Why open source is the other half of the story</h2>
+  <p>AI can write the glue, but the foundations are open source. Three.js is MIT-licensed and has more than 115,000 stars on GitHub.<sup><a href="#ref-5">[5]</a></sup> That is why a non-programmer can stand up a 3D scene in an afternoon instead of writing a graphics engine. And open code is a learning tool in its own right: a 2016 Opensource.com guide argued that students learn by reading and modifying real game code, and singled out GNU Chess as a way to see how chess engines work beneath the interface.<sup><a href="#ref-11">[11]</a></sup></p>
+  <p>Gambit Chess's source, tests and rules are public on GitHub, so a curious player can read the combat rule, run the stress tests, or change the stats and see what breaks.<sup><a href="#ref-1">[1]</a></sup> VoltCraft ships as one HTML file you can open, read and modify. The next step for both is a clear license so that "free to play" becomes "free to reuse."</p>
+
+  <h2>A playbook for your own AI-built project</h2>
+  <ol>
+    <li><strong>Write the spec first.</strong> A one-page rules document gave the AI a target and gave me something to revise.</li>
+    <li><strong>Make tests the contract.</strong> If the rules are math, test the math, and make the pipeline refuse to deploy when tests fail.</li>
+    <li><strong>Review dependencies like a defender.</strong> Bundle or pin them, and never trust a convenient CDN tag by default.</li>
+    <li><strong>Describe the project honestly.</strong> Say "generated from 40 patterns," not "5,000 hand-written lessons."</li>
+    <li><strong>Add a license.</strong> If you want people to learn from your code, tell them they may.</li>
+    <li><strong>Play it yourself.</strong> No model can tell you whether it is fun.</li>
+  </ol>
+
+  <p>Savvy Security LLC will keep building and writing in this space. If you are thinking about using AI to ship a product, a training tool or an internal game, and want a second pair of eyes on the security and the claims, get in touch.</p>
+
+  <div class="cta">
+    <p><strong>Try it.</strong> Gambit Chess is free to play against the computer or a friend, and the source is on GitHub.</p>
+    <a class="btn" href="https://malcolm1014.github.io/Gambit-Chess/" target="_blank" rel="noopener">Play Gambit Chess</a>
+    <a class="btn alt" href="https://github.com/malcolm1014/Gambit-Chess" target="_blank" rel="noopener">View the source</a>
+  </div>
+
+  <h2>Sources</h2>
+  <p class="sources">All links accessed October 16, 2026. Figures 1 to 4 were made for this article from the games' own code and interface; the Gambit Chess figure is the game's published share image.</p>
+  <ol class="sources">
+    <li id="ref-1">Smith, M. R. <em>Gambit Chess</em>: README, source code and live game. <a href="https://github.com/malcolm1014/Gambit-Chess" target="_blank" rel="noopener">github.com/malcolm1014/Gambit-Chess</a> &middot; <a href="https://malcolm1014.github.io/Gambit-Chess/" target="_blank" rel="noopener">play</a></li>
+    <li id="ref-2">Wikipedia. "Vibe coding" (Karpathy's February 2025 coinage, Word of the Year, the METR randomized trial, and the CodeRabbit analysis). <a href="https://en.wikipedia.org/wiki/Vibe_coding" target="_blank" rel="noopener">en.wikipedia.org/wiki/Vibe_coding</a></li>
+    <li id="ref-3">Wikipedia. "AI-assisted software development" (reported Microsoft, Snap and Google figures; Germany's BSI warning of September 2025). <a href="https://en.wikipedia.org/wiki/AI-assisted_software_development" target="_blank" rel="noopener">en.wikipedia.org/wiki/AI-assisted_software_development</a></li>
+    <li id="ref-4">Google. "Build with Jules, your asynchronous coding agent." Google Labs blog. <a href="https://blog.google/technology/google-labs/jules/" target="_blank" rel="noopener">blog.google/technology/google-labs/jules</a></li>
+    <li id="ref-5">mrdoob et al. <em>three.js</em>, MIT-licensed JavaScript 3D library. GitHub. <a href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener">github.com/mrdoob/three.js</a></li>
+    <li id="ref-6">Anthropic. "Claude Code overview." <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">code.claude.com/docs/en/overview</a></li>
+    <li id="ref-7">Jerrim, J., Macmillan, L., Micklewright, J., Sawtell, M., &amp; Wiggins, M. (2017). Randomised controlled trial of the Chess in Schools and Communities program in English primary schools. <em>Journal of Human Resources</em>. <a href="https://www.Gwern.net/doc/iq/2017-jerrim.pdf" target="_blank" rel="noopener">PDF copy</a></li>
+    <li id="ref-8">Anggoro, B. S., Dewantara, A. H., Suherman, S., Muhammad, R. R., &amp; Saraswati, S. (2025). Effect of game-based learning on students' mathematics high order thinking skills: A meta-analysis. <em>Revista de Psicodidáctica (English Edition)</em>, 30(1). <a href="https://www.elsevier.es/es-revista-revista-psicodidactica-243-articulo-effect-game-based-learning-on-students-S2530380524000194" target="_blank" rel="noopener">elsevier.es</a></li>
+    <li id="ref-9">Wikipedia. "Game-based learning." <a href="https://en.wikipedia.org/wiki/Game-based_learning" target="_blank" rel="noopener">en.wikipedia.org/wiki/Game-based_learning</a></li>
+    <li id="ref-10">Games.gg (July 15, 2026). "AI Vibe Coding Threatens Good Games on Steam, Analyst Warns" (comments by Mat Piscatella, Circana). <a href="https://games.gg/news/ai-vibe-coding-clone-bury-games/" target="_blank" rel="noopener">games.gg</a></li>
+    <li id="ref-11">Williams, B. (July 13, 2016). "7 open source games for students." Opensource.com. <a href="https://opensource.com/life/16/7/open-source-gaming-projects-students" target="_blank" rel="noopener">opensource.com</a></li>
+  </ol>
+</main>
+
+<footer>Savvy Security LLC &middot; Malcolm R. Smith</footer>
+
+</body>
+</html>
