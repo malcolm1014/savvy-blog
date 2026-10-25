@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" width="760" height="450" font-family="'IBM Plex Mono',monospace">
+  <style>
+    .ttl{font-size:15px;font-weight:700;letter-spacing:.03em}
+    .ax{font-size:12px;fill:#5d5545}
+    .barlbl{font-size:12.5px;font-weight:600}
+    .val{font-size:12.5px;font-weight:700}
+    .note{font-size:12px;fill:#5d5545}
+    @media (prefers-color-scheme: dark){ .ax{fill:#a49c87} .note{fill:#a49c87} }
+  </style>
+
+  <text x="30" y="28" class="ttl" fill="#a86a22">How well each disguise defeats an LLM analyst</text>
+  <text x="30" y="48" class="ax">Attacker success rate vs. LLM&#8209;based vulnerability detection &#8212; higher is better for the hider</text>
+
+  <!-- plot: x 120..700 maps 0..100%, each group 70px tall -->
+  <g stroke="#eee7d4" stroke-width="1">
+    <line x1="265" y1="72" x2="265" y2="318"/>
+    <line x1="410" y1="72" x2="410" y2="318"/>
+    <line x1="555" y1="72" x2="555" y2="318"/>
+  </g>
+  <g stroke="#ddd6c4" stroke-width="1">
+    <line x1="120" y1="72" x2="120" y2="318"/>
+    <line x1="700" y1="72" x2="700" y2="318"/>
+    <line x1="120" y1="318" x2="700" y2="318"/>
+  </g>
+  <g class="ax" text-anchor="middle">
+    <text x="120" y="336">0%</text><text x="265" y="336">25%</text>
+    <text x="410" y="336">50%</text><text x="555" y="336">75%</text><text x="700" y="336">100%</text>
+  </g>
+
+  <!-- group 1: Virtualisation 80% -> 120 + 0.80*580 = 584 -->
+  <text x="120" y="92" class="barlbl" fill="#a86a22">Virtualisation</text>
+  <rect x="120" y="100" width="464" height="22" rx="3" fill="#a86a22"/>
+  <text x="592" y="117" class="val" fill="#a86a22">~80%</text>
+
+  <!-- group 2: Mixed-language 75% -> 555 -->
+  <text x="120" y="152" class="barlbl" fill="#a86a22">Mixed&#8209;language</text>
+  <rect x="120" y="160" width="435" height="22" rx="3" fill="#c08a3e"/>
+  <text x="563" y="177" class="val" fill="#a86a22">~75%</text>
+
+  <!-- group 3: Control-flow flattening moderate -> 319 -->
+  <text x="120" y="212" class="barlbl" fill="#5d5545">Control&#8209;flow flattening</text>
+  <rect x="120" y="220" width="319" height="22" rx="3" fill="#8f8a6f"/>
+  <text x="447" y="237" class="val" fill="#5d5545">moderate</text>
+
+  <!-- group 4: Renaming weak -> 80 -->
+  <text x="120" y="272" class="barlbl" fill="#5d5545">Renaming / layout</text>
+  <rect x="120" y="280" width="80" height="22" rx="3" fill="#b9b39a"/>
+  <text x="208" y="297" class="val" fill="#5d5545">weak</text>
+
+  <!-- honest counterpoint -->
+  <g transform="translate(30,356)">
+    <rect x="0" y="0" width="700" height="80" rx="6" fill="#e8f0f3" stroke="#6f97ac"/>
+    <text x="16" y="24" class="barlbl" fill="#2f5568">The catch, stated plainly:</text>
+    <text x="16" y="44" class="note">Across a whole codebase, light disguises made the model miss some bugs and <tspan font-style="italic">catch others</tspan>;</text>
+    <text x="16" y="62" class="note">net detection barely moved. Polymorphism is friction and cost &#8212; not an invisibility cloak.</text>
+  </g>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="'IBM Plex Mono',monospace">
+  <style>
+    .lbl{font-size:13px;fill:#5d5545;font-weight:600;letter-spacing:.06em}
+    .ttl{font-size:15px;font-weight:700;letter-spacing:.04em}
+    .code{font-size:13px;fill:#166534}
+    .pay{font-size:12px;fill:#8a8470}
+    .verdict{font-size:13px;font-weight:700}
+    @media (prefers-color-scheme: dark){
+      .lbl{fill:#a49c87}.code{fill:#4ade80}.pay{fill:#a49c87}
+    }
+  </style>
+  <rect width="760" height="420" fill="none"/>
+
+  <!-- LEFT column: encrypted (Cascade 1988) -->
+  <text x="30" y="30" class="ttl" fill="#2f5568">ENCRYPTED &#8212; Cascade, 1988</text>
+  <text x="30" y="52" class="lbl">the decryptor never changes</text>
+
+  <g transform="translate(30,70)">
+    <!-- 3 copies, identical decryptor -->
+    <g>
+      <rect x="0" y="0" width="300" height="88" rx="5" fill="#fbf8f0" stroke="#ddd6c4"/>
+      <rect x="0" y="0" width="118" height="88" rx="5" fill="#eef6ef" stroke="#bcd8bf"/>
+      <text x="12" y="22" class="code">mov cx,len</text>
+      <text x="12" y="40" class="code">xor [si],bx</text>
+      <text x="12" y="58" class="code">rol bx,1</text>
+      <text x="12" y="76" class="code">loop</text>
+      <text x="132" y="48" class="pay">&#9608;&#9608; encrypted</text>
+      <text x="132" y="66" class="pay">&#9608;&#9608; payload</text>
+    </g>
+    <g transform="translate(0,100)">
+      <rect x="0" y="0" width="300" height="88" rx="5" fill="#fbf8f0" stroke="#ddd6c4"/>
+      <rect x="0" y="0" width="118" height="88" rx="5" fill="#eef6ef" stroke="#bcd8bf"/>
+      <text x="12" y="22" class="code">mov cx,len</text>
+      <text x="12" y="40" class="code">xor [si],bx</text>
+      <text x="12" y="58" class="code">rol bx,1</text>
+      <text x="12" y="76" class="code">loop</text>
+      <text x="132" y="48" class="pay">&#9608;&#9608; different</text>
+      <text x="132" y="66" class="pay">&#9608;&#9608; key</text>
+    </g>
+  </g>
+  <!-- scanner catches it -->
+  <rect x="30" y="286" width="300" height="56" rx="5" fill="#2f5568" opacity="0.1" stroke="#2f5568"/>
+  <text x="44" y="310" class="verdict" fill="#2f5568">SCANNER: match on decryptor bytes</text>
+  <text x="44" y="330" class="lbl" fill="#2f5568">one signature catches every copy</text>
+
+  <!-- divider -->
+  <line x1="380" y1="20" x2="380" y2="400" stroke="#ddd6c4" stroke-dasharray="3 5"/>
+
+  <!-- RIGHT column: polymorphic (1260, 1990) -->
+  <text x="410" y="30" class="ttl" fill="#a86a22">POLYMORPHIC &#8212; 1260, 1990</text>
+  <text x="410" y="52" class="lbl">the decryptor mutates every copy</text>
+
+  <g transform="translate(410,70)">
+    <g>
+      <rect x="0" y="0" width="300" height="88" rx="5" fill="#fbf8f0" stroke="#e0a256"/>
+      <rect x="0" y="0" width="118" height="88" rx="5" fill="#eef6ef" stroke="#bcd8bf"/>
+      <text x="12" y="22" class="code">add di,7</text>
+      <text x="12" y="40" class="code">xor [di],al</text>
+      <text x="12" y="58" class="code">nop</text>
+      <text x="12" y="76" class="code">loop</text>
+      <text x="132" y="48" class="pay">&#9608;&#9608; encrypted</text>
+      <text x="132" y="66" class="pay">&#9608;&#9608; payload</text>
+    </g>
+    <g transform="translate(0,100)">
+      <rect x="0" y="0" width="300" height="88" rx="5" fill="#fbf8f0" stroke="#e0a256"/>
+      <rect x="0" y="0" width="118" height="88" rx="5" fill="#eef6ef" stroke="#bcd8bf"/>
+      <text x="12" y="22" class="code">push bx</text>
+      <text x="12" y="40" class="code">sub cl,dl</text>
+      <text x="12" y="58" class="code">xor [si],cl</text>
+      <text x="12" y="76" class="code">pop bx</text>
+      <text x="132" y="48" class="pay">&#9608;&#9608; same</text>
+      <text x="132" y="66" class="pay">&#9608;&#9608; payload</text>
+    </g>
+  </g>
+  <rect x="410" y="286" width="300" height="56" rx="5" fill="#a86a22" opacity="0.12" stroke="#a86a22"/>
+  <text x="424" y="310" class="verdict" fill="#a86a22">SCANNER: no stable byte pattern</text>
+  <text x="424" y="330" class="lbl" fill="#a86a22">every copy looks like new code</text>
+
+  <text x="30" y="378" class="lbl">Same payload, same behaviour &#8212; only the wrapper changes. That one move broke signature scanning.</text>
+</svg>

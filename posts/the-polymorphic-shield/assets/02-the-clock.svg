@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" font-family="'IBM Plex Mono',monospace">
+  <style>
+    .h{font-size:15px;font-weight:700;letter-spacing:.04em}
+    .s{font-size:12.5px;fill:#5d5545}
+    .node{font-size:12.5px;font-weight:600}
+    .tag{font-size:11px;fill:#8a8470;letter-spacing:.08em}
+    @media (prefers-color-scheme: dark){ .s{fill:#a49c87} .tag{fill:#a49c87} }
+  </style>
+
+  <!-- ATTACKER loop (top) -->
+  <text x="30" y="30" class="h" fill="#b4432f">THE RED&#8209;TEAM AI &#8212; one uninterrupted loop</text>
+  <g transform="translate(30,46)">
+    <rect x="0" y="0" width="150" height="46" rx="6" fill="#fbeae7" stroke="#d98b7d"/>
+    <text x="75" y="28" text-anchor="middle" class="node" fill="#b4432f">Recon</text>
+    <rect x="186" y="0" width="150" height="46" rx="6" fill="#fbeae7" stroke="#d98b7d"/>
+    <text x="261" y="28" text-anchor="middle" class="node" fill="#b4432f">Find weakness</text>
+    <rect x="372" y="0" width="150" height="46" rx="6" fill="#fbeae7" stroke="#d98b7d"/>
+    <text x="447" y="28" text-anchor="middle" class="node" fill="#b4432f">Weaponise</text>
+    <rect x="558" y="0" width="150" height="46" rx="6" fill="#fbeae7" stroke="#d98b7d"/>
+    <text x="633" y="28" text-anchor="middle" class="node" fill="#b4432f">Exploit</text>
+    <g stroke="#b4432f" stroke-width="2" fill="none">
+      <path d="M150 23 H182"/><path d="M336 23 H368"/><path d="M522 23 H554"/>
+    </g>
+    <g fill="#b4432f"><path d="M182 23 l-9 -4 v8z"/><path d="M368 23 l-9 -4 v8z"/><path d="M554 23 l-9 -4 v8z"/></g>
+    <text x="354" y="78" text-anchor="middle" class="tag">NO HUMAN PAUSES BETWEEN STEPS &#8212; THIS IS WHY IT IS FAST</text>
+  </g>
+
+  <!-- middle: where polymorphism injects friction -->
+  <g transform="translate(30,146)">
+    <rect x="0" y="0" width="700" height="96" rx="8" fill="#fdf6ec" stroke="#e0a256" stroke-width="1.5"/>
+    <text x="20" y="28" class="h" fill="#a86a22">THE POLYMORPHIC LAYER sits on the two middle steps</text>
+    <text x="20" y="52" class="s">&#8226; The target it mapped a second ago has already changed shape &#8212; recon decays.</text>
+    <text x="20" y="72" class="s">&#8226; Heavy morphing (virtualisation, control&#8209;flow flattening) lowers the hit rate and</text>
+    <text x="34" y="90" class="s">blurs the one thing it needs most: the <tspan font-style="italic" fill="#a86a22">type and location</tspan> of the bug.</text>
+  </g>
+
+  <!-- DEFENDER loop (bottom) -->
+  <text x="30" y="282" class="h" fill="#2f5568">THE BLUE&#8209;TEAM LOOP &#8212; racing the same clock</text>
+  <g transform="translate(30,298)">
+    <rect x="0" y="0" width="150" height="46" rx="6" fill="#e8f0f3" stroke="#6f97ac"/>
+    <text x="75" y="28" text-anchor="middle" class="node" fill="#2f5568">Confuse &amp; stall</text>
+    <rect x="186" y="0" width="150" height="46" rx="6" fill="#e8f0f3" stroke="#6f97ac"/>
+    <text x="261" y="28" text-anchor="middle" class="node" fill="#2f5568">Enumerate own gaps</text>
+    <rect x="372" y="0" width="150" height="46" rx="6" fill="#e8f0f3" stroke="#6f97ac"/>
+    <text x="447" y="28" text-anchor="middle" class="node" fill="#2f5568">Auto&#8209;patch</text>
+    <rect x="558" y="0" width="150" height="46" rx="6" fill="#e8f0f3" stroke="#6f97ac"/>
+    <text x="633" y="28" text-anchor="middle" class="node" fill="#2f5568">Re&#8209;morph</text>
+    <g stroke="#2f5568" stroke-width="2" fill="none">
+      <path d="M150 23 H182"/><path d="M336 23 H368"/><path d="M522 23 H554"/>
+    </g>
+    <g fill="#2f5568"><path d="M182 23 l-9 -4 v8z"/><path d="M368 23 l-9 -4 v8z"/><path d="M554 23 l-9 -4 v8z"/></g>
+  </g>
+
+  <g transform="translate(30,370)">
+    <rect x="0" y="0" width="700" height="52" rx="6" fill="#eef4ef" stroke="#bcd8bf"/>
+    <text x="16" y="22" class="node" fill="#166534">The bet: delay &#215; attacker error &#8805; time to find and patch first.</text>
+    <text x="16" y="42" class="s">AIxCC, Aug 2025: an autonomous system patched a bug <tspan font-weight="700" fill="#166534">under five minutes</tspan> in. The window is real.</text>
+  </g>
+</svg>

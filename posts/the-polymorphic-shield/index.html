@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Polymorphic Shield</title>
+<meta name="description" content="Polymorphic code was born in 1990 to hide malware from signature scanners. A security engineer's case — and honest stress test — for turning it around: morphing, sandboxing and autonomous patching as a defense against AI-speed red teams. From Washburn's 1260 and Dark Avenger's Mutation Engine to BlackMamba, AIxCC and the obfuscation-vs-LLM data.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Polymorphic Shield: A 1990 Virus Trick, Turned Against the AI Red Team">
+<meta property="og:description" content="The first polymorphic virus broke signature scanning by mutating its own decryptor. Thirty-five years on, can the same idea — morph, stall, enumerate, patch — buy defenders enough time to win the race against a machine-speed attacker? The case, and the hard parts.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-polymorphic-shield/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/the-polymorphic-shield/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Polymorphic Shield — a single 1990 decryptor fanning out into many mutated variants while a red-team AI fails to match a signature">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/the-polymorphic-shield/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Security Architecture">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Polymorphic Shield: A 1990 Virus Trick, Turned Against the AI Red Team">
+<meta name="twitter:description" content="The first polymorphic virus broke signature scanning by mutating its own decryptor. Can the same idea buy defenders enough time to beat a machine-speed attacker? The case, and the hard parts.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-polymorphic-shield/assets/cover.png">
+<meta name="twitter:image:alt" content="The Polymorphic Shield — one decryptor fanning into many variants against a confused red-team AI">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/the-polymorphic-shield/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0a0f0b url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figure.portrait{max-width:330px; margin-left:auto; margin-right:auto;}
+  figure.doc{max-width:560px; margin-left:auto; margin-right:auto;}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#86efac; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.82rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term b{color:#f0b429; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Polymorphic Shield — cover image: a single 1990 decryptor routine on the left fanning out into many mutated variants, while an incoming red-team AI fails to match any signature"></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Security Architecture</p>
+  <h1>The Polymorphic Shield</h1>
+  <p class="dek">A trick invented in 1990 to hide a virus may be one of the better defenses we have against an attacker that never sleeps, never pauses, and writes its own exploits &mdash; if we are honest about what it can and cannot do.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC</p>
+
+  <nav class="partnav mono">
+    <a href="#part1">I &middot; The Idea</a>
+    <a href="#part2">II &middot; 1260</a>
+    <a href="#part3">III &middot; The Engine</a>
+    <a href="#part4">IV &middot; The Turn</a>
+    <a href="#part5">V &middot; The Clock</a>
+    <a href="#part6">VI &middot; Stress Test</a>
+    <a href="#part7">VII &middot; What To Build</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <div class="framing">
+    <h3>The claim I am going to defend, and then attack</h3>
+    <p>Here is the thesis in one breath. An attacker driven by a language model runs the whole intrusion &mdash; reconnaissance, exploit, pivot &mdash; as one loop with no human pausing between the steps. The only way to beat a loop that fast is to make its map wrong while it reads it, and to close the gap it finds before it can use it. Polymorphism keeps the map wrong. Sandboxing keeps the probing expensive. Autonomous patching closes the gap. Win the race on the clock, not on the firewall.</p>
+    <p>I believe that. I also run a company, Savvy Security LLC, whose core research &mdash; the Polymorphic Node Base &mdash; is built on exactly this idea, so you should read everything that follows knowing I have a thumb on the scale. The useful thing I can do is press on my own argument harder than a skeptic would, in public, with sources. Part VI is where I try to break it. If it survives that, it is worth building on. If it does not, better I find out here than in an incident report.</p>
+  </div>
+
+  <h2 id="part1">Part I &mdash; An Idea Born On the Wrong Side</h2>
+
+  <p>Polymorphism did not arrive as a defense. It arrived as a way to hide malware, and for about fifteen years that is the only thing it was good for. To argue that it should change sides, I have to start by being clear about what it actually is, because the word gets thrown around loosely.</p>
+
+  <p>The first step was not polymorphism at all. It was encryption. By the late 1980s, antivirus worked by keeping a list of <em>signatures</em> &mdash; short, fixed byte strings lifted from known viruses &mdash; and scanning files for them. The countermove was obvious: encrypt the virus body so the signature is not sitting there in the clear. The 1988 <strong>Cascade</strong> virus did this. Its payload was scrambled; a small decryptor at the front unscrambled it at runtime.</p>
+
+  <p>It did not work for long, and the reason it failed is the hinge of this whole essay. You can encrypt the body, but something has to decrypt it, and that something has to be present, in the clear, in every single copy. The decryptor <em>is</em> a signature. Scanners simply started matching on the decryption loop instead of the body, and encrypted viruses went down about as fast as plaintext ones.</p>
+
+  <div class="secread">
+    <span class="tag">The distinction that matters</span>
+    <p><strong>Encryption</strong> hides the payload but leaves a fixed decryptor &mdash; a stable thing to match. <strong>Polymorphism</strong> is the harder trick: the decryptor itself is rewritten, differently, in every copy, so there is no fixed thing left to match. Same behaviour, different body, every time.</p>
+    <p>Everything in this article turns on that one sentence. A defender who understands why it broke signature scanning in 1990 already understands why it is interesting again in 2026 &mdash; and, just as importantly, where it stops working.</p>
+  </div>
+
+  <figure>
+    <img src="assets/01-encrypted-vs-polymorphic.svg" alt="Diagram comparing an encrypted virus (Cascade, 1988) whose decryptor is identical in every copy and so is caught by a single signature, against a polymorphic virus (1260, 1990) whose decryptor is rewritten in every copy, leaving no stable byte pattern to match.">
+    <figcaption>Encryption hides the body but keeps a fixed decryptor, so one signature catches every copy. Polymorphism rewrites the decryptor each time &mdash; same payload, same behaviour, no stable pattern. That single move is what broke a decade of signature scanning.</figcaption>
+  </figure>
+
+  <h2 id="part2">Part II &mdash; 1260, and the Man Who Built It To Prove a Point</h2>
+
+  <p>The first true polymorphic virus was written in <strong>1990</strong> by <strong>Mark Washburn</strong>, and it is usually catalogued by its length: <strong>1260</strong>, also known as V2PX or Chameleon. Washburn built it on top of published, disassembled source for the earlier Vienna virus &mdash; Ralf Burger had printed Vienna's code in a book, which is its own lesson about what happens when you publish a working weapon &mdash; and then he did the thing nobody had done before. He made the decryptor randomize itself.</p>
+
+  <p>The mechanics are almost quaint by modern standards, and worth seeing, because the entire later history is just this idea with more horsepower. In each new copy, 1260 would choose a different encryption key, and &mdash; the real innovation &mdash; it would generate a different decryption routine to match: different registers, instructions in a different order, and <em>do-nothing</em> instructions sprinkled through to pad the sequence and shift every byte offset. A <span class="mono">nop</span> here, a <span class="mono">push</span>/<span class="mono">pop</span> pair there, an <span class="mono">add</span> immediately undone by a <span class="mono">sub</span>. Semantically inert. Structurally, a new program.</p>
+
+  <p>The point is that there was no longer a loop to match. The scanner authors of 1990 had built their entire industry on the assumption that two copies of the same virus share bytes. 1260 was the first thing in the wild that broke the assumption on purpose.</p>
+
+  <div class="pullquote">Two copies of the same virus no longer shared a single reliable byte. The whole detection model was built on the opposite assumption.</div>
+
+  <p>And here is the part the user in me wants to underline, because it is the reason this is a story about <em>exceeding your peers</em> and not just about one more virus. 1260 did not win by being more destructive. Its payload was unremarkable &mdash; it was a nonresident <span class="mono">.COM</span> infector, the plainest kind. It won by changing the category of problem it posed. Every other virus of its generation was an instance of a pattern. 1260 was a <em>generator</em> of patterns. A defender could catch Vienna with one signature and catch ten thousand copies. To catch 1260 you needed an algorithm, not a signature &mdash; you needed to reason about what the code <em>did</em>, not what it looked like. Washburn forced the entire industry up a level of abstraction. That is what exceeding your peers looks like: not a bigger version of the same thing, but a move that makes the old way of competing obsolete.</p>
+
+  <p>Washburn, for what it is worth, framed it as research &mdash; a demonstration that signature scanning was a dead end. He was right. He was also, by releasing working code, part of the reason the next decade got worse. I hold both of those at once.</p>
+
+  <h2 id="part3">Part III &mdash; The Engine, and the First Arms Race</h2>
+
+  <p>A proof of concept is one thing. A <em>toolkit</em> is another, and the toolkit is what turned a clever trick into an era. In <strong>1991</strong>, the viruses <strong>Tequila</strong> and <strong>Maltese Amoeba</strong> became the first polymorphics to cause widespread outbreaks. Then, in <strong>1992</strong>, the Bulgarian virus writer known as <strong>Dark Avenger</strong> &mdash; the author of Maltese Amoeba &mdash; released the <strong>Mutation Engine</strong>, or MtE.</p>
+
+  <p>MtE was not a virus. It was a module, shipped with documentation, an object file to link against, and the source of a simple demo virus, so that any author of any mediocre virus could bolt professional-grade polymorphism onto it. Dark Avenger had, in effect, written a library and distributed it with a README. Mutation engines began circulating like do-it-yourself kits, and the better ones could generate, in the words of the contemporary literature, billions upon billions of decryptor variations.</p>
+
+  <blockquote>
+    <p>Some mutation engines generate billions upon billions of variations.</p>
+    <cite>Symantec, <em>Understanding and Managing Polymorphic Viruses</em></cite>
+  </blockquote>
+
+  <p>This is the moment I want defenders to study, because the industry's response to MtE is the blueprint for everything I am going to propose. The antivirus companies could not write a signature per variant &mdash; there were effectively infinite variants. They could not write a signature for the decryptor &mdash; that was the whole point of the attack. So they changed the game in two ways that should sound very familiar.</p>
+
+  <p>First, <strong>algorithmic detection</strong>: instead of matching bytes, write code that reasons about whether a given byte sequence <em>behaves like</em> a decryptor. Second, and more importantly for us, <strong>generic decryption through emulation</strong> &mdash; run the suspect file inside an isolated virtual machine, a <em>sandbox</em>, and simply let it decrypt itself. However many disguises the decryptor wears, when it runs it must reveal the real payload, and the payload does not change. The sandbox waits for the mask to come off.</p>
+
+  <div class="secread">
+    <span class="tag">Security reading</span>
+    <p>Read those two moves again with 2026 eyes. The defense against the first great wave of polymorphism was not <em>a better list</em>. It was (1) reason about behaviour instead of appearance, and (2) detonate the thing in a controlled box and watch what it actually does. Thirty years later those are still the two load-bearing ideas in malware defense. The attacker brought shape-shifting; the defender answered with behavioural reasoning and sandboxing. Hold that pairing. We are about to run it in reverse.</p>
+  </div>
+
+  <h2 id="part4">Part IV &mdash; The Turn: Who Is Shape-Shifting Now</h2>
+
+  <p>For thirty years, polymorphism was offense and sandboxing was defense. The interesting claim of this essay is that the roles can swap, and that the arrival of language models on both sides of the keyboard is what makes the swap worth taking seriously.</p>
+
+  <p>Start with the attacker, because that is the threat I am actually trying to answer. In March 2023, researchers at <strong>HYAS Labs</strong> published a proof of concept they called <strong>BlackMamba</strong>: a keylogger that, rather than carrying its malicious code, reaches out to a large language model at runtime and has fresh code <em>synthesized</em> for it on each execution. They described it as resynthesizing its capability every time it runs, modifying benign code at runtime, needing no command-and-control channel, and &mdash; in their own testing against an unnamed, industry-leading endpoint product &mdash; frequently producing no alerts.</p>
+
+  <p>I want to be careful here, because this is exactly the kind of claim that gets inflated. BlackMamba is a proof of concept, not an in-the-wild campaign. The caveats are almost all the researchers' own; the endpoint product was not named, so the evasion result cannot be independently checked. Treat it as a demonstration of a <em>direction</em>, not a body count. But the direction is the point: 1260 mutated within the fixed grammar of hand-written assembly. An LLM-driven attacker mutates by <em>regenerating from intent</em>. That is a different and larger space. Washburn's engine had billions of variations; a model has as many as there are ways to express a goal in code, which is to say, for practical purposes, all of them.</p>
+
+  <p>Then came the attacker that was not a proof of concept. In November 2025, Anthropic disclosed <strong>GTG-1002</strong> &mdash; catalogued by MITRE as campaign C0062 &mdash; a cyber-espionage operation in which, by Anthropic's account, an AI agent carried out the large majority of the intrusion work across reconnaissance, exploitation and exfiltration, with humans stepping in only at a handful of decision points. That claim drew well-earned skepticism from parts of the industry, and I covered both the claim and the doubt in a companion piece, <a href="../ghost-in-the-shellcode/">The Ghost in the Shellcode</a>. For this essay the exact autonomy percentage does not matter. What matters is the shape: an intrusion that runs as one continuous machine-speed loop, where the slow human step &mdash; reading an alert, deciding, acting &mdash; has been removed from the attacker and not yet from the defender.</p>
+
+  <div class="pullquote">The attacker deleted the human from its loop. Most defenders have not. That asymmetry, not model quality, is the whole game.</div>
+
+  <p>Meanwhile the defensive version of polymorphism grew up and got a product category. Under the name <strong>Automated Moving Target Defense</strong> (AMTD) &mdash; which Gartner flagged as an emerging category in early 2023 &mdash; vendors such as Morphisec and Sophos ship runtime defenses that randomize and relocate memory, APIs and application structures so that an exploit written against the layout it observed a moment ago lands on a target that has already moved, often hitting a decoy that reports the intrusion. This is the old attacker trick, pointed the other way: the <em>defender</em> is now the shape-shifter, and the attacker is the one staring at a map that keeps changing. I will note, because it matters, that most of the glowing numbers for these products are vendor-reported and should be read as such. The <em>concept</em> is sound and well-attested; the specific ROI figures are marketing until a third party checks them.</p>
+
+  <h2 id="part5">Part V &mdash; The Clock Is the Only Battlefield That Matters</h2>
+
+  <p>Put the two halves together and you get the real argument, which is not about hiding. It is about time.</p>
+
+  <p>Against a machine-speed attacker, every defense that depends on a human being reading something and deciding is already too slow. The alert fires, the analyst is in a meeting, and by the time anyone looks, the loop has run to completion. So the defender's only viable play is to compete on the same clock: automate the response, and &mdash; this is where polymorphism earns its place &mdash; <em>buy time</em> for that automation to finish by making the attacker's work harder and its conclusions less certain.</p>
+
+  <figure>
+    <img src="assets/02-the-clock.svg" alt="Diagram showing the red-team AI as one uninterrupted loop (recon, find weakness, weaponise, exploit) with no human pauses, a polymorphic layer that sits on the middle two steps to decay reconnaissance and lower the attacker's hit rate, and a blue-team loop (confuse and stall, enumerate own gaps, auto-patch, re-morph) racing the same clock. A footnote notes an autonomous system patched a bug under five minutes into a task at AIxCC in August 2025.">
+    <figcaption>The attacker is fast because nothing in its loop waits for a person. Polymorphism attacks the two middle steps &mdash; it decays the reconnaissance and blurs the type and location of the bug the attacker is trying to weaponize. The defender's bet is that <em>delay &times; attacker-error</em> buys enough time to find and patch the gap first.</figcaption>
+  </figure>
+
+  <p>And the second half of the bet &mdash; that the defender can actually patch inside that window &mdash; stopped being speculative in <strong>August 2025</strong>, at DARPA's <strong>AI Cyber Challenge</strong> (AIxCC) finals at DEF CON 33. Autonomous systems, with no human intervention permitted during a run, found and fixed real vulnerabilities in real open-source code. Trail of Bits' second-place system, Buttercup, reported scoring a patch in <strong>under five minutes</strong> on at least one task, and across the final round found 28 vulnerabilities and successfully applied 19 patches, against a slate drawn from the most common real-world bug classes. DARPA required the finalists to open-source their systems, which means that a competitively validated autonomous find-and-patch stack is sitting on GitHub right now, for the cost of reading the repository.</p>
+
+  <p>That is the number that makes the thesis more than a metaphor. If a bug can be patched autonomously in minutes, then the job of polymorphism and sandboxing is suddenly tractable: it does not have to stop the attacker forever. It only has to confuse and delay the attacker for longer than it takes the defender's own loop to notice the gap and close it. The defense is not a wall. It is a stall, bought so that a faster repair can land first.</p>
+
+  <h2 id="part6">Part VI &mdash; Where I Try To Break My Own Argument</h2>
+
+  <p>Now the honest part, and the reason I would trust this essay over the version of it a vendor would write. The thesis has a serious problem, and if I do not raise it, someone in my comments should.</p>
+
+  <p><strong>Polymorphism beat signature scanners because signature scanners were literal-minded.</strong> They matched bytes. Change the bytes, win. But an LLM-driven attacker is not matching bytes. It reasons about what code <em>means</em>. If I rename every variable and reorder every instruction in a vulnerable function, a 1990 scanner is defeated and a competent reasoning model simply shrugs and reads the logic. The entire mechanism that made 1260 work &mdash; defeat the literal matcher &mdash; may not transfer to an adversary that is not a literal matcher. This is the objection that keeps me honest, and the data backs it up more than it backs me.</p>
+
+  <p>In 2025, a systematic study put code obfuscation up against LLM-based vulnerability detection across several datasets. The headline finding is uncomfortable for anyone selling morphing as a shield: across a whole codebase, light transformations caused the model to miss some vulnerabilities it would have caught &mdash; and to <em>catch</em> some it would have missed &mdash; so that the net detection rate barely moved. The study's own conclusion is that obfuscation exposes the models' reliance on superficial structural cues rather than robust semantic understanding, but the practical upshot stands: you do not get invisibility by renaming things. If your mental model is &ldquo;morph the code and the AI goes blind,&rdquo; that model is wrong, and the evidence says so plainly.</p>
+
+  <figure>
+    <img src="assets/03-obfuscation-data.svg" alt="Bar chart of attacker success rate against LLM-based vulnerability detection by transformation type: virtualisation about 80 percent, mixed-language about 75 percent, control-flow flattening moderate, renaming and layout changes weak. A note explains that across a whole codebase, light disguises made the model miss some bugs and catch others, so net detection barely moved.">
+    <figcaption>The uncomfortable data. Light disguises (renaming, reordering) do almost nothing to a reasoning model &mdash; gains and losses cancel out. Only heavy, semantics-bending transformations genuinely degrade it. Polymorphism is friction and cost, not an invisibility cloak. Figures from arXiv:2512.16538 (2025).</figcaption>
+  </figure>
+
+  <p>So is the whole idea dead? No &mdash; but it survives in a smaller, sharper, more defensible form, and the same study is where I find the lifeline. Three things in that research keep the thesis alive:</p>
+
+  <ul>
+    <li><strong>Heavy transformation does degrade the model.</strong> The near-cancellation holds for <em>light</em> disguises. Semantics-bending transformations &mdash; code virtualization, mixed-language constructs, aggressive control-flow flattening &mdash; pushed attacker success rates up toward 75&ndash;80% in the C/C++ tests, because they strip away the structural cues the model leans on. There is a real degradation; it just costs real engineering, not a rename pass.</li>
+    <li><strong>The model loses precision exactly where the attacker needs it.</strong> This is the finding I would stake the thesis on. After obfuscation, models could often still tell that a vulnerability <em>existed</em> &mdash; but they struggled to correctly identify its <em>type and location</em>. Think about what an automated attacker actually needs. &ldquo;Something is wrong somewhere in here&rdquo; does not write an exploit. To weaponize, you need the class of bug and the precise spot. Polymorphism degrades that last mile selectively &mdash; it can leave the attacker <em>confident that a hole exists</em> and <em>unable to aim</em>. That is not invisibility. It is worse aim under time pressure, which is exactly the thing a stall is supposed to produce.</li>
+    <li><strong>Smaller and cheaper attackers degrade more.</strong> Models under about 8 billion parameters were markedly more vulnerable to obfuscation, and scaling past that gave only marginal robustness. An attacker running a cheap local model to stay quiet and avoid API logging &mdash; which is a realistic operational choice &mdash; eats the full penalty. You do not have to beat the frontier model. You have to beat the one your actual adversary can afford to run at scale.</li>
+  </ul>
+
+  <p>There are other honest holes, and I will name them rather than let them ambush the idea later:</p>
+
+  <ul>
+    <li><strong>Morphing has a cost you pay every day and the attacker pays only on attack days.</strong> Runtime randomization burns cycles, complicates debugging, and can break things in ways that page <em>you</em> at 3am, not the adversary. The classic academic critique of moving-target defense &mdash; from Evans and colleagues &mdash; is blunt: the benefits are often much smaller than you would expect, and in many scenarios diversity raises the attacker's cost by a constant factor rather than fundamentally stopping them. A constant factor is still worth having when you are racing a clock, but it is not a force field, and pretending otherwise is how you end up with expensive infrastructure that bought you less than a good patch cadence would have.</li>
+    <li><strong>The payload still has to run, and that is still the sandbox's opening.</strong> The reason sandboxing beat 1260 is eternal: however you disguise it, the real behaviour eventually executes. That cuts both ways. It is why I pair polymorphism with sandboxing on defense &mdash; but it is also the reminder that a sufficiently patient attacker can detonate my morphing in <em>its</em> sandbox, learn the invariants, and strip the disguise. Morphing raises the cost of that learning; it does not remove the possibility.</li>
+    <li><strong>My repair loop can be poisoned.</strong> If the enumerate-and-patch half depends on an LLM reading logs, tickets or code, then prompt injection &mdash; currently the number-one entry on the OWASP Top 10 for LLM applications, and unsolved in the general case &mdash; means my own defensive agent is reading attacker-influenced instructions. A defense that patches at machine speed can also be <em>misdirected</em> at machine speed. The verification layer is not optional overhead; it is the product.</li>
+  </ul>
+
+  <div class="secread">
+    <span class="tag">Verdict after the stress test</span>
+    <p>The strong form of the thesis &mdash; &ldquo;morph the code and the AI goes blind&rdquo; &mdash; is false, and the data kills it. The defensible form survives and is still worth building: polymorphism does not blind a reasoning attacker, but it reliably <em>raises its error rate and its cost</em>, and it degrades precisely the precision &mdash; bug type and location &mdash; that an attacker needs to turn &ldquo;something is wrong&rdquo; into a working exploit. It is a <em>stall</em>, not a shield. Its entire value is measured in the time it buys, and that time is only worth something if an automated enumerate-and-patch loop is standing behind it to spend the time on. AIxCC proved that loop can run in minutes. So the architecture is sound. The marketing version of it is not.</p>
+  </div>
+
+  <h2 id="part7">Part VII &mdash; What To Actually Build</h2>
+
+  <p>I have stated my bias; here is the part I am confident in regardless of whose framework you use. If you accept that the battlefield is the clock, these follow.</p>
+
+  <ol class="lessons">
+    <li><strong>Buy time at the two steps in the middle, not at the edges.</strong> An attacker's loop is recon &rarr; find weakness &rarr; weaponize &rarr; exploit. Polymorphism is wasted on the first and last; it earns its cost on the middle two, where the attacker is building a model of your system and trying to pin an exploit to a location. Morph what it must observe and target, and leave the cheap stuff alone.</li>
+    <li><strong>Go heavy or go home.</strong> The data is unambiguous: renaming and reordering are theater against a reasoning adversary. If you are going to pay the cost of morphing, pay it on the transformations that actually degrade the model &mdash; structural, semantics-bending change &mdash; or do not bother and spend the budget on patch speed instead.</li>
+    <li><strong>Pair every morph with a sandbox.</strong> This is the 1992 lesson, undefeated. Disguise delays detection; detonation in a controlled box defeats disguise. The defender who owns the sandbox owns the ground truth, because the payload always, eventually, has to be itself.</li>
+    <li><strong>The stall is only worth what you spend it on. Build the patch loop first.</strong> Polymorphism with no autonomous enumerate-and-patch behind it is just expensive latency you inflicted on yourself. Start from the open-sourced AIxCC systems &mdash; they are a mature, competitively validated find-and-patch stack, free &mdash; and treat morphing as the thing that buys that loop the minutes it needs.</li>
+    <li><strong>Enforce where the packet and the syscall are, not where the analyst is.</strong> If closing the gap depends on a human reading an alert, you have already lost the race. The response has to live in the hot path &mdash; kernel level, eBPF/XDP, no round trip to a console someone has to be watching.</li>
+    <li><strong>Assume your own agent is reading the attacker's words.</strong> Any defensive model that ingests logs, tickets or code is a prompt-injection target. Scope its permissions as if it is already compromised, and never let a model be the sole attestation of its own patch. The verification layer is the product.</li>
+  </ol>
+
+  <h3>The through-line</h3>
+
+  <p>In 1990, Mark Washburn proved that you could make a thing change its shape faster than the defender could catalog the shapes, and he used it to hide a virus. The defenders answered not by cataloging faster but by changing the question &mdash; reason about behaviour, and detonate in a box. For thirty years that is where the line sat: shape-shifting for offense, behavioural reasoning and sandboxing for defense.</p>
+
+  <p>The machine-speed attacker erases the one advantage that made that arrangement comfortable &mdash; the human pause in its own loop. So the defender has to pick the shape-shifting back up, not to become invisible, which the data says is not on offer, but to do the only thing that beats a loop with no pauses: make its map wrong, keep it wrong, and close the gap it finds before it can spend it. Confuse, stall, enumerate, patch, re-morph. Win on the clock.</p>
+
+  <p>Washburn forced his adversaries up a level of abstraction. Thirty-five years later, the attacker is forcing us up one. The honest answer is not a shield. It is a stall long enough to let a faster repair land &mdash; and the repair, for the first time, is now fast enough to be worth stalling for.</p>
+
+  <div class="pullquote">It was never going to make us invisible. It was always going to buy us the minutes. The new thing is that minutes are now enough.</div>
+
+  <h2 id="sources" style="border-bottom:none; margin-bottom:8px;">Sources</h2>
+
+  <p class="refs-group">Origins of polymorphic code</p>
+  <ul class="refs">
+    <li>&ldquo;Polymorphic code.&rdquo; <em>Wikipedia.</em> On the encryption-vs-polymorphism distinction, the mutating decryptor, and sandbox/emulation countermeasures. <a href="https://en.wikipedia.org/wiki/Polymorphic_code">en.wikipedia.org/wiki/Polymorphic_code</a>.</li>
+    <li>&ldquo;1260 (computer virus).&rdquo; <em>Wikipedia.</em> Mark Washburn, 1990; V2PX / Chameleon; derived from Ralf Burger's disassembly of the Vienna virus; signature varied by randomizing the decryption routine. <a href="https://en.wikipedia.org/wiki/1260_(computer_virus)">en.wikipedia.org/wiki/1260_(computer_virus)</a>.</li>
+    <li>Symantec (Broadcom). <em>Understanding and Managing Polymorphic Viruses.</em> White paper &mdash; encrypted vs. polymorphic viruses, the move to generic decryption via emulation in an isolated virtual machine, and the &ldquo;billions upon billions of variations&rdquo; figure. <a href="https://docs.broadcom.com/doc/understanding-and-managing-polymorphic-viruses-96-en">docs.broadcom.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">The Mutation Engine and the first wave</p>
+  <ul class="refs">
+    <li>Bitdefender. &ldquo;From Michelangelo to the Self-Mutating Engine.&rdquo; Tequila and Maltese Amoeba as the first widespread polymorphic outbreaks (1991); Dark Avenger's distribution of MtE (1992) with documentation, an OBJ file and demo-virus source; the resulting wave of polymorphic generators. <a href="https://www.bitdefender.com/blog/hotforsecurity/from-michelangelo-to-self-mutating-engine/">bitdefender.com</a>.</li>
+    <li>Kaspersky. <em>Encyclopedia</em> entries for 1990 and 1992. <a href="https://encyclopedia.kaspersky.com/knowledge/year-1992/">encyclopedia.kaspersky.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">LLM-era polymorphism and AI-driven attacks</p>
+  <ul class="refs">
+    <li>HYAS Labs. BlackMamba proof-of-concept &mdash; an AI-synthesized polymorphic keylogger that resynthesizes its code at runtime, needs no C2, and evaded an unnamed industry-leading EDR in the authors' own testing, March 2023. Reported by Elizabeth Montalbano, &ldquo;AI-Powered &lsquo;BlackMamba&rsquo; Keylogging Attack Evades Modern EDR Security,&rdquo; <em>Dark Reading.</em> <a href="https://www.darkreading.com/endpoint-security/ai-blackmamba-keylogging-edr-security">darkreading.com</a>. (All evasion caveats are the researchers' own; the EDR product was not named.)</li>
+    <li>Anthropic. &ldquo;Disrupting the first reported AI-orchestrated cyber espionage campaign&rdquo; (GTG-1002), 14 November 2025 &mdash; catalogued as <a href="https://attack.mitre.org/campaigns/C0062/">MITRE ATT&amp;CK Campaign C0062</a>. Industry skepticism summarized in Bill Toulas, &ldquo;Anthropic claims of Claude AI-automated cyberattacks met with doubt,&rdquo; <em>BleepingComputer</em>, Nov 2025.</li>
+  </ul>
+
+  <p class="refs-group">Moving target defense &mdash; the case and the critique</p>
+  <ul class="refs">
+    <li>Morphisec / Gartner. On Automated Moving Target Defense (AMTD): runtime memory and resource randomization with decoys; Gartner's &ldquo;Emerging Tech: Security &mdash; The Future of Cyber Is Automated Moving Target Defense,&rdquo; 28 February 2023. <a href="https://www.morphisec.com/blog/automated-moving-target-defense-gartner/">morphisec.com</a>. (ROI and endpoint figures are vendor-reported.)</li>
+    <li>Sophos. &ldquo;Pioneering Automated Moving Target Defense (AMTD).&rdquo; <a href="https://www.sophos.com/en-us/blog/pioneering-automated-moving-target-defense-amtd">sophos.com</a>.</li>
+    <li>Evans, David, Anh Nguyen-Tuong, and John Knight. &ldquo;Effectiveness of Moving Target Defenses.&rdquo; The benefits of the moving-target approach are &ldquo;often much less significant than one would expect&rdquo;; identifies where MTD is and is not effective. <a href="https://www.cs.virginia.edu/evans/pubs/mt2011/">cs.virginia.edu/evans/pubs/mt2011</a>.</li>
+  </ul>
+
+  <p class="refs-group">Obfuscation vs. LLMs, and autonomous patching</p>
+  <ul class="refs">
+    <li>&ldquo;A Systematic Study of Code Obfuscation Against LLM-based Vulnerability Detection.&rdquo; <a href="https://arxiv.org/abs/2512.16538">arXiv:2512.16538</a> (2025). Net detection largely unchanged under light obfuscation (downgrades and upgrades roughly cancel); virtualization (~80%) and mixed-language (~75%) most damaging; models retain existence but lose type/location after obfuscation; sub-8B models markedly more vulnerable; reliance on &ldquo;superficial structural cues rather than robust semantic understanding.&rdquo;</li>
+    <li>Trail of Bits. &ldquo;Buttercup wins 2nd place in AIxCC Challenge,&rdquo; 9 August 2025 &mdash; scored a patch under five minutes into a task; 28 vulnerabilities found and 19 patched in the final round; &gt;90% patch-accuracy claim, with teams penalized for inaccurate patches. <a href="https://blog.trailofbits.com/2025/08/09/trail-of-bits-buttercup-wins-2nd-place-in-aixcc-challenge/">blog.trailofbits.com</a>.</li>
+    <li>DARPA. AI Cyber Challenge (AIxCC) final results, DEF CON 33, August 2025. Finalist systems required to be open-sourced. Winners: Team Atlanta (ATLANTIS), Trail of Bits (Buttercup), Theori.</li>
+    <li>OWASP. <em>Top 10 for Large Language Model Applications</em>, 2025 &mdash; LLM01: Prompt Injection.</li>
+  </ul>
+
+  <div class="note">
+    <p><strong>A note on this edition and its bias.</strong> I build autonomous defensive architecture for a living &mdash; the Polymorphic Node Base at Savvy Security LLC is the morph-stall-enumerate-patch loop described in Part VII &mdash; so I began this piece already believing its conclusion. I have tried to earn the belief rather than assume it. Every historical claim here is checked against primary and reference sources listed above; the 1260, MtE and sandboxing history is well-attested, and I have flagged where a figure is vendor-reported or a proof-of-concept rather than a documented incident.</p>
+    <p>The most important change the research forced on me is in Part VI. I started from the strong claim &mdash; that morphing blinds an AI attacker &mdash; and the 2025 obfuscation study does not support it; net detection barely moves under light transformation. I have left that finding in at full strength and rebuilt the argument on the narrower ground it does support: that polymorphism degrades the attacker's <em>precision and cost</em>, and is only worth its own overhead when an autonomous patch loop is there to spend the time it buys. If that distinction reads as hedging, good &mdash; the hedge is the honest part.</p>
+  </div>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>

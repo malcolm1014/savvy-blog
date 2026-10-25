@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="'IBM Plex Mono','Courier New',monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0f0b"/>
+      <stop offset="0.55" stop-color="#0d1510"/>
+      <stop offset="1" stop-color="#12100a"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e0a256"/>
+      <stop offset="1" stop-color="#a86a22"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4ade80" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#4ade80" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="1.1"/></filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- faint grid -->
+  <g stroke="#1c2a20" stroke-width="1" opacity="0.5">
+    <path d="M0 90 H1200 M0 180 H1200 M0 270 H1200 M0 360 H1200 M0 450 H1200 M0 540 H1200"/>
+    <path d="M150 0 V630 M300 0 V630 M450 0 V630 M600 0 V630 M750 0 V630 M900 0 V630 M1050 0 V630"/>
+  </g>
+
+  <!-- kicker -->
+  <text x="70" y="86" fill="#e0a256" font-size="21" font-weight="600" letter-spacing="6">SAVVY SECURITY LLC &#183; SECURITY ARCHITECTURE</text>
+
+  <!-- title -->
+  <text x="68" y="188" fill="#f3efe2" font-size="82" font-weight="700" font-family="Georgia,'Times New Roman',serif">The Polymorphic</text>
+  <text x="68" y="274" fill="#f3efe2" font-size="82" font-weight="700" font-family="Georgia,'Times New Roman',serif">Shield</text>
+
+  <!-- dek -->
+  <text x="70" y="330" fill="#a49c87" font-size="26" font-family="Georgia,serif" font-style="italic">What a 1990 virus can teach us about surviving the AI red team.</text>
+
+  <!-- LEFT: the single original decryptor -->
+  <g transform="translate(70,392)">
+    <rect x="0" y="0" width="300" height="176" rx="6" fill="#0d1410" stroke="#2c2e24" stroke-width="1.5"/>
+    <text x="16" y="30" fill="#5d5545" font-size="15">; 1260 / Chameleon &#183; 1990</text>
+    <text x="16" y="62" fill="#86efac" font-size="16">mov  si, key</text>
+    <text x="16" y="88" fill="#86efac" font-size="16">xor  [di], al</text>
+    <text x="16" y="114" fill="#86efac" font-size="16">inc  di</text>
+    <text x="16" y="140" fill="#86efac" font-size="16">loop decrypt</text>
+    <text x="16" y="166" fill="#f0b429" font-size="14">one routine &#8594;</text>
+  </g>
+
+  <!-- arrows fanning into many -->
+  <g stroke="url(#amber)" stroke-width="2.5" fill="none" opacity="0.9">
+    <path d="M378 420 C 440 420, 470 406, 540 406"/>
+    <path d="M378 460 C 440 460, 470 470, 540 470"/>
+    <path d="M378 500 C 440 500, 470 522, 540 522"/>
+  </g>
+  <g fill="url(#amber)">
+    <path d="M540 406 l-12 -5 v10 z"/>
+    <path d="M540 470 l-12 -5 v10 z"/>
+    <path d="M540 522 l-12 -5 v10 z"/>
+  </g>
+
+  <!-- RIGHT: many mutated variants (polymorphism) -->
+  <g transform="translate(548,384)" font-size="13">
+    <g>
+      <rect x="0" y="0" width="300" height="52" rx="5" fill="#141b14" stroke="#2c3b2a" stroke-width="1"/>
+      <text x="14" y="22" fill="#9fe6b4">add bx,7f &#183; sub bx,7f &#183; xor</text>
+      <text x="14" y="42" fill="#4d6b52">variant 0x1a9c</text>
+    </g>
+    <g transform="translate(0,62)">
+      <rect x="0" y="0" width="300" height="52" rx="5" fill="#141b14" stroke="#2c3b2a" stroke-width="1"/>
+      <text x="14" y="22" fill="#9fe6b4">rol dx,1 &#183; nop &#183; xor [di],dl</text>
+      <text x="14" y="42" fill="#4d6b52">variant 0x77e3</text>
+    </g>
+    <g transform="translate(0,124)">
+      <rect x="0" y="0" width="300" height="52" rx="5" fill="#141b14" stroke="#2c3b2a" stroke-width="1"/>
+      <text x="14" y="22" fill="#9fe6b4">push ax &#183; neg cl &#183; xor &#183; pop</text>
+      <text x="14" y="42" fill="#4d6b52">variant 0xc410</text>
+    </g>
+  </g>
+
+  <!-- incoming scanner beam, confused -->
+  <circle cx="1040" cy="470" r="150" fill="url(#glow)"/>
+  <g transform="translate(980,404)">
+    <text x="0" y="0" fill="#7fa6c2" font-size="16" letter-spacing="2">RED&#8209;TEAM AI</text>
+    <text x="0" y="26" fill="#e06a5a" font-size="34" font-weight="700">?&#8201;?&#8201;?</text>
+    <text x="0" y="56" fill="#8a8470" font-size="13">signature: no match</text>
+    <text x="0" y="76" fill="#8a8470" font-size="13">type/location: unsure</text>
+  </g>
+
+  <!-- bottom rule -->
+  <rect x="68" y="596" width="1064" height="2" fill="#2c2e24"/>
+  <text x="68" y="618" fill="#5d5545" font-size="15">By Malcolm R. Smith</text>
+  <text x="1132" y="618" fill="#5d5545" font-size="15" text-anchor="end">malcolm1014.github.io/savvy-blog</text>
+</svg>
