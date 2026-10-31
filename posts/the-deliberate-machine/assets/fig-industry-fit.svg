@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" font-family="'IBM Plex Mono','DejaVu Sans Mono',monospace">
+  <rect width="1000" height="520" fill="#0d1410"/>
+  <rect x="0.5" y="0.5" width="999" height="519" fill="none" stroke="#2c2e24"/>
+
+  <text x="60" y="54" fill="#e0a256" font-size="15" font-weight="700" letter-spacing="1.2">RIGHT-SIZED BY INDUSTRY</text>
+  <text x="60" y="76" fill="#a49c87" font-size="12.5">The deliberation budget should match what a wrong answer costs. One model does not fit every business.</text>
+
+  <!-- axes -->
+  <line x1="110" y1="400" x2="940" y2="400" stroke="#5d5545" stroke-width="1.5"/>
+  <line x1="110" y1="400" x2="110" y2="120" stroke="#5d5545" stroke-width="1.5"/>
+  <text x="110" y="430" fill="#a49c87" font-size="12">low</text>
+  <text x="820" y="430" fill="#a49c87" font-size="12">catastrophic</text>
+  <text x="500" y="452" fill="#e8e5d8" font-size="12.5" text-anchor="middle" letter-spacing="1">COST OF BEING WRONG &#8594;</text>
+
+  <g transform="translate(78,260) rotate(-90)">
+    <text x="0" y="0" fill="#e8e5d8" font-size="12.5" text-anchor="middle" letter-spacing="1">DELIBERATION &#8594;</text>
+  </g>
+  <text x="96" y="140" fill="#a49c87" font-size="11" text-anchor="end">slow</text>
+  <text x="96" y="398" fill="#a49c87" font-size="11" text-anchor="end">fast</text>
+
+  <!-- rising curve: more cost -> more deliberation -->
+  <path d="M110 388 C 320 380, 430 300, 560 240 S 820 150, 940 138"
+        fill="none" stroke="#7fa6c2" stroke-width="3"/>
+
+  <!-- zone shading -->
+  <path d="M110 400 L110 388 C 320 380, 430 300, 560 240 S 820 150, 940 138 L940 400 Z"
+        fill="#7fa6c2" opacity="0.07"/>
+
+  <!-- markers -->
+  <g font-size="11.5">
+    <!-- fast end -->
+    <circle cx="180" cy="383" r="6" fill="#d65a48"/>
+    <text x="180" y="368" fill="#d9b0a8" text-anchor="middle">marketing copy</text>
+    <text x="180" y="353" fill="#7d7363" text-anchor="middle" font-size="10">reflex is fine</text>
+
+    <circle cx="300" cy="360" r="6" fill="#d9a06a"/>
+    <text x="300" y="345" fill="#d9bfa6" text-anchor="middle">web search</text>
+
+    <circle cx="470" cy="286" r="6" fill="#e0a256"/>
+    <text x="470" y="271" fill="#f0c488" text-anchor="middle">SOC triage</text>
+    <text x="470" y="256" fill="#7d7363" text-anchor="middle" font-size="10">a wrong call is expensive</text>
+
+    <circle cx="640" cy="212" r="7" fill="#4ade80"/>
+    <text x="640" y="197" fill="#86efac" text-anchor="middle">medicine &#183; law</text>
+
+    <circle cx="820" cy="160" r="7" fill="#4ade80"/>
+    <text x="820" y="145" fill="#86efac" text-anchor="middle">finance &#183; defense</text>
+    <text x="820" y="178" fill="#7d7363" text-anchor="middle" font-size="10">auditable or nothing</text>
+  </g>
+
+  <!-- the band label -->
+  <rect x="455" y="300" width="470" height="44" rx="6" fill="#161b15" stroke="#2c2e24"/>
+  <text x="690" y="320" fill="#e8e5d8" font-size="11.5" text-anchor="middle">Past this line, speed is the wrong default &#8212; the model must be</text>
+  <text x="690" y="336" fill="#e8e5d8" font-size="11.5" text-anchor="middle">slower, calibrated, and able to show its work.</text>
+
+  <text x="60" y="498" fill="#7d7363" font-size="11">Diagram: Savvy Security LLC</text>
+</svg>
