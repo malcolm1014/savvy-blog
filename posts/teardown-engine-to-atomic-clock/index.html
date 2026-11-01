@@ -112,43 +112,43 @@
   <p>The 2019 SI defines the second by fixing the caesium frequency: the unperturbed ground-state hyperfine transition of caesium-133 is, by declaration, exactly <strong>9,192,631,770 hertz</strong>.<sup><a href="#ref-5">[5]</a></sup> A caesium clock doesn't measure the second so much as <em>realise</em> it. The build lays the whole apparatus out as a vacuum beam tube on a bench, and you can click any stage to fly into it.</p>
 
   <figure>
-    <img src="assets/shot-overview.png" alt="Screenshot: the full caesium beam line on a white bench, left to right — caesium oven, A-magnet, C-field solenoid and Ramsey cavity, B-magnet, hot-wire detector — with the electronics (quartz, synthesis, servo, divider) wired below, every component labelled, and a live clock reading 5:56 PM EST." width="2336" height="1462" loading="lazy">
-    <figcaption>Figure 3. The whole apparatus, labelled. Atoms stream left to right through the tube; the electronics loop &mdash; quartz, synthesis, servo, divider &mdash; runs beneath it. The clock, top centre, reads live Eastern time.</figcaption>
+    <img src="assets/shot-overview.png" alt="Screenshot: the full caesium beam line on a white bench, left to right — caesium oven, A-magnet, C-field solenoid and Ramsey cavity, B-magnet, hot-wire detector — with the electronics (quartz, synthesis, servo, divider) wired below and a live clock reading EST." width="1800" height="1126" loading="lazy">
+    <figcaption>Figure 3. The whole apparatus. Left to right through the glass tube: the caesium oven, the A-magnet, the C-field solenoid wrapping the Ramsey cavity, the B-magnet, and the hot-wire detector. Beneath it runs the electronics loop &mdash; quartz oscillator, frequency synthesis, servo, divider &mdash; wired back with coax. The clock, top centre, reads live Eastern time.</figcaption>
   </figure>
 
   <p>Click the oven and the camera flies in. Its shell turns semi-transparent and its parts get their own labels: the boron-nitride crucible, the shimmering caesium charge, the heater coil, the collimator, the beam aperture. The panel at the corner carries the real description and numbers for whatever you've selected.</p>
 
   <figure>
-    <img src="assets/shot-oven.png" alt="Screenshot: the caesium oven flown into and opened — labels for Heater coil, Collimator, Beam aperture and Thermocouple — with a corner panel reading 'Caesium-133 heated to ~100 C ... beam flux about 1e11 atoms/s'." width="2336" height="1462" loading="lazy">
-    <figcaption>Figure 4. Inside the oven. Caesium-133 is heated to about 100&nbsp;&deg;C; the vapour streams out as a beam, split between the two hyperfine ground states F=3 and F=4.</figcaption>
+    <img src="assets/shot-oven.png" alt="Screenshot: the caesium oven flown into and opened, its shell semi-transparent to show the crucible and heater coil inside, with a corner panel reading 'Caesium-133 heated to ~100 C ... beam flux about 1e11 atoms/s'." width="1800" height="1126" loading="lazy">
+    <figcaption>Figure 4. Inside the oven: the boron-nitride crucible and its caesium charge, wrapped in the heater coil, with the collimator and beam aperture at the exit. Caesium-133 is heated to about 100&nbsp;&deg;C; the vapour streams out as a beam, split between the two hyperfine ground states F=3 and F=4 &mdash; the figure shown in the corner panel.</figcaption>
   </figure>
 
   <p>The heart of it is the <strong>Ramsey cavity</strong>. Caesium-133's outer electron and its nucleus couple into two hyperfine ground states, F=3 and F=4; the clock works the field-insensitive transition between them, and it uses <strong>Ramsey's method of separated oscillatory fields</strong> &mdash; two microwave zones with a drift in between &mdash; to make the resonance razor-sharp, the technique that won Norman Ramsey a share of the 1989 Nobel Prize.<sup><a href="#ref-6">[6]</a></sup> In the build, the atoms are drawn as <strong>matter-wave packets</strong>, and an atom crossing the cavity shimmers between cyan and amber &mdash; a picture of a quantum superposition before it is measured.</p>
 
   <figure>
-    <img src="assets/shot-cavity.png" alt="Screenshot: the Ramsey cavity flown into, showing the two glowing microwave rings, the C-field solenoid, labelled sub-parts (Waveguide flange, Beam collar, Waveguide arm, Tuning screws, U-waveguide, Microwave feed), faint matter-wave atoms crossing the gap, and a panel reading 'microwave ON, delta = +385 Hz'." width="2336" height="1462" loading="lazy">
-    <figcaption>Figure 5. The Ramsey cavity, dissected. Microwaves at 9,192,631,770&nbsp;Hz strike the beam in two zones; atoms that see the exact resonance flip F=3&nbsp;&rarr;&nbsp;F=4. The readout shows the current detuning the servo is chasing.</figcaption>
+    <img src="assets/shot-cavity.png" alt="Screenshot: the Ramsey cavity flown into, showing the two glowing microwave rings, the brass waveguide and the C-field solenoid, with a panel reading 'microwave ON, delta Hz'." width="1800" height="1126" loading="lazy">
+    <figcaption>Figure 5. The Ramsey cavity, flown into: the two glowing microwave rings the beam threads through, the brass waveguide that feeds them, and the long C-field solenoid behind. Microwaves at 9,192,631,770&nbsp;Hz strike the beam in two zones; atoms that see the exact resonance flip F=3&nbsp;&rarr;&nbsp;F=4. The panel shows the current detuning the servo is chasing.</figcaption>
   </figure>
 
   <p>An <strong>exploded view</strong> slides every labelled part out from its sub-assembly at once, which is the fastest way to see how much is actually in there &mdash; the magnet yokes separating from their pole shoes and field coils, the oven from its crucible, the detector from its dynode stack.</p>
 
   <figure>
-    <img src="assets/shot-exploded.png" alt="Screenshot: the entire atomic clock in exploded view, every component separated along the beam line and still labelled, on the white bench." width="2336" height="1462" loading="lazy">
-    <figcaption>Figure 6. Exploded. Every tagged part spreads out from its sub-assembly, labels intact, so nothing hides behind anything else.</figcaption>
+    <img src="assets/shot-exploded.png" alt="Screenshot: the entire atomic clock in exploded view, every component separated along the beam line on the white bench." width="1800" height="1126" loading="lazy">
+    <figcaption>Figure 6. Exploded. Every part spreads out from its sub-assembly so nothing hides behind anything else &mdash; the magnet yokes lift off their pole shoes and field coils, the oven off its crucible, the detector off its dynode stack.</figcaption>
   </figure>
 
   <p>Underneath the beam tube runs the part most people forget is even in a clock: the electronics. A <strong>quartz oscillator</strong> is the thing that actually ticks; it is stable in the short term but drifts, so the atoms discipline it. The detector count peaks dead on resonance, and a <strong>servo</strong> dithers the microwave and steers the quartz onto that peak. When it is centred, the quartz is <em>locked to caesium</em>, and a <strong>divider</strong> cuts the 9,192,631,770&nbsp;Hz down to one pulse per second.<sup><a href="#ref-7">[7]</a></sup></p>
 
   <figure>
-    <img src="assets/shot-quartz.png" alt="Screenshot: the quartz oscillator flown into, showing its oven enclosure with the crystal can emerging, the board and trimmer, labelled, with its description panel." width="2336" height="1462" loading="lazy">
-    <figcaption>Figure 7. The quartz oscillator, flown into: a crystal in a thermostatted oven, disciplined by the atoms into a clock. This is the piece whose ticks become seconds.</figcaption>
+    <img src="assets/shot-quartz.png" alt="Screenshot: the quartz oscillator flown into, showing its oven enclosure with the crystal can emerging, the board and trimmer, with its description panel." width="1800" height="1126" loading="lazy">
+    <figcaption>Figure 7. The quartz oscillator, flown into: a crystal in a thermostatted oven, sitting on its board, disciplined by the atoms into a clock. This is the piece whose ticks become seconds.</figcaption>
   </figure>
 
   <h2>The numbers are real</h2>
   <p>None of this is a cartoon bolted onto a 3D model. The panels beneath the scene read values derived from the simulated physics: the live Eastern time and UTC, the defining frequency, a counter racing through the 9,192,631,770 cycles that make up the current second, the lock status, the detuning, the fractional offset, and an Allan-deviation figure. Beside them, the <strong>Ramsey fringe</strong> is plotted live, with a marker showing where the servo is sitting on the central fringe.</p>
 
   <figure>
-    <img src="assets/shot-readouts.png" alt="Screenshot: the instrument panels and the Ramsey fringe plot — Eastern Time, UTC, delta-nu-Cs = 9 192 631 770 Hz, cycles this second, lock status, detuning, fractional offset, Allan deviation — and a plotted Ramsey fringe with the servo lock point marked." width="2391" height="1195" loading="lazy">
+    <img src="assets/shot-readouts.png" alt="Screenshot: the instrument panels and the Ramsey fringe plot — Eastern Time, UTC, delta-nu-Cs = 9 192 631 770 Hz, cycles this second, lock status, detuning, fractional offset, Allan deviation — and a plotted Ramsey fringe with the servo lock point marked." width="1800" height="923" loading="lazy">
     <figcaption>Figure 8. The instrument panel. The Ramsey fringe (left) is computed and plotted live; the servo sits on its central peak. The counter top-right runs through this second's 9,192,631,770 cycles.</figcaption>
   </figure>
 
