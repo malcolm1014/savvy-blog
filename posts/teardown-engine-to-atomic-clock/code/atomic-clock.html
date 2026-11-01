@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0;padding:0}</style>
+</head>
+<body>
+<title>Caesium Clock Teardown</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Layout: a horizontal caesium beam tube at centre you can fly into stage by stage,
+     electronics loop beneath, a live Eastern-time readout + Ramsey fringe reading the lock. */
+  :root{
+    --bg:#070a0f; --bg2:#0c1118; --panel:#0e141c; --panel2:#121a24;
+    --line:#1d2a38; --line2:#2a3c50;
+    --fg:#e6eef6; --muted:#8aa0b4; --faint:#566a7e;
+    --teal:#35e0d0;      /* accent / lock */
+    --f3:#3fb5ff;        /* F=3 lower hyperfine */
+    --f4:#ffb04d;        /* F=4 upper hyperfine (flipped) */
+    --mw:#a083ff;        /* microwave / cavity */
+    --hot:#ff6a52;       /* detector */
+    --ok:#5fe0a0; --warn:#e6c14d; --bad:#ff6a52;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{background:radial-gradient(130% 90% at 50% -8%, #0b1520 0%, var(--bg) 60%) fixed;
+    color:var(--fg); font:14px/1.5 "Barlow", system-ui, sans-serif; margin:0;}
+  .wrap{max-width:1200px; margin:0 auto;
+    padding-left:max(16px, env(safe-area-inset-left,0px));
+    padding-right:max(16px, env(safe-area-inset-right,0px));
+    padding-block:22px 40px;}
+  .mono{font-family:"JetBrains Mono", ui-monospace, monospace; font-variant-numeric:tabular-nums}
+
+  header{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 16px; margin-bottom:16px}
+  h1{font-family:"Oswald",sans-serif; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+    font-size:clamp(20px,3.3vw,30px); margin:0; text-wrap:balance}
+  h1 .k{color:var(--teal)}
+  .sub{color:var(--muted); font-size:13px; max-width:66ch}
+  .repo{margin-left:auto; font-size:11.5px; letter-spacing:.04em; color:var(--faint);
+    border:1px solid var(--line); border-radius:999px; padding:4px 11px; white-space:nowrap}
+  .repo b{color:var(--muted); font-weight:500}
+
+  .stage{position:relative; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:linear-gradient(180deg,#0a1017,#060a0e); aspect-ratio:16/10; width:100%;
+    box-shadow:inset 0 0 90px rgba(0,0,0,.65)}
+  @media(max-width:560px){ .stage{aspect-ratio:4/5} }
+  #scene{display:block; width:100%; height:100%; touch-action:none; cursor:grab}
+  #scene:active{cursor:grabbing}
+
+  .hud{position:absolute; inset:0; pointer-events:none; padding:12px}
+  .clockhud{position:absolute; top:12px; left:50%; transform:translateX(-50%); text-align:center;
+    background:rgba(7,10,15,.72); border:1px solid var(--line2); border-radius:10px; padding:8px 16px; backdrop-filter:blur(4px)}
+  .clockhud .t{font-family:"JetBrains Mono",monospace; font-size:clamp(20px,4.5vw,30px); color:var(--teal); letter-spacing:.02em}
+  .clockhud .t .pps{color:var(--f4); transition:opacity .1s; opacity:.25}
+  .clockhud .t .pps.on{opacity:1}
+  .clockhud .d{font-size:11px; color:var(--muted); letter-spacing:.06em; margin-top:1px}
+  .lockhud{position:absolute; top:12px; left:12px; display:inline-flex; align-items:center; gap:8px;
+    background:rgba(7,10,15,.72); border:1px solid var(--line2); border-radius:8px; padding:6px 11px; backdrop-filter:blur(3px)}
+  .lockhud .dot{width:9px;height:9px;border-radius:50%;background:var(--warn);box-shadow:0 0 10px currentColor;color:var(--warn)}
+  .lockhud.lk .dot{background:var(--ok);color:var(--ok)}
+  .lockhud .nm{font-family:"Oswald",sans-serif;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+  .sel{position:absolute; bottom:12px; left:12px; right:12px; background:rgba(7,10,15,.8);
+    border:1px solid var(--line2); border-radius:10px; padding:10px 13px; backdrop-filter:blur(4px); max-width:420px}
+  .sel h3{font-family:"Oswald",sans-serif; letter-spacing:.08em; text-transform:uppercase; font-size:13px; margin:0 0 4px; color:var(--teal)}
+  .sel p{margin:0 0 5px; font-size:12px; color:#c6d4e2; line-height:1.45}
+  .sel .ro{font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--muted)}
+  .tour{position:absolute; bottom:12px; right:12px; font-size:11px; color:var(--faint); letter-spacing:.06em; opacity:0; transition:opacity .4s}
+  .tour.on{opacity:1}
+  .labels{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:5}
+  .lbl{position:absolute; transform:translate(-50%,-50%); pointer-events:auto; cursor:pointer;
+    font-family:"Oswald",sans-serif; font-size:10.5px; letter-spacing:.03em; white-space:nowrap;
+    background:rgba(7,10,15,.84); border:1px solid var(--line2); color:var(--muted);
+    border-radius:6px; padding:3px 7px; backdrop-filter:blur(2px); transition:color .1s,border-color .1s,background .1s}
+  .lbl:hover{color:var(--fg); border-color:var(--faint)}
+  .lbl.comp{color:var(--teal); border-color:rgba(53,224,208,.5)}
+  .lbl.active{color:#071015; background:var(--teal); border-color:var(--teal)}
+  .tourbar{position:absolute; top:62px; left:50%; transform:translateX(-50%); z-index:6;
+    background:rgba(53,224,208,.16); border:1px solid var(--teal); color:var(--teal); pointer-events:none;
+    font-family:"Oswald",sans-serif; letter-spacing:.08em; text-transform:uppercase; font-size:12px;
+    border-radius:8px; padding:5px 12px; backdrop-filter:blur(3px); white-space:nowrap}
+
+  .rail{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:14px 0 14px;
+    padding:12px 14px; background:var(--panel); border:1px solid var(--line); border-radius:12px}
+  .rail .lab{font-family:"Oswald",sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:11px; color:var(--faint); margin-right:4px}
+  button{font-family:"Oswald",sans-serif; letter-spacing:.06em; text-transform:uppercase; font-size:11.5px;
+    color:var(--fg); background:var(--panel2); border:1px solid var(--line2); border-radius:8px;
+    padding:7px 11px; cursor:pointer; transition:border-color .12s, background .12s, color .12s}
+  button:hover{border-color:var(--faint)}
+  button[aria-pressed=true]{background:rgba(53,224,208,.14); border-color:var(--teal); color:var(--teal)}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:2px}
+  .comps{display:flex; flex-wrap:wrap; gap:7px; margin:0 0 16px}
+  .comps button{font-size:11px; padding:6px 10px}
+  .comps button.on{background:rgba(53,224,208,.16); border-color:var(--teal); color:var(--teal)}
+  .subs{display:flex; flex-wrap:wrap; gap:6px; margin:-8px 0 16px; padding:8px 0 8px 12px; border-left:2px solid var(--teal)}
+  .subs button{font-size:10.5px; padding:5px 9px; color:var(--muted)}
+  .subs button.on{background:rgba(53,224,208,.18); border-color:var(--teal); color:var(--teal)}
+
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:11px}
+  @media(max-width:820px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  .cell{background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:12px 13px; display:flex; flex-direction:column; gap:3px; min-width:0}
+  .cell .k{font-family:"Oswald",sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:11px; color:var(--muted)}
+  .cell .v{font-family:"JetBrains Mono",monospace; font-size:19px; line-height:1.12}
+  .cell .u{font-size:11px; color:var(--faint); margin-left:3px; font-family:"Barlow",sans-serif}
+  .cell .bar{height:4px; border-radius:2px; background:var(--line2); overflow:hidden; margin-top:5px}
+  .cell .bar > i{display:block; height:100%; width:0%; border-radius:2px; background:var(--teal)}
+
+  .lower{display:grid; grid-template-columns:1.1fr 1fr; gap:14px; margin-top:14px}
+  @media(max-width:820px){ .lower{grid-template-columns:1fr} }
+  .fbox, .notebox{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 15px; min-width:0}
+  .fbox h2, .notebox h2{font-family:"Oswald",sans-serif; font-weight:500; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); margin:0 0 10px}
+  #fringe{display:block; width:100%; height:auto; background:#070b10; border-radius:8px; border:1px solid var(--line)}
+  .fleg{display:flex; gap:14px; margin-top:9px; font-size:11px; color:var(--muted); flex-wrap:wrap}
+  .fleg i{display:inline-block; width:10px; height:3px; border-radius:2px; vertical-align:middle; margin-right:5px}
+  .notebox p{margin:0 0 9px; color:#c6d4e2; font-size:13px}
+  .notebox p:last-child{margin-bottom:0}
+  .notebox b{color:var(--fg)} .notebox .q{color:var(--teal)}
+  .notebox code{font-family:"JetBrains Mono",monospace; font-size:12px; background:var(--bg2); border:1px solid var(--line); border-radius:5px; padding:1px 6px; color:var(--teal)}
+  .foot{margin-top:22px; color:var(--faint); font-size:12px; text-align:center}
+</style>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+
+<div class="wrap">
+  <header>
+    <h1>Caesium <span class="k">Clock</span> Teardown</h1>
+    <div class="repo"><b>style of</b> elvarofficial/teardown</div>
+    <div class="sub">A caesium-133 beam standard — the machine that realises the SI second. Atoms stream left to right; microwaves tuned to <b>9,192,631,770 Hz</b> flip them; a servo locks a quartz oscillator to that resonance. Drag to orbit, click any stage to fly in.</div>
+  </header>
+
+  <div class="stage">
+    <canvas id="scene" aria-label="3D caesium beam atomic clock"></canvas>
+    <div class="labels" id="labels"></div>
+    <div class="hud">
+      <div class="clockhud">
+        <div class="t mono"><span id="etTime">—</span> <span class="pps" id="pps">●</span></div>
+        <div class="d" id="etDate">Eastern Time · Spring Hill, FL</div>
+      </div>
+      <div class="lockhud" id="lockHud"><span class="dot"></span><span class="nm" id="lockName">Acquiring</span></div>
+      <div class="tourbar" id="tourbar" style="display:none"></div>
+      <div class="sel" id="selBox" hidden><h3 id="selName"></h3><p id="selDesc"></p><div class="ro" id="selRo"></div></div>
+      <div class="tour" id="tourInd">◇ idle tour — drag to take over</div>
+    </div>
+  </div>
+
+  <div class="rail">
+    <span class="lab">View</span>
+    <button id="btnFollow" aria-pressed="false">Follow an atom</button>
+    <button id="btnCut" aria-pressed="false">Cutaway tube</button>
+    <button id="btnHighlight" aria-pressed="true">Beam glow</button>
+    <button id="btnLabels" aria-pressed="true">Labels</button>
+    <button id="btnExplode" aria-pressed="false">Exploded</button>
+    <button id="btnTour" aria-pressed="false">Guided tour</button>
+    <button id="btnView">Reset view</button>
+    <span class="lab" style="margin-left:6px">Lock</span>
+    <button id="btnRelock">Re-acquire</button>
+  </div>
+
+  <div class="comps" id="comps"></div>
+  <div class="subs" id="subs" style="display:none"></div>
+
+  <div class="grid" id="panels">
+    <div class="cell"><span class="k">Eastern Time</span><span class="v mono" style="color:var(--teal)" id="pET">—</span></div>
+    <div class="cell"><span class="k">UTC</span><span class="v mono" id="pUTC">—</span></div>
+    <div class="cell"><span class="k">ΔνCs — the definition</span><span class="v mono" style="font-size:15px">9 192 631 770<span class="u">Hz</span></span></div>
+    <div class="cell"><span class="k">Cycles this second</span><span class="v mono" style="font-size:14px" id="pCyc">0</span><div class="bar"><i id="barCyc"></i></div></div>
+    <div class="cell"><span class="k">Lock status</span><span class="v mono" id="pLock" style="color:var(--warn)">ACQUIRING</span></div>
+    <div class="cell"><span class="k">Detuning δ</span><span class="v mono"><span id="pDet">+1500</span><span class="u">Hz</span></span></div>
+    <div class="cell"><span class="k">Fractional offset</span><span class="v mono"><span id="pFrac">1.6e-7</span></span></div>
+    <div class="cell"><span class="k">Allan dev σy(τ)</span><span class="v mono" id="pAllan">—</span></div>
+  </div>
+
+  <div class="lower">
+    <div class="fbox">
+      <h2>Ramsey fringe — transition probability vs detuning</h2>
+      <canvas id="fringe" width="640" height="320"></canvas>
+      <div class="fleg">
+        <span><i style="background:var(--mw)"></i>P(F=3 → F=4)</span>
+        <span><i style="background:var(--teal)"></i>servo lock point</span>
+        <span style="color:var(--faint)">central fringe sits on the atomic resonance; the quartz is steered to its peak</span>
+      </div>
+    </div>
+    <div class="notebox">
+      <h2>The quantum, accurately</h2>
+      <p>Caesium-133's single outer electron and its nucleus (spin I=7/2) couple into two <b>hyperfine ground states</b>, <span class="q">F=3</span> and <span class="q">F=4</span>. The gap between them is fixed by nature. The 2019 SI defines the second by <i>declaring</i> that unperturbed splitting to be exactly <code>9,192,631,770 Hz</code> — so the clock doesn't measure the second, it <b>is</b> the second.</p>
+      <p>The clock uses the field-insensitive <b>mF=0 → mF=0</b> transition, and <b>Ramsey's two separated microwave zones</b> to make the resonance razor-sharp. The detector count peaks dead on resonance; the servo dithers and steers the quartz to that peak.</p>
+      <p><b>On the time shown:</b> the apparatus is a faithful physics simulation. The Eastern-time display is read from your device's network-synchronised clock and formatted to <code>America/New_York</code> (it handles EST/EDT itself). Stability figures are representative of commercial caesium beam standards (~1×10⁻¹² at 1 s; fountains reach ~10⁻¹⁶).</p>
+    </div>
+  </div>
+
+  <div class="foot">Cs-133 beam tube · oven → state selector → Ramsey cavity → detector · quartz disciplined to the hyperfine resonance · demo in the spirit of the teardown skill</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var THREE = window.THREE;
+  var canvas = document.getElementById('scene');
+  var scene, camera, renderer, raycaster, pointer;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(id){ return document.getElementById(id); };
+
+  var NU_CS = 9192631770;
+
+  // ---------- component metadata ----------
+  var COMPS = [
+    {key:'oven', x:-6.2, name:'Caesium oven', r:3,
+      desc:"Caesium-133 heated to ~100 °C. The vapour streams out as an atomic beam — atoms split roughly evenly between the two hyperfine ground states F=3 and F=4.",
+      ro:function(){ return "beam flux ≈ 1×10¹¹ atoms/s · T ≈ 100 °C"; }},
+    {key:'amag', x:-4, name:'A-magnet · state selector', r:3,
+      desc:"A Stern–Gerlach selector. Its inhomogeneous field deflects atoms by magnetic sub-state, passing the F=3, mF=0 atoms toward the cavity and dumping the rest.",
+      ro:function(){ return "selecting |F=3, mF=0⟩ · rejecting F=4"; }},
+    {key:'cavity', x:0, name:'Ramsey cavity', r:3.2,
+      desc:"Ramsey's separated oscillatory fields. Microwaves at 9,192,631,770 Hz strike the beam in two zones; atoms that see the exact resonance flip F=3 → F=4. Two zones narrow the line enormously.",
+      ro:function(){ return "microwave ON · δ = "+fmtDet(S.det)+" Hz"; }},
+    {key:'cfield', x:0, y:0.75, name:'C-field region', r:3.2,
+      desc:"A weak, uniform magnetic field sets the quantisation axis and splits the Zeeman sublevels, isolating the field-insensitive mF=0 → mF=0 clock transition from its neighbours.",
+      ro:function(){ return "C-field ≈ 6 µT · Zeeman-isolated mF=0"; }},
+    {key:'bmag', x:4, name:'B-magnet · state selector', r:3,
+      desc:"A second Stern–Gerlach selector. It steers the atoms that flipped to F=4 toward the detector and dumps the rest, so the count reflects how many made the transition.",
+      ro:function(){ return "passing flipped F=4 atoms only"; }},
+    {key:'detector', x:6.2, name:'Hot-wire detector', r:3,
+      desc:"A hot-wire ioniser counts the flipped atoms one by one. The count is maximised when the microwaves sit exactly on the atomic resonance — this is the error signal that drives the lock.",
+      ro:function(){ return "relative count "+(S.flipProb*100).toFixed(0)+"%"; }},
+    {key:'quartz', x:-4, y:-3, name:'Quartz oscillator (5 MHz)', r:2.6,
+      desc:"A 5 MHz quartz crystal. Superb short-term stability but it drifts — so the atoms discipline it. This is the oscillator whose ticks ultimately become seconds.",
+      ro:function(){ return "disciplined · Δf/f = "+fmtFrac(S.det/NU_CS); }},
+    {key:'synth', x:-1, y:-3, name:'Frequency synthesis', r:2.6,
+      desc:"Multiplies and synthesises the disciplined 5 MHz up to the 9,192,631,770 Hz microwave that interrogates the atoms in the cavity.",
+      ro:function(){ return "5 MHz → 9.192 631 770 GHz"; }},
+    {key:'servo', x:2, y:-3, name:'Servo loop', r:2.6,
+      desc:"Dithers the microwave across the Ramsey fringe, reads the detector, and steers the quartz toward the fringe peak. When centred, the quartz is locked to caesium.",
+      ro:function(){ return S.locked? "LOCKED · error ≈ "+fmtDet(S.det)+" Hz" : "ACQUIRING…"; }},
+    {key:'divider', x:5, y:-3, name:'Divider · 1 PPS', r:2.6,
+      desc:"Divides the locked 9,192,631,770 Hz by exactly that number — the SI definition of the second — to emit one pulse per second. That pulse advances the clock.",
+      ro:function(){ return "÷ 9 192 631 770 → 1 pulse / s"; }}
+  ];
+  COMPS.push({key:'vacuum', x:2.6, y:-0.6, r:4.4, name:'Vacuum system',
+    desc:"The sealed, pumped envelope the beam flies through. An ion pump holds it at ultra-high vacuum so atoms cross without colliding.",
+    ro:function(){ return "ion-pumped UHV · ~1×10⁻⁸ mbar"; }});
+  var compByKey = {}; COMPS.forEach(function(c){ compByKey[c.key]=c; });
+
+  // ---------- servo / physics state ----------
+  var S = { det:1500, locked:false, flipProb:0.1, lockTime:0, tau:0 };
+  function ramseyP(det){
+    var x = det/2500, env = x===0?1:Math.pow(Math.sin(Math.PI*x)/(Math.PI*x),2);
+    return Math.max(0, 0.5*env*(1+Math.cos(2*Math.PI*det/1000)));
+  }
+  function fmtDet(d){ return (d>=0?'+':'')+d.toFixed(0); }
+  function fmtFrac(f){ var a=Math.abs(f); if(a<1e-18) return "0"; var e=Math.floor(Math.log10(a)); var m=f/Math.pow(10,e); return m.toFixed(1)+'e'+e; }
+
+  // ---------- scene ----------
+  var PK = {}; var pickable = []; var pickParts=[], partsByComp={};
+  function tag(m,comp,name,desc){ m.userData.info={comp:comp,name:name,desc:desc}; pickParts.push(m);
+    var a=partsByComp[comp]||(partsByComp[comp]=[]); if(!a.some(function(p){return p.name===name;})) a.push({name:name,desc:desc,mesh:m}); return m; }
+  function MAT(color,o){ o=o||{}; return new THREE.MeshStandardMaterial({color:color,
+    metalness:o.metal!=null?o.metal:0.7, roughness:o.rough!=null?o.rough:0.4,
+    transparent:!!o.transparent, opacity:o.opacity!=null?o.opacity:1,
+    emissive:new THREE.Color(o.emissive||0x000000), emissiveIntensity:o.ei||0, side:o.side||THREE.FrontSide}); }
+
+  var ATOMS=[], NA=150, posA, colorA, waveA, mixA, atomGeo, atomMat, atomPoints, colF3, colF4, colDim;
+  function build(){
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf4f6f8);
+    scene.fog = new THREE.Fog(0xf4f6f8, 22, 48);
+    camera = new THREE.PerspectiveCamera(42,1,0.1,120);
+    renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+    renderer.setClearColor(0xf4f6f8,1);
+    raycaster = new THREE.Raycaster(); pointer = new THREE.Vector2();
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xc4ccd4, 0.95));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+    var key = new THREE.DirectionalLight(0xffffff, 0.9); key.position.set(3,6,7); scene.add(key);
+    var rim = new THREE.DirectionalLight(0x9ab0c8, 0.4); rim.position.set(-5,2,-5); scene.add(rim);
+
+    var root = new THREE.Group(); scene.add(root); PK.root = root;
+
+    // vacuum beam tube + fittings
+    var tube = new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,13.2,40,1,true),
+      new THREE.MeshStandardMaterial({color:0x7fa8c8, metalness:0.3, roughness:0.15, transparent:true, opacity:0.12, side:THREE.DoubleSide}));
+    tube.rotation.z = Math.PI/2; root.add(tube); PK.tube = tube;
+    tag(tube,'vacuum','Beam tube','The evacuated glass/steel envelope. Toggle "Cutaway tube" to drop it and see the beam.');
+    var steelF=MAT(0x7a8694,{metal:0.8,rough:0.3});
+    var endL=mesh(new THREE.CylinderGeometry(0.62,0.62,0.12,36),steelF,-6.6,0,0); endL.rotation.z=Math.PI/2; root.add(endL);
+    var endR=mesh(new THREE.CylinderGeometry(0.62,0.62,0.12,36),steelF,6.6,0,0); endR.rotation.z=Math.PI/2; root.add(endR);
+    tag(endL,'vacuum','End flange','Conflat vacuum flange sealing the oven end of the tube.');
+    tag(endR,'vacuum','End flange','Conflat vacuum flange sealing the detector end of the tube.');
+    // ion pump appendage with its permanent magnets
+    var pbody=mesh(rbox(1.0,0.9,0.9), MAT(0x30414f,{metal:0.6,rough:0.45}),2.6,-1.3,0); root.add(pbody);
+    var pneck=mesh(new THREE.CylinderGeometry(0.16,0.16,0.55,16), steelF,2.6,-0.78,0); root.add(pneck);
+    tag(pbody,'vacuum','Ion pump','A sputter-ion pump: ionises stray gas and buries it in a titanium cathode, maintaining the vacuum with no moving parts.');
+    tag(pneck,'vacuum','Pump port','The port connecting the ion pump to the beam tube.');
+    var magA=mesh(rbox(0.2,0.9,0.95), MAT(0x5a2a2a,{metal:0.4,rough:0.5}),2.2,-1.3,0); root.add(magA);
+    var magB=mesh(rbox(0.2,0.9,0.95), MAT(0x2a3a5a,{metal:0.4,rough:0.5}),3.0,-1.3,0); root.add(magB);
+    tag(magA,'vacuum','Pump magnets','Permanent magnets that spiral the ionising electrons, boosting the pump efficiency.');
+    tag(magB,'vacuum','Pump magnets','Permanent magnets that spiral the ionising electrons, boosting the pump efficiency.');
+    var stA=mesh(rbox(0.3,1.4,0.5), MAT(0x2a2e34,{rough:0.6}),-3,-1.35,0); root.add(stA);
+    var stB=mesh(rbox(0.3,1.4,0.5), MAT(0x2a2e34,{rough:0.6}),0.2,-1.35,0); root.add(stB);
+    tag(stA,'vacuum','Support stand','Rigid stand isolating the tube from floor vibration.'); tag(stB,'vacuum','Support stand','Rigid stand isolating the tube from floor vibration.');
+    // flush weld collars where modules join the tube
+    [-5.9,-4,4,5.9].forEach(function(cx){ var cc=mesh(new THREE.TorusGeometry(0.57,0.03,14,40), MAT(0x9aa0a8,{metal:0.8,rough:0.3}),cx,0,0); cc.rotation.y=Math.PI/2; root.add(cc); tag(cc,'vacuum','Weld collar','A vacuum-tight collar where a module joins the beam tube.'); });
+
+    // beam-line apparatus
+    var oven=ovenUnit('oven'); oven.position.set(-6.2,0,0); root.add(oven); reg('oven',oven,oven.userData.pick);
+    var amag=sgMagnet('amag'); amag.position.set(-4,0,0); root.add(amag); reg('amag',amag,amag.userData.pick);
+    var bmag=sgMagnet('bmag'); bmag.position.set(4,0,0); root.add(bmag); reg('bmag',bmag,bmag.userData.pick);
+    var cav=ramseyCavity('cavity'); root.add(cav); PK.cz1=cav.userData.z1; PK.cz2=cav.userData.z2; reg('cavity',cav,cav.userData.pick);
+    var coil=cfieldCoil('cfield'); root.add(coil); reg('cfield',coil,coil.userData.pick);
+    var det=detectorUnit('detector'); det.position.set(6.2,0,0); root.add(det); PK.detMat=det.userData.detMat; reg('detector',det,det.userData.pick);
+
+    // electronics rail (below)
+    var xo=canXO('quartz'); xo.position.set(-4,-3,0); root.add(xo); reg('quartz',xo,xo.userData.pick);
+    var syn=rfBox('synth'); syn.position.set(-1,-3,0); root.add(syn); reg('synth',syn,syn.userData.pick);
+    var srv=servoBoard('servo'); srv.position.set(2,-3,0); root.add(srv); reg('servo',srv,srv.userData.pick);
+    var dv=dividerBoard('divider'); dv.position.set(5,-3,0); root.add(dv); PK.ppsLed=dv.userData.led; reg('divider',dv,dv.userData.pick);
+
+    // coax cabling routed between modules
+    root.add(coax(-4,-3,0.1, -1,-3,0.1, 0.28, 0x1b2129, 0.035));      // xo -> synth (5 MHz)
+    root.add(coax(-1,-3,0.18, 2,-3,0.18, 0.28, 0x1b2129, 0.035));     // synth tap -> servo
+    root.add(coax(2,-3,0.1, 5,-3,0.1, 0.28, 0x1b2129, 0.035));        // servo -> divider
+    root.add(coax(-1,-2.5,0.1, 0,-0.95,-0.4, 0.14, 0x9a7f3a, 0.032)); // synth -> cavity feed (microwave)
+    root.add(coax(6.2,-0.4,0.25, 2,-3,0.25, 0.5, 0x3a2f5a, 0.035));   // detector -> servo (signal)
+    root.add(coax(2,-3,-0.25, -4,-3,-0.25, 0.55, 0x2f6a5a, 0.035));   // servo -> xo (correction)
+
+    // lab-bench floor
+    var floor=new THREE.Mesh(new THREE.PlaneGeometry(46,24), new THREE.MeshStandardMaterial({color:0xe9ecf0, roughness:0.85, metalness:0.0}));
+    floor.rotation.x=-Math.PI/2; floor.position.set(0,-3.54,0); root.add(floor);
+    // soft contact shadow so the assembly sits on the bench
+    var shc=document.createElement('canvas'); shc.width=shc.height=256; var sx=shc.getContext('2d');
+    var sg=sx.createRadialGradient(128,128,8,128,128,128); sg.addColorStop(0,'rgba(18,28,38,0.5)'); sg.addColorStop(0.7,'rgba(18,28,38,0.18)'); sg.addColorStop(1,'rgba(18,28,38,0)');
+    sx.fillStyle=sg; sx.fillRect(0,0,256,256);
+    var shadow=new THREE.Mesh(new THREE.PlaneGeometry(18,7), new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shc), transparent:true, depthWrite:false, opacity:0.6}));
+    shadow.rotation.x=-Math.PI/2; shadow.position.set(0,-3.5,0); root.add(shadow);
+    // faint reflection sheen along the beam line
+    var rf=document.createElement('canvas'); rf.width=256; rf.height=64; var rx=rf.getContext('2d');
+    var rg=rx.createLinearGradient(0,0,0,64); rg.addColorStop(0,'rgba(255,255,255,0)'); rg.addColorStop(0.5,'rgba(255,255,255,0.4)'); rg.addColorStop(1,'rgba(255,255,255,0)');
+    rx.fillStyle=rg; rx.fillRect(0,0,256,64);
+    var refl=new THREE.Mesh(new THREE.PlaneGeometry(14,2.4), new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(rf), transparent:true, depthWrite:false, opacity:0.45, blending:THREE.AdditiveBlending}));
+    refl.rotation.x=-Math.PI/2; refl.position.set(0,-3.48,0); root.add(refl);
+
+    // atoms (instanced)
+    // atoms as matter-wave packets (shader points): a Gaussian envelope with shimmering de-Broglie fringes
+    posA=new Float32Array(NA*3); colorA=new Float32Array(NA*3); waveA=new Float32Array(NA); mixA=new Float32Array(NA); var seeds=new Float32Array(NA);
+    colF3=new THREE.Color(0x1f8fd6); colF4=new THREE.Color(0xe07a12); colDim=new THREE.Color(0x8a94a0);
+    for(var a=0;a<NA;a++){ ATOMS.push(spawn()); seeds[a]=Math.random(); posA[a*3]=-6.1; waveA[a]=38; colorA[a*3]=colF3.r; colorA[a*3+1]=colF3.g; colorA[a*3+2]=colF3.b; }
+    atomGeo=new THREE.BufferGeometry();
+    atomGeo.setAttribute('position', new THREE.BufferAttribute(posA,3));
+    atomGeo.setAttribute('aColor', new THREE.BufferAttribute(colorA,3));
+    atomGeo.setAttribute('aSeed', new THREE.BufferAttribute(seeds,1));
+    atomGeo.setAttribute('aWave', new THREE.BufferAttribute(waveA,1));
+    atomGeo.setAttribute('aMix', new THREE.BufferAttribute(mixA,1));
+    var vsh=[
+      'attribute vec3 aColor;','attribute float aSeed;','attribute float aWave;','attribute float aMix;',
+      'varying vec3 vColor;','varying float vSeed;','varying float vWave;','varying float vMix;','varying vec2 vDir;',
+      'uniform float uSize;','uniform float uAspect;',
+      'void main(){',
+      '  vColor=aColor; vSeed=aSeed; vWave=aWave; vMix=aMix;',
+      '  vec4 mv = modelViewMatrix * vec4(position,1.0);',
+      '  vec3 dv = (modelViewMatrix * vec4(1.0,0.0,0.0,0.0)).xyz;',
+      '  vec4 c0 = projectionMatrix * mv;',
+      '  vec4 c1 = projectionMatrix * vec4(mv.xyz + dv*0.4, 1.0);',
+      '  vec2 s0 = c0.xy/c0.w; vec2 s1 = c1.xy/c1.w;',
+      '  vec2 d = vec2((s1.x-s0.x)*uAspect, -(s1.y-s0.y));',
+      '  vDir = (length(d) > 0.0001) ? normalize(d) : vec2(1.0, 0.0);',
+      '  gl_PointSize = clamp(uSize / max(0.25, -mv.z), 8.0, 60.0);',
+      '  gl_Position = c0;',
+      '}'].join('\n');
+    var fsh=[
+      'varying vec3 vColor;','varying float vSeed;','varying float vWave;','varying float vMix;','varying vec2 vDir;',
+      'uniform float uTime;','uniform float uBright;',
+      'void main(){',
+      '  vec2 c = gl_PointCoord - 0.5;',
+      '  float along = dot(c, vDir);',
+      '  float perp  = dot(c, vec2(-vDir.y, vDir.x));',
+      '  float env = exp(-(along*along*7.0 + perp*perp*30.0));',
+      '  if(env < 0.02) discard;',
+      '  float ph = along*vWave + uTime*6.0 + vSeed*6.2831;',
+      '  float fr = 0.5 + 0.5*cos(ph);',
+      '  vec3 col = vColor;',
+      '  if(vMix > 0.5){',
+      '    fr = 0.5 + 0.5*cos(ph)*cos(ph*0.12);',
+      '    float s = 0.5 + 0.5*sin(uTime*5.0 + vSeed*6.2831);',
+      '    col = mix(vec3(0.12,0.56,0.86), vec3(0.88,0.48,0.07), s);',
+      '    env *= 1.0 + 0.3*sin(uTime*8.0 + vSeed*10.0);',
+      '  }',
+      '  float a = env*(0.5 + 0.5*fr);',
+      '  gl_FragColor = vec4(col*(0.85 + 0.25*fr)*uBright, a);',
+      '}'].join('\n');
+    atomMat=new THREE.ShaderMaterial({ uniforms:{uTime:{value:0}, uBright:{value:1.0}, uSize:{value:150.0}, uAspect:{value:1.6}},
+      vertexShader:vsh, fragmentShader:fsh, transparent:true, depthWrite:false, blending:THREE.NormalBlending });
+    atomPoints=new THREE.Points(atomGeo, atomMat); atomPoints.frustumCulled=false; root.add(atomPoints);
+
+    // record each tagged part's home position for the exploded view
+    for(var pb=0;pb<pickParts.length;pb++){ pickParts[pb].userData.base=pickParts[pb].position.clone(); }
+    resize();
+  }
+  function mesh(geo,mat,x,y,z){ var m=new THREE.Mesh(geo,mat); m.position.set(x||0,y||0,z||0); return m; }
+  // rounded-box: drop-in for BoxGeometry(W,H,D) with soft, beveled edges
+  function rbox(W,H,D,rc){
+    if(rc==null) rc=Math.min(W,H,D)*0.2;
+    rc=Math.min(rc, W/2-0.002, H/2-0.002, D/2-0.002); if(rc<0.004) rc=0.004;
+    var w=W/2, h=H/2, s=new THREE.Shape();
+    s.moveTo(-w+rc,-h); s.lineTo(w-rc,-h); s.quadraticCurveTo(w,-h,w,-h+rc);
+    s.lineTo(w,h-rc); s.quadraticCurveTo(w,h,w-rc,h); s.lineTo(-w+rc,h);
+    s.quadraticCurveTo(-w,h,-w,h-rc); s.lineTo(-w,-h+rc); s.quadraticCurveTo(-w,-h,-w+rc,-h);
+    var bev=Math.min(rc*0.8, D*0.34);
+    var g=new THREE.ExtrudeGeometry(s,{depth:D-2*bev, bevelEnabled:true, bevelThickness:bev, bevelSize:bev, bevelSegments:2, steps:1, curveSegments:6});
+    g.translate(0,0,-(D/2 - bev)); g.computeVertexNormals(); return g;
+  }
+  // a round coax run between two points, drooping like a real cable, with strain-relief boots
+  function coax(ax,ay,az,bx,by,bz,sag,color,r){
+    r=r||0.03;
+    var a=new THREE.Vector3(ax,ay,az), b=new THREE.Vector3(bx,by,bz);
+    var mid=a.clone().add(b).multiplyScalar(0.5); mid.y -= (sag==null?0.3:sag);
+    var curve=new THREE.QuadraticBezierCurve3(a,mid,b);
+    var grp=new THREE.Group();
+    grp.add(new THREE.Mesh(new THREE.TubeGeometry(curve,30,r,14,false), MAT(color,{metal:0.6,rough:0.3})));  // braided sheen
+    var up=new THREE.Vector3(0,1,0), bm=MAT(0x12161b,{metal:0.4,rough:0.5});
+    function boot(pt,dir){ var m=new THREE.Mesh(new THREE.CylinderGeometry(r*2.2,r*1.3,0.16,16), bm); m.position.copy(pt); m.quaternion.setFromUnitVectors(up, dir.clone().normalize()); grp.add(m); }
+    boot(a, mid.clone().sub(a)); boot(b, b.clone().sub(mid));
+    return grp;
+  }
+
+  function ovenUnit(ck){ var g=new THREE.Group();
+    // outer wall — semi-transparent so the crucible inside is visible
+    var body=mesh(new THREE.CylinderGeometry(0.4,0.42,0.95,28), MAT(0x4a5260,{metal:0.75,rough:0.4,transparent:true,opacity:0.5}),0,0,0); body.rotation.z=Math.PI/2; g.add(body);
+    tag(body,ck,'Oven wall','Stainless outer wall of the reservoir, heated from outside to vaporise the caesium charge.');
+    // boron-nitride crucible holding the caesium
+    var cru=mesh(new THREE.CylinderGeometry(0.3,0.3,0.72,20), MAT(0xcfc6b0,{metal:0.1,rough:0.8}),-0.05,0,0); cru.rotation.z=Math.PI/2; g.add(cru);
+    tag(cru,ck,'BN crucible','Boron-nitride crucible holding the liquid caesium — inert and stable at the ~100 °C working temperature.');
+    // molten caesium pool
+    var cs=mesh(new THREE.CylinderGeometry(0.27,0.27,0.18,20), new THREE.MeshStandardMaterial({color:0xd9c58a,metalness:0.9,roughness:0.3}),-0.05,-0.12,0); cs.rotation.z=Math.PI/2; g.add(cs);
+    tag(cs,ck,'Caesium charge','The metallic caesium itself — melts at 28 °C, so it is a shimmering liquid pool at operating temperature.');
+    // sealed reservoir end cap
+    var cap=mesh(new THREE.SphereGeometry(0.4,24,12,0,Math.PI*2,0,Math.PI/2), MAT(0x3a414c,{metal:0.75,rough:0.42}),-0.47,0,0); cap.rotation.z=-Math.PI/2; g.add(cap);
+    tag(cap,ck,'Reservoir cap','Welded end cap sealing the reservoir under vacuum.');
+    // nichrome heater coil
+    var heat=MAT(0xff7a30,{metal:0.2,rough:0.5,emissive:0xff5a1a,ei:0.6});
+    for(var hc=0;hc<6;hc++){ var hr=mesh(new THREE.TorusGeometry(0.45,0.017,8,28),heat,-0.3+hc*0.12,0,0); hr.rotation.y=Math.PI/2; g.add(hr); tag(hr,ck,'Heater coil','Nichrome resistance winding that keeps the reservoir near 100 °C to maintain the vapour pressure.'); }
+    // cooling fins
+    for(var i=0;i<3;i++){ var fin=mesh(new THREE.TorusGeometry(0.47,0.03,8,28), MAT(0x2f3640,{metal:0.6,rough:0.5}),0.06+i*0.12,0,0); fin.rotation.y=Math.PI/2; g.add(fin); tag(fin,ck,'Cooling fins','Radiating fins that set a sharp temperature gradient so the beam-forming region stays cooler than the reservoir.'); }
+    var fl=mesh(new THREE.CylinderGeometry(0.5,0.5,0.06,28), MAT(0x6a7686,{metal:0.75,rough:0.3}),0.48,0,0); fl.rotation.z=Math.PI/2; g.add(fl);
+    tag(fl,ck,'Mounting flange','Flange that bolts the oven assembly onto the vacuum envelope.');
+    // collimator plate
+    var coll=mesh(new THREE.CylinderGeometry(0.22,0.22,0.04,24), MAT(0x8a8f96,{metal:0.82,rough:0.3}),0.58,0,0); coll.rotation.z=Math.PI/2; g.add(coll);
+    tag(coll,ck,'Collimator','A slit plate that narrows the escaping vapour into a well-defined atomic beam.');
+    var noz=mesh(new THREE.ConeGeometry(0.1,0.28,20), MAT(0xffb060,{metal:0.3,rough:0.4,emissive:0xff6a1a,ei:0.9}),0.72,0,0); noz.rotation.z=-Math.PI/2; g.add(noz);
+    tag(noz,ck,'Exit nozzle','The channel the beam leaves through; it glows with the oven heat.');
+    var ap=mesh(new THREE.SphereGeometry(0.07,16,12), new THREE.MeshBasicMaterial({color:0xffd9a0,toneMapped:false}),0.84,0,0); g.add(ap);
+    tag(ap,ck,'Beam aperture','The point source of the atomic beam entering the tube.');
+    var tc=mesh(new THREE.CylinderGeometry(0.014,0.014,0.5,8), MAT(0xcc4444,{metal:0.3,rough:0.5}),-0.18,-0.5,0.2); g.add(tc);
+    tag(tc,ck,'Thermocouple','Temperature sensor feeding the heater control loop that holds the oven steady.');
+    g.userData.pick=body; return g; }
+
+  function sgMagnet(ck){ var g=new THREE.Group(); var iron=MAT(0x3f4753,{metal:0.68,rough:0.5});
+    var back=mesh(rbox(0.22,1.6,1.0),iron,-0.5,0,0); g.add(back);
+    var armT=mesh(rbox(0.95,0.22,1.0),iron,-0.03,0.69,0); g.add(armT);
+    var armB=mesh(rbox(0.95,0.22,1.0),iron,-0.03,-0.69,0); g.add(armB);
+    tag(back,ck,'Iron yoke','The C-shaped soft-iron core that carries the magnetic flux around to the pole gap.');
+    tag(armT,ck,'Iron yoke','The C-shaped soft-iron core that carries the magnetic flux around to the pole gap.');
+    tag(armB,ck,'Iron yoke','The C-shaped soft-iron core that carries the magnetic flux around to the pole gap.');
+    var pole=MAT(0x9aa6b4,{metal:0.85,rough:0.22});
+    var pT=mesh(new THREE.CylinderGeometry(0.28,0.14,0.44,24),pole,0.05,0.4,0); g.add(pT);
+    var pB=mesh(new THREE.CylinderGeometry(0.14,0.28,0.44,24),pole,0.05,-0.4,0); g.add(pB);
+    tag(pT,ck,'Pole pieces','Tapered pole pieces that funnel the flux toward the gap.');
+    tag(pB,ck,'Pole pieces','Tapered pole pieces that funnel the flux toward the gap.');
+    // smooth curved pole shoes bounding the beam gap
+    var tip=MAT(0xcdd6e0,{metal:0.9,rough:0.14});
+    var shT=mesh(new THREE.CylinderGeometry(0.14,0.14,0.4,24),tip,0.05,0.17,0); shT.rotation.z=Math.PI/2; g.add(shT);
+    var shB=mesh(new THREE.CylinderGeometry(0.14,0.14,0.4,24),tip,0.05,-0.17,0); shB.rotation.z=Math.PI/2; g.add(shB);
+    tag(shT,ck,'Pole shoes','Curved pole shoes shaping a steep field gradient across the gap the beam passes through — the Stern-Gerlach force.');
+    tag(shB,ck,'Pole shoes','Curved pole shoes shaping a steep field gradient across the gap the beam passes through — the Stern-Gerlach force.');
+    var cu=MAT(0xc8763a,{metal:0.65,rough:0.38});
+    for(var w=0;w<5;w++){ var r1=mesh(new THREE.TorusGeometry(0.17,0.045,8,20),cu,-0.25+w*0.11,0.69,0); g.add(r1); tag(r1,ck,'Field coils','Copper windings whose current sets the magnet strength, selecting which hyperfine state is passed.');
+      var r2=r1.clone(); r2.position.y=-0.69; g.add(r2); tag(r2,ck,'Field coils','Copper windings whose current sets the magnet strength, selecting which hyperfine state is passed.'); }
+    var blt=MAT(0x6a7280,{metal:0.8,rough:0.3});
+    var b1=mesh(new THREE.CylinderGeometry(0.05,0.05,0.06,6),blt,-0.5,0.5,0.42); g.add(b1);
+    var b2=mesh(new THREE.CylinderGeometry(0.05,0.05,0.06,6),blt,-0.5,-0.5,0.42); g.add(b2);
+    tag(b1,ck,'Yoke bolts','Bolts clamping the laminated yoke together.'); tag(b2,ck,'Yoke bolts','Bolts clamping the laminated yoke together.');
+    var term=mesh(rbox(0.12,0.2,0.16), MAT(0x1a1a1a,{rough:0.6}),-0.6,0,0.1); g.add(term);
+    var lead=mesh(new THREE.CylinderGeometry(0.018,0.018,0.5,8), MAT(0xc8763a,{metal:0.6}),-0.7,0.3,0.15); g.add(lead);
+    tag(term,ck,'Current terminal','Terminal block feeding the coil current.'); tag(lead,ck,'Current terminal','Terminal block feeding the coil current.');
+    g.userData.pick=back; return g; }
+
+  function ramseyCavity(ck){ var g=new THREE.Group();
+    function zone(x,idx){ var z=new THREE.Group(); z.position.x=x;
+      var glow=new THREE.MeshStandardMaterial({color:0x8a6ad0,metalness:0.6,roughness:0.3,emissive:0xa083ff,emissiveIntensity:0.25});
+      // clean glowing microwave ring the beam threads through
+      var ring=mesh(new THREE.TorusGeometry(0.34,0.075,20,44), glow,0,0,0); ring.rotation.y=Math.PI/2; z.add(ring);
+      var nm='Interaction zone '+idx, ds='One of Ramsey'+String.fromCharCode(39)+'s two separated microwave zones; the beam is driven here, drifts, then is driven again — which sharpens the resonance.';
+      tag(ring,ck,nm,ds);
+      var collar=mesh(new THREE.TorusGeometry(0.26,0.03,14,40), MAT(0xbf9a4a,{metal:0.85,rough:0.28}),0,0,0); collar.rotation.y=Math.PI/2; z.add(collar);
+      tag(collar,ck,'Beam collar','Brass aperture the atomic beam threads through at each zone.');
+      return z; }
+    var z1=zone(-1.6,1), z2=zone(1.6,2); g.add(z1); g.add(z2);
+    var wgm=MAT(0x9a7f3a,{metal:0.8,rough:0.32});
+    // round waveguide tubing: a run below the beam, two arms up to the rings, a feed down to the synth
+    var run=mesh(new THREE.CylinderGeometry(0.1,0.1,3.4,24),wgm,0,0,-0.52); run.rotation.z=Math.PI/2; g.add(run);
+    var aL=mesh(new THREE.CylinderGeometry(0.1,0.1,0.95,24),wgm,-1.6,-0.28,-0.52); g.add(aL);
+    var aR=mesh(new THREE.CylinderGeometry(0.1,0.1,0.95,24),wgm,1.6,-0.28,-0.52); g.add(aR);
+    var feed=mesh(new THREE.CylinderGeometry(0.1,0.1,1.7,24),wgm,0,-0.95,-0.52); g.add(feed);
+    // smooth elbow joints
+    [-1.6,0,1.6].forEach(function(jx){ g.add(mesh(new THREE.SphereGeometry(0.12,18,14),wgm,jx,0,-0.52)); });
+    tag(run,ck,'U-waveguide','The waveguide that carries 9.192631770 GHz microwaves to both zones in phase.');
+    tag(aL,ck,'Waveguide arm','Arm delivering the field to a zone.'); tag(aR,ck,'Waveguide arm','Arm delivering the field to a zone.');
+    tag(feed,ck,'Microwave feed','Feed from the synthesizer into the cavity.');
+    var fl=MAT(0xd9b45a,{metal:0.85,rough:0.22});
+    var flL=mesh(new THREE.CylinderGeometry(0.17,0.17,0.07,24),fl,-1.6,0.1,-0.52); g.add(flL);
+    var flR=mesh(new THREE.CylinderGeometry(0.17,0.17,0.07,24),fl,1.6,0.1,-0.52); g.add(flR);
+    tag(flL,ck,'Waveguide flange','Bolted flange joining waveguide sections.'); tag(flR,ck,'Waveguide flange','Bolted flange joining waveguide sections.');
+    var scr=MAT(0xcdd6e0,{metal:0.9,rough:0.2});
+    for(var s=0;s<3;s++){ var sc=mesh(new THREE.CylinderGeometry(0.03,0.03,0.14,10),scr,-0.6+s*0.6,0.14,-0.52); g.add(sc); tag(sc,ck,'Tuning screws','E–H tuning screws that trim the cavity so both zones are exactly on frequency and in phase.'); }
+    g.userData.z1=z1; g.userData.z2=z2; g.userData.pick=z1.children[0]; return g; }
+
+  function cfieldCoil(ck){ var g=new THREE.Group(); var cu=MAT(0xb0763a,{metal:0.62,rough:0.4}); var pickRing=null;
+    for(var i=0;i<40;i++){ var r=mesh(new THREE.TorusGeometry(0.6,0.022,8,30),cu,-1.17+i*0.06,0,0); r.rotation.y=Math.PI/2; g.add(r); if(i===20)pickRing=r;
+      tag(r,ck,'Solenoid winding','A long, uniform coil producing the weak "C-field" that sets the quantisation axis and isolates the mF=0 clock transition.'); }
+    var cp=MAT(0x8a8f96,{metal:0.7,rough:0.35});
+    var cL=mesh(new THREE.CylinderGeometry(0.66,0.66,0.05,32),cp,-1.2,0,0); cL.rotation.z=Math.PI/2; g.add(cL);
+    var cR=mesh(new THREE.CylinderGeometry(0.66,0.66,0.05,32),cp,1.2,0,0); cR.rotation.z=Math.PI/2; g.add(cR);
+    tag(cL,ck,'Bobbin caps','End caps the solenoid wire is wound between.'); tag(cR,ck,'Bobbin caps','End caps the solenoid wire is wound between.');
+    function shield(rr,op){ var s=mesh(new THREE.CylinderGeometry(rr,rr,2.6,32,1,true), new THREE.MeshStandardMaterial({color:0x5a6b7a,metalness:0.5,roughness:0.3,transparent:true,opacity:op,side:THREE.DoubleSide}),0,0,0); s.rotation.z=Math.PI/2; return s; }
+    var sh1=shield(0.74,0.09), sh2=shield(0.86,0.06); g.add(sh1); g.add(sh2);
+    tag(sh1,ck,'Mu-metal shield','Nested high-permeability shields that keep Earth and stray fields out, so only the controlled C-field reaches the atoms.');
+    tag(sh2,ck,'Mu-metal shield','Nested high-permeability shields that keep Earth and stray fields out, so only the controlled C-field reaches the atoms.');
+    var ld1=mesh(new THREE.CylinderGeometry(0.02,0.02,0.6,8), MAT(0xcc5555,{metal:0.3,rough:0.5}),-1.2,-0.55,0.2); g.add(ld1);
+    var ld2=mesh(new THREE.CylinderGeometry(0.02,0.02,0.6,8), MAT(0x3a3a3a,{metal:0.3,rough:0.5}),1.2,-0.55,0.2); g.add(ld2);
+    tag(ld1,ck,'Current leads','The stable current source feeding the solenoid.'); tag(ld2,ck,'Current leads','The stable current source feeding the solenoid.');
+    g.userData.pick=pickRing; return g; }
+
+  function detectorUnit(ck){ var g=new THREE.Group();
+    var hous=mesh(new THREE.CylinderGeometry(0.4,0.4,0.6,24), MAT(0x4a5260,{metal:0.7,rough:0.4}),0,0,0); hous.rotation.z=Math.PI/2; g.add(hous);
+    tag(hous,ck,'Detector housing','Shielded can holding the ioniser and multiplier under vacuum.');
+    var fl=mesh(new THREE.CylinderGeometry(0.46,0.46,0.06,24), MAT(0x7a8694,{metal:0.8,rough:0.3}),-0.3,0,0); fl.rotation.z=Math.PI/2; g.add(fl);
+    tag(fl,ck,'Mounting flange','Flange sealing the detector to the end of the beam tube.');
+    var detMat=new THREE.MeshStandardMaterial({color:0xff8a6a,metalness:0.3,roughness:0.4,emissive:0xff6a52,emissiveIntensity:0.2});
+    var fil=mesh(new THREE.TorusGeometry(0.15,0.022,8,24,Math.PI*1.3), detMat,-0.22,0,0); fil.rotation.y=Math.PI/2; g.add(fil);
+    tag(fil,ck,'Hot wire','A glowing platinum wire. A caesium atom landing on it is ionised and leaves as a charged ion — turning each atom into a countable electrical event.');
+    var dyn=MAT(0x9aa0a8,{metal:0.8,rough:0.3});
+    for(var d=0;d<5;d++){ var dm=mesh(rbox(0.04,0.3,0.32),dyn,0.08+d*0.09,(d%2?0.08:-0.08),0); g.add(dm); tag(dm,ck,'Electron multiplier','A dynode chain that amplifies each single-ion signal into a measurable current pulse.'); }
+    var coll=mesh(rbox(0.05,0.4,0.42), MAT(0x8a8f96,{metal:0.7,rough:0.3}),0.55,0,0); g.add(coll);
+    tag(coll,ck,'Collector','Picks up the multiplied charge; its current is the detector signal.');
+    var bnc=mesh(new THREE.CylinderGeometry(0.07,0.07,0.2,16), MAT(0xc9a94a,{metal:0.8,rough:0.3}),0.75,0,0); bnc.rotation.z=Math.PI/2; g.add(bnc);
+    tag(bnc,ck,'Signal output','Coax output carrying the atom-count signal to the servo.');
+    g.userData.detMat=detMat; g.userData.pick=hous; return g; }
+
+  function canXO(ck){ var g=new THREE.Group(); var steel=MAT(0xb8bfc8,{metal:0.85,rough:0.25});
+    // OCXO oven enclosure (semi-transparent to reveal the crystal)
+    var ov=mesh(rbox(0.7,0.68,0.6), MAT(0x2a3038,{metal:0.6,rough:0.45,transparent:true,opacity:0.5}),0,0.3,0); g.add(ov);
+    var lid=mesh(rbox(0.74,0.05,0.64), MAT(0x4a5260,{metal:0.7,rough:0.3}),0,0.65,0); g.add(lid);
+    tag(ov,ck,'OCXO oven','A tiny thermostatted oven holding the crystal at a fixed temperature, so its frequency barely drifts.');
+    tag(lid,ck,'Oven lid','Insulated lid of the crystal oven.');
+    var can=mesh(new THREE.CylinderGeometry(0.2,0.2,0.4,24), steel,0,0.56,0); g.add(can);
+    var dome=mesh(new THREE.SphereGeometry(0.2,24,12,0,Math.PI*2,0,Math.PI/2), steel,0,0.74,0); g.add(dome);
+    tag(can,ck,'Quartz crystal','The 5 MHz quartz resonator in its metal can — the oscillator that the atoms discipline into a clock.');
+    tag(dome,ck,'Quartz crystal','The 5 MHz quartz resonator in its metal can — the oscillator that the atoms discipline into a clock.');
+    var board=mesh(rbox(1.0,0.07,0.78), MAT(0x1f3a2a,{metal:0.2,rough:0.7}),0,-0.03,0); g.add(board);
+    tag(board,ck,'Oscillator PCB','The sustaining-amplifier board that keeps the crystal ringing.');
+    var trim=mesh(new THREE.CylinderGeometry(0.06,0.06,0.08,12), MAT(0xd0b050,{metal:0.6,rough:0.3}),0.35,0.04,0.25); g.add(trim);
+    tag(trim,ck,'Varactor trim','The voltage-controlled element the servo nudges to steer the frequency onto the atomic line.');
+    for(var p=0;p<4;p++){ var pin=mesh(new THREE.CylinderGeometry(0.014,0.014,0.2,6), MAT(0xd9a441,{metal:0.6}),-0.15+p*0.1,-0.14,-0.2); g.add(pin); tag(pin,ck,'Output pins','Pins carrying the 5 MHz reference out to the synthesizer and divider.'); }
+    g.userData.pick=can; return g; }
+
+  function rfBox(ck){ var g=new THREE.Group();
+    var body=mesh(rbox(1.0,0.5,0.7), MAT(0x30414f,{metal:0.6,rough:0.4}),0,0.12,0); g.add(body);
+    var lid=mesh(rbox(1.04,0.06,0.74), MAT(0x4a5868,{metal:0.7,rough:0.3}),0,0.4,0); g.add(lid);
+    tag(body,ck,'Shielded enclosure','An RF-tight cast box that keeps the synthesis stages from radiating into each other.');
+    tag(lid,ck,'Enclosure lid','Gasketed lid completing the RF shield.');
+    for(var f=0;f<5;f++){ var fin=mesh(rbox(0.9,0.12,0.03), MAT(0x5a6676,{metal:0.7,rough:0.35}),0,0.5,-0.24+f*0.12); g.add(fin); tag(fin,ck,'Heatsink','Fins carrying heat away from the multiplier amplifiers.'); }
+    for(var i=0;i<3;i++){ var sma=mesh(new THREE.CylinderGeometry(0.05,0.05,0.14,12), MAT(0xc9a94a,{metal:0.8,rough:0.3}),0.57,0.12,-0.2+i*0.2); sma.rotation.z=Math.PI/2; g.add(sma); tag(sma,ck,'SMA ports','RF connectors: 5 MHz in, 9.192 GHz out to the cavity.'); }
+    var mult=mesh(new THREE.CylinderGeometry(0.1,0.1,0.22,16), MAT(0x9aa0a8,{metal:0.85,rough:0.25}),-0.3,0.46,0.12); g.add(mult);
+    tag(mult,ck,'Multiplier chain','Step-recovery / PLL stages that multiply 5 MHz up to 9,192,631,770 Hz.');
+    var cj=mesh(new THREE.CylinderGeometry(0.03,0.03,0.5,10), MAT(0x1a1a1a,{rough:0.6}),0.28,0.3,0.25); cj.rotation.z=0.6; g.add(cj);
+    tag(cj,ck,'Coax jumper','Semi-rigid coax routing the microwave output to the cavity feed.');
+    var board=mesh(rbox(1.12,0.07,0.82), MAT(0x1f3a2a,{metal:0.2,rough:0.7}),0,-0.16,0); g.add(board);
+    tag(board,ck,'Synth PCB','The synthesizer board beneath the shield.');
+    g.userData.pick=body; return g; }
+
+  function servoBoard(ck){ var g=new THREE.Group();
+    var board=mesh(rbox(1.15,0.07,0.85), MAT(0x173a2a,{metal:0.2,rough:0.7}),0,0,0); g.add(board);
+    tag(board,ck,'Servo PCB','The feedback board that closes the loop between the detector and the oscillator.');
+    for(var i=0;i<3;i++){ var ic=mesh(rbox(0.22,0.08,0.4), MAT(0x0d0d0d,{rough:0.5}),-0.3+i*0.3,0.07,0.05); g.add(ic); tag(ic,ck,'Lock-in amp','Demodulates the dithered detector signal to measure how far off resonance the microwave is.'); }
+    var tp=mesh(new THREE.CylinderGeometry(0.08,0.08,0.06,16), MAT(0x2a6ad0,{metal:0.3,rough:0.5}),0.4,0.07,-0.25); g.add(tp);
+    tag(tp,ck,'Loop-gain trim','Sets how hard the servo pushes — too much rings, too little drifts.');
+    for(var h=0;h<6;h++){ var pn=mesh(rbox(0.03,0.12,0.03), MAT(0xd9a441,{metal:0.7}),-0.45+h*0.06,0.1,0.36); g.add(pn); tag(pn,ck,'I/O header','Connections: detector in, correction voltage out to the crystal.'); }
+    var cap=mesh(new THREE.CylinderGeometry(0.07,0.07,0.16,16), MAT(0x1a1a2a,{rough:0.5}),0.25,0.1,0.28); g.add(cap);
+    tag(cap,ck,'Integrator cap','Sets the servo time constant that averages out noise.');
+    var led=mesh(new THREE.SphereGeometry(0.05,12,10), new THREE.MeshStandardMaterial({color:0x3ae07a,emissive:0x2ad060,emissiveIntensity:0.7}),-0.5,0.09,-0.3); g.add(led);
+    tag(led,ck,'Lock LED','Lights green when the oscillator is locked to the caesium resonance.');
+    g.userData.pick=board; return g; }
+
+  function dividerBoard(ck){ var g=new THREE.Group();
+    var board=mesh(rbox(1.15,0.07,0.85), MAT(0x2a2a1a,{metal:0.2,rough:0.7}),0,0,0); g.add(board);
+    tag(board,ck,'Divider PCB','The board that turns the locked frequency into usable time pulses.');
+    for(var i=0;i<2;i++){ var ic=mesh(rbox(0.3,0.08,0.45), MAT(0x0d0d0d,{rough:0.5}),-0.25+i*0.45,0.07,0.05); g.add(ic); tag(ic,ck,'Divider chain','Counts down 9,192,631,770 cycles — exactly the SI definition — and emits one pulse when it reaches the total.'); }
+    var bnc=mesh(new THREE.CylinderGeometry(0.08,0.08,0.2,16), MAT(0xc9a94a,{metal:0.8,rough:0.3}),0.56,0.05,0.25); bnc.rotation.z=Math.PI/2; g.add(bnc);
+    tag(bnc,ck,'1 PPS output','The one-pulse-per-second output — the clock tick that drives the time display.');
+    var disp=mesh(rbox(0.3,0.04,0.18), new THREE.MeshStandardMaterial({color:0x100a0a,metalness:0.4,roughness:0.3,emissive:0x661010,emissiveIntensity:0.3}),0.2,0.09,-0.25); g.add(disp);
+    tag(disp,ck,'Indicator window','Front-panel window for the pulse indicator.');
+    var led=mesh(new THREE.SphereGeometry(0.06,16,12), new THREE.MeshStandardMaterial({color:0xff4a3a,emissive:0xff2a1a,emissiveIntensity:0.3}),-0.45,0.1,-0.28); g.add(led);
+    tag(led,ck,'1 PPS LED','Flashes once each second, in step with the clock above.');
+    var lbl=mesh(rbox(0.4,0.02,0.16), MAT(0x9aa0a8,{metal:0.7,rough:0.3}),-0.1,0.09,0.33); g.add(lbl);
+    tag(lbl,ck,'Label plate','Serial / model plate.');
+    g.userData.led=led; g.userData.pick=board; return g; }
+  function line(p,x1,y1,x2,y2,color){ var g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x1,y1,0),new THREE.Vector3(x2,y2,0)]);
+    p.add(new THREE.Line(g, new THREE.LineBasicMaterial({color:color}))); }
+  function reg(key,group,pickMesh){ PK[key]=group; if(pickMesh){ pickMesh.userData.key=key; pickable.push(pickMesh);} }
+
+  function setCol(i,c){ colorA[i*3]=c.r; colorA[i*3+1]=c.g; colorA[i*3+2]=c.b; }
+
+  // ---------- atom lifecycle ----------
+  function spawn(){ return { x:-6.1, y:(Math.random()-0.5)*0.5, z:(Math.random()-0.5)*0.3,
+    v:3.4+Math.random()*1.2, state:Math.random()<0.5?3:4, sel:false, decided:false, flipped:false, dumped:false, counted:false, life:0 }; }
+  function stepAtom(at,dt){
+    at.x += at.v*dt; at.life+=dt;
+    // A-magnet selection (~ x=-4): keep F=3 near axis, push F=4 out
+    if(!at.sel && at.x>-4.3){
+      at.sel = (at.state===3);
+      if(!at.sel) at.dumped=true;
+    }
+    if(at.dumped){ at.y += (at.y>=0?1:-1)*1.6*dt; }
+    else {
+      // gentle pull to axis for selected beam
+      at.y += (0 - at.y)*Math.min(1, dt*4);
+      // Ramsey flip decided after second zone (~x=1.6)
+      if(!at.decided && at.x>1.6){ at.decided=true; at.flipped = Math.random() < S.flipProb; if(at.flipped) at.state=4; else at.dumped=(Math.random()<0.5); if(at.dumped&&!at.flipped){} }
+      // B-magnet: unflipped that reached here get dumped
+      if(at.decided && !at.flipped && at.x>3.6 && !at.dumped){ at.dumped=true; }
+    }
+    // detector / recycle
+    if(at.x>6.0 && at.flipped && !at.counted){ at.counted=true; detFlash=1; }
+    if(at.x>6.6 || Math.abs(at.y)>1.4){ var n=spawn(); Object.assign(at,n); }
+  }
+  var detFlash=0;
+
+  // ---------- fringe canvas ----------
+  var fc=$('fringe'), fx=fc.getContext('2d');
+  function drawFringe(){
+    var w=fc.width,h=fc.height,pad=30;
+    fx.clearRect(0,0,w,h);
+    fx.strokeStyle='#15202c'; fx.strokeRect(pad,10,w-pad-10,h-pad-6);
+    function X(d){ return pad+(d+3000)/6000*(w-pad-10); }
+    function Y(p){ return (h-pad)-p*(h-pad-10); }
+    // zero line + axis labels
+    fx.fillStyle='#3a4a5a'; fx.fillRect(X(0),10,1,h-pad-6);
+    fx.fillStyle='#566a7e'; fx.font='10px "JetBrains Mono",monospace';
+    fx.fillText('−3 kHz',pad,h-10); fx.fillText('0',X(0)-3,h-10); fx.fillText('+3 kHz',w-58,h-10);
+    fx.fillText('P',6,20);
+    // curve
+    fx.strokeStyle=getCss('--mw'); fx.lineWidth=2; fx.beginPath();
+    for(var px=0;px<=240;px++){ var d=-3000+px/240*6000; var p=ramseyP(d); var x=X(d),y=Y(p); if(px===0)fx.moveTo(x,y); else fx.lineTo(x,y); }
+    fx.stroke();
+    // lock marker
+    var lx=X(S.det), ly=Y(ramseyP(S.det));
+    fx.strokeStyle=getCss('--teal'); fx.lineWidth=1; fx.beginPath(); fx.moveTo(lx,10); fx.lineTo(lx,h-pad); fx.stroke();
+    fx.fillStyle=getCss('--teal'); fx.beginPath(); fx.arc(lx,ly,4,0,7); fx.fill();
+  }
+  var cssC={}; function getCss(v){ if(cssC[v])return cssC[v]; cssC[v]=getComputedStyle(document.documentElement).getPropertyValue(v).trim(); return cssC[v]; }
+
+  // ---------- camera ----------
+  var camR=16, camTheta=0.5, camPhi=1.15, target=new THREE.Vector3(0,-0.4,0);
+  var goalR=16, goalTheta=0.5, goalPhi=1.15, goalT=target.clone();
+  var lastInteract=performance.now(), touring=false, follow=false, followIdx=-1, selected=null, selIsPart=false;
+  function updateCam(){
+    camR += (goalR-camR)*0.1; camTheta += (goalTheta-camTheta)*0.1; camPhi += (goalPhi-camPhi)*0.1;
+    target.lerp(goalT,0.1);
+    camera.position.set(target.x+camR*Math.sin(camPhi)*Math.sin(camTheta), target.y+camR*Math.cos(camPhi), target.z+camR*Math.sin(camPhi)*Math.cos(camTheta));
+    camera.lookAt(target);
+  }
+  function interact(){ lastInteract=performance.now(); if(touring){touring=false; $('tourInd').classList.remove('on');} }
+  // --- highlight a selected sub-part ---
+  var hiMesh=null, hiBase=0, hiHex=null;
+  function clearHi(){ if(hiMesh&&hiMesh.material){ hiMesh.material.emissiveIntensity=hiBase; if(hiHex!=null&&hiMesh.material.emissive)hiMesh.material.emissive.setHex(hiHex); } hiMesh=null; }
+  function setHi(m){ clearHi(); if(m&&m.material){ hiMesh=m; hiBase=m.material.emissiveIntensity||0; hiHex=m.material.emissive?m.material.emissive.getHex():null; if(m.material.emissive)m.material.emissive.setHex(0x35e0d0); m.material.emissiveIntensity=0.7; } }
+  function markComp(k){ document.querySelectorAll('.comps button').forEach(function(b){ b.classList.toggle('on', b.dataset.k===k); }); }
+  function renderSubs(comp, active){ var box=$('subs'); box.innerHTML=''; var arr=partsByComp[comp]||[];
+    if(!arr.length){ box.style.display='none'; return; } box.style.display='flex';
+    arr.forEach(function(p){ var b=document.createElement('button'); b.textContent=p.name; if(active===p.name)b.className='on';
+      b.addEventListener('click',function(){ focusPart({comp:comp,name:p.name,desc:p.desc}, p.mesh); }); box.appendChild(b); }); }
+  function focusComp(c){ goalT.set(c.x, c.y||0, 0); goalR=c.r; selected=c.key; selIsPart=false; clearHi();
+    $('selName').textContent=c.name; $('selDesc').textContent=c.desc; $('selRo').textContent=c.ro(); $('selBox').hidden=false;
+    markComp(c.key); renderSubs(c.key,null); setLabels('parts',c.key,null); interact();
+  }
+  var vtmp=new THREE.Vector3();
+  function focusPart(info, m){ m.getWorldPosition(vtmp); goalT.copy(vtmp); goalR=1.5; selected=info.comp; selIsPart=true;
+    $('selName').textContent=info.name; $('selDesc').textContent=info.desc; $('selRo').textContent=''; $('selBox').hidden=false;
+    setHi(m); markComp(info.comp); renderSubs(info.comp, info.name); setLabels('parts',info.comp,info.name); interact();
+  }
+  // --- floating 3D labels (components in overview, sub-parts when drilled in) ---
+  var labelsOn=true, labelDefs=[], labKind='comp', labComp=null, labActive=null, lp=new THREE.Vector3();
+  function clearLabels(){ labelDefs=[]; var L=$('labels'); if(L) L.innerHTML=''; }
+  function mkLabel(text, cls, onClick){ var e=document.createElement('div'); e.className='lbl'+(cls?' '+cls:''); e.textContent=text;
+    e.addEventListener('click',function(ev){ ev.stopPropagation(); onClick(); }); $('labels').appendChild(e); return e; }
+  function setLabels(kind, comp, active){ clearLabels(); labKind=kind; labComp=comp; labActive=active||null; if(!labelsOn) return;
+    if(kind==='comp'){ COMPS.forEach(function(c){ var e=mkLabel(c.name.split(' · ')[0],'comp',function(){ focusComp(c); });
+      labelDefs.push({el:e, cx:c.x, cy:c.y||0}); }); }
+    else { var arr=partsByComp[comp]||[]; arr.forEach(function(p){ var e=mkLabel(p.name,(active===p.name?'active':''),function(){ focusPart({comp:comp,name:p.name,desc:p.desc}, p.mesh); });
+      labelDefs.push({el:e, mesh:p.mesh}); }); }
+  }
+  function updateLabels(){ if(!labelDefs.length) return; var w=canvas.clientWidth, h=canvas.clientHeight;
+    for(var i=0;i<labelDefs.length;i++){ var d=labelDefs[i];
+      if(d.mesh) d.mesh.getWorldPosition(lp); else lp.set(d.cx,d.cy,0);
+      lp.project(camera);
+      if(lp.z>1){ d.el.style.display='none'; continue; }
+      var x=(lp.x*0.5+0.5)*w, y=(-lp.y*0.5+0.5)*h;
+      if(x<-60||x>w+60||y<-30||y>h+30){ d.el.style.display='none'; continue; }
+      d.el.style.display='block'; d.el.style.left=x+'px'; d.el.style.top=y+'px';
+    }
+  }
+
+  // --- exploded view: scale each part out from its sub-assembly centre ---
+  var explodeAmt=0, explodeTarget=0, EXPL=1.3;
+  function applyExplode(dt){ explodeAmt += (explodeTarget-explodeAmt)*Math.min(1,dt*6);
+    var k=1+explodeAmt*EXPL;
+    for(var i=0;i<pickParts.length;i++){ var m=pickParts[i]; if(m.userData.base) m.position.copy(m.userData.base).multiplyScalar(k); }
+  }
+
+  // --- guided tour: walk the chain in beam order ---
+  var tourActive=false, tourT=0, tourIdx=-1;
+  var TOUR=['oven','amag','cavity','cfield','bmag','detector','quartz','synth','servo','divider','vacuum'];
+  function startTour(){ tourActive=true; tourIdx=-1; follow=false; $('btnFollow').setAttribute('aria-pressed',false); $('btnTour').setAttribute('aria-pressed',true); advanceTour(); }
+  function stopTour(){ tourActive=false; $('btnTour').setAttribute('aria-pressed',false); $('tourbar').style.display='none'; }
+  function advanceTour(){ tourIdx++; if(tourIdx>=TOUR.length){ stopTour(); return; }
+    var c=compByKey[TOUR[tourIdx]]; if(!c){ advanceTour(); return; } focusComp(c); tourT=0;
+    var tb=$('tourbar'); tb.style.display='block'; tb.textContent='▶ '+c.name+'  ·  '+(tourIdx+1)+' / '+TOUR.length; }
+
+  var dragging=false, moved=0, lx=0, ly=0, downX=0, downY=0;
+  canvas.addEventListener('pointerdown',function(e){ dragging=true; moved=0; lx=downX=e.clientX; ly=downY=e.clientY; follow=false; $('btnFollow').setAttribute('aria-pressed',false); if(tourActive)stopTour(); interact(); canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener('pointermove',function(e){ if(!dragging)return; moved+=Math.abs(e.clientX-lx)+Math.abs(e.clientY-ly);
+    goalTheta-=(e.clientX-lx)*0.008; goalPhi=Math.max(0.2,Math.min(1.5,goalPhi-(e.clientY-ly)*0.007)); lx=e.clientX; ly=e.clientY; interact(); });
+  canvas.addEventListener('pointerup',function(e){ dragging=false; if(moved<6) pickAt(e.clientX,e.clientY); });
+  canvas.addEventListener('wheel',function(e){ e.preventDefault(); if(tourActive)stopTour(); goalR=Math.max(2.4,Math.min(22,goalR+e.deltaY*0.012)); interact(); },{passive:false});
+  var pd=0; canvas.addEventListener('touchstart',function(e){ if(e.touches.length===2)pd=d2(e); });
+  canvas.addEventListener('touchmove',function(e){ if(e.touches.length===2){ var d=d2(e); goalR=Math.max(2.4,Math.min(22,goalR+(pd-d)*0.022)); pd=d; interact(); } },{passive:true});
+  function d2(e){ var dx=e.touches[0].clientX-e.touches[1].clientX, dy=e.touches[0].clientY-e.touches[1].clientY; return Math.sqrt(dx*dx+dy*dy); }
+
+  function pickAt(cx,cy){ var r=canvas.getBoundingClientRect();
+    pointer.x=((cx-r.left)/r.width)*2-1; pointer.y=-((cy-r.top)/r.height)*2+1;
+    raycaster.setFromCamera(pointer,camera);
+    var hp=raycaster.intersectObjects(pickParts,false);
+    if(hp.length){ var info=hp[0].object.userData.info; if(info) return focusPart(info, hp[0].object); }
+    var hits=raycaster.intersectObjects(pickable,false);
+    if(hits.length){ var k=hits[0].object.userData.key; if(k&&compByKey[k]) focusComp(compByKey[k]); }
+  }
+
+  // ---------- controls ----------
+  COMPS.forEach(function(c){ var b=document.createElement('button'); b.textContent=c.name.split(' · ')[0]; b.dataset.k=c.key;
+    b.addEventListener('click',function(){ focusComp(c); }); $('comps').appendChild(b); });
+  $('btnView').addEventListener('click',function(){ if(tourActive)stopTour(); goalT.set(0,-0.4,0); goalR=16; goalTheta=0.5; goalPhi=1.15; selected=null; selIsPart=false; clearHi(); $('selBox').hidden=true; $('subs').style.display='none'; document.querySelectorAll('.comps button').forEach(function(b){b.classList.remove('on');}); setLabels('comp'); interact(); });
+  $('btnLabels').addEventListener('click',function(){ labelsOn=!labelsOn; this.setAttribute('aria-pressed',labelsOn); setLabels(labKind,labComp,labActive); });
+  $('btnExplode').addEventListener('click',function(){ var on=this.getAttribute('aria-pressed')!=='true'; this.setAttribute('aria-pressed',on); explodeTarget=on?1:0; });
+  $('btnTour').addEventListener('click',function(){ if(tourActive) stopTour(); else startTour(); });
+  $('btnCut').addEventListener('click',function(){ var on=this.getAttribute('aria-pressed')!=='true'; this.setAttribute('aria-pressed',on); PK.tube.visible=!on; });
+  $('btnHighlight').addEventListener('click',function(){ var on=this.getAttribute('aria-pressed')!=='true'; this.setAttribute('aria-pressed',on); atomMat.uniforms.uBright.value=on?1.0:0.45; });
+  $('btnFollow').addEventListener('click',function(){ follow=this.getAttribute('aria-pressed')!=='true'; this.setAttribute('aria-pressed',follow); if(follow){ followIdx=pickFollow(); interact(); } });
+  $('btnRelock').addEventListener('click',function(){ S.det=1500+(Math.random()-0.5)*600; S.locked=false; S.lockTime=0; S.tau=0; });
+  function pickFollow(){ for(var i=0;i<ATOMS.length;i++){ if(ATOMS[i].sel&&!ATOMS[i].dumped&&ATOMS[i].x<0) return i; } return 0; }
+
+  // ---------- clock ----------
+  var fmtET = new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+  var fmtTZ = new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',timeZoneName:'short'});
+  var fmtDate = new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',month:'short',day:'numeric'});
+  var fmtUTC = new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  function tzAbbr(now){ try{ var parts=fmtTZ.formatToParts(now); for(var i=0;i<parts.length;i++) if(parts[i].type==='timeZoneName') return parts[i].value; }catch(e){} return 'ET'; }
+
+  // ---------- loop ----------
+  var last=performance.now(), prevSec=-1;
+  function tick(now){
+    requestAnimationFrame(tick);
+    var dt=Math.min(0.05,(now-last)/1000); last=now;
+    applyExplode(dt);
+    if(tourActive){ tourT+=dt; if(tourT>4.8) advanceTour(); }
+
+    // servo: converge det -> 0 with residual dither; track lock
+    var dither = S.locked? 8 : 0;
+    S.det += (0 - S.det)*Math.min(1,dt*0.6) + (Math.random()-0.5)*dither;
+    if(Math.abs(S.det)<25){ S.lockTime+=dt; if(S.lockTime>1.2) S.locked=true; } else { S.lockTime=0; S.locked=false; }
+    if(S.locked) S.tau+=dt;
+    S.flipProb = ramseyP(S.det);
+
+    // atoms
+    for(var i=0;i<ATOMS.length;i++){ var at=ATOMS[i]; stepAtom(at,dt);
+      posA[i*3]=at.x; posA[i*3+1]=at.y; posA[i*3+2]=at.z;
+      waveA[i] = 16 + at.v*6;                                   // de Broglie: faster atoms get tighter fringes
+      var sup = at.sel && !at.decided && at.x>-1.9 && at.x<1.9; // in superposition while crossing the cavity
+      mixA[i] = sup?1:0;
+      var c = at.dumped? colDim : (at.state===4? colF4 : colF3);
+      colorA[i*3]=c.r; colorA[i*3+1]=c.g; colorA[i*3+2]=c.b;
+    }
+    atomGeo.attributes.position.needsUpdate=true; atomGeo.attributes.aColor.needsUpdate=true;
+    atomGeo.attributes.aWave.needsUpdate=true; atomGeo.attributes.aMix.needsUpdate=true;
+    atomMat.uniforms.uTime.value = now*0.001;
+    atomMat.uniforms.uAspect.value = Math.max(0.2, canvas.clientWidth/Math.max(1,canvas.clientHeight));
+
+    // cavity glow pulses with microwave; detector flash
+    var gl=0.25+0.2*Math.sin(now*0.006)+ (S.locked?0.15:0);
+    PK.cz1&&(PK.cz1.children[0].material.emissiveIntensity=gl); PK.cz2&&(PK.cz2.children[0].material.emissiveIntensity=gl);
+    if(PK.detMat){ PK.detMat.emissive.setHex(0xff6a52); PK.detMat.emissiveIntensity=0.1+detFlash*0.8; }
+    detFlash=Math.max(0,detFlash-dt*3);
+    if(PK.ppsLed) PK.ppsLed.material.emissiveIntensity=Math.max(0.3, PK.ppsLed.material.emissiveIntensity-dt*3.5);
+
+    // follow
+    if(follow){ var f=ATOMS[followIdx]; if(!f||f.dumped||f.x>6){ followIdx=pickFollow(); f=ATOMS[followIdx]; } if(f){ goalT.set(f.x,f.y,f.z); goalR=3.2; } }
+
+    // idle tour
+    if(!reduced && !follow && !tourActive && now-lastInteract>5000){ if(!touring){touring=true; $('tourInd').classList.add('on');} goalTheta+=0.0013; }
+    updateCam();
+    updateLabels();
+
+    // ---- real time ----
+    var jsNow=Date.now();
+    var etT=fmtET.format(jsNow), ab=tzAbbr(jsNow);
+    $('etTime').textContent=etT; $('pET').textContent=etT;
+    $('etDate').textContent=fmtDate.format(jsNow)+' · '+ab+' · Spring Hill, FL';
+    $('pUTC').textContent=fmtUTC.format(jsNow)+'Z';
+    var ms=jsNow%1000, cyc=Math.floor(ms/1000*NU_CS);
+    $('pCyc').textContent=cyc.toLocaleString('en-US'); $('barCyc').style.width=(ms/10)+'%';
+    var sec=Math.floor(jsNow/1000); if(sec!==prevSec){ prevSec=sec; $('pps').classList.add('on'); if(PK.ppsLed) PK.ppsLed.material.emissiveIntensity=1.6; setTimeout(function(){$('pps').classList.remove('on');},120); }
+
+    // ---- panels ----
+    $('pLock').textContent=S.locked?'LOCKED':'ACQUIRING'; $('pLock').style.color=S.locked?'var(--ok)':'var(--warn)';
+    $('lockHud').classList.toggle('lk',S.locked); $('lockName').textContent=S.locked?'Locked to Cs':'Acquiring';
+    $('pDet').textContent=fmtDet(S.det);
+    $('pFrac').textContent=fmtFrac(S.det/NU_CS);
+    if(S.locked && S.tau>0.5){ var sig=1.2e-12/Math.sqrt(S.tau); $('pAllan').textContent=fmtFrac(sig)+' @ '+S.tau.toFixed(0)+'s'; }
+    else $('pAllan').textContent='—';
+    if(selected && !selIsPart && !$('selBox').hidden && compByKey[selected]){ $('selRo').textContent=compByKey[selected].ro(); }
+
+    drawFringe();
+    renderer.render(scene,camera);
+  }
+
+  function resize(){ var r=canvas.getBoundingClientRect(), w=Math.max(1,r.width), h=Math.max(1,r.height);
+    renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1)); renderer.setSize(w,h,false);
+    camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  window.addEventListener('resize',resize);
+
+  if(!THREE){ canvas.insertAdjacentHTML('afterend','<div style="position:absolute;inset:0;display:grid;place-items:center;color:#8aa0b4;font-family:monospace">3D library failed to load</div>'); }
+  else { build(); setLabels('comp'); requestAnimationFrame(tick); }
+})();
+</script>
+
+</body>
+</html>

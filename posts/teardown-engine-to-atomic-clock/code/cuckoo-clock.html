@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0;padding:0}</style>
+</head>
+<body>
+<title>Cuckoo Clock Teardown</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Layout: a lit cutaway of a Black Forest movement at centre, HUD overlay, a control rail,
+     a ring of instrument panels, and a scrolling escapement-beat trace reading the going train. */
+  :root{
+    --bg:#0b0c09; --bg2:#12120d; --panel:#16150f; --panel2:#1c1b13;
+    --line:#2a2920; --line2:#39382b;
+    --fg:#efe9db; --muted:#a39a84; --faint:#6b6454;
+    --brass:#e2b457;      /* brass / pendulum — the accent */
+    --wood:#8a5a34;       /* Black Forest walnut */
+    --hi:#ffd27a;         /* high bellows note */
+    --lo:#c98a3c;         /* low bellows note */
+    --ok:#6fd38a;         /* rate on-time */
+    --warn:#e6b84d;
+    --bad:#ff6a52;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{
+    background:radial-gradient(130% 90% at 50% -10%, #17160f 0%, var(--bg) 62%) fixed;
+    color:var(--fg); font:14px/1.5 "Barlow", system-ui, sans-serif; margin:0;
+  }
+  .wrap{max-width:1180px; margin:0 auto;
+    padding-left:max(16px, env(safe-area-inset-left,0px));
+    padding-right:max(16px, env(safe-area-inset-right,0px));
+    padding-block:22px 40px;}
+  .mono{font-family:"JetBrains Mono", ui-monospace, monospace; font-variant-numeric:tabular-nums}
+
+  header{display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 16px; margin-bottom:16px}
+  h1{font-family:"Oswald", sans-serif; font-weight:600; letter-spacing:.13em; text-transform:uppercase;
+    font-size:clamp(20px,3.3vw,30px); margin:0; text-wrap:balance;}
+  h1 .k{color:var(--brass)}
+  .sub{color:var(--muted); font-size:13px; max-width:64ch}
+  .repo{margin-left:auto; font-size:11.5px; letter-spacing:.04em; color:var(--faint);
+    border:1px solid var(--line); border-radius:999px; padding:4px 11px; white-space:nowrap;}
+  .repo b{color:var(--muted); font-weight:500}
+
+  .stage{position:relative; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:linear-gradient(180deg,#100f0a,#0a0906); aspect-ratio:16/10; width:100%;
+    box-shadow:inset 0 0 90px rgba(0,0,0,.6);}
+  @media(max-width:560px){ .stage{aspect-ratio:3/4} }
+  #scene{display:block; width:100%; height:100%; touch-action:none; cursor:grab}
+  #scene:active{cursor:grabbing}
+
+  .hud{position:absolute; inset:0; pointer-events:none; padding:12px}
+  .hud-tl{position:absolute; top:12px; left:12px; display:flex; flex-direction:column; gap:7px}
+  .pill{display:inline-flex; align-items:center; gap:8px; align-self:flex-start;
+    background:rgba(10,9,6,.74); border:1px solid var(--line2); border-radius:8px; padding:6px 11px; backdrop-filter:blur(3px);}
+  .pill .nm{font-family:"Oswald",sans-serif; letter-spacing:.12em; text-transform:uppercase; font-size:13px}
+  .pill .ph{color:var(--muted); font-size:11px}
+  .clockbadge b{font-family:"JetBrains Mono",monospace; font-size:17px; color:var(--brass)}
+  .clockbadge span{color:var(--muted); font-size:11px; letter-spacing:.08em}
+  .call{position:absolute; top:12px; right:12px; font-family:"Oswald",sans-serif; letter-spacing:.14em;
+    text-transform:uppercase; font-size:12px; color:var(--faint); border:1px solid var(--line2);
+    border-radius:8px; padding:6px 10px; background:rgba(10,9,6,.74); transition:all .1s;}
+  .call.hi{color:#1a1206; background:var(--hi); border-color:var(--hi); box-shadow:0 0 16px rgba(255,210,122,.6)}
+  .call.lo{color:#fff; background:var(--lo); border-color:var(--lo); box-shadow:0 0 14px rgba(201,138,60,.6)}
+  .tour{position:absolute; bottom:12px; right:12px; font-size:11px; color:var(--faint); letter-spacing:.06em; opacity:0; transition:opacity .4s;}
+  .tour.on{opacity:1}
+
+  .rail{display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin:14px 0 18px;
+    padding:13px 15px; background:var(--panel); border:1px solid var(--line); border-radius:12px;}
+  .lenctl{display:flex; align-items:center; gap:11px; flex:1 1 280px; min-width:240px}
+  .lenctl label{font-family:"Oswald",sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); white-space:nowrap}
+  input[type=range]{flex:1; min-width:0; accent-color:var(--brass); height:4px}
+  .lenval{font-family:"JetBrains Mono",monospace; font-size:14px; min-width:70px; text-align:right}
+  .btns{display:flex; flex-wrap:wrap; gap:8px}
+  button{font-family:"Oswald",sans-serif; letter-spacing:.07em; text-transform:uppercase; font-size:12px;
+    color:var(--fg); background:var(--panel2); border:1px solid var(--line2); border-radius:8px;
+    padding:8px 13px; cursor:pointer; transition:border-color .12s, background .12s, color .12s;}
+  button:hover{border-color:var(--faint)}
+  button[aria-pressed=true]{background:rgba(226,180,87,.15); border-color:var(--brass); color:var(--brass)}
+  button.cuckoo{background:rgba(201,138,60,.14); border-color:var(--lo); color:var(--hi)}
+  .speed{display:inline-flex; border:1px solid var(--line2); border-radius:8px; overflow:hidden}
+  .speed button{border:0; border-radius:0; border-left:1px solid var(--line2)}
+  .speed button:first-child{border-left:0}
+  :focus-visible{outline:2px solid var(--brass); outline-offset:2px}
+
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:11px}
+  @media(max-width:820px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  .cell{background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:12px 13px;
+    display:flex; flex-direction:column; gap:3px; min-width:0;}
+  .cell .k{font-family:"Oswald",sans-serif; letter-spacing:.1em; text-transform:uppercase; font-size:11px; color:var(--muted)}
+  .cell .v{font-family:"JetBrains Mono",monospace; font-size:21px; line-height:1.1}
+  .cell .u{font-size:11px; color:var(--faint); margin-left:3px; font-family:"Barlow",sans-serif}
+  .cell .bar{height:4px; border-radius:2px; background:var(--line2); overflow:hidden; margin-top:5px}
+  .cell .bar > i{display:block; height:100%; width:0%; border-radius:2px}
+  .cell.active{border-color:var(--brass); box-shadow:0 0 0 1px rgba(226,180,87,.35)}
+
+  .lower{display:grid; grid-template-columns:1.1fr 1fr; gap:14px; margin-top:14px}
+  @media(max-width:820px){ .lower{grid-template-columns:1fr} }
+  .beatbox, .notebox{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 15px; min-width:0}
+  .beatbox h2, .notebox h2{font-family:"Oswald",sans-serif; font-weight:500; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--muted); margin:0 0 10px}
+  #beat{display:block; width:100%; height:auto; background:#0a0906; border-radius:8px; border:1px solid var(--line)}
+  .beatleg{display:flex; gap:14px; margin-top:9px; font-size:11px; color:var(--muted); flex-wrap:wrap}
+  .beatleg i{display:inline-block; width:9px; height:9px; border-radius:50%; vertical-align:middle; margin-right:5px}
+  .notebox p{margin:0 0 9px; color:#ddd5c4; font-size:13px}
+  .notebox p:last-child{margin-bottom:0}
+  .notebox b{color:var(--fg)}
+  .notebox code{font-family:"JetBrains Mono",monospace; font-size:12px; background:var(--bg2); border:1px solid var(--line); border-radius:5px; padding:1px 6px; color:var(--brass)}
+  .foot{margin-top:22px; color:var(--faint); font-size:12px; text-align:center}
+</style>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+
+<div class="wrap">
+  <header>
+    <h1>Cuckoo <span class="k">Clock</span> Teardown</h1>
+    <div class="repo"><b>style of</b> elvarofficial/teardown</div>
+    <div class="sub">Two engines in one case: a going train that keeps time off a swinging pendulum, and a weight-driven strike train that pumps the bellows and pushes the bird. Drag to orbit. It's a minute to three.</div>
+  </header>
+
+  <div class="stage">
+    <canvas id="scene" aria-label="3D cuckoo clock movement"></canvas>
+    <div class="hud">
+      <div class="hud-tl">
+        <span class="pill"><span class="nm" id="stateName">Going train</span><span class="ph mono" id="stateSub">escapement</span></span>
+        <span class="pill clockbadge"><b class="mono" id="hudClock">2:59:30</b> <span>O'CLOCK</span></span>
+      </div>
+      <div class="call" id="callInd">Bellows</div>
+      <div class="tour" id="tourInd">◇ idle tour — drag to take over</div>
+    </div>
+  </div>
+
+  <div class="rail">
+    <div class="lenctl">
+      <label for="len">Pendulum</label>
+      <input id="len" type="range" min="90" max="220" step="1" value="140">
+      <span class="lenval mono"><span id="lenVal">140</span> mm</span>
+    </div>
+    <div class="btns">
+      <button class="cuckoo" id="btnCuckoo">Cuckoo now</button>
+      <div class="speed" role="group" aria-label="Time speed">
+        <button data-sp="1" aria-pressed="false">1×</button>
+        <button data-sp="12" aria-pressed="true">12×</button>
+        <button data-sp="120" aria-pressed="false">120×</button>
+      </div>
+      <button id="btnPlay" aria-pressed="true" style="color:var(--brass);border-color:var(--brass);background:rgba(226,180,87,.15)">Running</button>
+      <button id="btnHighlight" aria-pressed="true">Highlight</button>
+      <button id="btnCut" aria-pressed="false">Open gable</button>
+      <button id="btnView">Reset view</button>
+    </div>
+  </div>
+
+  <div class="grid" id="panels">
+    <div class="cell" data-p="time"><span class="k">Clock time</span><span class="v mono" style="color:var(--brass)" id="pTime">2:59:30</span></div>
+    <div class="cell" data-p="esc"><span class="k">Escape wheel</span><span class="v mono"><span id="pTooth">1</span><span class="u">/ 30 teeth</span></span><div class="bar"><i id="barTooth" style="background:var(--brass)"></i></div></div>
+    <div class="cell" data-p="beat"><span class="k">Beat rate</span><span class="v mono"><span id="pBpm">160</span><span class="u">/min</span></span></div>
+    <div class="cell" data-p="period"><span class="k">Period</span><span class="v mono"><span id="pPeriod">0.751</span><span class="u">s</span></span></div>
+    <div class="cell" data-p="rate"><span class="k">Rate error</span><span class="v mono" id="pRate" style="color:var(--ok)">0 s/day</span></div>
+    <div class="cell" data-p="ang"><span class="k">Pendulum angle</span><span class="v mono"><span id="pAng">0.0</span><span class="u">°</span></span></div>
+    <div class="cell" data-p="weight"><span class="k">Weight drop</span><span class="v mono"><span id="pDrop">0</span><span class="u">mm</span></span><div class="bar"><i id="barDrop" style="background:var(--wood)"></i></div></div>
+    <div class="cell" data-p="run"><span class="k">Runtime left</span><span class="v mono"><span id="pRun">30.0</span><span class="u">h</span></span></div>
+  </div>
+
+  <div class="lower">
+    <div class="beatbox">
+      <h2>Escapement beat — pendulum swing & tooth release</h2>
+      <canvas id="beat" width="640" height="300"></canvas>
+      <div class="beatleg">
+        <span><i style="background:var(--brass)"></i>pendulum angle</span>
+        <span><i style="background:var(--hi)"></i>tooth released (one per beat)</span>
+        <span style="color:var(--faint)">the pendulum is the only timekeeper — everything else counts its beats</span>
+      </div>
+    </div>
+    <div class="notebox">
+      <h2>How the clock works</h2>
+      <p><b>Going train:</b> a cast weight on a chain pulls the gear train; the <b>anchor escapement</b> lets the escape wheel advance exactly one tooth each time the pendulum swings, so the hands track real time. A longer pendulum beats slower — watch <b>Rate error</b> swing as you move the slider.</p>
+      <p><b>Strike train:</b> on the hour a lever trips the second weight. It works two <b>bellows</b> feeding pipes tuned a third apart — the high <code>cu</code> then the low <code>ckoo</code> — once per hour-count, and a cam shoves the <b>bird</b> out the door.</p>
+      <p>This is my demo of the teardown skill's output. The beats, gear counts and rate drift are derived from the pendulum, not faked.</p>
+    </div>
+  </div>
+
+  <div class="foot">Anchor escapement · 30-tooth escape wheel · T = 2π√(L/g) · two pinecone weights · demo in the spirit of the teardown skill</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var THREE = window.THREE;
+  var canvas = document.getElementById('scene');
+  var scene, camera, renderer;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- timing physics ----------
+  var G = 9.81, N_TEETH = 30, A_PEND = 0.17;   // swing amplitude rad (~9.7°)
+  var Lmm = 140, L0mm = 140;                    // pendulum length, nominal
+  function periodOf(mm){ return 2*Math.PI*Math.sqrt((mm/1000)/G); }
+  var T0 = periodOf(L0mm);
+
+  // ---------- state ----------
+  var running = true, timeScale = 12, highlight = true, openGable = false;
+  var phase = 0;                 // accumulated pendulum phase (rad)
+  var tsec = 2*3600 + 59*60 + 30; // displayed clock seconds (12h)
+  var drop_mm = 0;               // going-weight descent
+  var CHAIN_MM = 960, DROP_PER_HR = 32;  // ~30h runtime
+  var striking = false, strikeT = 0, strikeCount = 0, strikeNote = '', callNum = 0;
+
+  // ---------- scene ----------
+  var P = {};
+  function M(color, o){ o=o||{}; return new THREE.MeshStandardMaterial({
+    color:color, metalness:o.metal!=null?o.metal:0.7, roughness:o.rough!=null?o.rough:0.45,
+    transparent:!!o.transparent, opacity:o.opacity!=null?o.opacity:1,
+    emissive:new THREE.Color(o.emissive||0x000000), emissiveIntensity:o.ei||0, side:o.side||THREE.FrontSide }); }
+
+  function gear(radius, teeth, thick, color){
+    var g = new THREE.Group();
+    g.add(new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, thick, 28), M(color,{metal:0.85,rough:0.35})));
+    g.children[0].rotation.x = Math.PI/2;
+    var tm = M(color,{metal:0.85,rough:0.35});
+    for(var i=0;i<teeth;i++){
+      var a = i/teeth*Math.PI*2;
+      var t = new THREE.Mesh(new THREE.BoxGeometry(radius*0.16, thick, radius*0.20), tm);
+      t.position.set(Math.cos(a)*radius, Math.sin(a)*radius, 0);
+      t.rotation.z = a; g.add(t);
+    }
+    return g;
+  }
+
+  function build(){
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0906);
+    scene.fog = new THREE.Fog(0x0a0906, 16, 34);
+    camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+    renderer.setClearColor(0x000000,0);
+
+    scene.add(new THREE.HemisphereLight(0xcdb38a, 0x0a0906, 0.75));
+    var key = new THREE.DirectionalLight(0xfff0d8, 1.1); key.position.set(4,6,6); scene.add(key);
+    var rim = new THREE.DirectionalLight(0x6a7a9a, 0.45); rim.position.set(-5,3,-4); scene.add(rim);
+
+    var root = new THREE.Group(); scene.add(root); P.root = root;
+
+    // back plate (walnut)
+    var back = new THREE.Mesh(new THREE.BoxGeometry(5.2, 5.6, 0.18), M(0x3a2415,{metal:0.2,rough:0.75}));
+    back.position.set(0, 1.7, -0.5); root.add(back);
+
+    // ---- gable + dial (front) ----
+    var gable = new THREE.Group(); gable.position.set(0, 3.9, 0.2); root.add(gable); P.gable = gable;
+    var roofL = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.16, 0.5), M(0x5a3a1f,{metal:0.2,rough:0.7}));
+    roofL.position.set(-0.8, 0.35, 0); roofL.rotation.z = 0.5; gable.add(roofL);
+    var roofR = roofL.clone(); roofR.position.x = 0.8; roofR.rotation.z = -0.5; gable.add(roofR);
+
+    // cuckoo door (hinged at left edge)
+    var doorPivot = new THREE.Group(); doorPivot.position.set(-0.32, 3.75, 0.42); root.add(doorPivot); P.doorPivot = doorPivot;
+    var door = new THREE.Mesh(new THREE.BoxGeometry(0.64, 0.62, 0.05), M(0x6b4327,{metal:0.2,rough:0.7}));
+    door.position.set(0.32, 0, 0); doorPivot.add(door);
+
+    // bird (behind door)
+    var bird = new THREE.Group(); bird.position.set(0, 3.75, 0.1); root.add(bird); P.bird = bird;
+    var body = new THREE.Mesh(new THREE.SphereGeometry(0.17, 18, 14), M(0x7a4a28,{metal:0.1,rough:0.8}));
+    body.scale.set(1,0.85,1.15); bird.add(body);
+    var head = new THREE.Mesh(new THREE.SphereGeometry(0.11,16,12), M(0x8a5530,{metal:0.1,rough:0.8}));
+    head.position.set(0,0.13,0.1); bird.add(head);
+    var beak = new THREE.Mesh(new THREE.ConeGeometry(0.05,0.14,10), M(0xd9a441,{metal:0.3,rough:0.5}));
+    beak.position.set(0,0.13,0.24); beak.rotation.x = Math.PI/2; bird.add(beak); P.beak = beak;
+
+    // dial
+    var dial = new THREE.Group(); dial.position.set(0, 3.0, 0.45); root.add(dial);
+    dial.add(new THREE.Mesh(new THREE.CylinderGeometry(0.62,0.62,0.06,40), M(0xeadfc4,{metal:0.1,rough:0.6}).clone()));
+    dial.children[0].rotation.x = Math.PI/2;
+    for(var h=0;h<12;h++){
+      var a=h/12*Math.PI*2; var tk=new THREE.Mesh(new THREE.BoxGeometry(0.04,0.1,0.02), M(0x3a2a16,{metal:0.2,rough:0.7}));
+      tk.position.set(Math.sin(a)*0.5, Math.cos(a)*0.5, 0.05); dial.add(tk);
+    }
+    var hm = M(0x241a0e,{metal:0.3,rough:0.5});
+    P.handH = new THREE.Mesh(new THREE.BoxGeometry(0.05,0.34,0.02), hm); P.handH.geometry.translate(0,0.17,0); P.handH.position.set(0,0,0.08); dial.add(P.handH);
+    P.handM = new THREE.Mesh(new THREE.BoxGeometry(0.035,0.5,0.02), hm); P.handM.geometry.translate(0,0.25,0); P.handM.position.set(0,0,0.1); dial.add(P.handM);
+
+    // ---- bellows (top rear) ----
+    P.bel1 = bellows(root, -0.55, 0x8a5a34, 0xffd27a);
+    P.bel2 = bellows(root,  0.55, 0x6b4327, 0xc98a3c);
+
+    // ---- escapement ----
+    var esc = gear(0.5, N_TEETH, 0.12, 0xc9b27a); esc.position.set(0, 1.75, 0.05); root.add(esc); P.esc = esc;
+    var arbor = new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.22,16), M(0x8a7a50,{metal:0.9,rough:0.3}));
+    arbor.rotation.x = Math.PI/2; arbor.position.set(0,1.75,0.05); root.add(arbor);
+
+    // anchor (pivots above wheel)
+    var anchor = new THREE.Group(); anchor.position.set(0, 2.42, 0.05); root.add(anchor); P.anchor = anchor;
+    var aMat = M(0xd9c27a,{metal:0.85,rough:0.3});
+    var armL = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.62,0.08), aMat); armL.position.set(-0.26,-0.26,0); armL.rotation.z=0.5; anchor.add(armL);
+    var armR = armL.clone(); armR.position.x=0.26; armR.rotation.z=-0.5; anchor.add(armR);
+    var yoke = new THREE.Mesh(new THREE.BoxGeometry(0.62,0.1,0.08), aMat); yoke.position.y=0.02; anchor.add(yoke);
+
+    // ---- gear train (to the left) ----
+    P.g2 = gear(0.42, 24, 0.1, 0xb49a62); P.g2.position.set(-0.95, 1.35, 0.0); root.add(P.g2);
+    P.g3 = gear(0.6, 36, 0.1, 0x9a8352); P.g3.position.set(-1.75, 1.05, -0.05); root.add(P.g3);
+
+    // ---- chains + pinecone weights ----
+    P.sprkL = new THREE.Vector3(-1.6, 3.5, 0.35);
+    P.sprkR = new THREE.Vector3( 1.6, 3.5, 0.35);
+    P.wtGo = weight(root, P.sprkL, 0x7a5a2a);   // going weight (left)
+    P.wtStr = weight(root, P.sprkR, 0x6a4a22);  // strike weight (right)
+    sprocket(root, P.sprkL); sprocket(root, P.sprkR);
+
+    // ---- pendulum ----
+    var pend = new THREE.Group(); pend.position.set(0, 2.42, 0.25); root.add(pend); P.pend = pend;
+    var rod = new THREE.Mesh(new THREE.BoxGeometry(0.05, 2.1, 0.05), M(0x3a2a16,{metal:0.3,rough:0.6}));
+    rod.position.y = -1.05; pend.add(rod);
+    var bob = new THREE.Mesh(new THREE.CylinderGeometry(0.33,0.33,0.05,32), M(0xe2b457,{metal:0.9,rough:0.25,emissive:0x5a4010,ei:0}));
+    bob.rotation.x = Math.PI/2; bob.position.y = -2.0; pend.add(bob); P.bob = bob;
+    // decorative leaf on bob
+    var leaf = new THREE.Mesh(new THREE.CircleGeometry(0.22,24), M(0xb8912f,{metal:0.6,rough:0.4}));
+    leaf.position.set(0,-2.0,0.03); pend.add(leaf);
+
+    root.position.y = -0.9;
+    resize();
+  }
+
+  function bellows(parent, x, color, note){
+    var g = new THREE.Group(); g.position.set(x, 3.5, -0.35); parent.add(g);
+    var w = new THREE.Mesh(new THREE.BoxGeometry(0.5,0.4,0.6), M(color,{metal:0.15,rough:0.75}));
+    w.position.y = 0.1; g.add(w);
+    var pipe = new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.55,14), M(0x9a8352,{metal:0.7,rough:0.4}));
+    pipe.position.set(x>0?0.2:-0.2,0.5,0); g.add(pipe);
+    g.userData = {wedge:w, note:note};
+    return g;
+  }
+  function weight(parent, top, color){
+    var g = new THREE.Group(); parent.add(g);
+    var b = new THREE.Group(); // pinecone: stacked cones
+    for(var i=0;i<4;i++){
+      var c = new THREE.Mesh(new THREE.ConeGeometry(0.22-i*0.01, 0.2, 14), M(color,{metal:0.5,rough:0.5}));
+      c.position.y = -i*0.14; c.rotation.y = i*0.4; b.add(c);
+    }
+    b.position.y = -0.3; g.add(b);
+    var chain = new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,1,8), M(0x4a4038,{metal:0.8,rough:0.4}));
+    g.add(chain); g.userData = {chain:chain, top:top};
+    return g;
+  }
+  function sprocket(parent, pos){
+    var s = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.1,14), M(0x8a7a50,{metal:0.8,rough:0.4}));
+    s.rotation.x = Math.PI/2; s.position.copy(pos); parent.add(s);
+  }
+
+  function placeWeight(g, dropModel){
+    var topY = g.userData.top.y, x = g.userData.top.x, z = g.userData.top.z;
+    var wy = topY - 1.2 - dropModel;
+    g.position.set(x, wy, z);
+    var len = topY - wy;
+    g.userData.chain.scale.y = len;
+    g.userData.chain.position.set(0, (topY - wy)/2 + (wy - g.position.y) , 0);
+    g.userData.chain.position.y = (len/2);
+  }
+
+  // ---------- strike state machine (real-time) ----------
+  function trigger(count){ if(striking) return; striking = true; strikeT = 0; strikeCount = count; callNum = 0; strikeNote=''; }
+  function strikeStep(sdt){
+    strikeT += sdt;
+    var openD=0.4, callD=0.62, closeD=0.4;
+    var t = strikeT, doorP=0, birdP=0, b1=1, b2=1; strikeNote='';
+    if(t < openD){ doorP = t/openD; birdP = doorP; }
+    else {
+      var tc = t-openD, ci = Math.floor(tc/callD);
+      if(ci < strikeCount){
+        doorP=1; birdP=1; callNum = ci+1;
+        var ph = tc - ci*callD;
+        if(ph < 0.22){ b1 = 1-(ph/0.22)*0.6; strikeNote='cu'; }
+        else if(ph < 0.44){ b2 = 1-((ph-0.22)/0.22)*0.6; strikeNote='ckoo'; }
+      } else {
+        var tcl = tc - strikeCount*callD;
+        if(tcl < closeD){ doorP = 1-tcl/closeD; birdP = doorP; }
+        else { striking=false; doorP=0; birdP=0; callNum=0; tsec += 0.5; return applyStrike(0,0,1,1); }
+      }
+    }
+    applyStrike(doorP, birdP, b1, b2);
+  }
+  function applyStrike(doorP, birdP, b1, b2){
+    P.doorPivot.rotation.y = -doorP*1.7;
+    P.bird.position.z = 0.1 + birdP*0.7;
+    P.beak.rotation.x = Math.PI/2 + (strikeNote==='cu'?0.4:strikeNote==='ckoo'?0.25:0);
+    P.bel1.userData.wedge.scale.y = b1; P.bel1.userData.wedge.position.y = 0.1*b1;
+    P.bel2.userData.wedge.scale.y = b2; P.bel2.userData.wedge.position.y = 0.1*b2;
+  }
+
+  // ---------- beat trace ----------
+  var bc = document.getElementById('beat'), bx = bc.getContext('2d');
+  var trace = [], TRACE_MAX = 320;
+  function drawBeat(){
+    var w=bc.width, h=bc.height, mid=h/2;
+    bx.clearRect(0,0,w,h);
+    bx.strokeStyle='#241f14'; bx.lineWidth=1; bx.beginPath(); bx.moveTo(0,mid); bx.lineTo(w,mid); bx.stroke();
+    if(trace.length<2) return;
+    var step = w/(TRACE_MAX-1);
+    bx.strokeStyle = getCss('--brass'); bx.lineWidth=2; bx.lineJoin='round'; bx.beginPath();
+    for(var i=0;i<trace.length;i++){ var x=i*step, y=mid - trace[i].a*(h*0.4); if(i===0)bx.moveTo(x,y); else bx.lineTo(x,y); }
+    bx.stroke();
+    bx.fillStyle = getCss('--hi');
+    for(var j=0;j<trace.length;j++){ if(trace[j].tick){ var x2=j*step, y2=mid - trace[j].a*(h*0.4); bx.beginPath(); bx.arc(x2,y2,3.5,0,7); bx.fill(); } }
+  }
+  var cssCache={}; function getCss(v){ if(cssCache[v])return cssCache[v]; cssCache[v]=getComputedStyle(document.documentElement).getPropertyValue(v).trim(); return cssCache[v]; }
+
+  // ---------- camera ----------
+  var camR=10, camTheta=0.55, camPhi=1.2, target=new THREE.Vector3(0,1.2,0);
+  var lastInteract=performance.now(), touring=false;
+  function updateCam(){ camera.position.set(
+    target.x+camR*Math.sin(camPhi)*Math.sin(camTheta),
+    target.y+camR*Math.cos(camPhi),
+    target.z+camR*Math.sin(camPhi)*Math.cos(camTheta)); camera.lookAt(target); }
+  function interact(){ lastInteract=performance.now(); if(touring){touring=false; document.getElementById('tourInd').classList.remove('on');} }
+  var dragging=false,lx=0,ly=0;
+  canvas.addEventListener('pointerdown',function(e){dragging=true;lx=e.clientX;ly=e.clientY;interact();canvas.setPointerCapture(e.pointerId);});
+  canvas.addEventListener('pointermove',function(e){ if(!dragging)return; camTheta-=(e.clientX-lx)*0.008; camPhi=Math.max(0.2,Math.min(1.5,camPhi-(e.clientY-ly)*0.007)); lx=e.clientX;ly=e.clientY; interact(); });
+  canvas.addEventListener('pointerup',function(){dragging=false;});
+  canvas.addEventListener('wheel',function(e){e.preventDefault(); camR=Math.max(6,Math.min(18,camR+e.deltaY*0.01)); interact();},{passive:false});
+  var pd=0;
+  canvas.addEventListener('touchstart',function(e){if(e.touches.length===2)pd=d2(e);});
+  canvas.addEventListener('touchmove',function(e){if(e.touches.length===2){var d=d2(e);camR=Math.max(6,Math.min(18,camR+(pd-d)*0.02));pd=d;interact();}},{passive:true});
+  function d2(e){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
+
+  // ---------- controls ----------
+  var $=function(id){return document.getElementById(id);};
+  $('len').addEventListener('input',function(e){ Lmm=+e.target.value; $('lenVal').textContent=Lmm; });
+  $('btnPlay').addEventListener('click',function(){ running=!running; this.setAttribute('aria-pressed',running); this.textContent=running?'Running':'Paused';
+    this.style.color=running?'var(--brass)':''; this.style.borderColor=running?'var(--brass)':''; this.style.background=running?'rgba(226,180,87,.15)':''; });
+  $('btnHighlight').addEventListener('click',function(){ highlight=!highlight; this.setAttribute('aria-pressed',highlight); });
+  $('btnCut').addEventListener('click',function(){ openGable=!openGable; this.setAttribute('aria-pressed',openGable); P.gable.visible=!openGable; });
+  $('btnView').addEventListener('click',function(){ camR=10;camTheta=0.55;camPhi=1.2; interact(); });
+  $('btnCuckoo').addEventListener('click',function(){ var hr=Math.floor(tsec/3600)%12; hr=hr||12; trigger(hr); });
+  Array.prototype.forEach.call(document.querySelectorAll('.speed button'),function(b){
+    b.addEventListener('click',function(){ timeScale=+b.dataset.sp;
+      document.querySelectorAll('.speed button').forEach(function(x){x.setAttribute('aria-pressed', x===b);}); });
+  });
+  if(reduced){ timeScale=1; document.querySelectorAll('.speed button').forEach(function(x){x.setAttribute('aria-pressed', x.dataset.sp==='1');}); }
+
+  // ---------- highlight ----------
+  function emis(mesh,hex,i){ if(mesh&&mesh.material){mesh.material.emissive.setHex(hex); mesh.material.emissiveIntensity=i;} }
+  function applyHighlight(){
+    var go = highlight && !striking, st = highlight && striking;
+    emis(P.bob, 0xe2b457, go?0.55:0);
+    P.esc.children[0] && emis(P.esc.children[0], 0xe2b457, go?0.4:0);
+    P.bel1.userData.wedge && emis(P.bel1.userData.wedge, 0xffd27a, st?0.5:0);
+    P.bel2.userData.wedge && emis(P.bel2.userData.wedge, 0xc98a3c, st?0.5:0);
+  }
+
+  // ---------- loop ----------
+  var last=performance.now(), traceAcc=0, prevHalf=0;
+  function tick(now){
+    requestAnimationFrame(tick);
+    var dt=Math.min(0.05,(now-last)/1000); last=now;
+    var T = periodOf(Lmm), omega = 2*Math.PI/T;
+
+    if(running){
+      phase += omega*dt*timeScale;
+      if(!striking){
+        var adv = dt*timeScale*(T0/T);
+        var prev=tsec; tsec += adv;
+        // boundary strike (half-hours)
+        var pb=Math.floor(prev/1800), nb=Math.floor(tsec/1800);
+        if(nb>pb){
+          var m = nb*1800; var isHour=(m%3600===0);
+          var hr=Math.floor(m/3600)%12; hr=hr||12;
+          tsec = m; trigger(isHour?hr:1);
+        }
+        drop_mm = (tsec - (2*3600+59*60+30)) / 3600 * DROP_PER_HR;
+        if(drop_mm<0) drop_mm += 43200/3600*DROP_PER_HR; // wrap guard
+      }
+    }
+    if(striking && running) strikeStep(dt);
+
+    // kinematics
+    var pendAng = A_PEND*Math.cos(phase);
+    P.pend.rotation.z = pendAng;
+    P.anchor.rotation.z = -0.14*Math.cos(phase);
+    var halfBeats = phase/Math.PI;
+    var escDeg = halfBeats*(360/N_TEETH) + 2.0*Math.sin(phase);
+    P.esc.rotation.z = -escDeg*Math.PI/180;
+    P.g2.rotation.z = escDeg*Math.PI/180*(N_TEETH/24);
+    P.g3.rotation.z = -escDeg*Math.PI/180*(N_TEETH/36)*0.6;
+
+    // weights
+    var dropModel = Math.min(2.4, drop_mm*0.0016);
+    placeWeight(P.wtGo, dropModel);
+    placeWeight(P.wtStr, Math.min(1.2, (strikeCount? dropModel*0.3:dropModel*0.28)));
+
+    // dial
+    P.handM.rotation.z = -(tsec%3600)/3600*Math.PI*2;
+    P.handH.rotation.z = -(tsec%43200)/43200*Math.PI*2;
+
+    applyHighlight();
+
+    // ---- trace ----
+    traceAcc += dt;
+    if(traceAcc > 0.016){
+      traceAcc = 0;
+      var hb = Math.floor(halfBeats), isTick = (hb!==prevHalf) && timeScale<=12; prevHalf=hb;
+      trace.push({a:Math.cos(phase), tick:isTick});
+      if(trace.length>TRACE_MAX) trace.shift();
+    }
+    drawBeat();
+
+    // ---- panels ----
+    var bpm = 120/T, rateErr = 86400*(T0/T - 1);
+    var tooth = (Math.floor(halfBeats)%N_TEETH+N_TEETH)%N_TEETH + 1;
+    $('pTime').textContent = fmt(tsec);
+    $('hudClock').textContent = fmt(tsec);
+    $('pTooth').textContent = tooth; $('barTooth').style.width = (tooth/N_TEETH*100)+'%';
+    $('pBpm').textContent = bpm.toFixed(0);
+    $('pPeriod').textContent = T.toFixed(3);
+    var rateEl=$('pRate'); rateEl.textContent = (rateErr>=0?'+':'')+rateErr.toFixed(0)+' s/day';
+    rateEl.style.color = Math.abs(rateErr)<30?'var(--ok)':Math.abs(rateErr)<400?'var(--warn)':'var(--bad)';
+    $('pAng').textContent = (pendAng*180/Math.PI).toFixed(1);
+    $('pDrop').textContent = Math.max(0,drop_mm).toFixed(0); $('barDrop').style.width = Math.min(100,drop_mm/CHAIN_MM*100)+'%';
+    $('pRun').textContent = Math.max(0,(CHAIN_MM-drop_mm)/DROP_PER_HR).toFixed(1);
+
+    // HUD + active cells
+    var cells=document.querySelectorAll('.cell'); cells.forEach(function(c){c.classList.remove('active');});
+    if(striking){
+      $('stateName').textContent='Strike train';
+      $('stateSub').textContent = callNum? ('cuckoo '+callNum+' / '+strikeCount) : 'bellows';
+      var ci=$('callInd'); ci.className='call '+(strikeNote==='cu'?'hi':strikeNote==='ckoo'?'lo':'');
+      ci.textContent = strikeNote==='cu'?'Cu':strikeNote==='ckoo'?'ckoo':'Bellows';
+      if(highlight) document.querySelector('.cell[data-p="weight"]').classList.add('active');
+    } else {
+      $('stateName').textContent='Going train';
+      $('stateSub').textContent='escapement';
+      $('callInd').className='call'; $('callInd').textContent='Bellows';
+      if(highlight){ document.querySelector('.cell[data-p="esc"]').classList.add('active'); document.querySelector('.cell[data-p="beat"]').classList.add('active'); }
+    }
+
+    // idle tour
+    if(!reduced && now-lastInteract>4500){ if(!touring){touring=true; $('tourInd').classList.add('on');} camTheta+=0.0015; }
+    updateCam();
+    renderer.render(scene,camera);
+  }
+  function fmt(s){ s=((s%43200)+43200)%43200; var h=Math.floor(s/3600)%12; h=h||12; var m=Math.floor(s%3600/60), ss=Math.floor(s%60); return h+':'+(m<10?'0':'')+m+':'+(ss<10?'0':'')+ss; }
+
+  function resize(){ var r=canvas.getBoundingClientRect(), w=Math.max(1,r.width), h=Math.max(1,r.height);
+    renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1)); renderer.setSize(w,h,false);
+    camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  window.addEventListener('resize',resize);
+
+  if(!THREE){ canvas.insertAdjacentHTML('afterend','<div style="position:absolute;inset:0;display:grid;place-items:center;color:#a39a84;font-family:monospace">3D library failed to load</div>'); }
+  else { build(); requestAnimationFrame(tick); }
+})();
+</script>
+
+</body>
+</html>
