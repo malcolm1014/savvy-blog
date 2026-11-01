@@ -3,30 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Teardown: From a Four-Stroke Engine to a Caesium Atomic Clock</title>
-<meta name="description" content="A proof of concept for elvarofficial's open-source 'teardown' skill. We used it to build a running engine, a cuckoo clock, and an interactive caesium atomic clock you can take apart in 3D. What it is, how it rendered, and what to verify.">
+<title>We Took an Atomic Clock Apart in Your Browser</title>
+<meta name="description" content="A proof of concept for elvarofficial's open-source 'teardown' skill. We pointed it at three machines — an engine, a cuckoo clock, and a caesium atomic clock — and the last one lets you fly into every component. Real screenshots, real code, and what to verify.">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="article">
-<meta property="og:title" content="Teardown: From a Four-Stroke Engine to a Caesium Atomic Clock">
-<meta property="og:description" content="A proof of concept for elvarofficial's open-source 'teardown' skill: a running engine, a cuckoo clock, and an interactive caesium atomic clock you can take apart in 3D.">
+<meta property="og:title" content="We Took an Atomic Clock Apart in Your Browser">
+<meta property="og:description" content="A proof of concept for an open-source 'teardown' skill: a caesium atomic clock you can fly into, component by component, in a browser. Real screenshots, real code, honest scope.">
 <meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/teardown-engine-to-atomic-clock/assets/cover.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="TEARDOWN — from a four-stroke engine to a caesium atomic clock. A labeled atomic beam line with a live clock reading 2:59:30 EST.">
+<meta property="og:image:alt" content="TEARDOWN — a labeled caesium atomic beam line on a white bench, oven to detector, with a live clock readout.">
 <meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/teardown-engine-to-atomic-clock/">
 <meta property="og:site_name" content="Savvy Security LLC">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Malcolm R. Smith">
-<meta property="article:published_time" content="2026-11-01T10:00:00-05:00">
+<meta property="article:published_time" content="2026-11-01T18:00:00-05:00">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Teardown: From a Four-Stroke Engine to a Caesium Atomic Clock">
-<meta name="twitter:description" content="A proof of concept for an open-source 'teardown' skill: an engine, a cuckoo clock, and a caesium atomic clock you can take apart in 3D.">
+<meta name="twitter:title" content="We Took an Atomic Clock Apart in Your Browser">
+<meta name="twitter:description" content="A caesium atomic clock you can fly into, component by component, in a browser — a proof of concept for an open-source teardown skill.">
 <meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/teardown-engine-to-atomic-clock/assets/cover.png">
-<meta name="twitter:image:alt" content="TEARDOWN — a labeled caesium atomic beam line with a live clock readout.">
+<meta name="twitter:image:alt" content="A labeled caesium atomic beam line with a live clock readout.">
 
 <style>
   :root{
@@ -43,113 +43,138 @@
     line-height:1.65;
   }
   .hero{
-    background:#ffffff url('assets/cover.png') center/cover no-repeat;
+    background:#0b1220 url('assets/cover.png') center/cover no-repeat;
     aspect-ratio:1200/630; width:100%; border-bottom:1px solid var(--rule);
   }
-  main{max-width:720px; margin:0 auto; padding:40px 20px 80px;}
+  main{max-width:760px; margin:0 auto; padding:40px 20px 80px;}
   .kicker{color:var(--accent); font-weight:700; letter-spacing:.08em; font-size:.8rem; text-transform:uppercase; margin:0 0 8px;}
-  h1{font-size:1.9rem; line-height:1.25; margin:0 0 6px;}
+  h1{font-size:2rem; line-height:1.22; margin:0 0 6px;}
   .byline{color:var(--muted); font-size:.95rem; margin:0 0 10px;}
   .dedication{color:var(--muted); font-size:.95rem; font-style:italic; margin:0 0 32px; border-left:4px solid var(--accent); padding:6px 0 6px 14px;}
-  h2{font-size:1.3rem; margin:40px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  h2{font-size:1.35rem; margin:44px 0 12px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  h3{font-size:1.05rem; margin:28px 0 6px;}
   p{margin:0 0 18px;}
   ul,ol{margin:0 0 18px; padding-left:22px;}
   li{margin-bottom:8px;}
   a{color:var(--accent);}
   sup a{text-decoration:none; font-weight:700;}
-  figure{margin:28px 0;}
-  figure img{width:100%; height:auto; display:block; border:1px solid var(--rule); border-radius:10px;}
+  figure{margin:30px 0;}
+  figure img{width:100%; height:auto; display:block; border:1px solid var(--rule); border-radius:10px; background:#fff;}
   figcaption{color:var(--muted); font-size:.85rem; margin-top:8px;}
-  code{font-family:"DejaVu Sans Mono",ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9em; background:var(--card); border:1px solid var(--rule); border-radius:5px; padding:1px 6px;}
+  code{font-family:"DejaVu Sans Mono",ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em; background:var(--card); border:1px solid var(--rule); border-radius:5px; padding:1px 6px;}
   .callout{border-left:4px solid var(--accent); background:var(--card); padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 22px;}
   .callout p{margin:0;}
   .sources{font-size:.85rem; color:var(--muted);}
   .sources li{margin-bottom:6px;}
-  .cta{
-    margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px;
-    background:var(--card);
-  }
+  .cta{margin-top:48px; padding:24px; border:1px solid var(--rule); border-radius:10px; background:var(--card);}
   .cta p{margin:0 0 14px;}
-  .btn{
-    display:inline-block; background:var(--accent); color:#042f2a !important; text-decoration:none;
-    padding:10px 18px; border-radius:6px; font-weight:700; font-size:.9rem; margin:0 8px 8px 0;
-  }
+  .btn{display:inline-block; background:var(--accent); color:#042f2a !important; text-decoration:none; padding:10px 18px; border-radius:6px; font-weight:700; font-size:.9rem; margin:0 8px 8px 0;}
   .btn.alt{background:transparent; color:var(--accent) !important; border:1px solid var(--accent);}
   footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
 </style>
 </head>
 <body>
 
-<div class="hero" role="img" aria-label="TEARDOWN — from a four-stroke engine to a caesium atomic clock. A labeled atomic beam line with a live clock reading 2:59:30 EST."></div>
+<div class="hero" role="img" aria-label="TEARDOWN — a labeled caesium atomic beam line on a white bench, oven to detector, with a live clock readout."></div>
 
 <main>
   <p><a href="../../">&larr; All articles</a></p>
   <p class="kicker">Savvy Security LLC &middot; Proof of Concept</p>
-  <h1>Teardown: From a Four-Stroke Engine to a Caesium Atomic Clock</h1>
+  <h1>We Took an Atomic Clock Apart in Your Browser</h1>
   <p class="byline">By Malcolm R. Smith &middot; Savvy Security LLC &middot; November 1, 2026</p>
-  <p class="dedication">For <strong>elvarofficial</strong>, who built the <em>teardown</em> skill and gave it away under an open licence. This article is our proof that it works &mdash; and an invitation for everyone else to take it apart.</p>
+  <p class="dedication">For <strong>elvarofficial</strong>, who wrote the open-source <em>teardown</em> skill and gave it away. Every screenshot in this article is the real build their tool made possible &mdash; running, labelled, and pulled apart.</p>
 
-  <p>Every so often a piece of open-source software is good enough that the right response is not a review but a demonstration. <strong>teardown</strong> is one of those. It is a skill for Claude Code, published on GitHub by a developer who goes by <strong>elvarofficial</strong>, and its premise is simple and a little audacious: ask how any machine works, and it writes a single offline web page where that machine runs in 3D and you can take it apart.<sup><a href="#ref-1">[1]</a></sup></p>
+  <p>There is a kind of open-source software that doesn't deserve a review so much as a demonstration. <strong>teardown</strong> is one of those. It is a skill for Claude Code, published on GitHub by a developer who goes by <strong>elvarofficial</strong>, and the pitch is both simple and a little audacious: ask how a machine works, and it writes a single offline web page where that machine runs in 3D and you can take it apart.<sup><a href="#ref-1">[1]</a></sup></p>
 
-  <p>I don't write code by hand. What I do is turn vague ideas into exact instructions, and over this project I pointed that skill &mdash; and a lot of back-and-forth with Claude &mdash; at three machines in a row: a four-stroke engine, a mechanical cuckoo clock, and finally a caesium atomic clock, the instrument that defines the second. This is the record of what we built, how it rendered, and &mdash; because this is a security firm's blog &mdash; what you should verify before you believe any of it.</p>
+  <p>I don't write code by hand &mdash; I turn vague ideas into exact instructions &mdash; so I pointed that skill, and a long conversation with Claude, at three machines in a row, hardest last: a four-stroke engine, a mechanical cuckoo clock, and a caesium atomic clock, the instrument that <em>defines</em> the second. This is the result, with real captures of the running builds. It is also, because this is a security firm's blog, honest about exactly what is real and what is modelled.</p>
 
   <figure>
-    <img src="assets/fig-progression.png" alt="Three panels: a four-stroke engine with piston and crank, a cuckoo clock with pendulum and bird, and a caesium atomic beam line." width="1500" height="520" loading="lazy">
-    <figcaption>Figure 1. Three builds in order of difficulty. Each is one self-contained HTML page: the machine runs in the middle and the panels around it read the real numbers.</figcaption>
+    <img src="assets/fig-progression.png" alt="Three real screenshots side by side: a four-stroke engine, a cuckoo clock showing its dial and pendulum, and a caesium atomic beam line on a white bench." width="1944" height="496" loading="lazy">
+    <figcaption>Figure 1. The three builds, in order of difficulty &mdash; each one offline HTML page, each the actual running app.</figcaption>
   </figure>
 
-  <h2>The software: a skill that takes machines apart</h2>
-  <p>teardown is not an app you launch. It is a <em>skill</em> &mdash; a packaged set of instructions you install into Claude Code once, after which you can ask in plain English for a simulator and get a finished, offline HTML file back.<sup><a href="#ref-1">[1]</a></sup> Under the hood each page is built on <strong>three.js</strong>, the MIT-licensed 3D library that lets a non-programmer stand up a 3D scene in an afternoon.<sup><a href="#ref-4">[4]</a></sup> The skill itself is built on <strong>claude-motion</strong> by whaleyxbt, and it is honest about that lineage right in its README.<sup><a href="#ref-1">[1]</a><sup><a href="#ref-2">[2]</a></sup></p>
+  <h2>The software that takes machines apart</h2>
+  <p>teardown is not an app you launch. It is a <em>skill</em> &mdash; a packaged set of instructions you install into Claude Code once, after which you can ask in plain English for a simulator and get a finished, offline HTML file back.<sup><a href="#ref-1">[1]</a></sup> Each page is built on <strong>three.js</strong>, the MIT-licensed 3D library that lets someone who isn't a graphics programmer stand up a 3D scene in an afternoon.<sup><a href="#ref-4">[4]</a></sup> The skill itself is built on <strong>claude-motion</strong> by whaleyxbt, and it credits that lineage in its own README.<sup><a href="#ref-1">[1]</a><sup><a href="#ref-2">[2]</a></sup></p>
+
+  <p>Install is one command, <code>npx skills add elvarofficial/teardown -g -a claude-code</code>, then a one-time <code>npm install</code>; it wants Node.js 20 or newer.<sup><a href="#ref-1">[1]</a></sup> The repository ships three worked examples &mdash; a V8 engine, a Cessna landing gear and a Strandbeest &mdash; so you can see the format before you build your own.</p>
 
   <figure>
-    <img src="assets/fig-github.png" alt="A GitHub repository card for elvarofficial/teardown: its description, MIT license, JavaScript language, and the install command npx skills add elvarofficial/teardown." width="1200" height="520" loading="lazy">
-    <figcaption>Figure 2. The project on GitHub. Install is one line; the whole thing is MIT-licensed and free to read, run and reuse.<sup><a href="#ref-1">[1]</a></sup></figcaption>
+    <img src="assets/fig-github.png" alt="A GitHub repository card for elvarofficial/teardown: its description, MIT license, and the one-line install command." width="1200" height="520" loading="lazy">
+    <figcaption>Figure 2. The project on GitHub: one-line install, MIT-licensed, free to read, run and reuse.<sup><a href="#ref-1">[1]</a></sup></figcaption>
   </figure>
 
-  <p>Installation is a single command, <code>npx skills add elvarofficial/teardown -g -a claude-code</code>, followed by a one-time <code>npm install</code> and a headless-browser download; it wants Node.js 20 or newer.<sup><a href="#ref-1">[1]</a></sup> The repository ships three worked examples &mdash; a V8 engine, a Cessna landing gear and a Strandbeest &mdash; so you can see the output before you build your own.</p>
+  <h2>Three builds, hardest last</h2>
+  <p><strong>The engine</strong> came first because it is the format's flagship: a single-cylinder four-stroke you can take apart. The slider-crank geometry is exact &mdash; the piston position is computed straight from the crank angle &mdash; and the panels read genuine derived values: the stroke, cylinder pressure from an adiabatic model, valve lift, and a live pressure&ndash;volume indicator loop. It proved the format could carry real numbers, not just a spinning model.</p>
 
-  <h2>What we built, in three steps</h2>
-  <p><strong>Step one, a four-stroke engine.</strong> The first ask was the format's flagship: a single-cylinder engine you can take apart. The slider-crank geometry is exact &mdash; piston position comes straight from the crank angle &mdash; and the panels read genuine derived values: the stroke (intake, compression, power, exhaust), cylinder pressure from an adiabatic model, valve lift, and a live pressure&ndash;volume indicator loop. It was proof the format could carry real numbers, not just a spinning model.</p>
+  <p><strong>The cuckoo clock</strong> is really two engines in one case: a weight-driven <em>going train</em> that keeps time off a swinging pendulum, and a <em>strike train</em> that works the bellows and shoves the bird out the door on the hour. The pendulum is the only timekeeper &mdash; everything else counts its beats &mdash; so lengthening it visibly makes the clock lose time, exactly as <code>T = 2&pi;&radic;(L/g)</code> says it should. Then we aimed at the hardest target in horology.</p>
 
-  <p><strong>Step two, a cuckoo clock.</strong> A cuckoo clock is really two engines in one case: a weight-driven <em>going train</em> that keeps time off a swinging pendulum, and a <em>strike train</em> that pumps the bellows and shoves the bird out the door on the hour. The pendulum is the only timekeeper &mdash; everything else counts its beats &mdash; so lengthening the pendulum visibly makes the clock lose time, exactly as the real physics (<code>T = 2&pi;&radic;(L/g)</code>) says it should. On the hour the two bellows play the high <em>cu</em> and the low <em>ckoo</em>, once per hour-count.</p>
-
-  <p><strong>Step three, a caesium atomic clock.</strong> Then we aimed at the hardest target in horology: the instrument that <em>defines</em> the second. This is where the project became something worth dedicating to its creator.</p>
-
-  <h2>The atomic clock, stage by stage</h2>
-  <p>The 2019 SI defines the second by fixing the caesium frequency: the unperturbed ground-state hyperfine transition of caesium-133 is, by declaration, exactly <strong>9,192,631,770 hertz</strong>.<sup><a href="#ref-5">[5]</a></sup> A caesium clock doesn't measure the second so much as <em>realise</em> it. Our build lays the whole apparatus out as a vacuum beam tube you can fly into, component by component.</p>
+  <h2>The atomic clock, taken apart</h2>
+  <p>The 2019 SI defines the second by fixing the caesium frequency: the unperturbed ground-state hyperfine transition of caesium-133 is, by declaration, exactly <strong>9,192,631,770 hertz</strong>.<sup><a href="#ref-5">[5]</a></sup> A caesium clock doesn't measure the second so much as <em>realise</em> it. The build lays the whole apparatus out as a vacuum beam tube on a bench, and you can click any stage to fly into it.</p>
 
   <figure>
-    <img src="assets/fig-beamline.png" alt="A labeled schematic of a caesium beam standard: oven, state-selector magnet, Ramsey cavity with two rings, second magnet, detector, with atoms flowing left to right." width="1600" height="560" loading="lazy">
-    <figcaption>Figure 3. The caesium beam, left to right. Atoms boil off the oven; a Stern&ndash;Gerlach magnet keeps one hyperfine state; the Ramsey cavity drives the clock transition; a second magnet and a hot-wire detector count the atoms that flipped.</figcaption>
+    <img src="assets/shot-overview.png" alt="Screenshot: the full caesium beam line on a white bench, left to right — caesium oven, A-magnet, C-field solenoid and Ramsey cavity, B-magnet, hot-wire detector — with the electronics (quartz, synthesis, servo, divider) wired below, every component labelled, and a live clock reading 5:56 PM EST." width="2336" height="1462" loading="lazy">
+    <figcaption>Figure 3. The whole apparatus, labelled. Atoms stream left to right through the tube; the electronics loop &mdash; quartz, synthesis, servo, divider &mdash; runs beneath it. The clock, top centre, reads live Eastern time.</figcaption>
   </figure>
 
-  <p>Caesium-133's outer electron and its nucleus couple into two hyperfine ground states, <em>F</em>=3 and <em>F</em>=4. The clock works the field-insensitive transition between them, and it uses <strong>Ramsey's method of separated oscillatory fields</strong> &mdash; two microwave zones with a drift in between &mdash; to make the resonance razor-sharp, the technique that won Norman Ramsey a share of the 1989 Nobel Prize.<sup><a href="#ref-6">[6]</a></sup> The detector count peaks dead on resonance, and a servo dithers the microwave and steers a quartz oscillator onto that peak. When it is centred, the quartz is <em>locked to caesium</em>, and a divider cuts the 9,192,631,770 Hz down to one pulse per second.<sup><a href="#ref-7">[7]</a></sup></p>
-
-  <p>In the live page you can click any stage to fly into it, and every stage opens further: the oven into its boron-nitride crucible, caesium charge, heater coil and collimator; the magnets into yoke, pole shoes and field coils; the electronics into the crystal, the multiplier, the servo and the divider. Floating labels name each part; an exploded view spreads them apart; a guided tour walks the whole chain. The atoms are drawn as <strong>matter-wave packets</strong> whose fringe spacing tracks their speed &mdash; faster atoms, tighter fringes, the de Broglie relation made visible &mdash; and an atom crossing the cavity shimmers between cyan and amber, a picture of a quantum superposition before it is measured.</p>
-
-  <h2>Proof of concept: the code</h2>
-  <p>The whole clock is one self-contained HTML page. It pulls three.js from a pinned CDN build and otherwise carries all of its own logic, which is the point of the teardown format: one file, offline, nothing to install. The physics on the screen is derived, not decorative.</p>
+  <p>Click the oven and the camera flies in. Its shell turns semi-transparent and its parts get their own labels: the boron-nitride crucible, the shimmering caesium charge, the heater coil, the collimator, the beam aperture. The panel at the corner carries the real description and numbers for whatever you've selected.</p>
 
   <figure>
-    <img src="assets/fig-code.png" alt="A code excerpt: the SI-second constant 9192631770, a ramseyP() fringe function, and the matter-wave shader that gives atoms de Broglie fringes and a cavity superposition." width="1240" height="610" loading="lazy">
-    <figcaption>Figure 4. Three pieces of the atomic clock, from its source. The caesium constant defines the second; <code>ramseyP()</code> is the Ramsey fringe the servo locks to; the shader gives each atom speed-dependent fringes and a superposition shimmer. Full source is in this post's <code>code/</code> folder.</figcaption>
+    <img src="assets/shot-oven.png" alt="Screenshot: the caesium oven flown into and opened — labels for Heater coil, Collimator, Beam aperture and Thermocouple — with a corner panel reading 'Caesium-133 heated to ~100 C ... beam flux about 1e11 atoms/s'." width="2336" height="1462" loading="lazy">
+    <figcaption>Figure 4. Inside the oven. Caesium-133 is heated to about 100&nbsp;&deg;C; the vapour streams out as a beam, split between the two hyperfine ground states F=3 and F=4.</figcaption>
+  </figure>
+
+  <p>The heart of it is the <strong>Ramsey cavity</strong>. Caesium-133's outer electron and its nucleus couple into two hyperfine ground states, F=3 and F=4; the clock works the field-insensitive transition between them, and it uses <strong>Ramsey's method of separated oscillatory fields</strong> &mdash; two microwave zones with a drift in between &mdash; to make the resonance razor-sharp, the technique that won Norman Ramsey a share of the 1989 Nobel Prize.<sup><a href="#ref-6">[6]</a></sup> In the build, the atoms are drawn as <strong>matter-wave packets</strong>, and an atom crossing the cavity shimmers between cyan and amber &mdash; a picture of a quantum superposition before it is measured.</p>
+
+  <figure>
+    <img src="assets/shot-cavity.png" alt="Screenshot: the Ramsey cavity flown into, showing the two glowing microwave rings, the C-field solenoid, labelled sub-parts (Waveguide flange, Beam collar, Waveguide arm, Tuning screws, U-waveguide, Microwave feed), faint matter-wave atoms crossing the gap, and a panel reading 'microwave ON, delta = +385 Hz'." width="2336" height="1462" loading="lazy">
+    <figcaption>Figure 5. The Ramsey cavity, dissected. Microwaves at 9,192,631,770&nbsp;Hz strike the beam in two zones; atoms that see the exact resonance flip F=3&nbsp;&rarr;&nbsp;F=4. The readout shows the current detuning the servo is chasing.</figcaption>
+  </figure>
+
+  <p>An <strong>exploded view</strong> slides every labelled part out from its sub-assembly at once, which is the fastest way to see how much is actually in there &mdash; the magnet yokes separating from their pole shoes and field coils, the oven from its crucible, the detector from its dynode stack.</p>
+
+  <figure>
+    <img src="assets/shot-exploded.png" alt="Screenshot: the entire atomic clock in exploded view, every component separated along the beam line and still labelled, on the white bench." width="2336" height="1462" loading="lazy">
+    <figcaption>Figure 6. Exploded. Every tagged part spreads out from its sub-assembly, labels intact, so nothing hides behind anything else.</figcaption>
+  </figure>
+
+  <p>Underneath the beam tube runs the part most people forget is even in a clock: the electronics. A <strong>quartz oscillator</strong> is the thing that actually ticks; it is stable in the short term but drifts, so the atoms discipline it. The detector count peaks dead on resonance, and a <strong>servo</strong> dithers the microwave and steers the quartz onto that peak. When it is centred, the quartz is <em>locked to caesium</em>, and a <strong>divider</strong> cuts the 9,192,631,770&nbsp;Hz down to one pulse per second.<sup><a href="#ref-7">[7]</a></sup></p>
+
+  <figure>
+    <img src="assets/shot-quartz.png" alt="Screenshot: the quartz oscillator flown into, showing its oven enclosure with the crystal can emerging, the board and trimmer, labelled, with its description panel." width="2336" height="1462" loading="lazy">
+    <figcaption>Figure 7. The quartz oscillator, flown into: a crystal in a thermostatted oven, disciplined by the atoms into a clock. This is the piece whose ticks become seconds.</figcaption>
+  </figure>
+
+  <h2>The numbers are real</h2>
+  <p>None of this is a cartoon bolted onto a 3D model. The panels beneath the scene read values derived from the simulated physics: the live Eastern time and UTC, the defining frequency, a counter racing through the 9,192,631,770 cycles that make up the current second, the lock status, the detuning, the fractional offset, and an Allan-deviation figure. Beside them, the <strong>Ramsey fringe</strong> is plotted live, with a marker showing where the servo is sitting on the central fringe.</p>
+
+  <figure>
+    <img src="assets/shot-readouts.png" alt="Screenshot: the instrument panels and the Ramsey fringe plot — Eastern Time, UTC, delta-nu-Cs = 9 192 631 770 Hz, cycles this second, lock status, detuning, fractional offset, Allan deviation — and a plotted Ramsey fringe with the servo lock point marked." width="2391" height="1195" loading="lazy">
+    <figcaption>Figure 8. The instrument panel. The Ramsey fringe (left) is computed and plotted live; the servo sits on its central peak. The counter top-right runs through this second's 9,192,631,770 cycles.</figcaption>
   </figure>
 
   <div class="callout">
-    <p><strong>An honest note on what this is.</strong> This is a faithful <em>simulation and visualisation</em> of how a caesium clock works, not a literal CAD model and not a real atomic reference. The quantum physics is modelled from the real quantities &mdash; the hyperfine states, the 9,192,631,770 Hz definition, the Ramsey interrogation, the servo lock. The time it displays is read from your device's network-synchronised clock and formatted to Eastern Time (America/New_York, so it handles the EST/EDT switch on its own); no web page can contain an actual caesium oscillator. The stability figures are representative of commercial caesium beam standards (around 10<sup>&minus;12</sup>); laboratory fountains do far better. We say what it is.</p>
+    <p><strong>An honest note on what this is.</strong> This is a faithful <em>simulation and visualisation</em> of how a caesium clock works, not a literal CAD model and not a real atomic reference. The quantum physics is modelled from the real quantities &mdash; the hyperfine states, the 9,192,631,770&nbsp;Hz definition, the Ramsey interrogation, the servo lock. The time it displays is read from your device's network-synchronised clock and formatted to Eastern Time (<code>America/New_York</code>, so it handles the EST/EDT switch itself); no web page can contain an actual caesium oscillator. The stability figures are representative of commercial caesium beam standards (around 10<sup>&minus;12</sup>); laboratory fountains do far better. The screenshots above are real captures of the running build. We say what it is.</p>
   </div>
 
-  <h2>Credit where it is due</h2>
-  <p>None of this would exist without the people who gave their work away. <strong>elvarofficial</strong> wrote and open-sourced the teardown skill that makes "take this machine apart in 3D" a one-line request.<sup><a href="#ref-1">[1]</a></sup> It stands on <strong>whaleyxbt's</strong> claude-motion runtime, and its sound work traces to CC0 samples from Freesound prepared in <strong>Barty-Bart's</strong> motion-graphics project.<sup><a href="#ref-2">[2]</a><sup><a href="#ref-3">[3]</a></sup> The 3D itself is <strong>three.js</strong>, MIT-licensed and maintained by mrdoob and hundreds of contributors.<sup><a href="#ref-4">[4]</a></sup> Our part was the prompting, the physics checks and the finish work. The foundation was theirs, freely offered, and that is worth naming out loud.</p>
+  <h2>Proof of concept: the code</h2>
+  <p>The whole clock is one self-contained HTML page. It pulls three.js from a single pinned CDN build and otherwise carries all of its own logic, which is the point of the format: one file, offline, nothing to install. The physics on screen is derived, not decorative &mdash; here are three pieces of it, straight from the source.</p>
 
-  <h2>Why a security firm cares about a 3D toy</h2>
-  <p>Because the pattern underneath it is the one we work in every day. One person with a clear idea, open-source foundations and an AI assistant can now ship real, inspectable software &mdash; and "inspectable" is the whole game. The teardown output is a single HTML file you can read end to end. Its one outside dependency is a pinned, versioned library from a CDN, which is exactly the kind of supply-chain detail a defender should pin or self-host rather than trust by default. The honest move, every time, is to publish the source, state plainly what is modelled versus real, and let people verify it. That is what we did here, and it is what we would tell any client shipping an AI-built product to do.</p>
+  <figure>
+    <img src="assets/fig-code.png" alt="Code excerpt: the SI-second constant 9192631770 and a cycles counter, a ramseyP() fringe function, and the matter-wave shader that gives atoms de Broglie fringes and a cavity superposition." width="1240" height="610" loading="lazy">
+    <figcaption>Figure 9. From the atomic clock's source. The caesium constant defines the second; <code>ramseyP()</code> is the fringe the servo locks to; the shader gives each atom speed-dependent fringes and the cavity superposition. The full source of all three builds is in this post's <code>code/</code> folder.</figcaption>
+  </figure>
+
+  <h2>Credit where it is due</h2>
+  <p>None of this would exist without the people who gave their work away. <strong>elvarofficial</strong> wrote and open-sourced the teardown skill that makes "take this machine apart in 3D" a one-line request.<sup><a href="#ref-1">[1]</a></sup> It stands on <strong>whaleyxbt's</strong> claude-motion runtime, and its sound work traces to CC0 samples from Freesound prepared in <strong>Barty-Bart's</strong> motion-graphics project.<sup><a href="#ref-2">[2]</a><sup><a href="#ref-3">[3]</a></sup> The 3D is <strong>three.js</strong>, MIT-licensed, by mrdoob and hundreds of contributors.<sup><a href="#ref-4">[4]</a></sup> Our part was the prompting, the physics checks and the finish work. The foundation was theirs, freely offered, and that deserves to be named.</p>
+
+  <h2>Why a security firm cares about a 3D clock</h2>
+  <p>Because the pattern underneath it is the one we work in every day. One person with a clear idea, open-source foundations and an AI assistant can now ship real, inspectable software &mdash; and "inspectable" is the whole game. The output is a single HTML file you can read end to end. Its one outside dependency is a pinned, versioned library from a CDN &mdash; exactly the kind of supply-chain detail a defender should pin or self-host rather than trust by default. The honest move, every time, is to publish the source, state plainly what is modelled versus real, and let people verify it. That is what we did here, and it is what we would tell any client shipping an AI-built product to do.</p>
 
   <h2>Take it apart yourself</h2>
-  <p>The best way to understand this project is to open it and start clicking. The three live builds below run entirely in your browser &mdash; no install, no account. Then go install the skill and build your own machine.</p>
+  <p>The best way to understand this is to open it and start clicking. All three builds run entirely in your browser &mdash; no install, no account. Then go install the skill and build your own machine.</p>
 
   <div class="cta">
-    <p><strong>Run the builds.</strong> Each opens in your browser; drag to orbit, click a part to dive in.</p>
+    <p><strong>Run the builds.</strong> Each opens in your browser; drag to orbit, click a part to fly in.</p>
     <a class="btn" href="code/atomic-clock.html" target="_blank" rel="noopener">Launch the atomic clock</a>
     <a class="btn alt" href="code/cuckoo-clock.html" target="_blank" rel="noopener">The cuckoo clock</a>
     <a class="btn alt" href="code/four-stroke-engine.html" target="_blank" rel="noopener">The engine</a>
@@ -157,7 +182,7 @@
   </div>
 
   <h2>Sources</h2>
-  <p class="sources">All links accessed November 1, 2026. Figures 1 to 4 were made for this article from the three builds and the project's own README; the code excerpt in Figure 4 is from the atomic clock's source, included in this post's <code>code/</code> folder.</p>
+  <p class="sources">All links accessed November 1, 2026. Figures 3 to 8 are real screenshots of the running atomic-clock build; Figure 1 and Figure 7 are likewise real captures; Figure 9 is from the clock's own source, included in this post's <code>code/</code> folder. The build is rendered for the article with a pinned three.js.</p>
   <ol class="sources">
     <li id="ref-1">elvarofficial. <em>teardown</em> &mdash; a Claude Code skill that turns any machine into a 3D simulator you can take apart. README, source and examples; MIT licence. <a href="https://github.com/elvarofficial/teardown" target="_blank" rel="noopener">github.com/elvarofficial/teardown</a></li>
     <li id="ref-2">whaleyxbt. <em>claude-motion</em> (MIT) &mdash; the runtime, frame capture and review rules teardown is built on. <a href="https://github.com/whaleyxbt/claude-motion" target="_blank" rel="noopener">github.com/whaleyxbt/claude-motion</a></li>
