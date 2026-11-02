@@ -255,10 +255,26 @@
   var PK = {}; var pickable = []; var pickParts=[], partsByComp={};
   function tag(m,comp,name,desc){ m.userData.info={comp:comp,name:name,desc:desc}; pickParts.push(m);
     var a=partsByComp[comp]||(partsByComp[comp]=[]); if(!a.some(function(p){return p.name===name;})) a.push({name:name,desc:desc,mesh:m}); return m; }
-  function MAT(color,o){ o=o||{}; return new THREE.MeshStandardMaterial({color:color,
-    metalness:o.metal!=null?o.metal:0.7, roughness:o.rough!=null?o.rough:0.4,
-    transparent:!!o.transparent, opacity:o.opacity!=null?o.opacity:1,
-    emissive:new THREE.Color(o.emissive||0x000000), emissiveIntensity:o.ei||0, side:o.side||THREE.FrontSide}); }
+  // shared micro-surface texture: fine machined/brushed detail for realistic metal highlights
+  var _mtex=null;
+  function metalTex(){ if(_mtex) return _mtex;
+    var c=document.createElement('canvas'); c.width=c.height=256; var x=c.getContext('2d');
+    var img=x.createImageData(256,256), d=img.data;
+    for(var i=0;i<d.length;i+=4){ var v=188+((Math.random()*67)|0); d[i]=d[i+1]=d[i+2]=v; d[i+3]=255; }
+    x.putImageData(img,0,0); x.globalAlpha=0.06; x.strokeStyle='#ffffff';
+    for(var s=0;s<140;s++){ x.beginPath(); var y=Math.random()*256; x.moveTo(0,y); x.lineTo(256,y+(Math.random()-0.5)*5); x.stroke(); }
+    var t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,3);
+    if('colorSpace' in t && THREE.NoColorSpace) t.colorSpace=THREE.NoColorSpace;
+    _mtex=t; return t;
+  }
+  function MAT(color,o){ o=o||{};
+    var metal=o.metal!=null?o.metal:0.7;
+    var m=new THREE.MeshStandardMaterial({color:color,
+      metalness: metal>=0.5?1.0:metal, roughness:o.rough!=null?o.rough:0.4,
+      transparent:!!o.transparent, opacity:o.opacity!=null?o.opacity:1,
+      emissive:new THREE.Color(o.emissive||0x000000), emissiveIntensity:o.ei||0, side:o.side||THREE.FrontSide});
+    if(metal>=0.5 && !o.transparent){ var t=metalTex(); m.roughnessMap=t; m.bumpMap=t; m.bumpScale=0.0025; m.envMapIntensity=1.0; }
+    return m; }
 
   var ATOMS=[], NA=150, posA, colorA, waveA, mixA, atomGeo, atomMat, atomPoints, colF3, colF4, colDim;
   function build(){
