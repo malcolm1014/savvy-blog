@@ -443,9 +443,12 @@
     var bbBody=new THREE.Mesh(new THREE.BoxGeometry(34,0.55,13), steel({color:0xb3b9c1,rough:0.5,surface:'brushed'})); bbBody.position.set(0,-3.825,0); bbBody.receiveShadow=true; root.add(bbBody);
     // edge rails along the long sides for a finished, machined look
     [-6.4,6.4].forEach(function(cz){ var rail=new THREE.Mesh(rbox(34,0.28,0.3,0.06), anodized({color:0x2a2f37})); rail.position.set(0,-3.5,cz); root.add(rail); });
+    // structural skirt frame under the breadboard + pneumatic isolation legs -> a floating optical table
+    var skirt=new THREE.Mesh(new THREE.BoxGeometry(33.4,0.7,12.4), anodized({color:0x24282f})); skirt.position.set(0,-4.45,0); root.add(skirt);
+    tableLeg(-15,-5.2); tableLeg(15,-5.2); tableLeg(-15,5.2); tableLeg(15,5.2);
     // room floor beneath, kept light so the background stays bright
-    var floor=new THREE.Mesh(new THREE.PlaneGeometry(80,46), new THREE.MeshStandardMaterial({color:0xeef1f5, roughness:0.5, metalness:0.0, envMapIntensity:0.6}));
-    floor.rotation.x=-Math.PI/2; floor.position.set(0,-4.12,0); floor.receiveShadow=true; root.add(floor);
+    var floor=new THREE.Mesh(new THREE.PlaneGeometry(90,54), new THREE.MeshStandardMaterial({color:0xeef1f5, roughness:0.55, metalness:0.0, envMapIntensity:0.55}));
+    floor.rotation.x=-Math.PI/2; floor.position.set(0,-6.7,0); floor.receiveShadow=true; root.add(floor);
     // hex-bolt detail on the vacuum end flanges + engraved spec plate on the bench
     [-6.6,6.6].forEach(function(fx){ for(var k=0;k<6;k++){ var a=k*Math.PI/3+0.4; root.add(hexBolt(fx, Math.cos(a)*0.5, Math.sin(a)*0.5, 0.05, 0x7a828c)); } });
     (function(){ var pc=document.createElement('canvas'); pc.width=512; pc.height=128; var px=pc.getContext('2d');
@@ -455,12 +458,22 @@
       px.fillStyle='#9fb3c6'; px.font='30px "JetBrains Mono", monospace';
       px.fillText('Cs-133  ·  9 192 631 770 Hz  ·  SAVVY SECURITY', 24, 92);
       var pt=new THREE.CanvasTexture(pc);
-      var plate=new THREE.Mesh(new THREE.PlaneGeometry(3.2,0.8), new THREE.MeshStandardMaterial({color:0xffffff, map:pt, metalness:0.1, roughness:0.6, envMapIntensity:0.25}));
+      var plate=new THREE.Mesh(new THREE.PlaneGeometry(3.2,0.8), new THREE.MeshStandardMaterial({color:0x9298a0, map:pt, metalness:0.2, roughness:0.6, envMapIntensity:0.2, emissive:0xffffff, emissiveMap:pt, emissiveIntensity:0.5}));
       plate.rotation.x=-Math.PI/2; plate.position.set(-3.4,-3.52,4.9); root.add(plate);
       var frame=new THREE.Mesh(rbox(3.4,0.06,1.0,0.03), steel({color:0x8a9099})); frame.position.set(-3.4,-3.55,4.9); root.add(frame); })();
     // hex standoff feet lifting each electronics module off the breadboard
     [-4,-1,2,5].forEach(function(mx){ for(var c=0;c<4;c++){ var sx=mx+(c<2?-0.46:0.46), sz=(c%2?0.3:-0.3);
       root.add(mesh(new THREE.CylinderGeometry(0.06,0.06,0.5,6), steel({color:0x9298a0,rough:0.35}), sx,-3.3,sz)); }});
+    // rack-mount controller instrument at the left end, facing the bench; its harness feeds the oscillator rail
+    root.add(rackUnit(-10.8,0.4));
+    root.add(coax(-9.4,-2.9,0.6, -4.5,-3,0.3, 0.5, 0x25303c, 0.045));   // controller -> quartz (reference)
+    root.add(coax(-9.4,-2.6,0.2, -1.4,-3,0.3, 0.6, 0x3a2f5a, 0.04));    // controller -> synth (control)
+    // cable tray along the front edge, carrying the harness
+    root.add(cableTray(-13,6.0, 13,6.0));
+    root.add(coax(5.2,-3,0.4, 10,-3.2,5.6, 0.3, 0x2f6a5a, 0.04));       // divider out -> tray
+    root.add(coax(-10.8,-3.0,1.4, -8,-3.2,5.6, 0.3, 0x25303c, 0.04));   // controller -> tray
+    // vacuum gauge + angle valve on the ion-pump manifold
+    root.add(vacGauge(2.6,1.1));
     // faint occlusion blob to seat the assembly, under the real cast shadow
     var shc=document.createElement('canvas'); shc.width=shc.height=256; var sx=shc.getContext('2d');
     var sg=sx.createRadialGradient(128,128,8,128,128,128); sg.addColorStop(0,'rgba(18,28,38,0.36)'); sg.addColorStop(0.7,'rgba(18,28,38,0.12)'); sg.addColorStop(1,'rgba(18,28,38,0)');
@@ -596,6 +609,77 @@
     var pl=mesh(rbox(0.1,0.58,0.9),padM,x-0.2,-0.63,0); pl.rotation.z= 0.52; grp.add(pl);                            // V pad L
     var pr=mesh(rbox(0.1,0.58,0.9),padM,x+0.2,-0.63,0); pr.rotation.z=-0.52; grp.add(pr);                            // V pad R
     return grp; }
+
+  // pneumatic isolation leg of the optical table (top mount, piston tube, bellows, base foot)
+  function tableLeg(x,z){ var g=new THREE.Group();
+    g.add(mesh(new THREE.CylinderGeometry(0.5,0.5,0.16,24), steel({color:0x8a9099,rough:0.4}), x,-4.78,z));         // top mount plate
+    g.add(mesh(new THREE.CylinderGeometry(0.38,0.38,1.5,24), MAT(0x3a4049,{metal:0.9,rough:0.34,surface:'brushed'}), x,-5.6,z)); // piston tube
+    g.add(mesh(new THREE.CylinderGeometry(0.46,0.46,0.3,24), anodized({color:0x22262d}), x,-6.0,z));                // bellows band
+    g.add(mesh(new THREE.CylinderGeometry(0.72,0.82,0.22,28), steel({color:0x6c7682,rough:0.45}), x,-6.58,z));     // base foot
+    return g; }
+
+  // 19" rack-mount controller: chassis, rack ears, feet, detailed front panel, 3D knobs/connectors
+  function rackUnit(x,z){ var g=new THREE.Group(); var H=1.5, W=2.9, D=2.3, cy=-3.54+H/2;
+    g.add(mesh(rbox(W,H,D,0.05), anodized({color:0x2b303a}), x,cy,z));                                    // chassis
+    g.add(mesh(rbox(W-0.1,H*0.9,0.04), MAT(0x3a4049,{metal:0.85,rough:0.3}), x,cy,z+D/2+0.001));          // brushed panel backing
+    var earM=steel({color:0x8a9099,rough:0.3});
+    g.add(mesh(rbox(0.14,H*0.82,0.5), earM, x-W/2-0.03,cy,z+D/2-0.35));
+    g.add(mesh(rbox(0.14,H*0.82,0.5), earM, x+W/2+0.03,cy,z+D/2-0.35));
+    [[-W/2+0.25,-D/2+0.25],[W/2-0.25,-D/2+0.25],[-W/2+0.25,D/2-0.25],[W/2-0.25,D/2-0.25]].forEach(function(p){
+      g.add(mesh(new THREE.CylinderGeometry(0.1,0.12,0.12,14), MAT(0x15181c,{metal:0.1,rough:0.7}), x+p[0],-3.6,z+p[1])); }); // rubber feet
+    // top ventilation slots
+    for(var v=0;v<7;v++){ g.add(mesh(rbox(W*0.6,0.02,0.05), MAT(0x15181c,{metal:0.2,rough:0.6}), x,-3.54+H+0.001,z-0.5+v*0.16)); }
+    // front-panel graphics
+    var pc=document.createElement('canvas'); pc.width=640; pc.height=320; var px=pc.getContext('2d');
+    px.fillStyle='#20252c'; px.fillRect(0,0,640,320);
+    px.strokeStyle='#454b54'; px.lineWidth=3; px.strokeRect(5,5,630,310);
+    px.fillStyle='#cfd8e2'; px.font='bold 30px Oswald, Arial, sans-serif'; px.textBaseline='middle';
+    px.fillText('Cs FREQUENCY STANDARD · CONTROLLER', 26, 36);
+    px.fillStyle='#0a0f0c'; px.fillRect(26,60,330,70); px.strokeStyle='#0c3a2a'; px.strokeRect(26,60,330,70);
+    px.fillStyle='#35e0a0'; px.font='bold 46px "JetBrains Mono", monospace';
+    px.fillText('9192631770', 40, 97); px.fillStyle='#1b7a5a'; px.font='16px "JetBrains Mono", monospace'; px.fillText('Hz', 300, 104);
+    px.fillStyle='#8aa0b4'; px.font='15px "JetBrains Mono", monospace';
+    px.fillText('LOCKED', 400, 78); px.fillText('OVEN  OK', 400, 102); px.fillText('SERVO ON', 400, 126);
+    px.fillStyle='#2ad06a'; [74,98,122].forEach(function(yy){ px.beginPath(); px.arc(388,yy,6,0,6.2831); px.fill(); });
+    px.fillStyle='#6a7686'; px.font='13px "JetBrains Mono", monospace';
+    ['GAIN','PHASE','C-FIELD','OUTPUT'].forEach(function(t,i){ px.fillText(t, 60+i*140, 300); });
+    var pt=new THREE.CanvasTexture(pc);
+    g.add(mesh(new THREE.PlaneGeometry(W*0.95,H*0.86), new THREE.MeshStandardMaterial({color:0x8d939c,map:pt,metalness:0.2,roughness:0.55,envMapIntensity:0.25,emissive:0xffffff,emissiveMap:pt,emissiveIntensity:0.55}), x,cy,z+D/2+0.012));
+    // 3D knobs + BNC connectors protruding from the panel
+    var kn=MAT(0x15181c,{metal:0.3,rough:0.5}), bn=brass({color:0xc9a24a});
+    for(var k=0;k<4;k++){ var kx=x-0.98+k*0.62; var kb=mesh(new THREE.CylinderGeometry(0.1,0.11,0.12,20), kn, kx,cy-0.44,z+D/2+0.06); kb.rotation.x=Math.PI/2; g.add(kb);
+      var pr=mesh(new THREE.CylinderGeometry(0.012,0.012,0.12,8), steel({color:0xd0d6de}), kx,cy-0.40,z+D/2+0.1); pr.rotation.x=Math.PI/2; g.add(pr); }
+    for(var b=0;b<3;b++){ var bx=x+0.5+b*0.28; var bc=mesh(new THREE.CylinderGeometry(0.05,0.05,0.14,14), bn, bx,cy+0.36,z+D/2+0.05); bc.rotation.x=Math.PI/2; g.add(bc); }
+    return g; }
+
+  // cable tray (U-channel) running along the bench front edge
+  function cableTray(ax,az,bx,bz){ var g=new THREE.Group(); var len=Math.abs(bx-ax), cx=(ax+bx)/2;
+    var trM=anodized({color:0x3a4049});
+    g.add(mesh(rbox(len,0.06,0.5,0.02), trM, cx,-3.62,az));                                  // tray base
+    g.add(mesh(rbox(len,0.18,0.04), trM, cx,-3.54,az-0.24));                                 // front lip
+    g.add(mesh(rbox(len,0.18,0.04), trM, cx,-3.54,az+0.24));                                 // back lip
+    for(var i=0;i<=len;i+=1.3){ g.add(mesh(rbox(0.05,0.14,0.46), MAT(0x2a2f37,{metal:0.6,rough:0.4}), ax+i,-3.56,az)); } // ladder rungs
+    // a couple of cables lying in the tray
+    var ca=new THREE.Vector3(ax+0.5,-3.56,az), cb=new THREE.Vector3(bx-0.5,-3.56,az);
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.LineCurve3(ca,cb),2,0.04,12,false), MAT(0x25303c,{metal:0.5,rough:0.4,surface:'brushed'})));
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.LineCurve3(ca.clone().add(new THREE.Vector3(0,0.02,0.1)),cb.clone().add(new THREE.Vector3(0,0.02,0.1))),2,0.035,12,false), MAT(0x2f6a5a,{metal:0.5,rough:0.4,surface:'brushed'})));
+    return g; }
+
+  // vacuum gauge head + angle valve on the pump manifold
+  function vacGauge(x,yTop){ var g=new THREE.Group();
+    g.add(mesh(new THREE.CylinderGeometry(0.07,0.07,0.5,16), steel({color:0x8a9099}), x,-0.9,0.5));        // riser tube
+    g.add(mesh(new THREE.CylinderGeometry(0.12,0.12,0.14,20), brass({color:0xc0a24a}), x,-0.62,0.5));      // body
+    // round dial face with needle
+    var dc=document.createElement('canvas'); dc.width=dc.height=128; var dx=dc.getContext('2d');
+    dx.fillStyle='#f3f1e8'; dx.beginPath(); dx.arc(64,64,60,0,6.2831); dx.fill();
+    dx.strokeStyle='#222'; dx.lineWidth=3; dx.beginPath(); dx.arc(64,64,58,0,6.2831); dx.stroke();
+    dx.strokeStyle='#444'; dx.lineWidth=2; for(var t=0;t<11;t++){ var a=Math.PI*0.75+t*Math.PI*1.5/10; dx.beginPath(); dx.moveTo(64+Math.cos(a)*48,64+Math.sin(a)*48); dx.lineTo(64+Math.cos(a)*56,64+Math.sin(a)*56); dx.stroke(); }
+    dx.strokeStyle='#c22'; dx.lineWidth=3; var na=Math.PI*0.75+2.3*Math.PI*1.5/10; dx.beginPath(); dx.moveTo(64,64); dx.lineTo(64+Math.cos(na)*44,64+Math.sin(na)*44); dx.stroke();
+    dx.fillStyle='#333'; dx.font='11px Arial'; dx.textAlign='center'; dx.fillText('mbar',64,92);
+    var dt=new THREE.CanvasTexture(dc);
+    var face=mesh(new THREE.CircleGeometry(0.16,28), new THREE.MeshStandardMaterial({color:0xffffff,map:dt,metalness:0.1,roughness:0.5}), x,-0.5,0.66); g.add(face);
+    g.add(mesh(new THREE.TorusGeometry(0.16,0.02,12,28), steel({color:0x9298a0}), x,-0.5,0.655));           // bezel
+    return g; }
 
   function ovenUnit(ck){ var g=new THREE.Group();
     // outer wall — semi-transparent so the crucible inside is visible
