@@ -337,7 +337,7 @@
   function build(){
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf4f6f8);
-    scene.fog = new THREE.Fog(0xf4f6f8, 22, 48);
+    scene.fog = new THREE.Fog(0xf4f6f8, 26, 62);
     camera = new THREE.PerspectiveCamera(42,1,0.1,120);
     renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
     renderer.setClearColor(0xf4f6f8,1);
@@ -402,9 +402,8 @@
     var magB=mesh(rbox(0.2,0.9,0.95), MAT(0x2a3a5a,{metal:0.4,rough:0.5}),3.0,-1.3,0); root.add(magB);
     tag(magA,'vacuum','Pump magnets','Permanent magnets that spiral the ionising electrons, boosting the pump efficiency.');
     tag(magB,'vacuum','Pump magnets','Permanent magnets that spiral the ionising electrons, boosting the pump efficiency.');
-    var stA=mesh(rbox(0.3,1.4,0.5), MAT(0x2a2e34,{rough:0.6}),-3,-1.35,0); root.add(stA);
-    var stB=mesh(rbox(0.3,1.4,0.5), MAT(0x2a2e34,{rough:0.6}),0.2,-1.35,0); root.add(stB);
-    tag(stA,'vacuum','Support stand','Rigid stand isolating the tube from floor vibration.'); tag(stB,'vacuum','Support stand','Rigid stand isolating the tube from floor vibration.');
+    // kinematic support towers rising from the breadboard to cradle the beam tube
+    root.add(vmount(-2.6)); root.add(vmount(2.6));
     // flush weld collars where modules join the tube
     [-5.9,-4,4,5.9].forEach(function(cx){ var cc=mesh(new THREE.TorusGeometry(0.57,0.03,14,40), MAT(0x9aa0a8,{metal:0.8,rough:0.3}),cx,0,0); cc.rotation.y=Math.PI/2; root.add(cc); tag(cc,'vacuum','Weld collar','A vacuum-tight collar where a module joins the beam tube.'); });
 
@@ -430,9 +429,32 @@
     root.add(coax(6.2,-0.4,0.25, 2,-3,0.25, 0.5, 0x3a2f5a, 0.035));   // detector -> servo (signal)
     root.add(coax(2,-3,-0.25, -4,-3,-0.25, 0.55, 0x2f6a5a, 0.035));   // servo -> xo (correction)
 
-    // lab-bench floor
-    var floor=new THREE.Mesh(new THREE.PlaneGeometry(46,24), new THREE.MeshStandardMaterial({color:0xe9edf2, roughness:0.45, metalness:0.0, envMapIntensity:0.9}));
-    floor.rotation.x=-Math.PI/2; floor.position.set(0,-3.54,0); floor.receiveShadow=true; root.add(floor);
+    // ---- lab bench: aluminium optical breadboard on a room floor (architectural base) ----
+    var bbTex=breadboardTex(); bbTex.repeat.set(5,2);
+    var bbMat=new THREE.MeshStandardMaterial({color:0xccd1d8, metalness:1.0, roughness:0.44, map:bbTex, bumpMap:bbTex, bumpScale:0.006}); bbMat.envMapIntensity=0.7;
+    var bbTop=new THREE.Mesh(new THREE.PlaneGeometry(34,13), bbMat);
+    bbTop.rotation.x=-Math.PI/2; bbTop.position.set(0,-3.54,0); bbTop.receiveShadow=true; root.add(bbTop);
+    var bbBody=new THREE.Mesh(new THREE.BoxGeometry(34,0.55,13), steel({color:0xb3b9c1,rough:0.5,surface:'brushed'})); bbBody.position.set(0,-3.825,0); bbBody.receiveShadow=true; root.add(bbBody);
+    // edge rails along the long sides for a finished, machined look
+    [-6.4,6.4].forEach(function(cz){ var rail=new THREE.Mesh(rbox(34,0.28,0.3,0.06), anodized({color:0x2a2f37})); rail.position.set(0,-3.5,cz); root.add(rail); });
+    // room floor beneath, kept light so the background stays bright
+    var floor=new THREE.Mesh(new THREE.PlaneGeometry(80,46), new THREE.MeshStandardMaterial({color:0xeef1f5, roughness:0.5, metalness:0.0, envMapIntensity:0.6}));
+    floor.rotation.x=-Math.PI/2; floor.position.set(0,-4.12,0); floor.receiveShadow=true; root.add(floor);
+    // hex-bolt detail on the vacuum end flanges + engraved spec plate on the bench
+    [-6.6,6.6].forEach(function(fx){ for(var k=0;k<6;k++){ var a=k*Math.PI/3+0.4; root.add(hexBolt(fx, Math.cos(a)*0.5, Math.sin(a)*0.5, 0.05, 0x7a828c)); } });
+    (function(){ var pc=document.createElement('canvas'); pc.width=512; pc.height=128; var px=pc.getContext('2d');
+      px.fillStyle='#1a1d22'; px.fillRect(0,0,512,128); px.strokeStyle='#3a3f47'; px.lineWidth=4; px.strokeRect(4,4,504,120);
+      px.fillStyle='#e6edf5'; px.font='bold 52px Oswald, Arial, sans-serif'; px.textBaseline='middle';
+      px.fillText('CAESIUM BEAM FREQUENCY STANDARD', 24, 46);
+      px.fillStyle='#9fb3c6'; px.font='30px "JetBrains Mono", monospace';
+      px.fillText('Cs-133  ·  9 192 631 770 Hz  ·  SAVVY SECURITY', 24, 92);
+      var pt=new THREE.CanvasTexture(pc);
+      var plate=new THREE.Mesh(new THREE.PlaneGeometry(3.2,0.8), new THREE.MeshStandardMaterial({color:0xffffff, map:pt, metalness:0.1, roughness:0.6, envMapIntensity:0.25}));
+      plate.rotation.x=-Math.PI/2; plate.position.set(-3.4,-3.52,4.9); root.add(plate);
+      var frame=new THREE.Mesh(rbox(3.4,0.06,1.0,0.03), steel({color:0x8a9099})); frame.position.set(-3.4,-3.55,4.9); root.add(frame); })();
+    // hex standoff feet lifting each electronics module off the breadboard
+    [-4,-1,2,5].forEach(function(mx){ for(var c=0;c<4;c++){ var sx=mx+(c<2?-0.46:0.46), sz=(c%2?0.3:-0.3);
+      root.add(mesh(new THREE.CylinderGeometry(0.06,0.06,0.5,6), steel({color:0x9298a0,rough:0.35}), sx,-3.3,sz)); }});
     // faint occlusion blob to seat the assembly, under the real cast shadow
     var shc=document.createElement('canvas'); shc.width=shc.height=256; var sx=shc.getContext('2d');
     var sg=sx.createRadialGradient(128,128,8,128,128,128); sg.addColorStop(0,'rgba(18,28,38,0.36)'); sg.addColorStop(0.7,'rgba(18,28,38,0.12)'); sg.addColorStop(1,'rgba(18,28,38,0)');
@@ -524,12 +546,50 @@
     var mid=a.clone().add(b).multiplyScalar(0.5); mid.y -= (sag==null?0.3:sag);
     var curve=new THREE.QuadraticBezierCurve3(a,mid,b);
     var grp=new THREE.Group();
-    grp.add(new THREE.Mesh(new THREE.TubeGeometry(curve,30,r,14,false), MAT(color,{metal:0.6,rough:0.3})));  // braided sheen
+    grp.add(new THREE.Mesh(new THREE.TubeGeometry(curve,36,r,16,false), MAT(color,{metal:0.6,rough:0.3,surface:'brushed'})));  // braided sheen
     var up=new THREE.Vector3(0,1,0), bm=MAT(0x12161b,{metal:0.4,rough:0.5});
     function boot(pt,dir){ var m=new THREE.Mesh(new THREE.CylinderGeometry(r*2.2,r*1.3,0.16,16), bm); m.position.copy(pt); m.quaternion.setFromUnitVectors(up, dir.clone().normalize()); grp.add(m); }
     boot(a, mid.clone().sub(a)); boot(b, b.clone().sub(mid));
+    // nylon cable ties clamping the run at intervals
+    var tieM=MAT(0x15181d,{metal:0.1,rough:0.6});
+    [0.34,0.66].forEach(function(t){ var p=curve.getPointAt(t), tg=curve.getTangentAt(t);
+      var tie=new THREE.Mesh(new THREE.TorusGeometry(r*1.5,r*0.5,10,18), tieM); tie.position.copy(p);
+      tie.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), tg.clone().normalize()); grp.add(tie); });
     return grp;
   }
+
+  // ===== architectural fixtures (never tagged -> stay fixed while parts explode) =====
+  // aluminium optical breadboard: a tapped-hole grid, used as colour + bump map
+  var _bbTex=null;
+  function breadboardTex(){ if(_bbTex) return _bbTex;
+    var c=document.createElement('canvas'); c.width=c.height=1024; var x=c.getContext('2d');
+    x.fillStyle='#d7dbe1'; x.fillRect(0,0,1024,1024);
+    x.globalAlpha=0.045; x.strokeStyle='#ffffff';
+    for(var s=0;s<360;s++){ var y=Math.random()*1024; x.beginPath(); x.moveTo(0,y); x.lineTo(1024,y+(Math.random()-0.5)*2.5); x.stroke(); }
+    x.globalAlpha=1;
+    var pitch=64, R=15;
+    for(var gy=pitch/2; gy<1024; gy+=pitch){ for(var gx=pitch/2; gx<1024; gx+=pitch){
+      var rg=x.createRadialGradient(gx-2,gy-2,1,gx,gy,R+3);
+      rg.addColorStop(0,'#24272c'); rg.addColorStop(0.5,'#373b41'); rg.addColorStop(0.72,'#c3c7cd'); rg.addColorStop(1,'rgba(215,219,225,0)');
+      x.fillStyle=rg; x.beginPath(); x.arc(gx,gy,R+3,0,6.2831); x.fill();
+      x.fillStyle='#15171a'; x.beginPath(); x.arc(gx,gy,R*0.5,0,6.2831); x.fill();
+    }}
+    _bbTex=new THREE.CanvasTexture(c); _bbTex.wrapS=_bbTex.wrapT=THREE.RepeatWrapping; return _bbTex; }
+  // a hex-head bolt (cap + optional shank)
+  function hexBolt(x,y,z,rad,col){ var g=new THREE.Group();
+    var head=new THREE.Mesh(new THREE.CylinderGeometry(rad,rad,rad*0.9,6), steel({color:col||0x6c7682,rough:0.34}));
+    head.position.set(x,y,z); g.add(head); return head; }
+  // a kinematic post + V-saddle that cradles the beam tube, rising from the breadboard
+  function vmount(x){ var grp=new THREE.Group();
+    grp.add(mesh(new THREE.CylinderGeometry(0.42,0.5,0.14,28), steel({color:0x878e97,rough:0.34}), x,-3.46,0));     // foot plate
+    for(var bi=0;bi<4;bi++){ var a=bi*Math.PI/2+0.78; grp.add(hexBolt(x+Math.cos(a)*0.33,-3.38,Math.sin(a)*0.33,0.05,0x5a626c)); }
+    grp.add(mesh(new THREE.CylinderGeometry(0.17,0.17,2.5,28), MAT(0x30353d,{metal:0.9,rough:0.34,surface:'brushed'}), x,-2.2,0)); // post
+    grp.add(mesh(new THREE.CylinderGeometry(0.23,0.23,0.5,28), anodized({color:0x262b32}), x,-1.0,0));               // post holder
+    grp.add(hexBolt(x+0.23,-1.0,0,0.055,0x3a3f47));                                                                   // locking screw
+    var padM=steel({color:0x9aa1aa,rough:0.28});
+    var pl=mesh(rbox(0.1,0.58,0.9),padM,x-0.2,-0.63,0); pl.rotation.z= 0.52; grp.add(pl);                            // V pad L
+    var pr=mesh(rbox(0.1,0.58,0.9),padM,x+0.2,-0.63,0); pr.rotation.z=-0.52; grp.add(pr);                            // V pad R
+    return grp; }
 
   function ovenUnit(ck){ var g=new THREE.Group();
     // outer wall — semi-transparent so the crucible inside is visible
