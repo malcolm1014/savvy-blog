@@ -261,26 +261,83 @@
   var PK = {}; var pickable = []; var pickParts=[], partsByComp={};
   function tag(m,comp,name,desc){ m.userData.info={comp:comp,name:name,desc:desc}; pickParts.push(m);
     var a=partsByComp[comp]||(partsByComp[comp]=[]); if(!a.some(function(p){return p.name===name;})) a.push({name:name,desc:desc,mesh:m}); return m; }
-  // shared micro-surface texture: fine machined/brushed detail for realistic metal highlights
-  var _mtex=null;
-  function metalTex(){ if(_mtex) return _mtex;
+  // ---- procedural micro-surface textures, by material class (realistic highlights) ----
+  var _tex={};
+  function noColor(t){ if('colorSpace' in t && THREE.NoColorSpace) t.colorSpace=THREE.NoColorSpace; return t; }
+  // fine machined grain + faint brushed streaks — the default metal surface
+  function fineTex(){ if(_tex.fine) return _tex.fine;
     var c=document.createElement('canvas'); c.width=c.height=256; var x=c.getContext('2d');
     var img=x.createImageData(256,256), d=img.data;
-    for(var i=0;i<d.length;i+=4){ var v=188+((Math.random()*67)|0); d[i]=d[i+1]=d[i+2]=v; d[i+3]=255; }
-    x.putImageData(img,0,0); x.globalAlpha=0.06; x.strokeStyle='#ffffff';
-    for(var s=0;s<140;s++){ x.beginPath(); var y=Math.random()*256; x.moveTo(0,y); x.lineTo(256,y+(Math.random()-0.5)*5); x.stroke(); }
+    for(var i=0;i<d.length;i+=4){ var v=180+((Math.random()*75)|0); d[i]=d[i+1]=d[i+2]=v; d[i+3]=255; }
+    x.putImageData(img,0,0); x.globalAlpha=0.05; x.strokeStyle='#ffffff';
+    for(var s=0;s<150;s++){ x.beginPath(); var y=Math.random()*256; x.moveTo(0,y); x.lineTo(256,y+(Math.random()-0.5)*4); x.stroke(); }
     var t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,3);
-    if('colorSpace' in t && THREE.NoColorSpace) t.colorSpace=THREE.NoColorSpace;
-    _mtex=t; return t;
-  }
+    _tex.fine=noColor(t); return t; }
+  // anisotropic brushed metal — long directional streaks (turned/drawn cylinders)
+  function brushedTex(){ if(_tex.brushed) return _tex.brushed;
+    var c=document.createElement('canvas'); c.width=512; c.height=128; var x=c.getContext('2d');
+    x.fillStyle='#c0c0c0'; x.fillRect(0,0,512,128);
+    for(var s=0;s<2600;s++){ var y=Math.random()*128, len=30+Math.random()*180, gx=Math.random()*512;
+      var g=120+((Math.random()*120)|0); x.strokeStyle='rgba('+g+','+g+','+g+','+(0.06+Math.random()*0.12).toFixed(3)+')';
+      x.lineWidth=0.6+Math.random()*0.8; x.beginPath(); x.moveTo(gx,y); x.lineTo(gx+len,y+(Math.random()-0.5)*1.2); x.stroke(); }
+    var t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(2,1);
+    _tex.brushed=noColor(t); return t; }
+  // cast / sand-blasted grain — irregular blobby speckle (iron yokes, cast enclosures)
+  function castTex(){ if(_tex.cast) return _tex.cast;
+    var c=document.createElement('canvas'); c.width=c.height=256; var x=c.getContext('2d');
+    x.fillStyle='#b4b4b4'; x.fillRect(0,0,256,256);
+    for(var s=0;s<4200;s++){ var r=0.5+Math.random()*2.2, g=90+((Math.random()*150)|0);
+      x.fillStyle='rgba('+g+','+g+','+g+','+(0.10+Math.random()*0.18).toFixed(3)+')';
+      x.beginPath(); x.arc(Math.random()*256,Math.random()*256,r,0,6.2831); x.fill(); }
+    var t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(2,2);
+    _tex.cast=noColor(t); return t; }
+  // FR-4 solder-mask weave — subtle woven glass-cloth texture for PCBs
+  function pcbTex(){ if(_tex.pcb) return _tex.pcb;
+    var c=document.createElement('canvas'); c.width=c.height=128; var x=c.getContext('2d');
+    x.fillStyle='#808080'; x.fillRect(0,0,128,128);
+    x.globalAlpha=0.12; x.strokeStyle='#ffffff'; x.lineWidth=1;
+    for(var i=0;i<128;i+=6){ x.beginPath(); x.moveTo(i,0); x.lineTo(i,128); x.stroke(); x.beginPath(); x.moveTo(0,i); x.lineTo(128,i); x.stroke(); }
+    x.globalAlpha=0.10; x.fillStyle='#000';
+    for(var s=0;s<400;s++){ x.fillRect(Math.random()*128,Math.random()*128,1,1); }
+    var t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,3);
+    _tex.pcb=noColor(t); return t; }
+
+  // MAT(color, opts) — physically-based material. opts:
+  //   metal (0..1), rough, transparent, opacity, emissive, ei, side,
+  //   surface:'brushed'|'cast'|'fine'|'none', clearcoat, ccRough, env, bump
   function MAT(color,o){ o=o||{};
     var metal=o.metal!=null?o.metal:0.7;
-    var m=new THREE.MeshStandardMaterial({color:color,
+    var isMetal=metal>=0.5 && !o.transparent;
+    var base={color:color,
       metalness: metal>=0.5?1.0:metal, roughness:o.rough!=null?o.rough:0.4,
       transparent:!!o.transparent, opacity:o.opacity!=null?o.opacity:1,
-      emissive:new THREE.Color(o.emissive||0x000000), emissiveIntensity:o.ei||0, side:o.side||THREE.FrontSide});
-    if(metal>=0.5 && !o.transparent){ var t=metalTex(); m.roughnessMap=t; m.bumpMap=t; m.bumpScale=0.0025; m.envMapIntensity=1.0; }
+      emissive:new THREE.Color(o.emissive||0x000000), emissiveIntensity:o.ei||0, side:o.side||THREE.FrontSide};
+    var m;
+    if(o.clearcoat!=null){ // painted / solder-mask: a thin glossy coat over a matte base
+      m=new THREE.MeshPhysicalMaterial(base); m.clearcoat=o.clearcoat; m.clearcoatRoughness=o.ccRough!=null?o.ccRough:0.25;
+    } else { m=new THREE.MeshStandardMaterial(base); }
+    // choose a micro-surface normal/roughness map by surface class
+    var surf=o.surface;
+    if(surf==null && isMetal) surf='fine';
+    var tex=null;
+    if(surf==='brushed') tex=brushedTex();
+    else if(surf==='cast') tex=castTex();
+    else if(surf==='fine') tex=fineTex();
+    else if(surf==='pcb') tex=pcbTex();
+    if(tex){ m.bumpMap=tex; m.bumpScale=o.bump!=null?o.bump:(surf==='cast'?0.006:surf==='brushed'?0.004:0.0025);
+      if(isMetal){ m.roughnessMap=tex; } }
+    m.envMapIntensity=o.env!=null?o.env:(isMetal?1.15:0.9);
     return m; }
+
+  // ---- named material classes tuned to real caesium-tube hardware ----
+  function copper(o){ o=o||{}; return MAT(o.color||0xb87333,{metal:1,rough:o.rough!=null?o.rough:0.32,surface:o.surface||'brushed',env:1.25,emissive:o.emissive,ei:o.ei}); }
+  function brass(o){ o=o||{}; return MAT(o.color||0xc9a24a,{metal:1,rough:o.rough!=null?o.rough:0.28,surface:o.surface||'brushed',env:1.2}); }
+  function steel(o){ o=o||{}; return MAT(o.color||0x9199a3,{metal:1,rough:o.rough!=null?o.rough:0.3,surface:o.surface||'brushed',env:1.2}); }
+  function polishedSteel(o){ o=o||{}; return MAT(o.color||0xd2d9e2,{metal:1,rough:o.rough!=null?o.rough:0.13,surface:'fine',env:1.4}); }
+  function castIron(o){ o=o||{}; return MAT(o.color||0x3f4753,{metal:1,rough:o.rough!=null?o.rough:0.52,surface:'cast',env:0.8}); }
+  function anodized(o){ o=o||{}; return MAT(o.color||0x2e3640,{metal:0.9,rough:o.rough!=null?o.rough:0.44,surface:'cast',clearcoat:0.3,ccRough:0.4,env:0.85}); }
+  function ceramic(o){ o=o||{}; return MAT(o.color||0xece6d6,{metal:0,rough:o.rough!=null?o.rough:0.82,surface:'none',env:0.5}); }
+  function fr4(o){ o=o||{}; return MAT(o.color||0x1f5a37,{metal:0.05,rough:0.52,surface:'pcb',clearcoat:0.55,ccRough:0.3,env:0.7}); }
 
   var ATOMS=[], NA=150, posA, colorA, waveA, mixA, atomGeo, atomMat, atomPoints, colF3, colF4, colDim;
   function build(){
@@ -296,26 +353,39 @@
     renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     raycaster = new THREE.Raycaster(); pointer = new THREE.Vector2();
 
-    // gentle studio reflections on the metalwork (kept subtle so the palette stays rich)
+    // studio softbox environment: a bright sky, a few soft rectangular highlights (key
+    // light-panels) and a darker floor — gives the metalwork believable, varied reflections
     (function(){
-      var ec=document.createElement('canvas'); ec.width=512; ec.height=256; var ex=ec.getContext('2d');
-      var g=ex.createLinearGradient(0,0,0,256);
-      g.addColorStop(0,'#c6ced7'); g.addColorStop(0.47,'#8f99a6'); g.addColorStop(0.53,'#747f8c'); g.addColorStop(1,'#444e58');
-      ex.fillStyle=g; ex.fillRect(0,0,512,256);
-      var rg=ex.createRadialGradient(360,62,6,360,62,120); rg.addColorStop(0,'rgba(255,255,255,0.55)'); rg.addColorStop(1,'rgba(255,255,255,0)');
-      ex.fillStyle=rg; ex.fillRect(0,0,512,256);
+      var ec=document.createElement('canvas'); ec.width=1024; ec.height=512; var ex=ec.getContext('2d');
+      var g=ex.createLinearGradient(0,0,0,512);
+      g.addColorStop(0,'#eef2f6'); g.addColorStop(0.42,'#c3ccd6'); g.addColorStop(0.5,'#9aa4b0');
+      g.addColorStop(0.58,'#6d7682'); g.addColorStop(1,'#373e47');
+      ex.fillStyle=g; ex.fillRect(0,0,1024,512);
+      // soft rectangular softboxes near the top (the reflections that read as "studio")
+      function panel(cx,cy,w,h,a){ var rg=ex.createRadialGradient(cx,cy,2,cx,cy,Math.max(w,h));
+        rg.addColorStop(0,'rgba(255,255,255,'+a+')'); rg.addColorStop(0.6,'rgba(255,255,255,'+(a*0.4).toFixed(3)+')'); rg.addColorStop(1,'rgba(255,255,255,0)');
+        ex.save(); ex.translate(cx,cy); ex.scale(w/Math.max(w,h),h/Math.max(w,h)); ex.translate(-cx,-cy);
+        ex.fillStyle=rg; ex.fillRect(cx-w,cy-h,2*w,2*h); ex.restore(); }
+      panel(300,120,150,60,0.95); panel(620,95,120,46,0.8); panel(850,150,90,70,0.6);
+      panel(140,180,70,40,0.45);
+      // a warm bounce low-left and a cool bounce low-right for color interest on metals
+      var wb=ex.createRadialGradient(220,360,4,220,360,180); wb.addColorStop(0,'rgba(255,226,180,0.30)'); wb.addColorStop(1,'rgba(255,226,180,0)');
+      ex.fillStyle=wb; ex.fillRect(0,250,460,260);
+      var cb=ex.createRadialGradient(800,370,4,800,370,200); cb.addColorStop(0,'rgba(180,205,255,0.26)'); cb.addColorStop(1,'rgba(180,205,255,0)');
+      ex.fillStyle=cb; ex.fillRect(560,250,464,260);
       var tex=new THREE.CanvasTexture(ec); tex.mapping=THREE.EquirectangularReflectionMapping;
       var pm=new THREE.PMREMGenerator(renderer); pm.compileEquirectangularShader();
       scene.environment=pm.fromEquirectangular(tex).texture; tex.dispose(); pm.dispose();
     })();
 
-    scene.add(new THREE.HemisphereLight(0xffffff, 0xc4ccd4, 0.8));
-    scene.add(new THREE.AmbientLight(0xffffff, 0.26));
-    var key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(4,8,6); key.castShadow=true;
+    scene.add(new THREE.HemisphereLight(0xf3f6fa, 0xbcc4cd, 0.62));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+    var key = new THREE.DirectionalLight(0xfff6ea, 1.08); key.position.set(4,8.5,6); key.castShadow=true;
     key.shadow.mapSize.set(1024,1024); key.shadow.camera.near=1; key.shadow.camera.far=42;
     key.shadow.camera.left=-9; key.shadow.camera.right=9; key.shadow.camera.top=6; key.shadow.camera.bottom=-6;
-    key.shadow.bias=-0.0004; key.shadow.normalBias=0.02; scene.add(key);
-    var rim = new THREE.DirectionalLight(0x9ab0c8, 0.35); rim.position.set(-5,2,-5); scene.add(rim);
+    key.shadow.bias=-0.0004; key.shadow.normalBias=0.02; key.shadow.radius=3; scene.add(key);
+    var fill = new THREE.DirectionalLight(0xdfe8f2, 0.3); fill.position.set(-6,4,4); scene.add(fill);
+    var rim = new THREE.DirectionalLight(0x9ab0c8, 0.42); rim.position.set(-5,3,-6); scene.add(rim);
 
     var root = new THREE.Group(); scene.add(root); PK.root = root;
 
@@ -373,7 +443,7 @@
     var shc=document.createElement('canvas'); shc.width=shc.height=256; var sx=shc.getContext('2d');
     var sg=sx.createRadialGradient(128,128,8,128,128,128); sg.addColorStop(0,'rgba(18,28,38,0.36)'); sg.addColorStop(0.7,'rgba(18,28,38,0.12)'); sg.addColorStop(1,'rgba(18,28,38,0)');
     sx.fillStyle=sg; sx.fillRect(0,0,256,256);
-    var shadow=new THREE.Mesh(new THREE.PlaneGeometry(18,7), new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shc), transparent:true, depthWrite:false, opacity:0.32}));
+    var shadow=new THREE.Mesh(new THREE.PlaneGeometry(18,7), new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shc), transparent:true, depthWrite:false, opacity:0.42}));
     shadow.rotation.x=-Math.PI/2; shadow.position.set(0,-3.49,0); root.add(shadow);
     // faint reflection sheen along the beam line
     var rf=document.createElement('canvas'); rf.width=256; rf.height=64; var rx=rf.getContext('2d');
@@ -472,23 +542,24 @@
     var body=mesh(new THREE.CylinderGeometry(0.4,0.42,0.95,28), MAT(0x4a5260,{metal:0.75,rough:0.4,transparent:true,opacity:0.5}),0,0,0); body.rotation.z=Math.PI/2; g.add(body);
     tag(body,ck,'Oven wall','Stainless outer wall of the reservoir, heated from outside to vaporise the caesium charge.');
     // boron-nitride crucible holding the caesium
-    var cru=mesh(new THREE.CylinderGeometry(0.3,0.3,0.72,20), MAT(0xcfc6b0,{metal:0.1,rough:0.8}),-0.05,0,0); cru.rotation.z=Math.PI/2; g.add(cru);
+    var cru=mesh(new THREE.CylinderGeometry(0.3,0.3,0.72,36), ceramic({color:0xd7cdb6}),-0.05,0,0); cru.rotation.z=Math.PI/2; g.add(cru);
     tag(cru,ck,'BN crucible','Boron-nitride crucible holding the liquid caesium — inert and stable at the ~100 °C working temperature.');
     // molten caesium pool
-    var cs=mesh(new THREE.CylinderGeometry(0.27,0.27,0.18,20), new THREE.MeshStandardMaterial({color:0xd9c58a,metalness:0.9,roughness:0.3}),-0.05,-0.12,0); cs.rotation.z=Math.PI/2; g.add(cs);
+    var csMat=new THREE.MeshStandardMaterial({color:0xe6d99a,metalness:1.0,roughness:0.12,emissive:0x3a2e10,emissiveIntensity:0.15}); csMat.envMapIntensity=1.5;
+    var cs=mesh(new THREE.CylinderGeometry(0.27,0.27,0.18,28), csMat,-0.05,-0.12,0); cs.rotation.z=Math.PI/2; g.add(cs);
     tag(cs,ck,'Caesium charge','The metallic caesium itself — melts at 28 °C, so it is a shimmering liquid pool at operating temperature.');
     // sealed reservoir end cap
     var cap=mesh(new THREE.SphereGeometry(0.4,24,12,0,Math.PI*2,0,Math.PI/2), MAT(0x3a414c,{metal:0.75,rough:0.42}),-0.47,0,0); cap.rotation.z=-Math.PI/2; g.add(cap);
     tag(cap,ck,'Reservoir cap','Welded end cap sealing the reservoir under vacuum.');
     // nichrome heater coil
-    var heat=MAT(0xff7a30,{metal:0.2,rough:0.5,emissive:0xff5a1a,ei:0.6});
+    var heat=MAT(0xff8336,{metal:0.3,rough:0.45,emissive:0xff5214,ei:0.85});
     for(var hc=0;hc<6;hc++){ var hr=mesh(new THREE.TorusGeometry(0.45,0.017,8,28),heat,-0.3+hc*0.12,0,0); hr.rotation.y=Math.PI/2; g.add(hr); tag(hr,ck,'Heater coil','Nichrome resistance winding that keeps the reservoir near 100 °C to maintain the vapour pressure.'); }
     // cooling fins
-    for(var i=0;i<3;i++){ var fin=mesh(new THREE.TorusGeometry(0.47,0.03,8,28), MAT(0x2f3640,{metal:0.6,rough:0.5}),0.06+i*0.12,0,0); fin.rotation.y=Math.PI/2; g.add(fin); tag(fin,ck,'Cooling fins','Radiating fins that set a sharp temperature gradient so the beam-forming region stays cooler than the reservoir.'); }
-    var fl=mesh(new THREE.CylinderGeometry(0.5,0.5,0.06,28), MAT(0x6a7686,{metal:0.75,rough:0.3}),0.48,0,0); fl.rotation.z=Math.PI/2; g.add(fl);
+    for(var i=0;i<3;i++){ var fin=mesh(new THREE.TorusGeometry(0.47,0.03,12,36), anodized({color:0x343b44}),0.06+i*0.12,0,0); fin.rotation.y=Math.PI/2; g.add(fin); tag(fin,ck,'Cooling fins','Radiating fins that set a sharp temperature gradient so the beam-forming region stays cooler than the reservoir.'); }
+    var fl=mesh(new THREE.CylinderGeometry(0.5,0.5,0.06,40), steel({color:0x6a7686,rough:0.28}),0.48,0,0); fl.rotation.z=Math.PI/2; g.add(fl);
     tag(fl,ck,'Mounting flange','Flange that bolts the oven assembly onto the vacuum envelope.');
     // collimator plate
-    var coll=mesh(new THREE.CylinderGeometry(0.22,0.22,0.04,24), MAT(0x8a8f96,{metal:0.82,rough:0.3}),0.58,0,0); coll.rotation.z=Math.PI/2; g.add(coll);
+    var coll=mesh(new THREE.CylinderGeometry(0.22,0.22,0.04,36), polishedSteel({color:0xaeb6bf}),0.58,0,0); coll.rotation.z=Math.PI/2; g.add(coll);
     tag(coll,ck,'Collimator','A slit plate that narrows the escaping vapour into a well-defined atomic beam.');
     var noz=mesh(new THREE.ConeGeometry(0.1,0.28,20), MAT(0xffb060,{metal:0.3,rough:0.4,emissive:0xff6a1a,ei:0.9}),0.72,0,0); noz.rotation.z=-Math.PI/2; g.add(noz);
     tag(noz,ck,'Exit nozzle','The channel the beam leaves through; it glows with the oven heat.');
@@ -498,26 +569,26 @@
     tag(tc,ck,'Thermocouple','Temperature sensor feeding the heater control loop that holds the oven steady.');
     g.userData.pick=body; return g; }
 
-  function sgMagnet(ck){ var g=new THREE.Group(); var iron=MAT(0x3f4753,{metal:0.68,rough:0.5});
+  function sgMagnet(ck){ var g=new THREE.Group(); var iron=castIron({color:0x3f4753});
     var back=mesh(rbox(0.22,1.6,1.0),iron,-0.5,0,0); g.add(back);
     var armT=mesh(rbox(0.95,0.22,1.0),iron,-0.03,0.69,0); g.add(armT);
     var armB=mesh(rbox(0.95,0.22,1.0),iron,-0.03,-0.69,0); g.add(armB);
     tag(back,ck,'Iron yoke','The C-shaped soft-iron core that carries the magnetic flux around to the pole gap.');
     tag(armT,ck,'Iron yoke','The C-shaped soft-iron core that carries the magnetic flux around to the pole gap.');
     tag(armB,ck,'Iron yoke','The C-shaped soft-iron core that carries the magnetic flux around to the pole gap.');
-    var pole=MAT(0x9aa6b4,{metal:0.85,rough:0.22});
-    var pT=mesh(new THREE.CylinderGeometry(0.28,0.14,0.44,24),pole,0.05,0.4,0); g.add(pT);
-    var pB=mesh(new THREE.CylinderGeometry(0.14,0.28,0.44,24),pole,0.05,-0.4,0); g.add(pB);
+    var pole=steel({color:0x9aa6b4,rough:0.24});
+    var pT=mesh(new THREE.CylinderGeometry(0.28,0.14,0.44,36),pole,0.05,0.4,0); g.add(pT);
+    var pB=mesh(new THREE.CylinderGeometry(0.14,0.28,0.44,36),pole,0.05,-0.4,0); g.add(pB);
     tag(pT,ck,'Pole pieces','Tapered pole pieces that funnel the flux toward the gap.');
     tag(pB,ck,'Pole pieces','Tapered pole pieces that funnel the flux toward the gap.');
     // smooth curved pole shoes bounding the beam gap
-    var tip=MAT(0xcdd6e0,{metal:0.9,rough:0.14});
-    var shT=mesh(new THREE.CylinderGeometry(0.14,0.14,0.4,24),tip,0.05,0.17,0); shT.rotation.z=Math.PI/2; g.add(shT);
-    var shB=mesh(new THREE.CylinderGeometry(0.14,0.14,0.4,24),tip,0.05,-0.17,0); shB.rotation.z=Math.PI/2; g.add(shB);
+    var tip=polishedSteel({color:0xcdd6e0});
+    var shT=mesh(new THREE.CylinderGeometry(0.14,0.14,0.4,36),tip,0.05,0.17,0); shT.rotation.z=Math.PI/2; g.add(shT);
+    var shB=mesh(new THREE.CylinderGeometry(0.14,0.14,0.4,36),tip,0.05,-0.17,0); shB.rotation.z=Math.PI/2; g.add(shB);
     tag(shT,ck,'Pole shoes','Curved pole shoes shaping a steep field gradient across the gap the beam passes through — the Stern-Gerlach force.');
     tag(shB,ck,'Pole shoes','Curved pole shoes shaping a steep field gradient across the gap the beam passes through — the Stern-Gerlach force.');
-    var cu=MAT(0xc8763a,{metal:0.65,rough:0.38});
-    for(var w=0;w<5;w++){ var r1=mesh(new THREE.TorusGeometry(0.17,0.045,8,20),cu,-0.25+w*0.11,0.69,0); g.add(r1); tag(r1,ck,'Field coils','Copper windings whose current sets the magnet strength, selecting which hyperfine state is passed.');
+    var cu=copper({rough:0.34});
+    for(var w=0;w<5;w++){ var r1=mesh(new THREE.TorusGeometry(0.17,0.045,14,28),cu,-0.25+w*0.11,0.69,0); g.add(r1); tag(r1,ck,'Field coils','Copper windings whose current sets the magnet strength, selecting which hyperfine state is passed.');
       var r2=r1.clone(); r2.position.y=-0.69; g.add(r2); tag(r2,ck,'Field coils','Copper windings whose current sets the magnet strength, selecting which hyperfine state is passed.'); }
     var blt=MAT(0x6a7280,{metal:0.8,rough:0.3});
     var b1=mesh(new THREE.CylinderGeometry(0.05,0.05,0.06,6),blt,-0.5,0.5,0.42); g.add(b1);
@@ -535,37 +606,37 @@
       var ring=mesh(new THREE.TorusGeometry(0.34,0.075,20,44), glow,0,0,0); ring.rotation.y=Math.PI/2; z.add(ring);
       var nm='Interaction zone '+idx, ds='One of Ramsey'+String.fromCharCode(39)+'s two separated microwave zones; the beam is driven here, drifts, then is driven again — which sharpens the resonance.';
       tag(ring,ck,nm,ds);
-      var collar=mesh(new THREE.TorusGeometry(0.26,0.03,14,40), MAT(0xbf9a4a,{metal:0.85,rough:0.28}),0,0,0); collar.rotation.y=Math.PI/2; z.add(collar);
+      var collar=mesh(new THREE.TorusGeometry(0.26,0.03,18,44), brass({color:0xc9a24a,rough:0.26}),0,0,0); collar.rotation.y=Math.PI/2; z.add(collar);
       tag(collar,ck,'Beam collar','Brass aperture the atomic beam threads through at each zone.');
       return z; }
     var z1=zone(-1.6,1), z2=zone(1.6,2); g.add(z1); g.add(z2);
-    var wgm=MAT(0x9a7f3a,{metal:0.8,rough:0.32});
+    var wgm=brass({color:0xb79a52,rough:0.3});
     // round waveguide tubing: a run below the beam, two arms up to the rings, a feed down to the synth
-    var run=mesh(new THREE.CylinderGeometry(0.1,0.1,3.4,24),wgm,0,0,-0.52); run.rotation.z=Math.PI/2; g.add(run);
-    var aL=mesh(new THREE.CylinderGeometry(0.1,0.1,0.95,24),wgm,-1.6,-0.28,-0.52); g.add(aL);
-    var aR=mesh(new THREE.CylinderGeometry(0.1,0.1,0.95,24),wgm,1.6,-0.28,-0.52); g.add(aR);
-    var feed=mesh(new THREE.CylinderGeometry(0.1,0.1,1.7,24),wgm,0,-0.95,-0.52); g.add(feed);
+    var run=mesh(new THREE.CylinderGeometry(0.1,0.1,3.4,36),wgm,0,0,-0.52); run.rotation.z=Math.PI/2; g.add(run);
+    var aL=mesh(new THREE.CylinderGeometry(0.1,0.1,0.95,36),wgm,-1.6,-0.28,-0.52); g.add(aL);
+    var aR=mesh(new THREE.CylinderGeometry(0.1,0.1,0.95,36),wgm,1.6,-0.28,-0.52); g.add(aR);
+    var feed=mesh(new THREE.CylinderGeometry(0.1,0.1,1.7,36),wgm,0,-0.95,-0.52); g.add(feed);
     // smooth elbow joints
     [-1.6,0,1.6].forEach(function(jx){ g.add(mesh(new THREE.SphereGeometry(0.12,18,14),wgm,jx,0,-0.52)); });
     tag(run,ck,'U-waveguide','The waveguide that carries 9.192631770 GHz microwaves to both zones in phase.');
     tag(aL,ck,'Waveguide arm','Arm delivering the field to a zone.'); tag(aR,ck,'Waveguide arm','Arm delivering the field to a zone.');
     tag(feed,ck,'Microwave feed','Feed from the synthesizer into the cavity.');
-    var fl=MAT(0xd9b45a,{metal:0.85,rough:0.22});
+    var fl=brass({color:0xd9b45a,rough:0.22});
     var flL=mesh(new THREE.CylinderGeometry(0.17,0.17,0.07,24),fl,-1.6,0.1,-0.52); g.add(flL);
     var flR=mesh(new THREE.CylinderGeometry(0.17,0.17,0.07,24),fl,1.6,0.1,-0.52); g.add(flR);
     tag(flL,ck,'Waveguide flange','Bolted flange joining waveguide sections.'); tag(flR,ck,'Waveguide flange','Bolted flange joining waveguide sections.');
-    var scr=MAT(0xcdd6e0,{metal:0.9,rough:0.2});
+    var scr=polishedSteel({color:0xcdd6e0});
     for(var s=0;s<3;s++){ var sc=mesh(new THREE.CylinderGeometry(0.03,0.03,0.14,10),scr,-0.6+s*0.6,0.14,-0.52); g.add(sc); tag(sc,ck,'Tuning screws','E–H tuning screws that trim the cavity so both zones are exactly on frequency and in phase.'); }
     g.userData.z1=z1; g.userData.z2=z2; g.userData.pick=z1.children[0]; return g; }
 
-  function cfieldCoil(ck){ var g=new THREE.Group(); var cu=MAT(0xb0763a,{metal:0.62,rough:0.4}); var pickRing=null;
-    for(var i=0;i<40;i++){ var r=mesh(new THREE.TorusGeometry(0.6,0.022,8,30),cu,-1.17+i*0.06,0,0); r.rotation.y=Math.PI/2; g.add(r); if(i===20)pickRing=r;
+  function cfieldCoil(ck){ var g=new THREE.Group(); var cu=copper({color:0xb87333,rough:0.36}); var pickRing=null;
+    for(var i=0;i<40;i++){ var r=mesh(new THREE.TorusGeometry(0.6,0.022,12,30),cu,-1.17+i*0.06,0,0); r.rotation.y=Math.PI/2; g.add(r); if(i===20)pickRing=r;
       tag(r,ck,'Solenoid winding','A long, uniform coil producing the weak "C-field" that sets the quantisation axis and isolates the mF=0 clock transition.'); }
-    var cp=MAT(0x8a8f96,{metal:0.7,rough:0.35});
+    var cp=steel({color:0x9298a0,rough:0.32});
     var cL=mesh(new THREE.CylinderGeometry(0.66,0.66,0.05,32),cp,-1.2,0,0); cL.rotation.z=Math.PI/2; g.add(cL);
     var cR=mesh(new THREE.CylinderGeometry(0.66,0.66,0.05,32),cp,1.2,0,0); cR.rotation.z=Math.PI/2; g.add(cR);
     tag(cL,ck,'Bobbin caps','End caps the solenoid wire is wound between.'); tag(cR,ck,'Bobbin caps','End caps the solenoid wire is wound between.');
-    function shield(rr,op){ var s=mesh(new THREE.CylinderGeometry(rr,rr,2.6,32,1,true), new THREE.MeshStandardMaterial({color:0x5a6b7a,metalness:0.5,roughness:0.3,transparent:true,opacity:op,side:THREE.DoubleSide}),0,0,0); s.rotation.z=Math.PI/2; return s; }
+    function shield(rr,op){ var sm=new THREE.MeshStandardMaterial({color:0x8893a0,metalness:0.85,roughness:0.24,transparent:true,opacity:op,side:THREE.DoubleSide}); sm.envMapIntensity=1.2; var s=mesh(new THREE.CylinderGeometry(rr,rr,2.6,40,1,true), sm,0,0,0); s.rotation.z=Math.PI/2; return s; }
     var sh1=shield(0.74,0.09), sh2=shield(0.86,0.06); g.add(sh1); g.add(sh2);
     tag(sh1,ck,'Mu-metal shield','Nested high-permeability shields that keep Earth and stray fields out, so only the controlled C-field reaches the atoms.');
     tag(sh2,ck,'Mu-metal shield','Nested high-permeability shields that keep Earth and stray fields out, so only the controlled C-field reaches the atoms.');
@@ -575,22 +646,22 @@
     g.userData.pick=pickRing; return g; }
 
   function detectorUnit(ck){ var g=new THREE.Group();
-    var hous=mesh(new THREE.CylinderGeometry(0.4,0.4,0.6,24), MAT(0x4a5260,{metal:0.7,rough:0.4}),0,0,0); hous.rotation.z=Math.PI/2; g.add(hous);
+    var hous=mesh(new THREE.CylinderGeometry(0.4,0.4,0.6,40), steel({color:0x5a6472,rough:0.32}),0,0,0); hous.rotation.z=Math.PI/2; g.add(hous);
     tag(hous,ck,'Detector housing','Shielded can holding the ioniser and multiplier under vacuum.');
     var fl=mesh(new THREE.CylinderGeometry(0.46,0.46,0.06,24), MAT(0x7a8694,{metal:0.8,rough:0.3}),-0.3,0,0); fl.rotation.z=Math.PI/2; g.add(fl);
     tag(fl,ck,'Mounting flange','Flange sealing the detector to the end of the beam tube.');
-    var detMat=new THREE.MeshStandardMaterial({color:0xff8a6a,metalness:0.3,roughness:0.4,emissive:0xff6a52,emissiveIntensity:0.2});
-    var fil=mesh(new THREE.TorusGeometry(0.15,0.022,8,24,Math.PI*1.3), detMat,-0.22,0,0); fil.rotation.y=Math.PI/2; g.add(fil);
+    var detMat=new THREE.MeshStandardMaterial({color:0xffb38a,metalness:0.6,roughness:0.3,emissive:0xff6a42,emissiveIntensity:0.5});
+    var fil=mesh(new THREE.TorusGeometry(0.15,0.022,12,32,Math.PI*1.3), detMat,-0.22,0,0); fil.rotation.y=Math.PI/2; g.add(fil);
     tag(fil,ck,'Hot wire','A glowing platinum wire. A caesium atom landing on it is ionised and leaves as a charged ion — turning each atom into a countable electrical event.');
-    var dyn=MAT(0x9aa0a8,{metal:0.8,rough:0.3});
+    var dyn=copper({color:0xbf8a5a,rough:0.4});
     for(var d=0;d<5;d++){ var dm=mesh(rbox(0.04,0.3,0.32),dyn,0.08+d*0.09,(d%2?0.08:-0.08),0); g.add(dm); tag(dm,ck,'Electron multiplier','A dynode chain that amplifies each single-ion signal into a measurable current pulse.'); }
     var coll=mesh(rbox(0.05,0.4,0.42), MAT(0x8a8f96,{metal:0.7,rough:0.3}),0.55,0,0); g.add(coll);
     tag(coll,ck,'Collector','Picks up the multiplied charge; its current is the detector signal.');
-    var bnc=mesh(new THREE.CylinderGeometry(0.07,0.07,0.2,16), MAT(0xc9a94a,{metal:0.8,rough:0.3}),0.75,0,0); bnc.rotation.z=Math.PI/2; g.add(bnc);
+    var bnc=mesh(new THREE.CylinderGeometry(0.07,0.07,0.2,16), brass({color:0xc9a24a}),0.75,0,0); bnc.rotation.z=Math.PI/2; g.add(bnc);
     tag(bnc,ck,'Signal output','Coax output carrying the atom-count signal to the servo.');
     g.userData.detMat=detMat; g.userData.pick=hous; return g; }
 
-  function canXO(ck){ var g=new THREE.Group(); var steel=MAT(0xb8bfc8,{metal:0.85,rough:0.25});
+  function canXO(ck){ var g=new THREE.Group(); var steel=polishedSteel({color:0xc6cdd6});
     // OCXO oven enclosure (semi-transparent to reveal the crystal)
     var ov=mesh(rbox(0.7,0.68,0.6), MAT(0x2a3038,{metal:0.6,rough:0.45,transparent:true,opacity:0.5}),0,0.3,0); g.add(ov);
     var lid=mesh(rbox(0.74,0.05,0.64), MAT(0x4a5260,{metal:0.7,rough:0.3}),0,0.65,0); g.add(lid);
@@ -600,7 +671,7 @@
     var dome=mesh(new THREE.SphereGeometry(0.2,24,12,0,Math.PI*2,0,Math.PI/2), steel,0,0.74,0); g.add(dome);
     tag(can,ck,'Quartz crystal','The 5 MHz quartz resonator in its metal can — the oscillator that the atoms discipline into a clock.');
     tag(dome,ck,'Quartz crystal','The 5 MHz quartz resonator in its metal can — the oscillator that the atoms discipline into a clock.');
-    var board=mesh(rbox(1.0,0.07,0.78), MAT(0x1f3a2a,{metal:0.2,rough:0.7}),0,-0.03,0); g.add(board);
+    var board=mesh(rbox(1.0,0.07,0.78), fr4({color:0x1f5a37}),0,-0.03,0); g.add(board);
     tag(board,ck,'Oscillator PCB','The sustaining-amplifier board that keeps the crystal ringing.');
     var trim=mesh(new THREE.CylinderGeometry(0.06,0.06,0.08,12), MAT(0xd0b050,{metal:0.6,rough:0.3}),0.35,0.04,0.25); g.add(trim);
     tag(trim,ck,'Varactor trim','The voltage-controlled element the servo nudges to steer the frequency onto the atomic line.');
@@ -608,22 +679,22 @@
     g.userData.pick=can; return g; }
 
   function rfBox(ck){ var g=new THREE.Group();
-    var body=mesh(rbox(1.0,0.5,0.7), MAT(0x30414f,{metal:0.6,rough:0.4}),0,0.12,0); g.add(body);
-    var lid=mesh(rbox(1.04,0.06,0.74), MAT(0x4a5868,{metal:0.7,rough:0.3}),0,0.4,0); g.add(lid);
+    var body=mesh(rbox(1.0,0.5,0.7), anodized({color:0x30414f}),0,0.12,0); g.add(body);
+    var lid=mesh(rbox(1.04,0.06,0.74), steel({color:0x55647a,rough:0.3}),0,0.4,0); g.add(lid);
     tag(body,ck,'Shielded enclosure','An RF-tight cast box that keeps the synthesis stages from radiating into each other.');
     tag(lid,ck,'Enclosure lid','Gasketed lid completing the RF shield.');
     for(var f=0;f<5;f++){ var fin=mesh(rbox(0.9,0.12,0.03), MAT(0x5a6676,{metal:0.7,rough:0.35}),0,0.5,-0.24+f*0.12); g.add(fin); tag(fin,ck,'Heatsink','Fins carrying heat away from the multiplier amplifiers.'); }
-    for(var i=0;i<3;i++){ var sma=mesh(new THREE.CylinderGeometry(0.05,0.05,0.14,12), MAT(0xc9a94a,{metal:0.8,rough:0.3}),0.57,0.12,-0.2+i*0.2); sma.rotation.z=Math.PI/2; g.add(sma); tag(sma,ck,'SMA ports','RF connectors: 5 MHz in, 9.192 GHz out to the cavity.'); }
+    for(var i=0;i<3;i++){ var sma=mesh(new THREE.CylinderGeometry(0.05,0.05,0.14,12), brass({color:0xc9a24a}),0.57,0.12,-0.2+i*0.2); sma.rotation.z=Math.PI/2; g.add(sma); tag(sma,ck,'SMA ports','RF connectors: 5 MHz in, 9.192 GHz out to the cavity.'); }
     var mult=mesh(new THREE.CylinderGeometry(0.1,0.1,0.22,16), MAT(0x9aa0a8,{metal:0.85,rough:0.25}),-0.3,0.46,0.12); g.add(mult);
     tag(mult,ck,'Multiplier chain','Step-recovery / PLL stages that multiply 5 MHz up to 9,192,631,770 Hz.');
     var cj=mesh(new THREE.CylinderGeometry(0.03,0.03,0.5,10), MAT(0x1a1a1a,{rough:0.6}),0.28,0.3,0.25); cj.rotation.z=0.6; g.add(cj);
     tag(cj,ck,'Coax jumper','Semi-rigid coax routing the microwave output to the cavity feed.');
-    var board=mesh(rbox(1.12,0.07,0.82), MAT(0x1f3a2a,{metal:0.2,rough:0.7}),0,-0.16,0); g.add(board);
+    var board=mesh(rbox(1.12,0.07,0.82), fr4({color:0x1f5a37}),0,-0.16,0); g.add(board);
     tag(board,ck,'Synth PCB','The synthesizer board beneath the shield.');
     g.userData.pick=body; return g; }
 
   function servoBoard(ck){ var g=new THREE.Group();
-    var board=mesh(rbox(1.15,0.07,0.85), MAT(0x173a2a,{metal:0.2,rough:0.7}),0,0,0); g.add(board);
+    var board=mesh(rbox(1.15,0.07,0.85), fr4({color:0x1a5233}),0,0,0); g.add(board);
     tag(board,ck,'Servo PCB','The feedback board that closes the loop between the detector and the oscillator.');
     for(var i=0;i<3;i++){ var ic=mesh(rbox(0.22,0.08,0.4), MAT(0x0d0d0d,{rough:0.5}),-0.3+i*0.3,0.07,0.05); g.add(ic); tag(ic,ck,'Lock-in amp','Demodulates the dithered detector signal to measure how far off resonance the microwave is.'); }
     var tp=mesh(new THREE.CylinderGeometry(0.08,0.08,0.06,16), MAT(0x2a6ad0,{metal:0.3,rough:0.5}),0.4,0.07,-0.25); g.add(tp);
@@ -636,10 +707,10 @@
     g.userData.pick=board; return g; }
 
   function dividerBoard(ck){ var g=new THREE.Group();
-    var board=mesh(rbox(1.15,0.07,0.85), MAT(0x2a2a1a,{metal:0.2,rough:0.7}),0,0,0); g.add(board);
+    var board=mesh(rbox(1.15,0.07,0.85), fr4({color:0x2f3a1f}),0,0,0); g.add(board);
     tag(board,ck,'Divider PCB','The board that turns the locked frequency into usable time pulses.');
     for(var i=0;i<2;i++){ var ic=mesh(rbox(0.3,0.08,0.45), MAT(0x0d0d0d,{rough:0.5}),-0.25+i*0.45,0.07,0.05); g.add(ic); tag(ic,ck,'Divider chain','Counts down 9,192,631,770 cycles — exactly the SI definition — and emits one pulse when it reaches the total.'); }
-    var bnc=mesh(new THREE.CylinderGeometry(0.08,0.08,0.2,16), MAT(0xc9a94a,{metal:0.8,rough:0.3}),0.56,0.05,0.25); bnc.rotation.z=Math.PI/2; g.add(bnc);
+    var bnc=mesh(new THREE.CylinderGeometry(0.08,0.08,0.2,16), brass({color:0xc9a24a}),0.56,0.05,0.25); bnc.rotation.z=Math.PI/2; g.add(bnc);
     tag(bnc,ck,'1 PPS output','The one-pulse-per-second output — the clock tick that drives the time display.');
     var disp=mesh(rbox(0.3,0.04,0.18), new THREE.MeshStandardMaterial({color:0x100a0a,metalness:0.4,roughness:0.3,emissive:0x661010,emissiveIntensity:0.3}),0.2,0.09,-0.25); g.add(disp);
     tag(disp,ck,'Indicator window','Front-panel window for the pulse indicator.');
