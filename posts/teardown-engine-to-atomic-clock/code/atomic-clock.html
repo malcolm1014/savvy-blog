@@ -287,11 +287,14 @@
   COMPS.push({key:'vacuum', x:2.6, y:-0.6, r:4.4, name:'Vacuum system',
     desc:"The sealed, pumped envelope the beam flies through. An ion pump holds it at ultra-high vacuum so atoms cross without colliding.",
     ro:function(){ return "ion-pumped UHV · ~1×10⁻⁸ mbar"; }});
+  COMPS.push({key:'scope', x:2.6, y:-1.35, z:5.4, r:4.2, name:'Oscilloscope · readout',
+    desc:"A benchtop oscilloscope on its own stand at the front of the bench, apart from the beam line, probing the on-board 5 MHz oscillator against an undilated lab reference. Its screen is live: the two traces beat at Δf = (Δf/f) × 9.192 GHz, so when you dilate the clock in the relativity console, you watch it drift here — and the matter-wave beam in the tube shifts with it.",
+    ro:function(){ return S.dil.frac ? ("beat "+fmtHz(S.dil.frac*NU_CS)+" · offset "+fmtOffset(S.dil.offset)) : "beat 0 Hz · on-board clock at lab rate"; }});
   var compByKey = {}; COMPS.forEach(function(c){ compByKey[c.key]=c; });
 
   // ---------- servo / physics state ----------
   var S = { det:1500, locked:false, flipProb:0.1, lockTime:0, tau:0,
-            dil:{ vel:0, alt:0, gravF:1, extra:0, frac:0, offset:0 } };     // relativistic time-dilation frame
+            dil:{ vel:0, alt:0, gravF:1, extra:0, frac:0, offset:0, tScale:1 } }; // relativistic time-dilation frame
   var C_LIGHT = 299792458, G0 = 9.80665;
   // Δf/f = g·h/c²  (gravitational, +)   −  [1 − √(1−β²)]  (velocity, −)   +  manual offset
   function dilRecompute(){ var g=G0*S.dil.gravF;
@@ -299,6 +302,7 @@
     var beta = S.dil.vel/C_LIGHT, fSR;
     if(Math.abs(beta)>=1) fSR=-1; else fSR = Math.sqrt(1-beta*beta)-1;
     S.dil.frac = fGR + fSR + S.dil.extra;
+    var f=S.dil.frac; S.dil.tScale = 1 + (f>=0? Math.min(2.2,f*45) : Math.max(-0.82,f*45)); // observable (amplified) beam time-scale
   }
   function ramseyP(det){
     var x = det/2500, env = x===0?1:Math.pow(Math.sin(Math.PI*x)/(Math.PI*x),2);
@@ -538,6 +542,8 @@
     root.add(coax(-10.8,-3.0,1.4, -8,-3.2,5.6, 0.3, 0x25303c, 0.04));   // controller -> tray
     // vacuum gauge + angle valve on the ion-pump manifold
     root.add(vacGauge(2.6,1.1));
+    // clickable benchtop oscilloscope, standing off the table with a live screen
+    var scp=scopeInstrument(2.6,5.4); root.add(scp); reg('scope',scp,scp.userData.pick);
     // faint occlusion blob to seat the assembly, under the real cast shadow
     var shc=document.createElement('canvas'); shc.width=shc.height=256; var sx=shc.getContext('2d');
     var sg=sx.createRadialGradient(128,128,8,128,128,128); sg.addColorStop(0,'rgba(18,28,38,0.36)'); sg.addColorStop(0.7,'rgba(18,28,38,0.12)'); sg.addColorStop(1,'rgba(18,28,38,0)');
@@ -605,6 +611,8 @@
 
     // record each tagged part's home position for the exploded view
     for(var pb=0;pb<pickParts.length;pb++){ pickParts[pb].userData.base=pickParts[pb].position.clone(); }
+    // the off-bench oscilloscope is an instrument, not part of the beam assembly — keep it out of the explode
+    pickParts.forEach(function(m){ if(m.userData.info && m.userData.info.comp==='scope') delete m.userData.base; });
     // let solid parts cast shadows (skip the sheer glass tube and shields)
     root.traverse(function(o){ if(o.isMesh){ var m=o.material; var sheer=m&&m.transparent&&(m.opacity!=null&&m.opacity<0.5); o.castShadow=!sheer; o.receiveShadow=false; } });
     resize();
@@ -744,6 +752,47 @@
     var face=mesh(new THREE.CircleGeometry(0.16,28), new THREE.MeshStandardMaterial({color:0xffffff,map:dt,metalness:0.1,roughness:0.5}), x,-0.5,0.66); g.add(face);
     g.add(mesh(new THREE.TorusGeometry(0.16,0.02,12,28), steel({color:0x9298a0}), x,-0.5,0.655));           // bezel
     return g; }
+
+  // benchtop oscilloscope on its own stand, standing apart from the beam line at the front of the bench
+  function scopeInstrument(x,z){ var g=new THREE.Group(); g.position.set(x,0,z);
+    var baseY=-3.54, cy=-1.35, W=2.2, H=1.5, D=1.5;
+    // pedestal stand on the breadboard
+    g.add(mesh(new THREE.CylinderGeometry(0.72,0.82,0.14,28), steel({color:0x8a9099,rough:0.4}), 0,baseY+0.07,0));  // foot
+    for(var bi=0;bi<4;bi++){ var a=bi*Math.PI/2+0.78; g.add(hexBolt(Math.cos(a)*0.55,baseY+0.16,Math.sin(a)*0.55,0.05,0x5a626c)); }
+    var colTop=cy-H/2, colBot=baseY+0.14, colH=colTop-colBot;
+    g.add(mesh(new THREE.CylinderGeometry(0.24,0.26,colH,24), anodized({color:0x262b32}), 0,(colTop+colBot)/2,0));   // column
+    g.add(mesh(new THREE.CylinderGeometry(0.34,0.34,0.1,24), steel({color:0x8a9099}), 0,colTop-0.05,0));             // tilt mount
+    // scope chassis
+    var chassis=mesh(rbox(W,H,D,0.06), anodized({color:0x2d333d}), 0,cy,0); g.add(chassis);
+    g.add(mesh(rbox(W-0.08,H*0.92,0.04), MAT(0x3a4049,{metal:0.85,rough:0.3}), 0,cy,D/2+0.001));            // front bezel plate
+    g.add(mesh(new THREE.TorusGeometry(0.17,0.03,10,20,Math.PI), steel({color:0x8a9099}), 0,cy+H/2+0.02,0)); // carry handle
+    // live screen (CanvasTexture repainted each frame)
+    var sc=document.createElement('canvas'); sc.width=512; sc.height=320; scopeScreenCtx=sc.getContext('2d');
+    paintScope(scopeScreenCtx,512,320,true);
+    scopeScreenTex=new THREE.CanvasTexture(sc); if('colorSpace' in scopeScreenTex && THREE.SRGBColorSpace) scopeScreenTex.colorSpace=THREE.SRGBColorSpace;
+    var sW=1.4, sH=0.9;
+    g.add(mesh(rbox(sW+0.12,sH+0.12,0.05,0.03), MAT(0x15181c,{metal:0.3,rough:0.5}), -0.32,cy+0.1,D/2+0.0));  // bezel frame
+    var screen=mesh(new THREE.PlaneGeometry(sW,sH), new THREE.MeshBasicMaterial({map:scopeScreenTex, toneMapped:false}), -0.32,cy+0.1,D/2+0.03); g.add(screen);
+    // control knobs
+    var kn=MAT(0x15181c,{metal:0.3,rough:0.5}); var knob=null;
+    for(var r=0;r<3;r++){ for(var cc=0;cc<2;cc++){ var kx=0.5+cc*0.32, ky=cy+0.38-r*0.32;
+      var kb=mesh(new THREE.CylinderGeometry(0.09,0.1,0.1,18), kn, kx,ky,D/2+0.05); kb.rotation.x=Math.PI/2; g.add(kb); if(!knob)knob=kb;
+      var pr=mesh(new THREE.CylinderGeometry(0.011,0.011,0.1,8), steel({color:0xd0d6de}), kx,ky+0.028,D/2+0.09); pr.rotation.x=Math.PI/2; g.add(pr); }}
+    // BNC inputs
+    var bn=brass({color:0xc9a24a}), bnc=null;
+    for(var b=0;b<3;b++){ var bc=mesh(new THREE.CylinderGeometry(0.045,0.045,0.12,14), bn, -0.9+b*0.28,cy-0.5,D/2+0.05); bc.rotation.x=Math.PI/2; g.add(bc); if(!bnc)bnc=bc; }
+    // nameplate
+    var lc=document.createElement('canvas'); lc.width=256; lc.height=48; var lcx=lc.getContext('2d');
+    lcx.fillStyle='#1a1d22'; lcx.fillRect(0,0,256,48); lcx.fillStyle='#cfd8e2'; lcx.font='bold 25px Oswald,Arial,sans-serif'; lcx.textBaseline='middle'; lcx.fillText('OSCILLOSCOPE',12,26);
+    var lt=new THREE.CanvasTexture(lc);
+    g.add(mesh(new THREE.PlaneGeometry(0.95,0.18), new THREE.MeshStandardMaterial({color:0xffffff,map:lt,emissive:0xffffff,emissiveMap:lt,emissiveIntensity:0.4,metalness:0.2,roughness:0.6}), 0.33,cy+0.55,D/2+0.02));
+    // probe cable off toward the servo board on the bench (local coords within this group)
+    g.add(coax(0,cy-0.5,-D/2-0.05, -0.5,-3.0,-5.6, 0.5, 0x25303c, 0.04));
+    tag(screen,'scope','Screen','The live trace — the on-board oscillator (green) beating against the undilated lab reference (grey). Dilate the clock and the two slide apart here.');
+    tag(chassis,'scope','Chassis','The analyser chassis, standing on its own post apart from the beam line.');
+    if(knob) tag(knob,'scope','Timebase & gain','The sweep and vertical-gain controls that set how the trace is drawn.');
+    if(bnc) tag(bnc,'scope','Signal inputs','BNC inputs — the on-board oscillator on one channel, the lab reference on the other.');
+    g.userData.pick=screen; return g; }
 
   function ovenUnit(ck){ var g=new THREE.Group();
     // outer wall — semi-transparent so the crucible inside is visible
@@ -1002,7 +1051,7 @@
     if(!arr.length){ box.style.display='none'; return; } box.style.display='flex';
     arr.forEach(function(p){ var b=document.createElement('button'); b.textContent=p.name; if(active===p.name)b.className='on';
       b.addEventListener('click',function(){ focusPart({comp:comp,name:p.name,desc:p.desc}, p.mesh); }); box.appendChild(b); }); }
-  function focusComp(c){ goalT.set(c.x, c.y||0, 0); goalR=c.r; selected=c.key; selIsPart=false; clearHi();
+  function focusComp(c){ goalT.set(c.x, c.y||0, c.z||0); goalR=c.r; selected=c.key; selIsPart=false; clearHi();
     $('selName').textContent=c.name; $('selDesc').textContent=c.desc; $('selRo').textContent=c.ro(); $('selBox').hidden=false;
     markComp(c.key); renderSubs(c.key,null); setLabels('parts',c.key,null); interact();
   }
@@ -1018,13 +1067,13 @@
     e.addEventListener('click',function(ev){ ev.stopPropagation(); onClick(); }); $('labels').appendChild(e); return e; }
   function setLabels(kind, comp, active){ clearLabels(); labKind=kind; labComp=comp; labActive=active||null; if(!labelsOn) return;
     if(kind==='comp'){ COMPS.forEach(function(c){ var e=mkLabel(c.name.split(' · ')[0],'comp',function(){ focusComp(c); });
-      labelDefs.push({el:e, cx:c.x, cy:c.y||0}); }); }
+      labelDefs.push({el:e, cx:c.x, cy:c.y||0, cz:c.z||0}); }); }
     else { var arr=partsByComp[comp]||[]; arr.forEach(function(p){ var e=mkLabel(p.name,(active===p.name?'active':''),function(){ focusPart({comp:comp,name:p.name,desc:p.desc}, p.mesh); });
       labelDefs.push({el:e, mesh:p.mesh}); }); }
   }
   function updateLabels(){ if(!labelDefs.length) return; var w=canvas.clientWidth, h=canvas.clientHeight;
     for(var i=0;i<labelDefs.length;i++){ var d=labelDefs[i];
-      if(d.mesh) d.mesh.getWorldPosition(lp); else lp.set(d.cx,d.cy,0);
+      if(d.mesh) d.mesh.getWorldPosition(lp); else lp.set(d.cx,d.cy,d.cz||0);
       lp.project(camera);
       if(lp.z>1){ d.el.style.display='none'; continue; }
       var x=(lp.x*0.5+0.5)*w, y=(-lp.y*0.5+0.5)*h;
@@ -1042,7 +1091,7 @@
 
   // --- guided tour: walk the chain in beam order ---
   var tourActive=false, tourT=0, tourIdx=-1;
-  var TOUR=['oven','amag','cavity','cfield','bmag','detector','quartz','synth','servo','divider','vacuum'];
+  var TOUR=['oven','amag','cavity','cfield','bmag','detector','quartz','synth','servo','divider','vacuum','scope'];
   function startTour(){ tourActive=true; tourIdx=-1; follow=false; $('btnFollow').setAttribute('aria-pressed',false); $('btnTour').setAttribute('aria-pressed',true); advanceTour(); }
   function stopTour(){ tourActive=false; $('btnTour').setAttribute('aria-pressed',false); $('tourbar').style.display='none'; }
   function advanceTour(){ tourIdx++; if(tourIdx>=TOUR.length){ stopTour(); return; }
@@ -1141,28 +1190,33 @@
     inp.addEventListener('keydown',function(e){ e.stopPropagation(); if(e.key==='Enter'){ runCmd(this.value); this.value=''; } });
     document.querySelectorAll('.conshelp code[data-cmd]').forEach(function(c){ c.addEventListener('click',function(){ runCmd(this.getAttribute('data-cmd')); inp.focus(); }); });
   }
-  function drawScope(dt){ var cv=$('scope'); if(!cv) return; var g=cv.getContext('2d'), w=cv.width, h=cv.height;
+  function scopeStep(dt){
     refPhase += dt*3.0;                                     // base scroll so the trace reads as "running"
     var beatHz = S.dil.frac*NU_CS;                          // true beat = Δf between the two frames
     var vis = Math.max(-7, Math.min(7, beatHz*2*Math.PI));  // capped visual slip rate (rad/s)
     scopePhase += dt*vis;
+  }
+  function paintScope(g,w,h,big){ var beatHz=S.dil.frac*NU_CS, fs=big?Math.round(h/16):13;
     g.fillStyle='#07100b'; g.fillRect(0,0,w,h);
     g.strokeStyle='rgba(60,130,95,0.22)'; g.lineWidth=1;
     for(var gx=0;gx<=w;gx+=w/12){ g.beginPath(); g.moveTo(gx,0); g.lineTo(gx,h); g.stroke(); }
     for(var gy=0;gy<=h;gy+=h/6){ g.beginPath(); g.moveTo(0,gy); g.lineTo(w,gy); g.stroke(); }
     g.strokeStyle='rgba(90,170,130,0.4)'; g.beginPath(); g.moveTo(0,h/2); g.lineTo(w,h/2); g.stroke();
     var cycles=7, amp=h*0.30, px, ph, y;
-    g.lineWidth=1.6; g.strokeStyle='rgba(123,150,170,0.75)'; g.beginPath();
+    g.lineWidth=big?2:1.6; g.strokeStyle='rgba(123,150,170,0.75)'; g.beginPath();
     for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase; y=h/2-Math.sin(ph)*amp*0.72; px?g.lineTo(px,y):g.moveTo(px,y); }
     g.stroke();
-    g.lineWidth=2.4; g.strokeStyle='#35e0a0'; g.shadowColor='#35e0a0'; g.shadowBlur=7; g.beginPath();
+    g.lineWidth=big?3:2.4; g.strokeStyle='#35e0a0'; g.shadowColor='#35e0a0'; g.shadowBlur=big?10:7; g.beginPath();
     for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase+scopePhase; y=h/2-Math.sin(ph)*amp; px?g.lineTo(px,y):g.moveTo(px,y); }
     g.stroke(); g.shadowBlur=0;
-    g.font='13px monospace'; g.textAlign='left'; g.fillStyle='#35e0a0'; g.fillText('LO 5.000000 MHz', 12, 20);
-    g.textAlign='right'; g.fillStyle='#8aa0b4'; g.fillText('beat '+fmtHz(beatHz), w-12, 20);
-    g.fillStyle=S.dil.frac?'#f4b04d':'#5a6a60'; g.fillText('Δφ '+(scopePhase%6.2831).toFixed(2)+' rad', w-12, h-12);
-    g.textAlign='left'; if(Math.abs(beatHz*2*Math.PI)>7){ g.fillStyle='#5a6a60'; g.fillText('(display rate capped)', 12, h-12); }
+    g.font=fs+'px monospace'; g.textAlign='left'; g.fillStyle='#35e0a0'; g.fillText('LO 5.000000 MHz', 12, fs+6);
+    g.textAlign='right'; g.fillStyle='#8aa0b4'; g.fillText('beat '+fmtHz(beatHz), w-12, fs+6);
+    g.fillStyle=S.dil.frac?'#f4b04d':'#5a6a60'; g.fillText('Δφ '+(scopePhase%6.2831).toFixed(2)+' rad', w-12, h-10);
+    g.textAlign='left'; if(Math.abs(beatHz*2*Math.PI)>7){ g.fillStyle='#5a6a60'; g.fillText('(display rate capped)', 12, h-10); }
   }
+  function drawScope(){ var cv=$('scope'); if(cv) paintScope(cv.getContext('2d'), cv.width, cv.height, false); }
+  var scopeScreenCtx=null, scopeScreenTex=null;
+  function draw3DScope(){ if(scopeScreenCtx){ paintScope(scopeScreenCtx, scopeScreenCtx.canvas.width, scopeScreenCtx.canvas.height, true); if(scopeScreenTex) scopeScreenTex.needsUpdate=true; } }
 
   function tick(now){
     requestAnimationFrame(tick);
@@ -1178,13 +1232,16 @@
     S.flipProb = ramseyP(S.det);
 
     // atoms
-    for(var i=0;i<ATOMS.length;i++){ var at=ATOMS[i]; stepAtom(at,dt);
+    var ts=S.dil.tScale, dShift=Math.max(-0.6,Math.min(0.6,(1-ts)*0.8));  // slow frame → redshift, fast → blueshift
+    for(var i=0;i<ATOMS.length;i++){ var at=ATOMS[i]; stepAtom(at,dt*ts);  // time dilation slows/speeds the beam
       posA[i*3]=at.x; posA[i*3+1]=at.y; posA[i*3+2]=at.z;
-      waveA[i] = 16 + at.v*6;                                   // de Broglie: faster atoms get tighter fringes
+      waveA[i] = (16 + at.v*6)*ts;                              // de Broglie: dilation stretches/compresses the fringes
       var sup = at.sel && !at.decided && at.x>-1.9 && at.x<1.9; // in superposition while crossing the cavity
       mixA[i] = sup?1:0;
       var c = at.dumped? colDim : (at.state===4? colF4 : colF3);
-      colorA[i*3]=c.r; colorA[i*3+1]=c.g; colorA[i*3+2]=c.b;
+      var cr=c.r, cg=c.g, cb=c.b;
+      if(dShift!==0){ cr=Math.max(0,Math.min(1,cr+dShift*0.55)); cb=Math.max(0,Math.min(1,cb-dShift*0.55)); cg=Math.max(0,Math.min(1,cg-Math.abs(dShift)*0.15)); }
+      colorA[i*3]=cr; colorA[i*3+1]=cg; colorA[i*3+2]=cb;
     }
     atomGeo.attributes.position.needsUpdate=true; atomGeo.attributes.aColor.needsUpdate=true;
     atomGeo.attributes.aWave.needsUpdate=true; atomGeo.attributes.aMix.needsUpdate=true;
@@ -1235,7 +1292,7 @@
     if(dh){ if(active){ dh.style.display='block';
         dh.innerHTML=(S.dil.frac>0?'▲ running fast':'▼ running slow')+' &nbsp;Δf/f '+fmtFrac(S.dil.frac)+' &nbsp;· offset '+fmtOffset(S.dil.offset); }
       else dh.style.display='none'; }
-    drawScope(dt);
+    scopeStep(dt); drawScope(); draw3DScope();
 
     drawFringe();
     renderer.render(scene,camera);
