@@ -55,6 +55,7 @@
   .clockhud .t .pps{color:var(--f4); transition:opacity .1s; opacity:.25}
   .clockhud .t .pps.on{opacity:1}
   .clockhud .d{font-size:11px; color:var(--muted); letter-spacing:.06em; margin-top:1px}
+  .clockhud .dilhud{margin-top:4px; font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--f4); background:rgba(224,122,18,0.12); border:1px solid rgba(224,122,18,0.35); border-radius:6px; padding:2px 8px; display:inline-block}
   .lockhud{position:absolute; top:12px; left:12px; display:inline-flex; align-items:center; gap:8px;
     background:rgba(7,10,15,.72); border:1px solid var(--line2); border-radius:8px; padding:6px 11px; backdrop-filter:blur(3px)}
   .lockhud .dot{width:9px;height:9px;border-radius:50%;background:var(--warn);box-shadow:0 0 10px currentColor;color:var(--warn)}
@@ -143,6 +144,7 @@
       <div class="clockhud">
         <div class="t mono"><span id="etTime">—</span> <span class="pps" id="pps">●</span></div>
         <div class="d" id="etDate">Eastern Time · Spring Hill, FL</div>
+        <div class="dilhud" id="dilHud" style="display:none"></div>
       </div>
       <div class="lockhud" id="lockHud"><span class="dot"></span><span class="nm" id="lockName">Acquiring</span></div>
       <div class="tourbar" id="tourbar" style="display:none"></div>
@@ -176,6 +178,10 @@
     <div class="cell"><span class="k">Detuning δ</span><span class="v mono"><span id="pDet">+1500</span><span class="u">Hz</span></span></div>
     <div class="cell"><span class="k">Fractional offset</span><span class="v mono"><span id="pFrac">1.6e-7</span></span></div>
     <div class="cell"><span class="k">Allan dev σy(τ)</span><span class="v mono" id="pAllan">—</span></div>
+    <div class="cell"><span class="k">Time dilation Δf/f</span><span class="v mono" style="color:var(--f4)" id="pDil">0</span></div>
+    <div class="cell"><span class="k">Rate vs lab /day</span><span class="v mono" id="pRate">0 s</span></div>
+    <div class="cell"><span class="k">Accumulated clock offset</span><span class="v mono" style="color:var(--teal)" id="pOff">0 ps</span></div>
+    <div class="cell"><span class="k">Proper clock (dilated)</span><span class="v mono" id="pProper">—</span></div>
   </div>
 
   <div class="lower">
@@ -193,6 +199,47 @@
       <p>Caesium-133's single outer electron and its nucleus (spin I=7/2) couple into two <b>hyperfine ground states</b>, <span class="q">F=3</span> and <span class="q">F=4</span>. The gap between them is fixed by nature. The 2019 SI defines the second by <i>declaring</i> that unperturbed splitting to be exactly <code>9,192,631,770 Hz</code> — so the clock doesn't measure the second, it <b>is</b> the second.</p>
       <p>The clock uses the field-insensitive <b>mF=0 → mF=0</b> transition, and <b>Ramsey's two separated microwave zones</b> to make the resonance razor-sharp. The detector count peaks dead on resonance; the servo dithers and steers the quartz to that peak.</p>
       <p><b>On the time shown:</b> the apparatus is a faithful physics simulation. The Eastern-time display is read from your device's network-synchronised clock and formatted to <code>America/New_York</code> (it handles EST/EDT itself). Stability figures are representative of commercial caesium beam standards (~1×10⁻¹² at 1 s; fountains reach ~10⁻¹⁶).</p>
+    </div>
+  </div>
+
+  <style>
+    .lower2{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;margin-top:14px}
+    @media(max-width:820px){.lower2{grid-template-columns:1fr}}
+    .scopebox,.consolebox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+    .scopebox h2,.consolebox h2{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+    #scope{width:100%;height:auto;border-radius:8px;display:block;background:#07100b}
+    .scopeleg{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--faint)}
+    .scopeleg i{display:inline-block;width:12px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+    .consolebox{display:flex;flex-direction:column}
+    .conshelp{margin:0 0 8px;font-size:12.5px;color:var(--muted);line-height:1.5}
+    .conshelp code{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--teal);font-size:12px;cursor:pointer}
+    .cmdlog{flex:1;min-height:150px;max-height:220px;overflow-y:auto;background:#07100b;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;color:#b7c6cf}
+    .cmdlog .cl{white-space:pre-wrap;word-break:break-word}
+    .cmdlog .in{color:#cfd8e2}.cmdlog .pr{color:var(--teal)}.cmdlog .ok{color:#49d6a0}.cmdlog .err{color:#ff7a6a}.cmdlog .sys{color:var(--faint)}
+    .cmdrow{display:flex;align-items:center;gap:8px;margin-top:10px;background:#07100b;border:1px solid var(--line2);border-radius:8px;padding:8px 12px}
+    .cmdrow .prompt{color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px}
+    #cmd{flex:1;background:transparent;border:0;outline:0;color:#e6eef6;font-family:'JetBrains Mono',monospace;font-size:13px}
+    #cmd::placeholder{color:var(--faint)}
+  </style>
+  <div class="lower2">
+    <div class="scopebox">
+      <h2>Local oscillator — proper time vs lab reference</h2>
+      <canvas id="scope" width="680" height="300"></canvas>
+      <div class="scopeleg">
+        <span><i style="background:#7b96aa"></i>lab reference (undilated)</span>
+        <span><i style="background:#35e0a0"></i>on-board oscillator (your frame)</span>
+        <span>beat = Δf/f × 9.192 GHz — the two slide apart as the clock dilates</span>
+      </div>
+    </div>
+    <div class="consolebox">
+      <h2>Relativity console — change the time dilation</h2>
+      <p class="conshelp">Put the clock in a moving or raised frame and watch its rate drift from the lab. Try
+        <code data-cmd="velocity 7660">velocity 7660</code>
+        <code data-cmd="altitude 20000">altitude 20000</code>
+        <code data-cmd="boost 0.2">boost 0.2</code>
+        <code data-cmd="reset">reset</code> · type <code data-cmd="help">help</code>.</p>
+      <div class="cmdlog" id="cmdlog"></div>
+      <div class="cmdrow"><span class="prompt">cs&gt;</span><input id="cmd" autocomplete="off" spellcheck="false" placeholder="type a command, press Enter"></div>
     </div>
   </div>
 
@@ -249,13 +296,36 @@
   var compByKey = {}; COMPS.forEach(function(c){ compByKey[c.key]=c; });
 
   // ---------- servo / physics state ----------
-  var S = { det:1500, locked:false, flipProb:0.1, lockTime:0, tau:0 };
+  var S = { det:1500, locked:false, flipProb:0.1, lockTime:0, tau:0,
+            dil:{ vel:0, alt:0, gravF:1, extra:0, frac:0, offset:0 } };     // relativistic time-dilation frame
+  var C_LIGHT = 299792458, G0 = 9.80665;
+  // Δf/f = g·h/c²  (gravitational, +)   −  [1 − √(1−β²)]  (velocity, −)   +  manual offset
+  function dilRecompute(){ var g=G0*S.dil.gravF;
+    var fGR = g*S.dil.alt/(C_LIGHT*C_LIGHT);
+    var beta = S.dil.vel/C_LIGHT, fSR;
+    if(Math.abs(beta)>=1) fSR=-1; else fSR = Math.sqrt(1-beta*beta)-1;
+    S.dil.frac = fGR + fSR + S.dil.extra;
+  }
   function ramseyP(det){
     var x = det/2500, env = x===0?1:Math.pow(Math.sin(Math.PI*x)/(Math.PI*x),2);
     return Math.max(0, 0.5*env*(1+Math.cos(2*Math.PI*det/1000)));
   }
   function fmtDet(d){ return (d>=0?'+':'')+d.toFixed(0); }
   function fmtFrac(f){ var a=Math.abs(f); if(a<1e-18) return "0"; var e=Math.floor(Math.log10(a)); var m=f/Math.pow(10,e); return m.toFixed(1)+'e'+e; }
+  function fmtOffset(s){ var a=Math.abs(s), sg=s<0?'−':'+';
+    if(a<1e-9) return sg+(a*1e12).toFixed(2)+' ps';
+    if(a<1e-6) return sg+(a*1e9).toFixed(2)+' ns';
+    if(a<1e-3) return sg+(a*1e6).toFixed(2)+' µs';
+    if(a<1)    return sg+(a*1e3).toFixed(2)+' ms';
+    if(a<86400)return sg+a.toFixed(3)+' s';
+    return sg+(a/86400).toFixed(3)+' d'; }
+  function fmtHz(f){ var a=Math.abs(f), sg=f<0?'−':'+';
+    if(a<1e-3) return sg+(a*1e3).toFixed(2)+' mHz';
+    if(a<1e3)  return sg+a.toFixed(2)+' Hz';
+    if(a<1e6)  return sg+(a/1e3).toFixed(2)+' kHz';
+    if(a<1e9)  return sg+(a/1e6).toFixed(2)+' MHz';
+    return sg+(a/1e9).toFixed(3)+' GHz'; }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return c==='&'?'&amp;':c==='<'?'&lt;':'&gt;';}); }
 
   // ---------- scene ----------
   var PK = {}; var pickable = []; var pickParts=[], partsByComp={};
@@ -1026,6 +1096,80 @@
 
   // ---------- loop ----------
   var last=performance.now(), prevSec=-1;
+  // ---------- relativity console + oscilloscope ----------
+  var refPhase=0, scopePhase=0;
+  function cprint(html,cls){ var l=$('cmdlog'); if(!l) return; var d=document.createElement('div'); d.className='cl '+(cls||''); d.innerHTML=html; l.appendChild(d); while(l.children.length>80) l.removeChild(l.firstChild); l.scrollTop=l.scrollHeight; }
+  function dilStatus(){ return 'v='+Math.round(S.dil.vel).toLocaleString('en-US')+' m/s · h='+Math.round(S.dil.alt).toLocaleString('en-US')+' m · g='+S.dil.gravF+'× · Δf/f='+fmtFrac(S.dil.frac); }
+  function runCmd(raw){ var s=(raw||'').trim(); if(!s) return;
+    cprint('<span class="pr">cs&gt;</span> '+esc(s),'in');
+    var p=s.split(/\s+/), cmd=p[0].toLowerCase(), val=parseFloat(p[1]);
+    switch(cmd){
+      case 'help': case '?':
+        cprint('commands:','sys');
+        cprint('&nbsp;&nbsp;velocity &lt;m/s&gt;&nbsp;&nbsp;special-relativity dilation — clock slows','sys');
+        cprint('&nbsp;&nbsp;boost &lt;β&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity as a fraction of c (0–0.999)','sys');
+        cprint('&nbsp;&nbsp;altitude &lt;m&gt;&nbsp;&nbsp;&nbsp;&nbsp;gravitational blueshift — clock speeds up','sys');
+        cprint('&nbsp;&nbsp;gravity &lt;×g&gt;&nbsp;&nbsp;&nbsp;&nbsp;scale local gravity for the altitude term','sys');
+        cprint('&nbsp;&nbsp;dilate &lt;Δf/f&gt;&nbsp;&nbsp;&nbsp;set a fractional rate directly (e.g. 1e-10)','sys');
+        cprint('&nbsp;&nbsp;status&nbsp;·&nbsp;reset','sys'); break;
+      case 'velocity': case 'vel': case 'v':
+        if(isNaN(val)){ cprint('usage: velocity &lt;metres per second&gt;','err'); break; }
+        S.dil.vel=val; dilRecompute();
+        cprint('velocity '+val.toLocaleString('en-US')+' m/s (β='+(val/C_LIGHT).toExponential(2)+')  →  Δf/f = '+fmtFrac(S.dil.frac),'ok'); break;
+      case 'boost': case 'beta':
+        if(isNaN(val)){ cprint('usage: boost &lt;0–0.999&gt;','err'); break; }
+        var b=Math.max(-0.999,Math.min(0.999,val)); S.dil.vel=b*C_LIGHT; dilRecompute();
+        cprint('β = '+b+'  →  v = '+Math.round(S.dil.vel).toLocaleString('en-US')+' m/s  →  Δf/f = '+fmtFrac(S.dil.frac),'ok'); break;
+      case 'altitude': case 'alt': case 'h':
+        if(isNaN(val)){ cprint('usage: altitude &lt;metres&gt;','err'); break; }
+        S.dil.alt=val; dilRecompute();
+        cprint('altitude '+val.toLocaleString('en-US')+' m  →  Δf/f = '+fmtFrac(S.dil.frac),'ok'); break;
+      case 'gravity': case 'grav': case 'g':
+        if(isNaN(val)){ cprint('usage: gravity &lt;multiple of Earth g&gt;','err'); break; }
+        S.dil.gravF=val; dilRecompute();
+        cprint('local gravity '+val+'× Earth  →  Δf/f = '+fmtFrac(S.dil.frac),'ok'); break;
+      case 'dilate': case 'frac':
+        if(isNaN(val)){ cprint('usage: dilate &lt;fractional rate, e.g. 1e-10&gt;','err'); break; }
+        S.dil.extra=val; dilRecompute();
+        cprint('manual Δf/f = '+val.toExponential(2)+'  →  total Δf/f = '+fmtFrac(S.dil.frac),'ok'); break;
+      case 'status': case 'stat':
+        cprint(dilStatus()); cprint('offset '+fmtOffset(S.dil.offset)+' · '+fmtOffset(S.dil.frac*86400)+'/day · beat '+fmtHz(S.dil.frac*NU_CS)); break;
+      case 'reset': case 'clear':
+        S.dil.vel=0; S.dil.alt=0; S.dil.gravF=1; S.dil.extra=0; S.dil.offset=0; dilRecompute();
+        cprint('frame reset — on-board clock back to the lab rate','ok'); break;
+      default:
+        cprint('unknown command "'+esc(cmd)+'"  —  type help','err');
+    }
+  }
+  function initConsole(){ var inp=$('cmd'); if(!inp) return;
+    cprint('relativity console ready — this clock realises the SI second.','sys');
+    cprint('put it in a new frame and watch it drift. type help.','sys');
+    inp.addEventListener('keydown',function(e){ e.stopPropagation(); if(e.key==='Enter'){ runCmd(this.value); this.value=''; } });
+    document.querySelectorAll('.conshelp code[data-cmd]').forEach(function(c){ c.addEventListener('click',function(){ runCmd(this.getAttribute('data-cmd')); inp.focus(); }); });
+  }
+  function drawScope(dt){ var cv=$('scope'); if(!cv) return; var g=cv.getContext('2d'), w=cv.width, h=cv.height;
+    refPhase += dt*3.0;                                     // base scroll so the trace reads as "running"
+    var beatHz = S.dil.frac*NU_CS;                          // true beat = Δf between the two frames
+    var vis = Math.max(-7, Math.min(7, beatHz*2*Math.PI));  // capped visual slip rate (rad/s)
+    scopePhase += dt*vis;
+    g.fillStyle='#07100b'; g.fillRect(0,0,w,h);
+    g.strokeStyle='rgba(60,130,95,0.22)'; g.lineWidth=1;
+    for(var gx=0;gx<=w;gx+=w/12){ g.beginPath(); g.moveTo(gx,0); g.lineTo(gx,h); g.stroke(); }
+    for(var gy=0;gy<=h;gy+=h/6){ g.beginPath(); g.moveTo(0,gy); g.lineTo(w,gy); g.stroke(); }
+    g.strokeStyle='rgba(90,170,130,0.4)'; g.beginPath(); g.moveTo(0,h/2); g.lineTo(w,h/2); g.stroke();
+    var cycles=7, amp=h*0.30, px, ph, y;
+    g.lineWidth=1.6; g.strokeStyle='rgba(123,150,170,0.75)'; g.beginPath();
+    for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase; y=h/2-Math.sin(ph)*amp*0.72; px?g.lineTo(px,y):g.moveTo(px,y); }
+    g.stroke();
+    g.lineWidth=2.4; g.strokeStyle='#35e0a0'; g.shadowColor='#35e0a0'; g.shadowBlur=7; g.beginPath();
+    for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase+scopePhase; y=h/2-Math.sin(ph)*amp; px?g.lineTo(px,y):g.moveTo(px,y); }
+    g.stroke(); g.shadowBlur=0;
+    g.font='13px monospace'; g.textAlign='left'; g.fillStyle='#35e0a0'; g.fillText('LO 5.000000 MHz', 12, 20);
+    g.textAlign='right'; g.fillStyle='#8aa0b4'; g.fillText('beat '+fmtHz(beatHz), w-12, 20);
+    g.fillStyle=S.dil.frac?'#f4b04d':'#5a6a60'; g.fillText('Δφ '+(scopePhase%6.2831).toFixed(2)+' rad', w-12, h-12);
+    g.textAlign='left'; if(Math.abs(beatHz*2*Math.PI)>7){ g.fillStyle='#5a6a60'; g.fillText('(display rate capped)', 12, h-12); }
+  }
+
   function tick(now){
     requestAnimationFrame(tick);
     var dt=Math.min(0.05,(now-last)/1000); last=now;
@@ -1087,6 +1231,18 @@
     else $('pAllan').textContent='—';
     if(selected && !selIsPart && !$('selBox').hidden && compByKey[selected]){ $('selRo').textContent=compByKey[selected].ro(); }
 
+    // ---- time dilation: accumulate the proper-time offset, drive the readouts + scope ----
+    S.dil.offset += S.dil.frac*dt;
+    var active=S.dil.frac!==0, dh=$('dilHud');
+    $('pDil').textContent = active? fmtFrac(S.dil.frac) : '0';
+    $('pRate').textContent = fmtOffset(S.dil.frac*86400)+' /day';
+    $('pOff').textContent = fmtOffset(S.dil.offset);
+    $('pProper').textContent = fmtET.format(jsNow + S.dil.offset*1000);
+    if(dh){ if(active){ dh.style.display='block';
+        dh.innerHTML=(S.dil.frac>0?'▲ running fast':'▼ running slow')+' &nbsp;Δf/f '+fmtFrac(S.dil.frac)+' &nbsp;· offset '+fmtOffset(S.dil.offset); }
+      else dh.style.display='none'; }
+    drawScope(dt);
+
     drawFringe();
     renderer.render(scene,camera);
   }
@@ -1097,7 +1253,7 @@
   window.addEventListener('resize',resize);
 
   if(!THREE){ canvas.insertAdjacentHTML('afterend','<div style="position:absolute;inset:0;display:grid;place-items:center;color:#8aa0b4;font-family:monospace">3D library failed to load</div>'); }
-  else { build(); setLabels('comp'); requestAnimationFrame(tick); }
+  else { build(); setLabels('comp'); initConsole(); requestAnimationFrame(tick); }
 })();
 </script>
 
