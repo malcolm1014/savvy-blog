@@ -254,11 +254,14 @@
     </div>
     <div class="consolebox">
       <h2>Relativity console — change the time dilation</h2>
-      <p class="conshelp">Put the clock in a moving or raised frame and watch its rate drift from the lab. Try
-        <code data-cmd="velocity 7660">velocity 7660</code>
-        <code data-cmd="altitude 20000">altitude 20000</code>
-        <code data-cmd="boost 0.2">boost 0.2</code>
-        <code data-cmd="reset">reset</code> · type <code data-cmd="help">help</code>.</p>
+      <p class="conshelp">Put the clock in a moving or raised frame and watch its rate drift from the lab. Presets:
+        <code data-cmd="preset gps">gps</code>
+        <code data-cmd="preset iss">iss</code>
+        <code data-cmd="preset everest">everest</code>
+        <code data-cmd="preset blackhole">blackhole</code>
+        <code data-cmd="reset">reset</code> · or type
+        <code data-cmd="boost 0.2">boost 0.2</code>,
+        <code data-cmd="help">help</code>. <span style="color:var(--faint)">↑/↓ recalls history.</span></p>
       <div class="cmdlog" id="cmdlog"></div>
       <div class="cmdrow"><span class="prompt">cs&gt;</span><input id="cmd" autocomplete="off" spellcheck="false" placeholder="type a command, press Enter"></div>
     </div>
@@ -1167,9 +1170,18 @@
   // ---------- loop ----------
   var last=performance.now(), prevSec=-1;
   // ---------- relativity console + oscilloscope ----------
-  var refPhase=0, scopePhase=0;
+  var refPhase=0, scopePhase=0, frameN=0;
   function cprint(html,cls){ var l=$('cmdlog'); if(!l) return; var d=document.createElement('div'); d.className='cl '+(cls||''); d.innerHTML=html; l.appendChild(d); while(l.children.length>80) l.removeChild(l.firstChild); l.scrollTop=l.scrollHeight; }
   function dilStatus(){ return 'v='+Math.round(S.dil.vel).toLocaleString('en-US')+' m/s · h='+Math.round(S.dil.alt).toLocaleString('en-US')+' m · g='+S.dil.gravF+'× · Δf/f='+fmtFrac(S.dil.frac); }
+  // real-world frames (vel m/s, alt m); GPS uses the published net orbital shift directly
+  var PRESETS={
+    gps:      {vel:0, alt:0, gravF:1, extra:4.465e-10, label:'GPS satellite — net orbital correction'},
+    iss:      {vel:7660, alt:408000, gravF:1, extra:0, label:'ISS in low Earth orbit'},
+    everest:  {vel:0, alt:8849, gravF:1, extra:0, label:'summit of Everest'},
+    jet:      {vel:250, alt:11000, gravF:1, extra:0, label:'airliner at cruise'},
+    blackhole:{vel:0.5*C_LIGHT, alt:0, gravF:1, extra:0, label:'half-light-speed flyby'},
+    muon:     {vel:0.98*C_LIGHT, alt:0, gravF:1, extra:0, label:'cosmic-ray muon (0.98c)'}
+  };
   function runCmd(raw){ var s=(raw||'').trim(); if(!s) return;
     cprint('<span class="pr">cs&gt;</span> '+esc(s),'in');
     var p=s.split(/\s+/), cmd=p[0].toLowerCase(), val=parseFloat(p[1]);
@@ -1181,7 +1193,8 @@
         cprint('&nbsp;&nbsp;altitude &lt;m&gt;&nbsp;&nbsp;&nbsp;&nbsp;gravitational blueshift — clock speeds up','sys');
         cprint('&nbsp;&nbsp;gravity &lt;×g&gt;&nbsp;&nbsp;&nbsp;&nbsp;scale local gravity for the altitude term','sys');
         cprint('&nbsp;&nbsp;dilate &lt;Δf/f&gt;&nbsp;&nbsp;&nbsp;set a fractional rate directly (e.g. 1e-10)','sys');
-        cprint('&nbsp;&nbsp;status&nbsp;·&nbsp;reset','sys'); break;
+        cprint('&nbsp;&nbsp;preset &lt;name&gt;&nbsp;&nbsp;&nbsp;gps · iss · everest · jet · blackhole · muon','sys');
+        cprint('&nbsp;&nbsp;status&nbsp;·&nbsp;reset&nbsp;&nbsp;(↑/↓ recalls history)','sys'); break;
       case 'velocity': case 'vel': case 'v':
         if(isNaN(val)){ cprint('usage: velocity &lt;metres per second&gt;','err'); break; }
         S.dil.vel=val; dilRecompute();
@@ -1204,6 +1217,11 @@
         cprint('manual Δf/f = '+val.toExponential(2)+'  →  total Δf/f = '+fmtFrac(S.dil.frac),'ok'); break;
       case 'status': case 'stat':
         cprint(dilStatus()); cprint('offset '+fmtOffset(S.dil.offset)+' · '+fmtOffset(S.dil.frac*86400)+'/day · beat '+fmtHz(S.dil.frac*NU_CS)); break;
+      case 'preset': case 'load':
+        var pn=(p[1]||'').toLowerCase(), ps=PRESETS[pn];
+        if(!ps){ cprint('presets: gps · iss · everest · jet · blackhole · muon','err'); break; }
+        S.dil.vel=ps.vel; S.dil.alt=ps.alt; S.dil.gravF=ps.gravF; S.dil.extra=ps.extra; dilRecompute();
+        cprint('loaded “'+ps.label+'”  →  Δf/f = '+fmtFrac(S.dil.frac)+'  ·  '+fmtOffset(S.dil.frac*86400)+'/day','ok'); break;
       case 'reset': case 'clear':
         S.dil.vel=0; S.dil.alt=0; S.dil.gravF=1; S.dil.extra=0; S.dil.offset=0; dilRecompute();
         cprint('frame reset — on-board clock back to the lab rate','ok'); break;
@@ -1214,7 +1232,11 @@
   function initConsole(){ var inp=$('cmd'); if(!inp) return;
     cprint('relativity console ready — this clock realises the SI second.','sys');
     cprint('put it in a new frame and watch it drift. type help.','sys');
-    inp.addEventListener('keydown',function(e){ e.stopPropagation(); if(e.key==='Enter'){ runCmd(this.value); this.value=''; } });
+    var hist=[], hi=0;
+    inp.addEventListener('keydown',function(e){ e.stopPropagation();
+      if(e.key==='Enter'){ var v=this.value; if(v.trim()){ hist.push(v); if(hist.length>60) hist.shift(); } hi=hist.length; runCmd(v); this.value=''; }
+      else if(e.key==='ArrowUp'){ if(hist.length){ hi=Math.max(0,hi-1); this.value=hist[hi]||''; e.preventDefault(); } }
+      else if(e.key==='ArrowDown'){ if(hist.length){ hi=Math.min(hist.length,hi+1); this.value=hi<hist.length?hist[hi]:''; e.preventDefault(); } } });
     document.querySelectorAll('.conshelp code[data-cmd]').forEach(function(c){ c.addEventListener('click',function(){ runCmd(this.getAttribute('data-cmd')); inp.focus(); }); });
   }
   function scopeStep(dt){
@@ -1225,21 +1247,36 @@
   }
   function paintScope(g,w,h,big){ var beatHz=S.dil.frac*NU_CS, fs=big?Math.round(h/16):13;
     g.fillStyle='#07100b'; g.fillRect(0,0,w,h);
-    g.strokeStyle='rgba(60,130,95,0.22)'; g.lineWidth=1;
+    // graticule: 12 x 6 divisions with a brighter centre cross and minor ticks on the axes
+    g.strokeStyle='rgba(60,130,95,0.20)'; g.lineWidth=1;
     for(var gx=0;gx<=w;gx+=w/12){ g.beginPath(); g.moveTo(gx,0); g.lineTo(gx,h); g.stroke(); }
     for(var gy=0;gy<=h;gy+=h/6){ g.beginPath(); g.moveTo(0,gy); g.lineTo(w,gy); g.stroke(); }
-    g.strokeStyle='rgba(90,170,130,0.4)'; g.beginPath(); g.moveTo(0,h/2); g.lineTo(w,h/2); g.stroke();
+    g.strokeStyle='rgba(90,170,130,0.45)';
+    g.beginPath(); g.moveTo(0,h/2); g.lineTo(w,h/2); g.stroke();
+    g.beginPath(); g.moveTo(w/2,0); g.lineTo(w/2,h); g.stroke();
+    g.strokeStyle='rgba(90,170,130,0.55)'; var tk=big?5:3;
+    for(var mx=0;mx<=w;mx+=w/60){ g.beginPath(); g.moveTo(mx,h/2-tk); g.lineTo(mx,h/2+tk); g.stroke(); }
+    for(var my=0;my<=h;my+=h/30){ g.beginPath(); g.moveTo(w/2-tk,my); g.lineTo(w/2+tk,my); g.stroke(); }
     var cycles=7, amp=h*0.30, px, ph, y;
+    // reference trace (lab)
     g.lineWidth=big?2:1.6; g.strokeStyle='rgba(123,150,170,0.75)'; g.beginPath();
     for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase; y=h/2-Math.sin(ph)*amp*0.72; px?g.lineTo(px,y):g.moveTo(px,y); }
+    g.stroke();
+    // on-board trace: a faint afterglow pass then the bright line (CRT persistence feel)
+    g.lineWidth=big?6:4; g.strokeStyle='rgba(53,224,160,0.14)'; g.beginPath();
+    for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase+scopePhase; y=h/2-Math.sin(ph)*amp; px?g.lineTo(px,y):g.moveTo(px,y); }
     g.stroke();
     g.lineWidth=big?3:2.4; g.strokeStyle='#35e0a0'; g.shadowColor='#35e0a0'; g.shadowBlur=big?10:7; g.beginPath();
     for(px=0;px<=w;px+=2){ ph=(px/w)*cycles*6.2831+refPhase+scopePhase; y=h/2-Math.sin(ph)*amp; px?g.lineTo(px,y):g.moveTo(px,y); }
     g.stroke(); g.shadowBlur=0;
-    g.font=fs+'px monospace'; g.textAlign='left'; g.fillStyle='#35e0a0'; g.fillText('LO 5.000000 MHz', 12, fs+6);
+    // trigger marker (left edge, mid-screen) + a 'T' tick at top
+    g.fillStyle='#f4b04d'; g.beginPath(); g.moveTo(2,h/2); g.lineTo(big?14:10,h/2-(big?8:6)); g.lineTo(big?14:10,h/2+(big?8:6)); g.closePath(); g.fill();
+    g.font=fs+'px monospace'; g.textAlign='left'; g.fillStyle='#35e0a0'; g.fillText('LO 5.000000 MHz', 14, fs+6);
     g.textAlign='right'; g.fillStyle='#8aa0b4'; g.fillText('beat '+fmtHz(beatHz), w-12, fs+6);
-    g.fillStyle=S.dil.frac?'#f4b04d':'#5a6a60'; g.fillText('Δφ '+(scopePhase%6.2831).toFixed(2)+' rad', w-12, h-10);
-    g.textAlign='left'; if(Math.abs(beatHz*2*Math.PI)>7){ g.fillStyle='#5a6a60'; g.fillText('(display rate capped)', 12, h-10); }
+    g.fillStyle='#5a6a60'; g.textAlign='left'; g.fillText('50 ns/div', 14, h-10);
+    g.textAlign='center'; g.fillText('CH1 ref · CH2 on-board', w/2, h-10);
+    g.textAlign='right'; g.fillStyle=S.dil.frac?'#f4b04d':'#5a6a60'; g.fillText('Δφ '+(scopePhase%6.2831).toFixed(2)+' rad', w-12, h-10);
+    if(Math.abs(beatHz*2*Math.PI)>7){ g.textAlign='left'; g.fillStyle='#5a6a60'; g.fillText('(trace rate capped)', 14, h-28); }
   }
   function drawScope(){ var cv=$('scope'); if(cv) paintScope(cv.getContext('2d'), cv.width, cv.height, false); }
   var scopeScreenCtx=null, scopeScreenTex=null;
@@ -1319,7 +1356,7 @@
     if(dh){ if(active){ dh.style.display='block';
         dh.innerHTML=(S.dil.frac>0?'▲ running fast':'▼ running slow')+' &nbsp;Δf/f '+fmtFrac(S.dil.frac)+' &nbsp;· offset '+fmtOffset(S.dil.offset); }
       else dh.style.display='none'; }
-    scopeStep(dt); drawScope(); draw3DScope();
+    scopeStep(dt); drawScope(); if((frameN++ % 3)===0) draw3DScope();  // 3D screen texture upload is costly; refresh at ~20fps
 
     drawFringe();
     renderer.render(scene,camera);
