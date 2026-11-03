@@ -40,6 +40,10 @@
   .post h2{font-size:1.25rem; margin:0 0 8px; color:var(--fg);}
   .post p{margin:0; color:var(--muted); font-size:.95rem;}
   .post .meta{margin-top:12px; font-size:.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+  .postlink{display:block; text-decoration:none; color:inherit;}
+  .demoaction{padding:0 22px 20px; margin-top:-4px;}
+  .demoaction .btn{display:inline-block; background:var(--accent); color:#042f2a !important; text-decoration:none; padding:11px 22px; border-radius:6px; font-weight:700; font-size:.92rem;}
+  .demoaction .note{display:block; margin-top:10px; color:var(--muted); font-size:.82rem;}
   footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px;}
 </style>
 </head>
@@ -49,14 +53,20 @@
   <h1>Articles</h1>
   <p class="lede">Notes on security, systems architecture, and infrastructure.</p>
 
-  <a class="post" href="posts/teardown-engine-to-atomic-clock/">
-    <img src="posts/teardown-engine-to-atomic-clock/assets/cover.png" alt="TEARDOWN — a labeled caesium atomic beam line on a white bench, oven to detector, with a live clock readout.">
-    <div class="body">
-      <h2>We Took an Atomic Clock Apart in Your Browser</h2>
-      <p>A proof of concept for <strong>elvarofficial's</strong> open-source <em>teardown</em> skill. We pointed it at three machines &mdash; an engine, a cuckoo clock, and a caesium atomic clock &mdash; and the last one lets you fly into every component. Real screenshots, real code, and what to verify.</p>
-      <div class="meta">By Malcolm R. Smith &middot; November 1, 2026</div>
+  <div class="post">
+    <a class="postlink" href="posts/teardown-engine-to-atomic-clock/">
+      <img src="posts/teardown-engine-to-atomic-clock/assets/cover.png" alt="TEARDOWN — a labeled caesium atomic beam line on a white bench, oven to detector, with a live clock readout.">
+      <div class="body">
+        <h2>We Took an Atomic Clock Apart in Your Browser</h2>
+        <p>A proof of concept for <strong>elvarofficial's</strong> open-source <em>teardown</em> skill. We pointed it at three machines &mdash; an engine, a cuckoo clock, and a caesium atomic clock &mdash; and the last one lets you fly into every component. Real screenshots, real code, and what to verify.</p>
+        <div class="meta">By Malcolm R. Smith &middot; November 1, 2026</div>
+      </div>
+    </a>
+    <div class="demoaction">
+      <a class="btn" href="atomic-clock/" target="_blank" rel="noopener">&#9654;&nbsp; Play the live demo</a>
+      <span class="note">Runs in your browser &mdash; no install. Take it apart, read the live time, dilate the clock.</span>
     </div>
-  </a>
+  </div>
 
   <a class="post" href="posts/the-book-is-live/">
     <img src="book/assets/cover.svg" alt="A Hacker's Guide to Survive cover image">
