@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "savvy-security",
+  "owner": {
+    "name": "Malcolm R. Smith",
+    "url": "https://github.com/malcolm1014"
+  },
+  "description": "Savvy Security LLC reasoning tools for Claude Code. Home of KYBERNETES and the Plato 1 architect.",
+  "metadata": {
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "kybernetes",
+      "source": ".",
+      "description": "KYBERNETES: a mathematically-grounded reasoning-governance discipline, called through the Plato 1 architect.",
+      "category": "reasoning",
+      "tags": ["reasoning", "governance", "calibration", "philosophy", "epistemics"]
+    }
+  ]
+}

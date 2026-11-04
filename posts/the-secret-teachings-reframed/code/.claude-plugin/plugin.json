@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "kybernetes",
+  "displayName": "KYBERNETES — Plato 1",
+  "version": "0.1.0",
+  "description": "One reasoning architect, Plato 1, that governs Claude's own reasoning under the KYBERNETES discipline: Socratic calibration, Diogenic honesty, Platonic abstraction, causal audit, and dynamic stability — each with its formal object.",
+  "author": {
+    "name": "Malcolm R. Smith",
+    "url": "https://github.com/malcolm1014"
+  },
+  "homepage": "https://github.com/malcolm1014/kybernetes",
+  "repository": "https://github.com/malcolm1014/kybernetes",
+  "license": "MIT",
+  "keywords": ["reasoning", "governance", "calibration", "anti-sycophancy", "causal-inference", "epistemics", "philosophy"]
+}

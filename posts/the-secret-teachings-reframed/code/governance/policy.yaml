@@ -1,0 +1,31 @@
+# KYBERNETES governance policy — the λ weights of the composite objective.
+# This file IS the act of governance made explicit: each weight says how much
+# a reasoning virtue is worth against raw task performance. Edit it deliberately;
+# /kybernetes:steer reads and updates it. Keep every weight's reason stated.
+#
+#   L_total = L_task
+#           + lambda1 * ECE                  (Socratic calibration)
+#           + lambda2 * E[(dy/ds)^2]         (Diogenic honesty-invariance)
+#           + lambda3 * G                    (anti-Goodhart gap)
+#           + lambda4 * ||R(h_s)-h_{s-1}||^2 (Platonic / Correspondence consistency)
+#           + lambda5 * C_causal             (causal faithfulness)
+#           + lambda6 * rho(A)               (Rhythmic stability)
+
+version: "0.1.0"
+
+weights:
+  lambda1_calibration: 1.0   # confidence must track evidence (ECE)
+  lambda2_honesty:     1.5   # highest: answer invariant to the asker's wishes
+  lambda3_antigoodhart:1.0   # refuse to optimize the proxy past the real good
+  lambda4_consistency: 0.5   # abstractions must agree across scale
+  lambda5_causal:      1.0   # do-test before trusting a causal claim
+  lambda6_stability:   0.5   # verdict robust to small reframing
+
+# Terms that outrank L_task (never traded for approval or a cleaner story):
+precedence_over_task: [lambda2_honesty, lambda3_antigoodhart]
+
+changelog:
+  - "0.1.0 (2026-11-03): initial policy. Honesty weighted highest; calibration,
+     anti-Goodhart, and causal faithfulness equal; consistency and stability
+     lighter. Rationale: in advisory reasoning, a confident dishonest answer
+     does the most damage, so parrhesia leads."
