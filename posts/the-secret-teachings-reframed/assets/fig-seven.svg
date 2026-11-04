@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="'IBM Plex Mono','DejaVu Sans Mono',monospace">
+  <rect width="1000" height="560" fill="#0d1410"/>
+  <rect x="0.5" y="0.5" width="999" height="559" fill="none" stroke="#2c2e24"/>
+
+  <text x="56" y="50" fill="#e0a256" font-size="15" font-weight="700" letter-spacing="1.2">THE SEVEN PRINCIPLES, AUDITED FOR PROVENANCE</text>
+  <text x="56" y="72" fill="#a49c87" font-size="12.5">The Kybalion (1908) presents seven &#8220;ancient&#8221; Hermetic laws. How many have a genuine pre-modern Hermetic basis?</text>
+
+  <!-- column headers -->
+  <text x="60"  y="112" fill="#7d7363" font-size="10.5" letter-spacing=".06em">PRINCIPLE</text>
+  <text x="300" y="112" fill="#7d7363" font-size="10.5" letter-spacing=".06em">EARLIEST REAL SOURCE</text>
+  <text x="720" y="112" fill="#7d7363" font-size="10.5" letter-spacing=".06em">HERMETIC BASIS</text>
+  <line x1="56" y1="120" x2="944" y2="120" stroke="#2c2e24"/>
+
+  <!-- rows: y start 150, step 52 -->
+  <!-- helper: pill -->
+  <!-- 1 Mentalism YES -->
+  <g>
+    <text x="60" y="156" fill="#e8e5d8" font-size="13" font-weight="700">1 &#183; Mentalism</text>
+    <text x="300" y="156" fill="#cfc8b8" font-size="11.5">Corpus Hermeticum &#8212; Nous / divine Mind</text>
+    <rect x="720" y="142" width="150" height="22" rx="11" fill="rgba(22,101,52,.18)" stroke="#2f6d44"/>
+    <text x="795" y="157" fill="#86efac" font-size="11" text-anchor="middle" font-weight="700">GENUINE</text>
+  </g>
+  <!-- 2 Correspondence partial -->
+  <g>
+    <text x="60" y="208" fill="#e8e5d8" font-size="13" font-weight="700">2 &#183; Correspondence</text>
+    <text x="300" y="208" fill="#cfc8b8" font-size="11.5">Emerald Tablet (Latin, from Arabic); Plato, Stoics</text>
+    <rect x="720" y="194" width="150" height="22" rx="11" fill="rgba(168,106,34,.16)" stroke="#9a6a28"/>
+    <text x="795" y="209" fill="#e0a256" font-size="11" text-anchor="middle" font-weight="700">ADJACENT</text>
+  </g>
+  <!-- 3 Vibration NO -->
+  <g>
+    <text x="60" y="260" fill="#e8e5d8" font-size="13" font-weight="700">3 &#183; Vibration</text>
+    <text x="300" y="260" fill="#cfc8b8" font-size="11.5">David Hartley, 18th c. &#8212; no Hermetic attestation</text>
+    <rect x="720" y="246" width="150" height="22" rx="11" fill="rgba(190,60,44,.16)" stroke="#9a3b2c"/>
+    <text x="795" y="261" fill="#f08c7a" font-size="11" text-anchor="middle" font-weight="700">MODERN</text>
+  </g>
+  <!-- 4 Polarity partial -->
+  <g>
+    <text x="60" y="312" fill="#e8e5d8" font-size="13" font-weight="700">4 &#183; Polarity</text>
+    <text x="300" y="312" fill="#cfc8b8" font-size="11.5">Gendered polarity has a Hermetic footprint</text>
+    <rect x="720" y="298" width="150" height="22" rx="11" fill="rgba(22,101,52,.18)" stroke="#2f6d44"/>
+    <text x="795" y="313" fill="#86efac" font-size="11" text-anchor="middle" font-weight="700">GENUINE</text>
+  </g>
+  <!-- 5 Rhythm NO -->
+  <g>
+    <text x="60" y="364" fill="#e8e5d8" font-size="13" font-weight="700">5 &#183; Rhythm</text>
+    <text x="300" y="364" fill="#cfc8b8" font-size="11.5">No pre-1908 Hermetic source for the &#8220;law&#8221;</text>
+    <rect x="720" y="350" width="150" height="22" rx="11" fill="rgba(190,60,44,.16)" stroke="#9a3b2c"/>
+    <text x="795" y="365" fill="#f08c7a" font-size="11" text-anchor="middle" font-weight="700">MODERN</text>
+  </g>
+  <!-- 6 Cause & Effect NO -->
+  <g>
+    <text x="60" y="416" fill="#e8e5d8" font-size="13" font-weight="700">6 &#183; Cause &amp; Effect</text>
+    <text x="300" y="416" fill="#cfc8b8" font-size="11.5">General antiquity, but not as a Hermetic law of seven</text>
+    <rect x="720" y="402" width="150" height="22" rx="11" fill="rgba(190,60,44,.16)" stroke="#9a3b2c"/>
+    <text x="795" y="417" fill="#f08c7a" font-size="11" text-anchor="middle" font-weight="700">MODERN</text>
+  </g>
+  <!-- 7 Gender YES -->
+  <g>
+    <text x="60" y="468" fill="#e8e5d8" font-size="13" font-weight="700">7 &#183; Gender</text>
+    <text x="300" y="468" fill="#cfc8b8" font-size="11.5">Emerald Tablet maxim + gendered polarity</text>
+    <rect x="720" y="454" width="150" height="22" rx="11" fill="rgba(22,101,52,.18)" stroke="#2f6d44"/>
+    <text x="795" y="469" fill="#86efac" font-size="11" text-anchor="middle" font-weight="700">GENUINE</text>
+  </g>
+
+  <line x1="56" y1="492" x2="944" y2="492" stroke="#2c2e24"/>
+  <text x="60" y="522" fill="#cdeedd" font-size="12.5"><tspan fill="#86efac" font-weight="700">3 of 7</tspan> trace to genuine Hermetic ideas; the rest are modern or adjacent &#8212; and the sevenfold set is unattested before 1908.</text>
+  <text x="60" y="542" fill="#7d7363" font-size="10.5">Provenance per N. E. Chapel&#8217;s analysis of the Kybalion against the Hermetic corpus; the seven-fold scheme is unattested in antiquity.</text>
+</svg>
