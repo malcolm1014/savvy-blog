@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace">
+<rect width="900" height="500" fill="#0d1410"/>
+<text x="30" y="38" font-size="14" font-weight="700" fill="#e0a256" letter-spacing="1">FIG. 1 — COUNT THE FRONTS</text>
+<text x="30" y="60" font-size="11.5" fill="#a49c87">Three operations that kept adding fronts. Each front has to be supplied and held at the same time.</text>
+<rect x="30" y="92" width="840" height="116" rx="6" fill="#141a14" stroke="#2c2e24"/>
+<text x="48" y="120" font-size="13" font-weight="700" fill="#7fa6c2" letter-spacing="1">NAPOLEON, 1812</text>
+<text x="852" y="120" text-anchor="end" font-size="12" fill="#a49c87">4 fronts</text>
+<rect x="48" y="134" width="58" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="77" y="152" text-anchor="middle" font-size="12" fill="#e8e5d8">Spain</text>
+<rect x="116" y="134" width="66" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="149" y="152" text-anchor="middle" font-size="12" fill="#e8e5d8">Russia</text>
+<rect x="192" y="134" width="124" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="254" y="152" text-anchor="middle" font-size="12" fill="#e8e5d8">Britain at sea</text>
+<rect x="326" y="134" width="132" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="392" y="152" text-anchor="middle" font-size="12" fill="#e8e5d8">Occupied Europe</text>
+<text x="48" y="190" font-size="11.5" fill="#a49c87">Minard counted 422,000 men in. About 10,000 came back.</text>
+<rect x="30" y="222" width="840" height="116" rx="6" fill="#141a14" stroke="#2c2e24"/>
+<text x="48" y="250" font-size="13" font-weight="700" fill="#7fa6c2" letter-spacing="1">HITLER, 1941</text>
+<text x="852" y="250" text-anchor="end" font-size="12" fill="#a49c87">5 fronts</text>
+<rect x="48" y="264" width="73" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="85" y="282" text-anchor="middle" font-size="12" fill="#e8e5d8">Britain</text>
+<rect x="131" y="264" width="110" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="186" y="282" text-anchor="middle" font-size="12" fill="#e8e5d8">Soviet Union</text>
+<rect x="251" y="264" width="117" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="309" y="282" text-anchor="middle" font-size="12" fill="#e8e5d8">United States</text>
+<rect x="378" y="264" width="110" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="432" y="282" text-anchor="middle" font-size="12" fill="#e8e5d8">North Africa</text>
+<rect x="497" y="264" width="80" height="28" rx="14" fill="#0a0f0b" stroke="#7fa6c2" stroke-width="1.5"/>
+<text x="537" y="282" text-anchor="middle" font-size="12" fill="#e8e5d8">Atlantic</text>
+<text x="48" y="320" font-size="11.5" fill="#a49c87">Two of those fronts were opened by choice, inside six months.</text>
+<rect x="30" y="352" width="840" height="116" rx="6" fill="#141a14" stroke="#2c2e24"/>
+<text x="48" y="380" font-size="13" font-weight="700" fill="#f0b429" letter-spacing="1">A BLACK HAT CREW</text>
+<text x="852" y="380" text-anchor="end" font-size="12" fill="#a49c87">6 fronts</text>
+<rect x="48" y="394" width="73" height="28" rx="14" fill="#0a0f0b" stroke="#f0b429" stroke-width="1.5"/>
+<text x="85" y="412" text-anchor="middle" font-size="12" fill="#e8e5d8">Servers</text>
+<rect x="131" y="394" width="73" height="28" rx="14" fill="#0a0f0b" stroke="#f0b429" stroke-width="1.5"/>
+<text x="168" y="412" text-anchor="middle" font-size="12" fill="#e8e5d8">Aliases</text>
+<rect x="214" y="394" width="58" height="28" rx="14" fill="#0a0f0b" stroke="#f0b429" stroke-width="1.5"/>
+<text x="243" y="412" text-anchor="middle" font-size="12" fill="#e8e5d8">Money</text>
+<rect x="283" y="394" width="80" height="28" rx="14" fill="#0a0f0b" stroke="#f0b429" stroke-width="1.5"/>
+<text x="323" y="412" text-anchor="middle" font-size="12" fill="#e8e5d8">Partners</text>
+<rect x="373" y="394" width="73" height="28" rx="14" fill="#0a0f0b" stroke="#f0b429" stroke-width="1.5"/>
+<text x="410" y="412" text-anchor="middle" font-size="12" fill="#e8e5d8">Victims</text>
+<rect x="456" y="394" width="197" height="28" rx="14" fill="#0a0f0b" stroke="#f0b429" stroke-width="1.5"/>
+<text x="555" y="412" text-anchor="middle" font-size="12" fill="#e8e5d8">Police in many countries</text>
+<text x="48" y="450" font-size="11.5" fill="#a49c87">One slip on any front, at any time, is enough.</text>
+<text x="30" y="486" font-size="10.5" fill="#7d7363">Fronts are simplified for comparison. Minard figures from his 1869 chart of the Russian campaign.</text>
+</svg>

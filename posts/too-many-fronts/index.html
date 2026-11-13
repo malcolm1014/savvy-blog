@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Too Many Fronts</title>
+<meta name="description" content="Napoleon and Hitler lost by fighting on too many fronts at once. Big black hat operations make the same mistake. The prisoner's dilemma, the compounding math of getting caught, four collapses, and an honest look at where the idea breaks.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Too Many Fronts: Why Big Black Hat Operations Fall Apart">
+<meta property="og:description" content="Napoleon, Hitler, and the math of overextension. A 0.3% risk per job looks like safety. Run it a thousand times and 19 out of 20 have slipped. Plus the prisoner's dilemma inside every crew, and where the idea breaks.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/too-many-fronts/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/too-many-fronts/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Too Many Fronts: one crew at the center with six fronts radiating out: servers, aliases, money, partners, victims and police.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/too-many-fronts/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Analysis">
+<meta property="article:published_time" content="2026-11-13">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Too Many Fronts: Why Big Black Hat Operations Fall Apart">
+<meta name="twitter:description" content="Napoleon, Hitler, and the compounding math of getting caught. Why growth is the thing that sinks a criminal crew.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/too-many-fronts/assets/cover.png">
+<meta name="twitter:image:alt" content="Too Many Fronts: one crew at the center with six fronts radiating out: servers, aliases, money, partners, victims and police.">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/too-many-fronts/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0d110d url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#d7cbb0; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.8rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term .g{color:#86efac;} pre.term .a{color:#f0b429;} pre.term .r{color:#f08c7a;}
+  pre.term .b{color:#7fa6c2;} pre.term .d{color:#7d7363;} pre.term b{color:#e8e5d8; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .ledger{width:100%; border-collapse:collapse; margin:20px 0 8px; font-size:.9rem;}
+  .ledger th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:8px 10px; border-bottom:2px solid var(--rule); vertical-align:bottom;}
+  .ledger td{padding:11px 10px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.5;}
+  .ledger td:first-child{font-weight:700;}
+  .tagpill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:3px; white-space:nowrap;}
+  .tagpill.ok{background:rgba(22,101,52,.16); color:var(--term); border:1px solid rgba(22,101,52,.4);}
+  .tagpill.bet{background:rgba(168,106,34,.14); color:var(--accent); border:1px solid rgba(168,106,34,.4);}
+  .tablewrap{overflow-x:auto;}
+
+  .getcode{
+    background:var(--card); border:1px solid var(--accent); border-radius:6px;
+    padding:22px 24px; margin:26px 0 30px;
+  }
+  .getcode h3{margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
+  .getcode p{margin:0 0 12px; font-size:.96rem;} .getcode p:last-child{margin-bottom:0;}
+  .getcode .files{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--muted);}
+  .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.78rem; font-weight:600; text-decoration:none;
+    color:var(--bg); background:var(--accent2); border-radius:6px; padding:9px 16px; display:inline-block;
+  }
+  .btn.alt{background:transparent; color:var(--accent2); border:1px solid var(--accent2);}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Too Many Fronts: one crew at the center with six fronts radiating out: servers, aliases, money, partners, victims and police. Two of the fronts are failing."></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Analysis</p>
+  <h1>Too Many Fronts</h1>
+  <p class="dek">Napoleon and Hitler both lost by fighting everywhere at once. Big black hat operations make the same mistake, and the arithmetic is not on their side.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; November 2026</p>
+
+  <div class="partnav mono">
+    <a href="#trap">1 &middot; The trap</a>
+    <a href="#fronts">2 &middot; The fronts</a>
+    <a href="#dilemma">3 &middot; The dilemma</a>
+    <a href="#math">4 &middot; The math</a>
+    <a href="#cases">5 &middot; Four collapses</a>
+    <a href="#limits">Where it breaks</a>
+    <a href="#defend">For defenders</a>
+    <a href="#refs">Sources</a>
+  </div>
+
+  <div class="framing">
+    <h3>The short version</h3>
+    <p>Napoleon and Hitler were not beaten by one better army. They opened more fronts than they could supply, and the whole thing came apart at once.</p>
+    <p>A black hat operation has fronts too: servers, fake names, money, partners, victims, and police in a dozen countries. Every one has to be held <strong>perfectly, forever</strong>. An investigator only needs one slip.</p>
+    <p>I am not going to tell you every hacker gets caught. Most don&rsquo;t, and I&rsquo;ll show you the number. The claim here is narrower and I think stronger: <strong>the bigger a criminal operation grows, the faster the odds turn against it.</strong></p>
+  </div>
+
+  <p>There is a saying in security that the defender has to be right every time and the attacker only has to be right once. It is true for a single break-in. It is backwards for a criminal career.</p>
+  <p>Once the question changes from &ldquo;can they get in?&rdquo; to &ldquo;can they stay anonymous?&rdquo;, the roles flip. Now the attacker is the one who has to be right every time. Every login, every payment, every chat message, for years. The people hunting him get to be wrong all day long and try again tomorrow.</p>
+  <p>Military history already has a name for what happens next.</p>
+
+  <h2 id="trap">1 &middot; The two-front trap</h2>
+  <p><strong>Napoleon.</strong> In 1808 he sent his armies into Spain and found a war that would not end. He called it his &ldquo;Spanish ulcer.&rdquo; It was still bleeding him in 1812 when he marched on Russia anyway. Charles Minard&rsquo;s famous chart of that campaign shows 422,000 men crossing into Russia and about 10,000 coming back (Tufte, 1983). He did not lose one decisive battle on the way in. He ran out of food, horses, and distance.</p>
+  <p><strong>Hitler.</strong> In June 1941, with Britain still undefeated behind him, he invaded the Soviet Union. That December he declared war on the United States as well. Inside six months he chose to add the Soviet Union and the United States to a war he had not finished.</p>
+  <p>Clausewitz described the pattern a century before Hitler tried it. Every attack loses strength as it moves forward. There is a point where the attacker is too stretched to defend what he has taken. He called it the <em>culminating point</em>, and going past it invites a counterblow far worse than the original attack (Clausewitz, 1832). The historian Paul Kennedy gave the long-run version a name: <em>imperial overstretch</em>, where commitments grow faster than the means to hold them (Kennedy, 1987).</p>
+
+  <p class="pullquote">Neither empire was out-fought on one front. Both were out-counted across all of them.</p>
+
+  <h2 id="fronts">2 &middot; The black hat&rsquo;s fronts</h2>
+  <p>A criminal hacking operation does not have borders, but it has fronts. Count them.</p>
+
+  <figure>
+    <img src="assets/fig-fronts.svg" alt="Diagram comparing three overextended operations. Napoleon in 1812 with four fronts: Spain, Russia, Britain at sea, and occupied Europe. Hitler in 1941 with five: Britain, the Soviet Union, the United States, North Africa and the Atlantic. A black hat crew with six: servers, aliases, money, partners, victims, and police in many countries.">
+    <figcaption>The black hat&rsquo;s fronts are quieter than a battlefield, but there are more of them, and none of them ever closes. <span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <ul>
+    <li><strong>Servers.</strong> Every machine is rented from somebody, paid for somehow, and logged by someone.</li>
+    <li><strong>Aliases.</strong> Each fake name has to stay sealed off from every other name and from the real one. For life.</li>
+    <li><strong>Money.</strong> Stolen money is worthless until it is cleaned, and every step of cleaning it leaves a record.</li>
+    <li><strong>Partners.</strong> Nobody runs a big operation alone. Each partner is a person who knows something.</li>
+    <li><strong>Victims.</strong> Every new victim is a new set of logs, a new insurer, and a new complaint.</li>
+    <li><strong>Police.</strong> Hit ten countries and ten police forces now have a reason to compare notes.</li>
+  </ul>
+  <p>A small operator holds a few of these. Growth adds to every list at the same time. That is the trap: <strong>the thing that makes the operation richer is the same thing that makes it findable.</strong></p>
+
+  <h2 id="dilemma">3 &middot; The prisoner&rsquo;s dilemma inside every crew</h2>
+  <p>The partner front deserves its own section, because it is the one that fails from the inside.</p>
+  <p>The prisoner&rsquo;s dilemma came out of the RAND Corporation in 1950. Two partners are arrested and held apart. If both stay quiet, both get a light sentence. If one talks, he walks and the other takes the full weight. Each one, thinking only of himself, does best by talking. So both talk, and both do worse than if they had trusted each other (Poundstone, 1992).</p>
+  <p>Robert Axelrod spent years studying how cooperation survives that logic. His answer was what he called the shadow of the future. People keep cooperating as long as they expect to keep dealing with each other. Take away the future and cooperation dies on the spot (Axelrod, 1984).</p>
+  <p>Now look at what an arrest does. It deletes the future. And look at who built the game. Prosecutors offer the first person to cooperate a deal the second one will never see. That is the prisoner&rsquo;s dilemma, run on purpose, by the house.</p>
+  <p>Legal businesses solve this with contracts and courts. Criminals can&rsquo;t sue each other. Online criminals can&rsquo;t even be sure who the other person is. I covered how the Sicilian mafia spent a century engineering around that problem in <a href="../cosa-nostra-trust-problem/"><em>The Trust Problem</em></a>. Cybercrime crews have the same problem with fewer tools.</p>
+  <p>The research backs this up. A study of the largest hacking forum of its time looked at 449,478 trust ratings across nearly 30,000 members. Its conclusion on growth is the one that matters here: the reputation system could not stop trust from decaying as the community expanded quickly (Dupont et al., 2016). The crew got bigger and trust got thinner.</p>
+
+  <div class="secread">
+    <span class="tag">Case: Sabu</span>
+    <p>Hector Monsegur, known as Sabu, was a leader of the hacking group LulzSec. He was reported to have logged into a chat server one time without hiding his address. Monsegur has disputed that account. What is not disputed is what came next. Federal agents arrested him on June 7, 2011. He agreed to cooperate the next day.</p>
+    <p>He was facing up to 124 years. He kept playing Sabu online for months while working for the FBI, and in March 2012 five of his associates were charged. He was later released with time served. One front failed, and then the partner front handed over the rest.</p>
+  </div>
+
+  <h2 id="math">4 &middot; The math</h2>
+  <p>Here is the part I had to be careful with. The easy version of this argument says &ldquo;it&rsquo;s only a matter of time.&rdquo; The honest version needs a number.</p>
+  <p>Say every operation carries some small chance of a fatal mistake. Call it <span class="mono">p</span>. The chance of getting through one operation clean is <span class="mono">1 &minus; p</span>. The chance of getting through <span class="mono">N</span> of them clean is that number multiplied by itself <span class="mono">N</span> times:</p>
+<pre class="term"><b>chance of still being free = (1 &minus; p)<sup>N</sup></b>
+
+<span class="d"># p = risk per operation</span>
+<span class="d"># N = number of operations</span></pre>
+  <p>For a starting value of <span class="mono">p</span>, I used the best public figure I could find. The think tank Third Way estimated that only about 3 in every 1,000 cyber incidents reported in the United States lead to an arrest (Eoyang et al., 2018). That is 0.3%. It is a rough stand-in, and I&rsquo;ll say why below. But start there.</p>
+
+  <figure>
+    <img src="assets/fig-survival.svg" alt="Line chart of the chance of still being free after a number of operations, at three risk levels. At 0.3 percent risk per operation the chance falls to 50 percent after 231 operations and to 5 percent after 1,000. At 1 percent it falls to 50 percent after 69 operations. At 3 percent it falls to 50 percent after 23 operations.">
+    <figcaption>A tiny risk per operation looks like safety. Repeated a few hundred times, it is a coin flip. <span class="credit">Chart: Savvy Security LLC. Model, not measured data.</span></figcaption>
+  </figure>
+
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Risk per operation</th><th>After 10</th><th>After 100</th><th>After 500</th><th>After 1,000</th><th>Coin-flip point</th></tr></thead>
+    <tbody>
+      <tr><td>0.3%</td><td>97%</td><td>74%</td><td>22%</td><td>5%</td><td>231 operations</td></tr>
+      <tr><td>1%</td><td>90%</td><td>37%</td><td>under 1%</td><td>about 0</td><td>69 operations</td></tr>
+      <tr><td>3%</td><td>74%</td><td>5%</td><td>about 0</td><td>about 0</td><td>23 operations</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="caption-under">Chance of zero fatal mistakes. Rounded.</p>
+
+  <p>Read the top row. At 0.3%, somebody who commits one crime almost certainly walks. That is the ugly truth and it is why cybercrime pays in the short run. But a ransomware program does not commit one crime. It commits hundreds. At a thousand operations, 19 out of 20 have made the mistake.</p>
+
+  <h3>Why more fronts make the curve steeper</h3>
+  <p>That table treats the risk as fixed. It isn&rsquo;t. Every front is its own chance to slip. If each of five fronts carries a 0.3% risk, the combined risk per operation is about 1.5%, and the coin-flip point drops from 231 operations to 46.</p>
+  <p>So growth hurts twice. More operations means more rolls of the dice. More fronts means worse dice. Napoleon&rsquo;s problem was never Spain or Russia. It was Spain <em>and</em> Russia.</p>
+
+  <div class="note">
+    <p><strong>What this model leaves out, in both directions.</strong></p>
+    <p><strong>It is too harsh in one way.</strong> The 0.3% figure counts arrests per reported incident in the United States. It is not the personal risk of a careful operator sitting in a country that will not hand him over. For that person the real number is lower, maybe far lower.</p>
+    <p><strong>It is too kind in another.</strong> The model assumes a mistake either sinks you right away or disappears. Real mistakes do neither. They sit in a log, a forum archive, or a mail server and wait. Two of the cases below turned on slips that were years old when someone finally found them.</p>
+  </div>
+
+  <h2 id="cases">5 &middot; Four collapses, four fronts</h2>
+
+  <h3>The alias front: Silk Road</h3>
+  <p>In January 2011 a forum user named &ldquo;altoid&rdquo; promoted a new hidden marketplace called Silk Road. That October the same username posted a job ad and told applicants to write to a Gmail address containing Ross Ulbricht&rsquo;s real name. An IRS agent later found the connection with ordinary web searches. Ulbricht was arrested in October 2013 and sentenced to life in 2015. He was pardoned in January 2025. The slip that caught him was two years old on the day of the arrest.</p>
+
+  <h3>The server front: AlphaBay</h3>
+  <p>AlphaBay became the largest dark web market after Silk Road. When it launched in December 2014, its welcome emails carried the founder&rsquo;s personal Hotmail address in the header. Investigators learned of it in December 2016. Alexandre Cazes was arrested in Bangkok in July 2017 and died in custody days later. One mail server setting, made on day one, outlived everything he built to hide.</p>
+
+  <h3>The victim front: DarkSide</h3>
+  <p>In May 2021 a DarkSide affiliate hit Colonial Pipeline and the pipeline that carries roughly half the East Coast&rsquo;s fuel shut down. That is the Barbarossa move: picking a fight with someone far bigger than the plan allowed for. About a week later DarkSide said it had lost control of its servers and was shutting down under American pressure. A month after the attack the Justice Department seized 63.7 of the 75 bitcoin Colonial had paid.</p>
+
+  <h3>The partner front: Conti</h3>
+  <p>On February 25, 2022, the Conti ransomware gang publicly sided with Russia&rsquo;s invasion of Ukraine. Conti had Ukrainian members and associates. Two days later someone with inside access began leaking the gang&rsquo;s chats: about 60,000 messages, then more than 100,000 more, then source code. Conti opened a political front it did not need, and it was answered from inside its own walls. By May 19 the brand was shut down.</p>
+
+  <h2 id="limits">Where the idea breaks</h2>
+  <p>I cite both sides on this blog, so here is the evidence against my own headline.</p>
+  <p><strong>The people often walk.</strong> When Conti closed, its members did not go to prison. Researchers tracked them into smaller crews like Black Basta and Karakurt. The empire fell. The soldiers went home and re-enlisted.</p>
+  <p><strong>The name can come back.</strong> In February 2024, police from about ten countries seized LockBit&rsquo;s servers in Operation Cronos. That May they named the man they say ran it, a Russian national, and charged him on 26 counts. He has not been arrested. And LockBit itself is back: Check Point counted 163 claimed victims in the first quarter of 2026, fourth among all ransomware groups.</p>
+  <p>Operation Cronos is still worth studying for what it aimed at. Police did not only take servers. They left a message on the affiliates&rsquo; own login page blaming the boss&rsquo;s &ldquo;flawed infrastructure,&rdquo; and said publicly that he had been talking to them. That was an attack on trust. They were running the prisoner&rsquo;s dilemma against an entire affiliate program.</p>
+
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Claim</th><th>Status</th><th>What backs it</th></tr></thead>
+    <tbody>
+      <tr><td>Risk compounds with every operation</td><td><span class="tagpill ok">Established</span></td><td>It is arithmetic. A small risk repeated many times stops being small.</td></tr>
+      <tr><td>Growth thins out trust</td><td><span class="tagpill ok">Established</span></td><td>Reputation systems did not stop trust decay as a hacking community expanded (Dupont et al., 2016).</td></tr>
+      <tr><td>Crews turn on each other under pressure</td><td><span class="tagpill ok">Established</span></td><td>Sabu and LulzSec. The Conti leaks. It is the outcome game theory predicts.</td></tr>
+      <tr><td>Every black hat gets caught</td><td><span class="tagpill bet">False</span></td><td>About 3 arrests per 1,000 reported incidents (Eoyang et al., 2018). LockBit&rsquo;s accused boss is still free.</td></tr>
+      <tr><td>A takedown ends the operation for good</td><td><span class="tagpill bet">False</span></td><td>Conti&rsquo;s people scattered into new crews. LockBit rebuilt under the same name.</td></tr>
+      <tr><td>Every large criminal operation eventually collapses under its own weight</td><td><span class="tagpill bet">My bet</span></td><td>The math and the cases point that way. No study proves it for all of them.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>So the house of cards does fall. But be exact about what falls. It is the <em>organization</em>: the brand, the servers, the trust between partners, the money in the wallet. Whether a given person goes to prison depends mostly on what country he is standing in.</p>
+  <p>That still matters. Criminology has found for decades that the <em>certainty</em> of getting caught deters people far more than the length of the sentence (Nagin, 2013). A business that has to be rebuilt from nothing every two years, with partners who might be informants, is a worse business. That is deterrence too.</p>
+
+  <h2 id="defend">What this means if you defend things</h2>
+  <ol class="lessons">
+    <li><strong>Report it.</strong> The 0.3% figure only counts incidents somebody reported. Every report is another roll of the dice against the people who hit you. An unreported attack is a free one.</li>
+    <li><strong>Keep your logs longer than feels necessary.</strong> Silk Road and AlphaBay both turned on evidence that was years old. The log you delete at 90 days might be the one that mattered at 700.</li>
+    <li><strong>Be an expensive front.</strong> You don&rsquo;t have to be unbeatable. You have to cost more time and noise than the next target. Overstretched attackers drop the fronts that fight back.</li>
+    <li><strong>Remember whose side time is on.</strong> The attacker has to be perfect forever. You only have to still be there, with your records, when he isn&rsquo;t.</li>
+  </ol>
+
+  <p>And if you are young, good with computers, and looking at the other path: run the table again. The skills are the same on both sides. On one side every job adds to a record you have to hide for life. On the other side every job adds to a record you get to show people. One of those compounds in your favor. I wrote up how to start on that side in <a href="../breaking-into-cybersecurity/"><em>Breaking Into Cybersecurity</em></a>.</p>
+
+  <p class="pullquote">Black hat work scales the risk. White hat work scales the reputation. Same math, opposite sign.</p>
+
+  <div class="framing" style="border-left-color:var(--accent);">
+    <h3 style="color:var(--accent);">From the book</h3>
+    <p>More on hacker history, culture, and staying on the right side of this math in <em>A Hacker&rsquo;s Guide to Survive</em> by Malcolm R. Smith.</p>
+    <p style="margin-bottom:0;"><a href="https://www.amazon.com/dp/B0HPMWMQMD"><strong>&#128214; Get <em>A Hacker&rsquo;s Guide to Survive</em> on Amazon &rarr;</strong></a><br>
+    Or <a href="../../book/">read Chapter 1 free</a> first.</p>
+  </div>
+
+  <h2 id="refs">Sources</h2>
+
+  <p class="refs-group">Overstretch and the culminating point</p>
+  <ul class="refs">
+    <li>Clausewitz, Carl von. <em>On War</em> (1832). Edited and translated by Michael Howard and Peter Paret. Princeton University Press, 1976. Book VII, on the culminating point of the attack.</li>
+    <li>Kennedy, Paul. <em>The Rise and Fall of the Great Powers: Economic Change and Military Conflict from 1500 to 2000.</em> Random House, 1987.</li>
+    <li>Tufte, Edward R. <em>The Visual Display of Quantitative Information.</em> Graphics Press, 1983. Reproduces and discusses Minard&rsquo;s 1869 chart of the Russian campaign.</li>
+  </ul>
+
+  <p class="refs-group">Cooperation, trust and deterrence</p>
+  <ul class="refs">
+    <li>Axelrod, Robert. <em>The Evolution of Cooperation.</em> Basic Books, 1984.</li>
+    <li>Poundstone, William. <em>Prisoner&rsquo;s Dilemma.</em> Doubleday, 1992. History of the game at RAND in 1950.</li>
+    <li>Dupont, Beno&icirc;t, Anne-Marie C&ocirc;t&eacute;, Claire Savine and David D&eacute;cary-H&eacute;tu. &ldquo;The ecology of trust among hackers.&rdquo; <em>Global Crime</em> 17(2), 2016, pp. 129&ndash;151. <a href="https://doi.org/10.1080/17440572.2016.1157480">doi:10.1080/17440572.2016.1157480</a>.</li>
+    <li>Yip, Michael, Craig Webber and Nigel Shadbolt. &ldquo;Trust among cybercriminals? Carding forums, uncertainty and implications for policing.&rdquo; <em>Policing and Society</em> 23(4), 2013, pp. 516&ndash;539. <a href="https://eprints.soton.ac.uk/348014/1/Trust_20among_20Cybercriminals_28eprints_29.pdf">Author copy</a>.</li>
+    <li>Nagin, Daniel S. &ldquo;Deterrence in the Twenty-First Century.&rdquo; <em>Crime and Justice</em> 42(1), 2013, pp. 199&ndash;263. <a href="https://doi.org/10.1086/670398">doi:10.1086/670398</a>.</li>
+    <li>Eoyang, Mieke, Allison Peters, Ishan Mehta and Brandon Gaskew. &ldquo;To Catch a Hacker: Toward a comprehensive strategy to identify, pursue, and punish malicious cyber actors.&rdquo; Third Way, 2018. <a href="https://thirdway.org/report/to-catch-a-hacker-toward-a-comprehensive-strategy-to-identify-pursue-and-punish-malicious-cyber-actors">thirdway.org</a>.</li>
+  </ul>
+
+  <p class="refs-group">The cases (checked November 2026)</p>
+  <ul class="refs">
+    <li>Sabu and LulzSec: &ldquo;LulzSec takedown analysis.&rdquo; <em>The Register</em>, March 7, 2012. <a href="https://www.theregister.com/2012/03/07/lulzsec_takedown_analysis/">theregister.com</a>. Includes Monsegur&rsquo;s denial of the unmasked-login account.</li>
+    <li>Silk Road: Schneier, Bruce. &ldquo;Silk Road Author Arrested Due to Bad Operational Security.&rdquo; October 2013. <a href="https://www.schneier.com/blog/archives/2013/10/silk_road-au.html">schneier.com</a>. Trial testimony: &ldquo;Simple Google search outed alleged Silk Road founder.&rdquo; <em>Computerworld</em>, 2015. <a href="https://www.computerworld.com/article/2875655/simple-google-search-outed-alleged-silk-road-founder.html">computerworld.com</a>. Pardon: NPR via OPB, January 22, 2025. <a href="https://www.opb.org/article/2025/01/22/trump-pardons-ross-ulbricht-creator-of-silk-road/">opb.org</a>.</li>
+    <li>AlphaBay: &ldquo;One Simple Error Led to AlphaBay Admin&rsquo;s Downfall.&rdquo; <em>GovInfoSecurity</em>, 2017. <a href="https://www.govinfosecurity.com/one-simple-error-led-to-alphabay-admins-downfall-a-10131">govinfosecurity.com</a>.</li>
+    <li>DarkSide and Colonial Pipeline: AFP. &ldquo;US recovers over half of ransom paid to pipeline hackers.&rdquo; June 2021. <a href="https://techxplore.com/news/2021-06-recovered-ransom-payment-pipeline-hack.html">techxplore.com</a>.</li>
+    <li>Conti leaks: KELA. &ldquo;Analysis of leaked Conti&rsquo;s internal data.&rdquo; March 15, 2022. <a href="https://www.kelacyber.com/wp-content/uploads/2022/03/KELA-Intelligence-Report-ContiLeaks-1.pdf">kelacyber.com</a>. Shutdown: &ldquo;Conti Ransomware Gang Shut Down After Splitting into Smaller Groups.&rdquo; <em>The Hacker News</em>, May 2022. <a href="https://thehackernews.com/2022/05/conti-ransomware-gang-shut-down-after.html">thehackernews.com</a>.</li>
+    <li>LockBit and Operation Cronos: &ldquo;Law enforcement thoroughly dismantle LockBit.&rdquo; <em>Risky Business News</em>, February 2024. <a href="https://risky.biz/risky-biz-news-law-enforcement-thoroughly-dismantle-lockbit">risky.biz</a>. Akamai, &ldquo;Learning from the LockBit Takedown.&rdquo; <a href="https://www.akamai.com/blog/security/learning-from-the-lockbit-takedown">akamai.com</a>. Claim of contact with police: <em>The Hacker News</em>, February 2024. <a href="https://thehackernews.com/2024/02/authorities-claim-lockbit-admin.html">thehackernews.com</a>.</li>
+    <li>LockBit in 2026: Check Point Research. &ldquo;The State of Ransomware &ndash; Q1 2026.&rdquo; May 11, 2026. <a href="https://research.checkpoint.com/?p=32977">research.checkpoint.com</a>.</li>
+  </ul>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC. He builds software as a prompt engineer on a used Chromebook, and is the author of <em>A Hacker&rsquo;s Guide to Survive</em>.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>

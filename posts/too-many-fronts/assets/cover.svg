@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#1a1f18" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#0d110d"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <text x="70" y="110" font-family="DejaVu Sans Mono, monospace" font-weight="700" font-size="20" fill="#e0a256" letter-spacing="1">SAVVY SECURITY LLC</text>
+  <rect x="70" y="126" width="150" height="3" fill="#e0a256"/>
+  <text x="330" y="110" font-family="DejaVu Sans Mono, monospace" font-size="19" fill="#a49c87" letter-spacing="1">// ANALYSIS</text>
+  <text x="66" y="262" font-family="DejaVu Serif, serif" font-weight="700" font-size="84" fill="#e8e5d8">Too Many</text>
+  <text x="66" y="356" font-family="DejaVu Serif, serif" font-weight="700" font-size="84" fill="#e8e5d8">Fronts</text>
+  <text font-family="DejaVu Serif, serif" font-style="italic" font-size="25" fill="#a49c87">
+    <tspan x="70" y="424">Napoleon, Hitler, and the math of why</tspan>
+    <tspan x="70" y="459">big black hat operations fall apart.</tspan>
+  </text>
+  <text x="70" y="580" font-family="DejaVu Sans Mono, monospace" font-weight="700" font-size="17" fill="#7fa6c2" letter-spacing="1">MALCOLM R. SMITH</text>
+  <line x1="915" y1="253" x2="915" y2="147" stroke="#7fa6c2" stroke-width="3"/>
+  <circle cx="915" cy="147" r="13" fill="#141a14" stroke="#7fa6c2" stroke-width="3"/>
+  <text x="915" y="118" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-size="14" fill="#a49c87">SERVERS</text>
+  <line x1="969" y1="284" x2="1060" y2="231" stroke="#7fa6c2" stroke-width="3"/>
+  <circle cx="1060" cy="231" r="13" fill="#141a14" stroke="#7fa6c2" stroke-width="3"/>
+  <text x="1082" y="236" text-anchor="start" font-family="DejaVu Sans Mono, monospace" font-size="14" fill="#a49c87">ALIASES</text>
+  <line x1="969" y1="346" x2="1060" y2="399" stroke="#f08c7a" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="1060" cy="399" r="13" fill="#141a14" stroke="#f08c7a" stroke-width="3"/>
+  <text x="1060" y="405" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="700" font-size="16" fill="#f08c7a">!</text>
+  <text x="1082" y="404" text-anchor="start" font-family="DejaVu Sans Mono, monospace" font-size="14" fill="#a49c87">MONEY</text>
+  <line x1="915" y1="377" x2="915" y2="483" stroke="#7fa6c2" stroke-width="3"/>
+  <circle cx="915" cy="483" r="13" fill="#141a14" stroke="#7fa6c2" stroke-width="3"/>
+  <text x="915" y="522" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-size="14" fill="#a49c87">PARTNERS</text>
+  <line x1="861" y1="346" x2="770" y2="399" stroke="#f0b429" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="770" cy="399" r="13" fill="#141a14" stroke="#f0b429" stroke-width="3"/>
+  <text x="748" y="404" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="14" fill="#a49c87">VICTIMS</text>
+  <line x1="861" y1="284" x2="770" y2="231" stroke="#f08c7a" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="770" cy="231" r="13" fill="#141a14" stroke="#f08c7a" stroke-width="3"/>
+  <text x="770" y="237" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="700" font-size="16" fill="#f08c7a">!</text>
+  <text x="748" y="236" text-anchor="end" font-family="DejaVu Sans Mono, monospace" font-size="14" fill="#a49c87">POLICE</text>
+  <circle cx="915" cy="315" r="58" fill="#141a14" stroke="#e0a256" stroke-width="3"/>
+  <text x="915" y="313" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="700" font-size="16" fill="#e8e5d8">ONE</text>
+  <text x="915" y="333" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="700" font-size="16" fill="#e8e5d8">CREW</text>
+</svg>
