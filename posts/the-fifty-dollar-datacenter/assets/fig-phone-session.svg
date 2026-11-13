@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace">
+  <rect width="900" height="520" fill="#0d1410"/>
+  <text x="30" y="38" font-size="14" font-weight="700" fill="#e0a256" letter-spacing="1">FIG. 2 — WHAT IT LOOKS LIKE IN YOUR HAND</text>
+
+  <rect x="60" y="62" width="250" height="436" rx="26" fill="#141a14" stroke="#7fa6c2" stroke-width="2.5"/>
+  <circle cx="185" cy="80" r="4" fill="#2c2e24"/>
+  <rect x="76" y="96" width="218" height="340" rx="5" fill="#0a0f0b" stroke="#2c2e24"/>
+  <g font-size="11">
+    <text x="86" y="118" fill="#7d7363">~ $</text><text x="112" y="118" fill="#86efac">ssh lab</text>
+    <text x="86" y="138" fill="#7d7363">lab@lab-01:~$</text>
+    <text x="86" y="156" fill="#d7cbb0">tmux attach -t work</text>
+    <rect x="86" y="168" width="198" height="1" fill="#2c2e24"/>
+    <text x="86" y="190" fill="#f0b429">claude</text>
+    <text x="86" y="212" fill="#e8e5d8">&gt; bring the lab up and</text>
+    <text x="86" y="228" fill="#e8e5d8">  run the smoke test</text>
+    <text x="86" y="252" fill="#7d7363">● docker compose up -d</text>
+    <text x="86" y="270" fill="#86efac">  ✓ db    healthy</text>
+    <text x="86" y="286" fill="#86efac">  ✓ app   started</text>
+    <text x="86" y="308" fill="#7d7363">● ./smoke.sh</text>
+    <text x="86" y="326" fill="#86efac">  PASS health</text>
+    <text x="86" y="342" fill="#86efac">  PASS db not exposed</text>
+    <text x="86" y="358" fill="#f08c7a">  FAIL security headers</text>
+    <text x="86" y="382" fill="#e8e5d8">  One check failed. Want</text>
+    <text x="86" y="398" fill="#e8e5d8">  me to fix the headers?</text>
+    <rect x="86" y="410" width="7" height="13" fill="#86efac"/>
+  </g>
+  <g font-size="10" fill="#a49c87">
+    <rect x="76" y="444" width="218" height="38" rx="4" fill="#0a0f0b" stroke="#2c2e24"/>
+    <text x="92" y="467">ESC</text><text x="128" y="467">TAB</text><text x="164" y="467">CTRL</text><text x="206" y="467">ALT</text><text x="240" y="467">↑</text><text x="264" y="467">↓</text>
+  </g>
+
+  <g font-size="12.5" fill="#e8e5d8">
+    <path d="M318 110 H372" stroke="#7fa6c2" stroke-width="1.5"/>
+    <text x="382" y="114" font-weight="700" fill="#7fa6c2">1 · ONE ALIAS</text>
+    <text x="382" y="134" fill="#d7cbb0">"ssh lab" comes from ~/.ssh/config. No IP to</text>
+    <text x="382" y="152" fill="#d7cbb0">remember, no password to type on glass.</text>
+
+    <path d="M318 152 H345 V196 H372" stroke="#7fa6c2" stroke-width="1.5" fill="none"/>
+    <text x="382" y="200" font-weight="700" fill="#7fa6c2">2 · TMUX HOLDS THE SESSION</text>
+    <text x="382" y="220" fill="#d7cbb0">Lose signal, lock the phone, ride the bus.</text>
+    <text x="382" y="238" fill="#d7cbb0">The work keeps going. Reattach and it's there.</text>
+
+    <path d="M318 220 H332 V286 H372" stroke="#7fa6c2" stroke-width="1.5" fill="none"/>
+    <text x="382" y="290" font-weight="700" fill="#7fa6c2">3 · YOU TALK, THE SERVER TYPES</text>
+    <text x="382" y="310" fill="#d7cbb0">Plain English in. Claude runs the commands on</text>
+    <text x="382" y="328" fill="#d7cbb0">the box and asks before anything risky.</text>
+
+    <path d="M318 354 H345 V368 H372" stroke="#f08c7a" stroke-width="1.5" fill="none"/>
+    <text x="382" y="372" font-weight="700" fill="#f08c7a">4 · THE FAIL IS THE POINT</text>
+    <text x="382" y="392" fill="#d7cbb0">A lab that only says PASS is a demo. You built</text>
+    <text x="382" y="410" fill="#d7cbb0">this to catch what the AI got wrong.</text>
+
+    <path d="M318 455 H372" stroke="#7fa6c2" stroke-width="1.5"/>
+    <text x="382" y="459" font-weight="700" fill="#7fa6c2">5 · THE EXTRA KEYS ROW</text>
+    <text x="382" y="479" fill="#d7cbb0">Termux gives you CTRL, ESC, TAB and arrows.</text>
+    <text x="382" y="497" fill="#d7cbb0">That row is what makes a phone a terminal.</text>
+  </g>
+</svg>

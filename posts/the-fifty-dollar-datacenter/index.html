@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Fifty-Dollar Datacenter</title>
+<meta name="description" content="How to run a real software test lab from a $49.88 prepaid phone: Termux and an SSH key, a Hetzner cloud server rented by the hour, Claude Code over SSH, and a private Docker lab to attack the app you built with AI. Every command, the full kit, and the research on where AI helps and where it hurts.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Fifty-Dollar Datacenter: A Real Test Lab, Run From a Prepaid Phone">
+<meta property="og:description" content="A prepaid Moto G Play, a rented Hetzner server, and Claude over SSH. Stand up a locked-down lab, build your app in it, then attack it with free scanners before a stranger does. Every command included. A nod to Chapter 5 of A Hacker's Guide to Survive.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-fifty-dollar-datacenter/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/the-fifty-dollar-datacenter/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Fifty-Dollar Datacenter: a prepaid phone running a terminal session, connected over SSH to a rented server running Claude, an app, Postgres and security scanners.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/the-fifty-dollar-datacenter/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Field Guide">
+<meta property="article:published_time" content="2026-11-13">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Fifty-Dollar Datacenter: A Real Test Lab, Run From a Prepaid Phone">
+<meta name="twitter:description" content="A $49.88 phone, a server rented by the hour, and Claude over SSH. A real test lab for software you built with AI. Every command included.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/the-fifty-dollar-datacenter/assets/cover.png">
+<meta name="twitter:image:alt" content="The Fifty-Dollar Datacenter: a prepaid phone running a terminal session, connected over SSH to a rented server running Claude, an app, Postgres and security scanners.">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/the-fifty-dollar-datacenter/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0a0f0b url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#d7cbb0; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.8rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term .g{color:#86efac;} pre.term .a{color:#f0b429;} pre.term .r{color:#f08c7a;}
+  pre.term .b{color:#7fa6c2;} pre.term .d{color:#7d7363;} pre.term b{color:#e8e5d8; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .ledger{width:100%; border-collapse:collapse; margin:20px 0 8px; font-size:.9rem;}
+  .ledger th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:8px 10px; border-bottom:2px solid var(--rule); vertical-align:bottom;}
+  .ledger td{padding:11px 10px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.5;}
+  .ledger td:first-child{font-weight:700;}
+  .tagpill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:3px; white-space:nowrap;}
+  .tagpill.ok{background:rgba(22,101,52,.16); color:var(--term); border:1px solid rgba(22,101,52,.4);}
+  .tagpill.bet{background:rgba(168,106,34,.14); color:var(--accent); border:1px solid rgba(168,106,34,.4);}
+  .tablewrap{overflow-x:auto;}
+
+  .getcode{
+    background:var(--card); border:1px solid var(--accent); border-radius:6px;
+    padding:22px 24px; margin:26px 0 30px;
+  }
+  .getcode h3{margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
+  .getcode p{margin:0 0 12px; font-size:.96rem;} .getcode p:last-child{margin-bottom:0;}
+  .getcode .files{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--muted);}
+  .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.78rem; font-weight:600; text-decoration:none;
+    color:var(--bg); background:var(--accent2); border-radius:6px; padding:9px 16px; display:inline-block;
+  }
+  .btn.alt{background:transparent; color:var(--accent2); border:1px solid var(--accent2);}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="The Fifty-Dollar Datacenter: a prepaid phone running a terminal, connected over SSH to a rented server running Claude, an app, a database and security scanners."></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Field Guide</p>
+  <h1>The Fifty-Dollar Datacenter</h1>
+  <p class="dek">A prepaid Moto G Play, a rented Hetzner server, and Claude over SSH. Here is how to stand up a real test lab for software you built with AI, from a phone, for about the price of a tank of gas.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; November 2026</p>
+
+  <div class="partnav mono">
+    <a href="#bill">The bill</a>
+    <a href="#phone">1 &middot; Phone</a>
+    <a href="#server">2 &middot; Server</a>
+    <a href="#connect">3 &middot; Connect</a>
+    <a href="#claude">4 &middot; Claude</a>
+    <a href="#lab">5 &middot; Lab</a>
+    <a href="#attack">6 &middot; Attack it</a>
+    <a href="#evidence">The evidence</a>
+    <a href="#refs">Sources</a>
+  </div>
+
+  <div class="framing">
+    <h3>The short version</h3>
+    <p>You do not need a laptop to run a software lab anymore. You need a screen, a keyboard, and an SSH key. A <strong>$49.88 prepaid phone</strong> gives you all three. The computing happens on a server you rent by the hour. The typing happens in plain English, to an AI that lives on that server.</p>
+    <p>This article is a nod to <strong>Chapter 5, &ldquo;The Machine You Own,&rdquo;</strong> of my book <a href="https://www.amazon.com/dp/B0HPMWMQMD"><em>A Hacker&rsquo;s Guide to Survive</em></a>. The chapter tells the story of running a research company on a used $80 Chromebook. This is the same idea pushed one step further down the price ladder, with every command you need to copy it.</p>
+  </div>
+
+  <p>The pitch you hear about AI is that anybody can build software now. That part is mostly true. The part nobody finishes is the second half of the sentence: <strong>anybody can build software now, and most of them have nowhere safe to test it.</strong></p>
+  <p>So people test on the laptop they bank with. Or they push straight to the live site and find out in public. Or they never test at all, because a &ldquo;real lab&rdquo; sounds like a rack of servers and a budget.</p>
+  <p>It isn&rsquo;t. A real lab is a machine that is not your daily machine, a network nothing else lives on, and a way to break your own work before a stranger does. You can rent all of that for pennies an hour and drive it from the cheapest phone at Walmart.</p>
+
+  <p class="pullquote">The money wall is gone. What&rsquo;s left is two things: a few base resources, and knowing what to do with them.</p>
+
+  <h2 id="claim">What actually changed</h2>
+  <p>In 2010 a group at Berkeley wrote the paper that named this shift. They listed what was new about cloud computing: computing that looks unlimited on demand, <strong>no up-front commitment</strong>, and the ability to pay for it in short stretches and let it go when you&rsquo;re done (Armbrust et al., 2010). Before that, a test environment meant buying hardware and guessing how much you&rsquo;d need. A wrong guess cost real money either way.</p>
+  <p>That change gave small shops the machine. It did not give them the hands. You still needed somebody who could configure a firewall, write a container file, and read a scanner report.</p>
+  <p>That is the part AI changed. I don&rsquo;t write code by hand. I describe what I want, read what comes back, and decide. An agent like Claude Code can sit on the server, run the commands, and explain each one. The skill that used to take years to rent now ships with the tool.</p>
+  <p>I want to be careful with the big claim. A fifty-dollar phone does not make you a million dollars. What it does is remove the capital from the list of reasons you can&rsquo;t start. The kind of project that once needed a funded team and a server room can now be <em>attempted</em> by one person with a prepaid phone. Whether it succeeds is on you. That was always true.</p>
+
+  <h2 id="bill">The bill</h2>
+  <p>Here is the whole rig, priced. I checked these the week this was written. Prices move, so check them yourself before you spend.</p>
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Item</th><th>Cost</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Phone</td><td>$49.88 once</td><td>Straight Talk Moto G Play (2026) at Walmart. 4 GB RAM, 6.7-inch screen, 5,200 mAh battery. Locked to Straight Talk. Any Android 7 or newer phone works.</td></tr>
+      <tr><td>Server</td><td>about $7 / month</td><td>Hetzner CX23: 2 vCPU, 4 GB RAM, 40 GB disk. &euro;5.49 plus &euro;0.50 for an IPv4 address. Billed by the hour, capped at the monthly price.</td></tr>
+      <tr><td>The AI</td><td>$20 / month</td><td>Claude Pro. It is the cheapest plan that includes Claude Code. The free plan does not.</td></tr>
+      <tr><td>Software</td><td>$0</td><td>Termux, OpenSSH, Ubuntu, Docker, Postgres, OWASP ZAP, Trivy, Semgrep. All free and open source.</td></tr>
+      <tr><td>First month</td><td>about $77</td><td>After that, about $27 a month. Delete the server when you&rsquo;re not using it and the server line drops to cents.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note">
+    <p><strong>Two honest warnings about Hetzner before you start.</strong></p>
+    <p><strong>It got more expensive and harder to get.</strong> Hetzner raised cloud prices twice in 2026, in April and June. Since late June it has also limited new servers for new customers because it is short on hardware. The cheap CX plans come and go during the day. If the CX23 is greyed out, try another location, try again in a few hours, or take the next size up. If Hetzner will not sell you one at all, every step below works the same on any provider that gives you an Ubuntu server and an IP address.</p>
+    <p><strong>A cloud server is not bare metal.</strong> It is a slice of a real machine that you share with other customers. Hetzner also rents whole dedicated machines, and that is where you go when you outgrow this. For testing a web app, the slice is plenty.</p>
+  </div>
+
+  <figure>
+    <img src="assets/fig-architecture.svg" alt="Diagram of the whole rig. A phone runs Termux and a browser. Termux connects by SSH on port 22 to a Hetzner cloud server. On the server, Claude Code runs inside a tmux session. A private Docker network holds the app, a Postgres database and the security scanners. The app is reached from the phone browser through an SSH tunnel. Only port 22 is open.">
+    <figcaption>The phone is a screen and a keyboard. Everything that matters runs on the server, and the only door into the server is SSH. <span class="credit">Diagram: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <h2 id="phone">Step 1 &middot; Turn the phone into a terminal</h2>
+  <p>Install <strong>Termux</strong>. It is a real Linux command line that runs as a normal Android app. No rooting, no tricks.</p>
+  <p>Get it from <a href="https://f-droid.org/en/packages/com.termux/">F-Droid</a> or the project&rsquo;s <a href="https://github.com/termux/termux-app/releases">GitHub releases</a>. <strong>Do not use the Google Play copy.</strong> The Termux team says plainly that the Play build is a separate, cut-down branch, and they recommend F-Droid or GitHub instead.</p>
+  <p>Open Termux and type:</p>
+<pre class="term"><span class="d"># update Termux, then install the SSH client</span>
+pkg update &amp;&amp; pkg upgrade -y
+pkg install -y openssh
+
+<span class="d"># make your key. press Enter for the default file, then set a passphrase.</span>
+ssh-keygen -t ed25519 -C "phone"
+
+<span class="d"># print the PUBLIC half. copy this whole line.</span>
+cat ~/.ssh/id_ed25519.pub</pre>
+  <p class="caption-under">You will get one long line that starts with <span class="mono">ssh-ed25519</span>. That is your public key. It is safe to paste into Hetzner. The file without <span class="mono">.pub</span> is the private key. It never leaves the phone.</p>
+  <p>Why this kind of key: Ed25519 was designed by Bernstein and colleagues to be fast and hard to get wrong, and the keys are short enough to read on a phone screen (Bernstein et al., 2012). It is the modern default for SSH.</p>
+  <p>One more command, and it matters on a phone:</p>
+<pre class="term"><span class="d"># stop Android from putting Termux to sleep mid-session</span>
+termux-wake-lock</pre>
+
+  <h2 id="server">Step 2 &middot; Rent the server</h2>
+  <p>All of this happens in the phone&rsquo;s browser at <a href="https://console.hetzner.com/">console.hetzner.com</a>. You&rsquo;ll need an account and a payment method.</p>
+  <ol>
+    <li>Create a <strong>project</strong>. Call it <span class="mono">lab</span>.</li>
+    <li>Tap <strong>Add Server</strong>. Pick the location closest to you that has stock.</li>
+    <li>Image: <strong>Ubuntu 24.04</strong>.</li>
+    <li>Type: <strong>CX23</strong> (shared, cost-optimized). Take the CX33 with 8 GB if you can spare a few dollars. Claude Code asks for 4 GB at minimum, and the lab wants room too.</li>
+    <li>SSH keys: tap <strong>Add SSH key</strong> and paste the line from Step 1.</li>
+    <li>Open <strong>Cloud config</strong> and paste the file below. Swap in your own public key first.</li>
+    <li>Name it <span class="mono">lab-01</span> and create it. Write down the IP address it gives you.</li>
+  </ol>
+  <p>The cloud config is the part most guides skip. It is a short script the server runs once, on first boot. This one locks the machine down before you ever log in.</p>
+<pre class="term"><span class="d">#cloud-config</span>
+<span class="b">groups</span>:
+  - docker
+
+<span class="b">users</span>:
+  - name: lab
+    groups: [sudo, docker]
+    shell: /bin/bash
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    ssh_authorized_keys:
+      - <span class="a">ssh-ed25519 AAAAC3...REPLACE-WITH-YOUR-KEY... phone</span>
+
+<span class="b">package_update</span>: true
+<span class="b">package_upgrade</span>: true
+<span class="b">packages</span>:
+  - ufw
+  - fail2ban
+  - tmux
+  - git
+  - curl
+  - docker.io
+  - docker-compose-v2
+  - unattended-upgrades
+
+<span class="b">swap</span>:
+  filename: /swapfile
+  size: 2G
+  maxsize: 2G
+
+<span class="b">write_files</span>:
+  - path: /etc/ssh/sshd_config.d/10-lab.conf
+    permissions: "0644"
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      AllowUsers lab
+
+<span class="b">runcmd</span>:
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow OpenSSH
+  - ufw --force enable
+  - systemctl enable --now docker fail2ban
+  - systemctl restart ssh</pre>
+  <p class="caption-under"><span class="mono">code/cloud-init.yaml</span> in the kit. In plain English: make a user called <span class="mono">lab</span>, let only that user in, only with your key, never with a password, never as root. Close every port except SSH. Ban addresses that guess wrong too many times. Install Docker. Add swap so a small box survives a heavy scan.</p>
+
+  <div class="secread">
+    <span class="tag">Security read</span>
+    <p>The <span class="mono">lab</span> user can run Docker and <span class="mono">sudo</span> without a password. That is root in everything but name, and it is the user Claude runs as. I accept that here for one reason: <strong>this box is disposable and holds nothing real.</strong> No customer data, no production keys, no personal accounts. If that ever stops being true, this setup stops being acceptable.</p>
+  </div>
+
+  <h2 id="connect">Step 3 &middot; Connect, and stay connected</h2>
+  <p>Back in Termux. Give the server a nickname so you never type the IP again. Replace the address with yours.</p>
+<pre class="term">cat &gt;&gt; ~/.ssh/config &lt;&lt;'EOF'
+Host lab
+  HostName <span class="a">203.0.113.10</span>
+  User lab
+  IdentityFile ~/.ssh/id_ed25519
+  ServerAliveInterval 30
+  ServerAliveCountMax 4
+EOF
+
+ssh lab</pre>
+  <p>The first time, SSH asks if you trust the server. Say yes. Then wait for the first-boot script to finish and check its work:</p>
+<pre class="term">cloud-init status --wait       <span class="d"># should end with: status: done</span>
+sudo ufw status                <span class="d"># should say: Status: active, 22/tcp ALLOW</span>
+docker --version</pre>
+  <p>Now the single most important habit for working from a phone. <strong>Start tmux before you do anything else.</strong></p>
+<pre class="term">tmux new -s work               <span class="d"># first time</span>
+tmux attach -t work            <span class="d"># every time after</span></pre>
+  <p>A phone drops its connection constantly. You walk out of Wi-Fi range, the screen locks, a call comes in. Without tmux, whatever was running dies with the connection. With tmux, the session lives on the server. You reconnect, reattach, and it is exactly where you left it, still working.</p>
+
+  <figure>
+    <img src="assets/fig-phone-session.svg" alt="Illustration of a phone showing a terminal session. The user types ssh lab, attaches to tmux, starts Claude and asks it to bring the lab up and run the smoke test. The output shows the database healthy, the app started, two checks passing and a security headers check failing. Callouts explain the SSH alias, tmux, plain English prompts, why a failing check is the point, and the Termux extra keys row.">
+    <figcaption>An illustration of the session, not a screenshot. Your output will differ. The shape of it will not. <span class="credit">Illustration: Savvy Security LLC</span></figcaption>
+  </figure>
+
+  <h2 id="claude">Step 4 &middot; Put Claude on the server</h2>
+  <p>Inside tmux, on the server:</p>
+<pre class="term"><span class="d"># install Claude Code (the official installer)</span>
+curl -fsSL https://claude.ai/install.sh | bash
+
+<span class="d"># reload your shell so the "claude" command is found, then check it</span>
+source ~/.bashrc
+claude --version
+claude doctor</pre>
+  <p>Then make a home for the lab and start Claude in it:</p>
+<pre class="term">mkdir -p ~/lab &amp;&amp; cd ~/lab
+claude</pre>
+  <p>The first run asks you to log in. A server has no browser, so Claude prints a link. Long-press it in Termux, open it in the phone&rsquo;s browser, sign in to your Claude account, and paste the code it gives you back into the terminal. You do that once.</p>
+  <p>Before you ask it for anything, give it house rules. Claude Code reads a file named <span class="mono">CLAUDE.md</span> at the start of every session. This is where you write down what the box is for and what is off limits.</p>
+<pre class="term"><span class="g"># Lab rules</span>
+
+This server is a disposable test lab. Read these before doing anything.
+
+<span class="g">## Hard rules</span>
+- Only test targets inside the Docker network `lab_net`. Never scan, probe,
+  or send traffic to any host I do not own.
+- Never publish a container port to 0.0.0.0. Bind to 127.0.0.1 only.
+- Never change ufw, sshd, or fail2ban settings without asking me first.
+- Secrets live in `.env`. Never print them, never commit them.
+- Fake data only. Never real customer data or real secrets.
+
+<span class="g">## How to work</span>
+- After every change: `docker compose up -d --build`, then `./smoke.sh`.
+- When a scanner reports a finding: show it to me in plain English, say how
+  bad it is, propose the fix, and wait for a yes.
+- I am on a phone. Keep output short. Summaries first, detail when I ask.</pre>
+  <p class="caption-under"><span class="mono">code/CLAUDE.md</span>, trimmed. That last rule is not a joke. Tell it you&rsquo;re on a small screen and the whole session gets easier to read.</p>
+
+  <h2 id="lab">Step 5 &middot; Build the lab</h2>
+  <p>Pull the kit that goes with this article and copy it into place:</p>
+<pre class="term">cd ~
+git clone --depth 1 https://github.com/malcolm1014/savvy-blog
+cp -r savvy-blog/posts/the-fifty-dollar-datacenter/code/. ~/lab/
+cd ~/lab
+cp env.example .env            <span class="d"># then change every value in .env</span></pre>
+  <p>The heart of it is one file. It describes your app, its database, and a private network for them to live on.</p>
+<pre class="term"><span class="b">name</span>: lab
+
+<span class="b">services</span>:
+  <span class="g">app</span>:
+    build: ./app              <span class="d"># your SaaS, with its own Dockerfile</span>
+    env_file: .env
+    ports:
+      - <span class="a">"127.0.0.1:8000:8000"</span> <span class="d"># loopback ONLY. Never "8000:8000".</span>
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [lab_net]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+
+  <span class="g">db</span>:
+    image: postgres:17-alpine
+    env_file: .env
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+    networks: [lab_net]       <span class="d"># no "ports:" at all</span>
+    mem_limit: 512m
+
+<span class="b">networks</span>:
+  lab_net:
+    name: lab_net
+
+<span class="b">volumes</span>:
+  dbdata:</pre>
+  <p class="caption-under"><span class="mono">code/docker-compose.yml</span>, trimmed. The database has no door to the outside at all. The app has one, and it only opens onto the server itself.</p>
+
+  <div class="secread">
+    <span class="tag">The mistake that burns people</span>
+    <p>Look hard at the line <span class="mono">127.0.0.1:8000:8000</span>. If you write <span class="mono">8000:8000</span> instead, Docker publishes your app to the whole internet <strong>and goes around the ufw firewall to do it.</strong> Docker writes its own firewall rules, ahead of ufw&rsquo;s. Your firewall will say the port is closed. It will be open. Bind to loopback and the problem never starts. This is the kind of thing money can&rsquo;t buy and a tutorial rarely mentions.</p>
+  </div>
+
+  <p>Now bring your code over, or have Claude write it there. Either way, this is where you stop typing commands and start talking:</p>
+<pre class="term"><span class="a">&gt;</span> Read CLAUDE.md. My app goes in ./app. Write a Dockerfile for it that
+  runs as a non-root user and listens on port 8000. Then bring the lab
+  up and run ./smoke.sh. Tell me what failed and why, in plain English.</pre>
+  <p>To see the app, open a <strong>second</strong> Termux session. Swipe in from the left edge and tap <em>New session</em>. Then open a tunnel:</p>
+<pre class="term">ssh -N -L 8000:127.0.0.1:8000 lab</pre>
+  <p>Leave that running. Open Chrome on the phone and go to <span class="mono">http://localhost:8000</span>. That is your app, running in a datacenter, shown on your phone, through an encrypted pipe. Nobody else on earth can load that page.</p>
+
+  <h2 id="attack">Step 6 &middot; Attack your own work</h2>
+  <p>This is the step the whole lab exists for, and it is the one people skip.</p>
+  <p>AI writes code fast. It does not write safe code by default, and the research on that is not subtle. When NYU researchers had an AI assistant complete 89 security-relevant scenarios, about <strong>40% of the 1,689 programs it wrote were vulnerable</strong> (Pearce et al., 2022). When Stanford researchers ran a user study, people with an AI assistant wrote less secure code than people without one, and were <strong>more likely to believe their code was secure</strong> (Perry et al., 2023).</p>
+  <p>Read that second finding twice. The tool makes you worse at the thing and more confident about it. A lab is how you take the confidence back out.</p>
+  <p>Start with the five-second check. Run it after every single change.</p>
+<pre class="term">$ ./smoke.sh
+<span class="g">PASS</span>  app answers (200)
+<span class="g">PASS</span>  only port 22 is public
+<span class="g">PASS</span>  db not exposed
+<span class="g">PASS</span>  header x-content-type-options
+<span class="r">FAIL</span>  header content-security-policy missing
+<span class="r">FAIL</span>  header x-frame-options missing
+<span class="g">PASS</span>  ufw active</pre>
+  <p class="caption-under">Example output from <span class="mono">code/smoke.sh</span>. Two fails on a first run is normal. Hand them to Claude: <em>&ldquo;Fix the two failing header checks and run it again.&rdquo;</em></p>
+  <p>Then run the real scanners. Three free tools, three different angles:</p>
+<pre class="term"><span class="d"># 1. Semgrep reads your source for known-bad patterns</span>
+docker run --rm -v "$PWD/app:/src" semgrep/semgrep \
+  semgrep scan --config auto --quiet /src
+
+<span class="d"># 2. Trivy checks your dependencies for known CVEs and leaked secrets</span>
+docker run --rm -v "$PWD:/src" aquasec/trivy:latest \
+  fs --scanners vuln,secret,misconfig --quiet /src
+
+<span class="d"># 3. OWASP ZAP probes the running app from inside the private network</span>
+docker run --rm --network lab_net -v "$PWD/reports:/zap/wrk:rw" \
+  ghcr.io/zaproxy/zaproxy:stable \
+  zap-baseline.py -t http://app:8000 -r zap.html -m 2</pre>
+  <p class="caption-under">All three are wrapped in <span class="mono">code/scan.sh</span>. Run them one at a time on a 4 GB box. ZAP is the heavy one.</p>
+  <p>Then the prompt that turns scanner noise into a to-do list:</p>
+<pre class="term"><span class="a">&gt;</span> Run ./scan.sh. Read all three reports. Give me one list, worst first.
+  For each: what it is, how someone would use it against me, and the fix.
+  Skip anything that is only informational. Do not fix anything yet.</pre>
+  <p><strong>Do not let it fix anything yet</strong> is the important part. You read the list. You decide. Then you approve fixes one at a time and rerun the scan. That loop is the job: build, break, read, fix, repeat. It is the same loop a funded security team runs. Theirs has more people in it.</p>
+
+  <div class="note">
+    <p><strong>Stay on your own side of the line.</strong> Everything above points at <span class="mono">http://app:8000</span>, a target that only exists inside your own private network. Keep it that way. Pointing a scanner at a system you don&rsquo;t own, without written permission, is not testing. In the United States it can be a federal crime. The law gets a full chapter in the book for a reason.</p>
+  </div>
+
+  <h3>When you&rsquo;re done for the day</h3>
+  <p>Detach from tmux with <span class="mono">Ctrl-b</span> then <span class="mono">d</span>, and close Termux. The lab keeps running.</p>
+  <p>When you&rsquo;re done for the week, know this: <strong>a powered-off Hetzner server still bills.</strong> You pay for as long as it exists. To stop paying, take a snapshot from the console (cents per month to store) and delete the server. Next time, create a new server from the snapshot and you&rsquo;re back in a few minutes. One caution for this year: with Hetzner short on hardware, a server you delete may be hard to get back. If you&rsquo;re mid-project, the $7 to keep it may be the smarter spend.</p>
+
+  <h2 id="evidence">What the research says, both sides</h2>
+  <p>I cite studies on this blog because a claim without a source is a mood. So here is the evidence for the idea that AI lets a beginner do an expert&rsquo;s work, including the study that cuts against it.</p>
+
+  <figure>
+    <img src="assets/fig-evidence.svg" alt="Chart of four study results. Peng and colleagues 2023: developers with an AI assistant finished a new task 55.8 percent faster. Brynjolfsson and colleagues, 2023 working paper: novice support agents were 34 percent more productive. Brynjolfsson and colleagues 2025 in the Quarterly Journal of Economics: all workers 15 percent more productive on average. METR 2025: experienced developers on their own large repositories were 19 percent slower. A side panel notes that about 40 percent of 1,689 AI-written programs were vulnerable, and that AI users wrote less secure code while trusting it more.">
+    <figcaption>Four studies with different tasks, tools and people. The bars are not on a common scale and should not be averaged. The pattern is what matters. <span class="credit">Chart: Savvy Security LLC, from the sources cited below</span></figcaption>
+  </figure>
+
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Claim</th><th>Status</th><th>What backs it</th></tr></thead>
+    <tbody>
+      <tr><td>Cloud removed the up-front cost of infrastructure</td><td><span class="tagpill ok">Established</span></td><td>Armbrust et al. (2010) named pay-as-you-go and no up-front commitment as the defining change.</td></tr>
+      <tr><td>AI speeds up building something new</td><td><span class="tagpill ok">Established</span></td><td>In a controlled experiment, developers with an AI pair programmer finished a from-scratch task 55.8% faster (Peng et al., 2023).</td></tr>
+      <tr><td>The gains go mostly to beginners</td><td><span class="tagpill ok">Established</span></td><td>Across 5,172 support agents, AI help raised output 15% on average. Newer and lower-skilled workers gained the most. Top performers gained little (Brynjolfsson et al., 2025).</td></tr>
+      <tr><td>AI always makes you faster</td><td><span class="tagpill bet">False</span></td><td>Experienced developers on their own large codebases took 19% <em>longer</em> with AI, and still believed it had sped them up (Becker et al., 2025).</td></tr>
+      <tr><td>AI-written code is safe to ship</td><td><span class="tagpill bet">False</span></td><td>About 40% vulnerable in one study (Pearce et al., 2022). Less secure and more trusted in another (Perry et al., 2023).</td></tr>
+      <tr><td>One person can now attempt a funded-team project</td><td><span class="tagpill bet">My bet</span></td><td>Each piece is proven. That the pieces add up to a business is the wager, and no study settles it.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Put the METR result next to the others and it stops looking like a contradiction. AI helped least where people already knew the work cold, on huge codebases they had lived in for years. It helped most where the work was new. A beginner standing up a first lab on a rented server is about as &ldquo;new work&rdquo; as it gets. That is the good news for anybody reading this on a prepaid phone.</p>
+  <p>The same study carries the warning. Those developers <em>felt</em> faster while the clock said slower. Feeling productive and being productive are different measurements. The smoke test and the scanners are how you tell which one you&rsquo;re having.</p>
+
+  <h2 id="left">The two things you still need</h2>
+  <p>I said the only setbacks left are base resources and know-how. I mean both halves.</p>
+  <p><strong>Base resources.</strong> About $77 to start and $27 a month is small. It is not zero. You need a payment card a European host will take, a phone plan or a Wi-Fi signal, and somewhere to charge the phone. Hetzner being short on servers this year is a reminder that &ldquo;cheap and unlimited&rdquo; is a promise somebody else keeps for you. For some people these are the hard part, and I won&rsquo;t pretend otherwise.</p>
+  <p><strong>Know-how.</strong> The AI will type any command you ask for. It will not tell you which question you forgot to ask. Nothing in this article is hard. The loopback binding, the tmux habit, the rule against fixing before reading: each one is a line or two. Knowing they exist is the entire difference between a lab and an open door. That knowledge used to live in expensive rooms. Now it lives in books, in sourced articles, and in the habit of asking the machine <em>&ldquo;what could go wrong with what you just did?&rdquo;</em></p>
+  <p>The barrier moved. It used to be money. Now it is attention. That is a better barrier, because anybody can pay it.</p>
+
+  <p class="pullquote">The tool will type any command you ask for. It will not tell you which question you forgot to ask.</p>
+
+  <div class="getcode">
+    <h3>Get the lab kit</h3>
+    <p>Every file from this article, ready to copy onto your server. Free to use and change.</p>
+    <p class="files">cloud-init.yaml &middot; docker-compose.yml &middot; env.example &middot; CLAUDE.md &middot; smoke.sh &middot; scan.sh</p>
+    <div class="btnrow">
+      <a class="btn" href="https://github.com/malcolm1014/savvy-blog/tree/main/posts/the-fifty-dollar-datacenter/code">Browse the files on GitHub</a>
+    </div>
+  </div>
+
+  <div class="framing" style="border-left-color:var(--accent);">
+    <h3 style="color:var(--accent);">From the book</h3>
+    <p>This article is a nod to Chapter 5, &ldquo;The Machine You Own,&rdquo; of <em>A Hacker&rsquo;s Guide to Survive</em> by Malcolm R. Smith. The chapter goes further: the used $80 Chromebook, vibe coding with the research on where AI helps and where it hurts, a two-model AI stack, Hetzner cloud labs, and the real path from a cheap laptop to a federal research proposal.</p>
+    <p style="margin-bottom:0;"><a href="https://www.amazon.com/dp/B0HPMWMQMD"><strong>&#128214; Get <em>A Hacker&rsquo;s Guide to Survive</em> on Amazon &rarr;</strong></a><br>
+    Or <a href="../../book/">read Chapter 1 free</a> first.</p>
+  </div>
+
+  <h2 id="refs">Sources</h2>
+
+  <p class="refs-group">The economics of renting a datacenter</p>
+  <ul class="refs">
+    <li>Armbrust, Michael, Armando Fox, Rean Griffith, et al. &ldquo;A View of Cloud Computing.&rdquo; <em>Communications of the ACM</em> 53(4), 2010, pp. 50&ndash;58. <a href="https://doi.org/10.1145/1721654.1721672">doi:10.1145/1721654.1721672</a>.</li>
+  </ul>
+
+  <p class="refs-group">AI and productivity</p>
+  <ul class="refs">
+    <li>Peng, Sida, Eirini Kalliamvakou, Peter Cihon and Mert Demirer. &ldquo;The Impact of AI on Developer Productivity: Evidence from GitHub Copilot.&rdquo; 2023. <a href="https://arxiv.org/abs/2302.06590">arXiv:2302.06590</a>. Treatment group finished 55.8% faster.</li>
+    <li>Brynjolfsson, Erik, Danielle Li and Lindsey Raymond. &ldquo;Generative AI at Work.&rdquo; <em>The Quarterly Journal of Economics</em> 140(2), 2025, pp. 889&ndash;942. <a href="https://doi.org/10.1093/qje/qjae044">doi:10.1093/qje/qjae044</a>. The 34% figure for novice workers is from the 2023 working-paper version, <a href="https://www.nber.org/papers/w31161">NBER w31161</a>.</li>
+    <li>Becker, Joel, Nate Rush, Elizabeth Barnes and David Rein. &ldquo;Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity.&rdquo; METR, 2025. <a href="https://arxiv.org/abs/2507.09089">arXiv:2507.09089</a>. 16 developers, 246 tasks, 19% slower with AI.</li>
+  </ul>
+
+  <p class="refs-group">AI and code security</p>
+  <ul class="refs">
+    <li>Pearce, Hammond, Baleegh Ahmad, Benjamin Tan, Brendan Dolan-Gavitt and Ramesh Karri. &ldquo;Asleep at the Keyboard? Assessing the Security of GitHub Copilot&rsquo;s Code Contributions.&rdquo; <em>IEEE Symposium on Security and Privacy</em>, 2022, pp. 754&ndash;768. <a href="https://doi.org/10.1109/SP46214.2022.9833571">doi:10.1109/SP46214.2022.9833571</a>.</li>
+    <li>Perry, Neil, Megha Srivastava, Deepak Kumar and Dan Boneh. &ldquo;Do Users Write More Insecure Code with AI Assistants?&rdquo; <em>ACM CCS</em>, 2023, pp. 2785&ndash;2799. <a href="https://doi.org/10.1145/3576915.3623157">doi:10.1145/3576915.3623157</a>.</li>
+  </ul>
+
+  <p class="refs-group">The plumbing</p>
+  <ul class="refs">
+    <li>Bernstein, Daniel J., Niels Duif, Tanja Lange, Peter Schwabe and Bo-Yin Yang. &ldquo;High-speed high-security signatures.&rdquo; <em>Journal of Cryptographic Engineering</em> 2(2), 2012, pp. 77&ndash;89. <a href="https://doi.org/10.1007/s13389-012-0027-1">doi:10.1007/s13389-012-0027-1</a>.</li>
+    <li>Ylonen, Tatu, and Chris Lonvick. &ldquo;The Secure Shell (SSH) Protocol Architecture.&rdquo; RFC 4251, IETF, 2006. <a href="https://www.rfc-editor.org/rfc/rfc4251">rfc-editor.org/rfc/rfc4251</a>.</li>
+  </ul>
+
+  <p class="refs-group">Tools, prices and docs (checked November 2026)</p>
+  <ul class="refs">
+    <li>Anthropic. Claude Code setup: system requirements, installer, plans. <a href="https://code.claude.com/docs/en/setup">code.claude.com/docs/en/setup</a>. Pricing: <a href="https://claude.com/pricing">claude.com/pricing</a>.</li>
+    <li>Hetzner. Cloud billing and price adjustments: <a href="https://docs.hetzner.com/cloud/billing/faq">docs.hetzner.com/cloud/billing/faq</a>. Availability notice: <a href="https://status.hetzner.com/">status.hetzner.com</a>.</li>
+    <li>Termux. Install sources and the note on the Google Play build: <a href="https://github.com/termux/termux-app">github.com/termux/termux-app</a>.</li>
+    <li>Straight Talk. moto g play (2026) specifications: <a href="https://www.straighttalk.com/all-phones/moto-g-play-2026-prepaid">straighttalk.com</a>. Price as listed at Walmart.</li>
+    <li>OWASP ZAP baseline scan: <a href="https://www.zaproxy.org/docs/docker/baseline-scan/">zaproxy.org</a>. Trivy: <a href="https://trivy.dev/">trivy.dev</a>. Semgrep: <a href="https://semgrep.dev/">semgrep.dev</a>.</li>
+  </ul>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC. He builds software as a prompt engineer on a used Chromebook, and is the author of <em>A Hacker&rsquo;s Guide to Survive</em>.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>

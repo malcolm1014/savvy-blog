@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 430" width="900" height="430" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace">
+  <rect width="900" height="430" fill="#0d1410"/>
+  <text x="30" y="38" font-size="14" font-weight="700" fill="#e0a256" letter-spacing="1">FIG. 3 — WHAT THE STUDIES MEASURED</text>
+  <text x="30" y="60" font-size="11.5" fill="#a49c87">Change in speed or output with AI help. Four different studies, four different settings. Not one scale.</text>
+
+  <!-- zero axis at x=330 ; 4px per percentage point -->
+  <line x1="330" y1="84" x2="330" y2="330" stroke="#5d5545" stroke-width="1.5"/>
+  <text x="330" y="350" text-anchor="middle" font-size="11" fill="#a49c87">0</text>
+  <text x="250" y="350" text-anchor="middle" font-size="11" fill="#7d7363">slower</text>
+  <text x="450" y="350" text-anchor="middle" font-size="11" fill="#7d7363">faster</text>
+
+  <g font-size="12.5" fill="#e8e5d8">
+    <text x="30" y="112">Peng et al. 2023</text>
+    <text x="30" y="128" font-size="10.5" fill="#a49c87">new task, from scratch</text>
+    <rect x="330" y="98" width="223" height="30" fill="#4ade80"/>
+    <text x="563" y="118" fill="#86efac">+55.8%</text>
+
+    <text x="30" y="172">Brynjolfsson 2023</text>
+    <text x="30" y="188" font-size="10.5" fill="#a49c87">novices (working paper)</text>
+    <rect x="330" y="158" width="136" height="30" fill="#4ade80"/>
+    <text x="476" y="178" fill="#86efac">+34%</text>
+
+    <text x="30" y="232">Brynjolfsson 2025</text>
+    <text x="30" y="248" font-size="10.5" fill="#a49c87">all workers (QJE)</text>
+    <rect x="330" y="218" width="60" height="30" fill="#7fa6c2"/>
+    <text x="400" y="238" fill="#7fa6c2">+15%</text>
+
+    <text x="30" y="292">METR 2025</text>
+    <text x="30" y="308" font-size="10.5" fill="#a49c87">experts, own huge repos</text>
+    <rect x="254" y="278" width="76" height="30" fill="#f08c7a"/>
+    <text x="244" y="298" text-anchor="end" fill="#f08c7a">−19%</text>
+  </g>
+
+  <!-- security panel -->
+  <rect x="640" y="84" width="232" height="246" rx="6" fill="#141a14" stroke="#f0b429" stroke-width="1.5"/>
+  <text x="756" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#f0b429">AND THE SECURITY SIDE</text>
+  <text x="756" y="178" text-anchor="middle" font-size="54" font-weight="700" fill="#f0b429">~40%</text>
+  <text x="756" y="206" text-anchor="middle" font-size="11.5" fill="#e8e5d8">of 1,689 AI-written</text>
+  <text x="756" y="223" text-anchor="middle" font-size="11.5" fill="#e8e5d8">programs were vulnerable</text>
+  <text x="756" y="246" text-anchor="middle" font-size="10.5" fill="#a49c87">Pearce et al., IEEE S&amp;P 2022</text>
+  <text x="756" y="284" text-anchor="middle" font-size="11" fill="#e8e5d8">AI users wrote less secure</text>
+  <text x="756" y="300" text-anchor="middle" font-size="11" fill="#e8e5d8">code and trusted it more</text>
+  <text x="756" y="318" text-anchor="middle" font-size="10.5" fill="#a49c87">Perry et al., ACM CCS 2023</text>
+
+  <text x="30" y="392" font-size="11.5" fill="#d7cbb0">Read it straight: AI helps most when the work is new to you, and it does not make the code safe.</text>
+  <text x="30" y="411" font-size="11.5" fill="#d7cbb0">That second half is why the lab exists.</text>
+</svg>

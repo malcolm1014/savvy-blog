@@ -1,0 +1,42 @@
+# The lab. Your app, its database, and a private network to test them on.
+# Nothing here is published to the internet. The app answers on the
+# server's own loopback only, and you reach it through an SSH tunnel.
+name: lab
+
+services:
+  app:
+    build: ./app              # your SaaS, with its own Dockerfile
+    env_file: .env
+    ports:
+      - "127.0.0.1:8000:8000" # loopback ONLY. Never "8000:8000".
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [lab_net]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    env_file: .env            # POSTGRES_USER / POSTGRES_PASSWORD / POSTGRES_DB
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks: [lab_net]       # no "ports:" at all. Only the app can reach it.
+    mem_limit: 512m
+    restart: unless-stopped
+
+networks:
+  lab_net:
+    name: lab_net
+
+volumes:
+  dbdata:
