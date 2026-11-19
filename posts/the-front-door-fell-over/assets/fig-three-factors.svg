@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace">
+<rect width="900" height="500" fill="#0d1410"/>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a49c87"/></marker></defs>
+<text x="30" y="38" font-size="14" font-weight="700" fill="#e0a256" letter-spacing="1">FIG. 2 — THREE THINGS AT ONCE</text>
+<text x="30" y="60" font-size="11.5" fill="#a49c87">Each problem alone was survivable. Together they tipped the gateway into a cascade.</text>
+<rect x="30" y="88" width="260" height="104" rx="5" fill="#141a14" stroke="#7fa6c2" stroke-width="2"/>
+<text x="46" y="114" font-size="13" font-weight="700" fill="#7fa6c2">1 · HIDDEN DEFECT</text>
+<text x="46" y="138" font-size="12" fill="#e8e5d8">A change first deployed</text>
+<text x="46" y="155" font-size="12" fill="#e8e5d8">in July 2026. Lock</text>
+<text x="46" y="172" font-size="12" fill="#e8e5d8">contention under load.</text>
+<line x1="160" y1="196" x2="378" y2="244" stroke="#a49c87" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="320" y="88" width="260" height="104" rx="5" fill="#141a14" stroke="#f0b429" stroke-width="2"/>
+<text x="336" y="114" font-size="13" font-weight="700" fill="#f0b429">2 · EXTRA TRAFFIC</text>
+<text x="336" y="138" font-size="12" fill="#e8e5d8">~15 hours earlier, Teams</text>
+<text x="336" y="155" font-size="12" fill="#e8e5d8">failed over onto the same</text>
+<text x="336" y="172" font-size="12" fill="#e8e5d8">gateway as Exchange.</text>
+<line x1="450" y1="196" x2="450" y2="244" stroke="#a49c87" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="610" y="88" width="260" height="104" rx="5" fill="#141a14" stroke="#f08c7a" stroke-width="2"/>
+<text x="626" y="114" font-size="13" font-weight="700" fill="#f08c7a">3 · FEWER DOORS</text>
+<text x="626" y="138" font-size="12" fill="#e8e5d8">Nearly 14% of gateway</text>
+<text x="626" y="155" font-size="12" fill="#e8e5d8">capacity already out</text>
+<text x="626" y="172" font-size="12" fill="#e8e5d8">from an unrelated issue.</text>
+<line x1="740" y1="196" x2="522" y2="244" stroke="#a49c87" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="230" y="250" width="440" height="96" rx="6" fill="#141a14" stroke="#e0a256" stroke-width="2.5"/>
+<text x="450" y="276" text-anchor="middle" font-size="13" font-weight="700" fill="#e8e5d8">MICROSOFT 365 NETWORKING GATEWAY</text>
+<rect x="258" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="278" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="298" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="318" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="338" y="290" width="14" height="22" rx="2" fill="#141a14" stroke="#86efac" stroke-width="1.5"/>
+<rect x="358" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="378" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="398" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="418" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="438" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="458" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="478" y="290" width="14" height="22" rx="2" fill="#141a14" stroke="#86efac" stroke-width="1.5"/>
+<rect x="498" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="518" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="538" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="558" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="578" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="598" y="290" width="14" height="22" rx="2" fill="#141a14" stroke="#86efac" stroke-width="1.5"/>
+<rect x="618" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<rect x="638" y="290" width="14" height="22" rx="2" fill="#2a1512" stroke="#f08c7a" stroke-width="1.5"/>
+<text x="450" y="334" text-anchor="middle" font-size="12" font-weight="700" fill="#f08c7a">AT ITS LOWEST, MORE THAN 80% OF SERVERS UNRESPONSIVE</text>
+<line x1="450" y1="350" x2="450" y2="386" stroke="#a49c87" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="60" y="392" width="116" height="34" rx="4" fill="#141a14" stroke="#5d5545" stroke-width="1.5"/>
+<text x="118" y="414" text-anchor="middle" font-size="11.5" fill="#e8e5d8">EXCHANGE</text>
+<rect x="194" y="392" width="116" height="34" rx="4" fill="#141a14" stroke="#5d5545" stroke-width="1.5"/>
+<text x="252" y="414" text-anchor="middle" font-size="11.5" fill="#e8e5d8">TEAMS</text>
+<rect x="328" y="392" width="116" height="34" rx="4" fill="#141a14" stroke="#5d5545" stroke-width="1.5"/>
+<text x="386" y="414" text-anchor="middle" font-size="11.5" fill="#e8e5d8">SHAREPOINT</text>
+<rect x="462" y="392" width="116" height="34" rx="4" fill="#141a14" stroke="#5d5545" stroke-width="1.5"/>
+<text x="520" y="414" text-anchor="middle" font-size="11.5" fill="#e8e5d8">ONEDRIVE</text>
+<rect x="596" y="392" width="116" height="34" rx="4" fill="#141a14" stroke="#5d5545" stroke-width="1.5"/>
+<text x="654" y="414" text-anchor="middle" font-size="11.5" fill="#e8e5d8">COPILOT</text>
+<rect x="730" y="392" width="116" height="34" rx="4" fill="#141a14" stroke="#5d5545" stroke-width="1.5"/>
+<text x="788" y="414" text-anchor="middle" font-size="11.5" fill="#e8e5d8">+ 9 MORE</text>
+<text x="450" y="452" text-anchor="middle" font-size="11.5" fill="#a49c87">Bulkheads between server partitions did not stop the cascade, "due to a separate issue."</text>
+<text x="30" y="485" font-size="10.5" fill="#7d7363">Source: Microsoft, Preliminary Post Incident Report EX1550543 / MO1550821, November 15, 2026.</text>
+</svg>
