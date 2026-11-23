@@ -188,14 +188,14 @@
 
   <div class="framing">
     <h3>The short version</h3>
-    <p>This week the European Commission confirmed that a cyber campaign against it was carried out with an AI tool. Its spokesperson called it &ldquo;a misuse of an AI tool&rdquo; and said &ldquo;it was an AI tool that is publicly available&rdquo; (Help Net Security, 2026). The Commission took several internal applications offline to protect them while it dealt with the attack.</p>
+    <p>On November 19, 2026, the European Commission confirmed that a cyber campaign against it was carried out with an AI tool. Its spokesperson called it &ldquo;a misuse of an AI tool&rdquo; and said &ldquo;it was an AI tool that is publicly available&rdquo; (Help Net Security, 2026). The Commission took several internal applications offline to protect them while it dealt with the attack.</p>
     <p>Reporting points to <strong>ARTEX</strong>, an open-source framework built for legitimate penetration testing, which the EU&rsquo;s own cyber response team had warned about two weeks earlier. The Commission has not confirmed the name.</p>
     <p>You are not the European Commission. That is the point. A tool like this costs attackers almost nothing to point at you, and it is very good at finding the small, boring mistakes that most small offices have. The fixes are boring too, and they are at the end.</p>
   </div>
 
   <h2 id="what">1 &middot; What happened</h2>
   <p>According to the Commission, the attack was detected on <strong>October 22, 2026</strong> and confirmed after an initial investigation on <strong>October 26</strong>. As a protective step it &ldquo;temporarily took down several applications,&rdquo; and &ldquo;most of them have since then been restored&rdquo; (Help Net Security, 2026).</p>
-  <p>The public did not hear about it until Politico reported it this week. At the Commission&rsquo;s midday briefing on Thursday, spokesperson Thomas Regnier confirmed it. He would not say who was behind it (&ldquo;on the attribution, I will not go there&rdquo;), would not name the services that were hit, and called it &ldquo;a campaign,&rdquo; meaning &ldquo;a series of incidents&rdquo; rather than one break-in (Help Net Security, 2026).</p>
+  <p>The public did not hear about it until Politico reported it in November. At the Commission&rsquo;s midday briefing on Thursday, November 19, spokesperson Thomas Regnier confirmed it. He would not say who was behind it (&ldquo;on the attribution, I will not go there&rdquo;), would not name the services that were hit, and called it &ldquo;a campaign,&rdquo; meaning &ldquo;a series of incidents&rdquo; rather than one break-in (Help Net Security, 2026).</p>
   <p>Two things he did say are worth holding onto. First: &ldquo;we have not detected any evidence of a data breach affecting Commission staff as a whole,&rdquo; with the investigation still going. Second, there was no ransom note: &ldquo;I&rsquo;m really not aware of any ransomware request made to the Commission&rdquo; (Help Net Security, 2026).</p>
 
   <div class="secread">
@@ -220,7 +220,7 @@
   </div>
 
   <h2 id="plan">4 &middot; What to patch and lock down first</h2>
-  <p>You don&rsquo;t need an AI of your own to defend against this. You need to close the doors it checks. In order of what I&rsquo;d do this weekend:</p>
+  <p>You don&rsquo;t need an AI of your own to defend against this. You need to close the doors it checks. In the order I&rsquo;d do them:</p>
   <ol class="lessons">
     <li><strong>List everything you have on the internet.</strong> Website, email, the router, any remote desktop, a camera system, a network storage box, a booking plugin, that test site from two years ago. CERT-EU&rsquo;s first piece of advice is to limit internet exposure to only what needs it (CERT-EU, 2026). You can&rsquo;t limit what you haven&rsquo;t listed.</li>
     <li><strong>Take admin pages off the internet.</strong> Router settings, camera admin, server consoles and remote desktop should not answer to the whole world. Reach them over a VPN or from inside the office only. CERT-EU specifically says to keep management and control panels off the internet (CERT-EU, 2026).</li>
@@ -254,7 +254,7 @@
   <table class="ledger">
     <thead><tr><th>Claim</th><th>Status</th><th>What backs it</th></tr></thead>
     <tbody>
-      <tr><td>The Commission was hit using an AI tool</td><td><span class="tagpill ok">Confirmed</span></td><td>The Commission&rsquo;s spokesperson, at this week&rsquo;s briefing (Help Net Security, 2026).</td></tr>
+      <tr><td>The Commission was hit using an AI tool</td><td><span class="tagpill ok">Confirmed</span></td><td>The Commission&rsquo;s spokesperson, at the November 19 briefing (Help Net Security, 2026).</td></tr>
       <tr><td>The tool was ARTEX</td><td><span class="tagpill bet">Reported</span></td><td>Politico, citing CERT-EU detections. The Commission did not name the tool (Help Net Security, 2026).</td></tr>
       <tr><td>Staff data was stolen</td><td><span class="tagpill bet">Unknown</span></td><td>The Commission says it has found no evidence of a breach affecting staff &ldquo;as a whole.&rdquo; Investigation ongoing.</td></tr>
       <tr><td>How the attackers got in</td><td><span class="tagpill bet">Unknown</span></td><td>Not disclosed.</td></tr>
