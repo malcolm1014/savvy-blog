@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="IBM Plex Mono, DejaVu Sans Mono, monospace">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b23a2a"/></marker>
+  <marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2f5568"/></marker></defs>
+  <rect width="1200" height="620" fill="#f6f3ea"/>
+  <text x="40" y="46" font-family="'Source Serif 4','DejaVu Serif',serif" font-size="26" font-weight="700" fill="#1a1712">Microsoft 365 gateway, read as a metastable failure</text>
+  <text x="40" y="74" font-size="14" fill="#5d5545">Mapping Microsoft's preliminary PIR onto the trigger / sustaining-effect model of Bronson et al. (2021) and Huang et al. (2022).</text>
+  <!-- triggers column -->
+  <text x="40" y="122" font-size="14" font-weight="700" fill="#a86a22" letter-spacing="2">TRIGGERS (temporary)</text>
+  <g font-size="13">
+    <rect x="40" y="138" width="300" height="76" rx="6" fill="#fbf8f0" stroke="#a86a22" stroke-width="2"/>
+    <text x="56" y="164" font-weight="700" fill="#1a1712">Load trigger</text><text x="56" y="186" fill="#5d5545">Teams fails over onto the</text><text x="56" y="202" fill="#5d5545">gateway Exchange also uses</text>
+    <rect x="40" y="222" width="300" height="76" rx="6" fill="#fbf8f0" stroke="#a86a22" stroke-width="2"/>
+    <text x="56" y="248" font-weight="700" fill="#1a1712">Capacity trigger</text><text x="56" y="270" fill="#5d5545">~14% of gateway capacity</text><text x="56" y="286" fill="#5d5545">already out for another issue</text>
+    <rect x="40" y="306" width="300" height="76" rx="6" fill="#fbf8f0" stroke="#5d5545" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="56" y="332" font-weight="700" fill="#1a1712">Latent precondition</text><text x="56" y="354" fill="#5d5545">July fix: lock contention,</text><text x="56" y="370" fill="#5d5545">worse on high-core hardware</text>
+  </g>
+  <path d="M340 257 L470 290" stroke="#a86a22" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <!-- loop -->
+  <circle cx="720" cy="330" r="170" fill="none" stroke="#ddd6c4" stroke-width="2"/>
+  <g font-size="13" text-anchor="middle">
+    <rect x="620" y="128" width="200" height="56" rx="6" fill="#2a110d"/><text x="720" y="152" fill="#f3c6bd" font-weight="700">Servers saturate</text><text x="720" y="172" fill="#f3c6bd">CPU + memory exhausted</text>
+    <rect x="812" y="300" width="200" height="56" rx="6" fill="#2a110d"/><text x="912" y="324" fill="#f3c6bd" font-weight="700">Health checks fail</text><text x="912" y="344" fill="#f3c6bd">server stops answering</text>
+    <rect x="620" y="472" width="200" height="56" rx="6" fill="#2a110d"/><text x="720" y="496" fill="#f3c6bd" font-weight="700">Traffic redirected</text><text x="720" y="516" fill="#f3c6bd">to the shrinking pool</text>
+    <rect x="428" y="300" width="200" height="56" rx="6" fill="#2a110d"/><text x="528" y="324" fill="#f3c6bd" font-weight="700">Clients retry</text><text x="528" y="344" fill="#f3c6bd">reconnect storms</text>
+  </g>
+  <g stroke="#b23a2a" stroke-width="3" fill="none" marker-end="url(#ar)">
+    <path d="M822 170 Q 900 200 905 296"/><path d="M905 360 Q 900 460 824 494"/><path d="M616 500 Q 540 470 533 360"/><path d="M533 296 Q 540 200 616 166"/>
+  </g>
+  <text x="720" y="318" text-anchor="middle" font-size="15" font-weight="700" fill="#b23a2a">SUSTAINING</text>
+  <text x="720" y="338" text-anchor="middle" font-size="15" font-weight="700" fill="#b23a2a">EFFECT</text>
+  <text x="720" y="360" text-anchor="middle" font-size="12" fill="#5d5545">&gt;80% of servers down</text>
+  <!-- why recovery failed -->
+  <rect x="1030" y="150" width="140" height="330" rx="6" fill="#fbf8f0" stroke="#2f5568" stroke-width="2"/>
+  <g font-size="12" fill="#1a1712">
+    <text x="1044" y="176" font-weight="700" fill="#2f5568">WHY IT</text><text x="1044" y="192" font-weight="700" fill="#2f5568">HELD</text>
+    <text x="1044" y="222">Restored</text><text x="1044" y="238">servers fail</text><text x="1044" y="254">again on</text><text x="1044" y="270">contact</text>
+    <text x="1044" y="302">Rollback /</text><text x="1044" y="318">flags can't</text><text x="1044" y="334">reach a</text><text x="1044" y="350">3-month-old</text><text x="1044" y="366">change</text>
+    <text x="1044" y="398">Bulkheads</text><text x="1044" y="414">fail: global</text><text x="1044" y="430">spread</text>
+  </g>
+  <text x="40" y="590" font-size="12" fill="#7d7363">Diagram: Savvy Security LLC. Interpretation is the author's; Microsoft's report does not use the term "metastable".</text>
+</svg>
