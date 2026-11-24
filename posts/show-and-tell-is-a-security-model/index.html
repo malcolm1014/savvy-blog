@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Show and Tell Is a Security Model</title>
+<meta name="description" content="Maker Faire Orlando 2026 filled the Central Florida Fairgrounds with more than 250 exhibits. Underneath the robots ran an old idea security keeps relearning: when the design is public, more people can check it. The open source community, the fights over keeping it open, and a safe-tinkering checklist for makers.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Show and Tell Is a Security Model: Maker Faire Orlando and the Open Source Community">
+<meta property="og:description" content="More than 250 exhibits, a hackerspace on every aisle and an open-hardware recipe you can build at home. What Maker Faire Orlando 2026 says about open source, trust and safe tinkering.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/show-and-tell-is-a-security-model/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/show-and-tell-is-a-security-model/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Show and Tell Is a Security Model: an open circuit board with its schematic, firmware, parts list and build guide laid out around it under a magnifying glass.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/show-and-tell-is-a-security-model/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Community">
+<meta property="article:published_time" content="2026-11-24">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Show and Tell Is a Security Model: Maker Faire Orlando and the Open Source Community">
+<meta name="twitter:description" content="What a weekend of robots, hackerspaces and open hardware in Orlando says about trust, and a safe-tinkering checklist for makers.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/show-and-tell-is-a-security-model/assets/cover.png">
+<meta name="twitter:image:alt" content="Show and Tell Is a Security Model: an open circuit board with its schematic, firmware, parts list and build guide laid out around it under a magnifying glass.">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/show-and-tell-is-a-security-model/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0d110d url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#d7cbb0; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.8rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term .g{color:#86efac;} pre.term .a{color:#f0b429;} pre.term .r{color:#f08c7a;}
+  pre.term .b{color:#7fa6c2;} pre.term .d{color:#7d7363;} pre.term b{color:#e8e5d8; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .ledger{width:100%; border-collapse:collapse; margin:20px 0 8px; font-size:.9rem;}
+  .ledger th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:8px 10px; border-bottom:2px solid var(--rule); vertical-align:bottom;}
+  .ledger td{padding:11px 10px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.5;}
+  .ledger td:first-child{font-weight:700;}
+  .tagpill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:3px; white-space:nowrap;}
+  .tagpill.ok{background:rgba(22,101,52,.16); color:var(--term); border:1px solid rgba(22,101,52,.4);}
+  .tagpill.bet{background:rgba(168,106,34,.14); color:var(--accent); border:1px solid rgba(168,106,34,.4);}
+  .tablewrap{overflow-x:auto;}
+
+  .getcode{
+    background:var(--card); border:1px solid var(--accent); border-radius:6px;
+    padding:22px 24px; margin:26px 0 30px;
+  }
+  .getcode h3{margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
+  .getcode p{margin:0 0 12px; font-size:.96rem;} .getcode p:last-child{margin-bottom:0;}
+  .getcode .files{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--muted);}
+  .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.78rem; font-weight:600; text-decoration:none;
+    color:var(--bg); background:var(--accent2); border-radius:6px; padding:9px 16px; display:inline-block;
+  }
+  .btn.alt{background:transparent; color:var(--accent2); border:1px solid var(--accent2);}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="Show and Tell Is a Security Model: an open circuit board with its schematic, firmware, parts list and build guide laid out around it under a magnifying glass."></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Community</p>
+  <h1>Show and Tell Is a Security Model</h1>
+  <p class="dek">Maker Faire Orlando calls itself the Greatest Show (&amp; Tell) on Earth. This month it filled the Central Florida Fairgrounds with robots, hackerspaces and an open-hardware recipe you can build at home. Underneath all of it ran an idea that security keeps relearning: when the design is public, more people can check it.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; November 2026</p>
+
+  <div class="partnav mono">
+    <a href="#orlando">1 &middot; The weekend in Orlando</a>
+    <a href="#floor">2 &middot; The open thread on the floor</a>
+    <a href="#why">3 &middot; Why open helps security</a>
+    <a href="#tested">4 &middot; Where open gets tested</a>
+    <a href="#checklist">5 &middot; Safe tinkering</a>
+    <a href="#code">For the technical</a>
+    <a href="#open">Still open</a>
+    <a href="#refs">Sources</a>
+  </div>
+
+  <div class="framing">
+    <h3>The short version</h3>
+    <p>On November 6&ndash;8, 2026, Maker Faire Orlando took over the Central Florida Fairgrounds with <strong>more than 250 exhibits</strong>, a combat robot tournament, homemade electric racers and a school day that drew about <strong>2,500 students, teachers and homeschool families</strong> (Mutti, 2026; Moeller, 2026).</p>
+    <p>Walk the exhibit list and you find the open source community everywhere: Arduino and Raspberry Pi projects, five makerspaces and hackerspaces, a ham radio club, a take-it-apart table, a tool library, and a Florida company that published its whole metal-recovery membrane as open hardware, patent license included (Maker Faire Orlando, 2026c).</p>
+    <p>That culture of showing your work is also one of the oldest ideas in security. It is how a single engineer caught the <span class="mono">xz</span> backdoor, how researchers proved a popular smart-card chip was broken, and how a scary &ldquo;ESP32 backdoor&rdquo; headline got corrected in days. It is also under pressure, from companies that close things in the name of security. The last part of this article is a plain checklist for tinkering safely.</p>
+  </div>
+
+  <h2 id="orlando">1 &middot; The weekend in Orlando</h2>
+  <p>Maker Faire Orlando ran on Saturday and Sunday, November 7 and 8, from 10 AM to 5 PM, at the Central Florida Fairgrounds &amp; Expo Halls on West Colonial Drive. Advance tickets were $15 for youth and students and $20 for adults. Veterans, active military and first responders got in free, and families with an EBT card paid $5 a person (Moeller, 2026; Zrallack, 2026). Local coverage billed it as the 14th annual faire (Zrallack, 2026).</p>
+  <p>The faire is produced by The Maker Effect Foundation, a nonprofit that funds maker programs in Central Florida schools, community groups and makerspaces. It runs under license from Make: Community, the company behind the original Maker Faire that started in the San Francisco Bay Area in 2006, and is funded in part by Orange County&rsquo;s Arts &amp; Cultural Affairs program (Maker Faire Orlando, 2026a). Its own roots are local. The Orlando faire grew out of the members of <strong>FamiLAB</strong>, a member-run hackerspace in Longwood founded in 2009 (Wikipedia, &ldquo;FamiLAB&rdquo;).</p>
+  <p>Friday was Field Trip Day. Make: reports that about 2,500 students, teachers and homeschool families filled the fairgrounds for robotics, engineering, cosplay and building (Mutti, 2026). Registration had closed because the day hit capacity (Maker Faire Orlando, 2026b).</p>
+  <p>The weekend crowd got the full show. Robot Ruckus, the combat robot tournament that has been part of the faire since 2013, put more than 100 fighting robots in the arena, from one-pound &ldquo;Plastic Ants&rdquo; to three-pound beetleweights, built by teams like Jupiter Robotics from Lakeland and the student builders of Ruckus Robotics (Blakeslee, 2026). There were homemade electric racers, theme park designers on stage, a Minecraft crew rebuilding theme parks block by block, and enough cosplay to fill a convention (Blakeslee, 2026; Zrallack, 2026).</p>
+
+  <h2 id="floor">2 &middot; The open thread on the floor</h2>
+  <p>Look past the robots and the exhibit directory reads like a map of the open source community. A few that stood out for a security shop (Maker Faire Orlando, 2026c):</p>
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Exhibit</th><th>What it showed</th><th>Why it matters here</th></tr></thead>
+    <tbody>
+      <tr><td>The Ionic Age</td><td>Rowow, a small Florida company, demonstrated a homemade ion exchange membrane that recovers metal from e-waste and runs a tiny flow battery. They say it costs about a dollar per square foot.</td><td>&ldquo;The recipe is published as open source hardware.&rdquo; The build guide, design files and patent license are public, so anyone can build and check it.</td></tr>
+      <tr><td>DuinoKit</td><td>Arduino learning kits designed by a teacher, plus a new ESP32 Internet of Things kit.</td><td>Open platforms are how most people learn electronics. An IoT kit is also the first device many students put on a Wi-Fi network.</td></tr>
+      <tr><td>Making Printers Do Weird Things</td><td>Andrew Schmelyun&rsquo;s hacked receipt printers, with some electronics showing the individual bytes sent to the hardware.</td><td>Seeing the bytes is the whole idea of open: nothing is hidden from the person using it.</td></tr>
+      <tr><td>Anti-Hackathon</td><td>A family game run by Christopher Salgado, a former Facebook investigator, that stages fake texts, mystery accounts and too-friendly strangers in games.</td><td>The one booth that was about security on purpose, and it taught it as play.</td></tr>
+      <tr><td>Tech Take-Apart</td><td>The Orlando Science Center&rsquo;s table of recycled electronics for kids 8 and up to open up.</td><td>&ldquo;The best way to learn how things work is to take them apart!&rdquo; That is also the first lesson of reverse engineering.</td></tr>
+      <tr><td>Makerspaces</td><td>FamiLAB, Tampa Hackerspace (home to more than 350 makers), MakerFX, Melbourne Makerspace and the Marion County Maker Collective, plus the Central Florida Tool Library.</td><td>Shared tools and shared knowledge, which is the open source idea in physical form.</td></tr>
+      <tr><td>Radio and retro</td><td>The Orlando Amateur Radio Club, the Central Florida Retro Computer Club&rsquo;s working TRS-80s and Commodores, and PiPlay&rsquo;s build-your-own Raspberry Pi console.</td><td>Hobbies where the documentation is the culture.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="caption-under">From the faire&rsquo;s 2026 exhibit pages. The faire marks booth locations &ldquo;subject to change,&rdquo; so this is what was listed, not a head count of what I saw.</p>
+  <p>None of this is new to the faire. What is worth noticing is how normal it is. A whole weekend of strangers walking up to a table and asking &ldquo;how does that work?&rdquo; and getting a real answer is exactly the habit that keeps open software and hardware honest. I made a similar argument about the DEF CON 34 badge, an <a href="../defcon-34-baochip/">open-source security chip you get to keep</a>, and about the <a href="../gnu-at-43/">free software tools</a> almost everything else is built on.</p>
+
+  <div class="secread">
+    <span class="tag">The security booth was a game</span>
+    <p>The Anti-Hackathon has run in Orlando since 2024. Its pitch is aimed at kids, parents and &ldquo;everyday people,&rdquo; and it uses realistic scenarios: messages &ldquo;built to make you click before you think,&rdquo; accounts that are not who they say, and strangers in online games who seem a little too friendly (Maker Faire Orlando, 2026c).</p>
+    <p>That is the right format. Most people do not lose money to clever code. They lose it to a message that rushes them. A game that lets a ten-year-old practice saying &ldquo;wait, who sent this?&rdquo; does more good than a slide deck.</p>
+  </div>
+
+  <h2 id="why">3 &middot; Why open helps security</h2>
+  <p>The Open Source Hardware Association defines open hardware as hardware &ldquo;whose design is made publicly available so that anyone can study, modify, distribute,&rdquo; make and sell it, and says it &ldquo;gives people the freedom to control their technology&rdquo; (OSHWA, n.d.). Open source software works the same way with code. For security, the key word is <em>study</em>. You cannot check what you are not allowed to see.</p>
+  <p>The classic slogan is Eric Raymond&rsquo;s: &ldquo;given enough eyeballs, all bugs are shallow&rdquo; (Raymond, 1999). It is half right. Open code <em>can</em> be checked by anyone. That does not mean anyone did. Three stories show both halves.</p>
+
+  <h3>The backdoor one engineer noticed</h3>
+  <p>In March 2024, Andres Freund, a developer at Microsoft, was chasing a small performance problem on a test version of Debian. SSH logins were using more processor time than they should, and a memory-checking tool was throwing errors. He kept pulling the thread and found a backdoor hidden in <span class="mono">xz</span>, a compression library that ships in most Linux systems. It was in versions 5.6.0 and 5.6.1, it got the highest possible severity score of 10.0, and it was tracked as CVE-2024-3094 (Wikipedia, &ldquo;XZ Utils backdoor&rdquo;). CISA&rsquo;s alert that day said the malicious code &ldquo;may allow unauthorized access to affected systems&rdquo; (CISA, 2024).</p>
+  <p>The scary part is how it got there. Starting in 2021, someone using the name &ldquo;Jia Tan&rdquo; spent more than two years earning trust on the project, while sock-puppet accounts pressured the original, overworked maintainer to hand over more control. The backdoor landed in February 2024. It was caught before it reached the stable releases most people run (Wikipedia, &ldquo;XZ Utils backdoor&rdquo;).</p>
+  <p>Both halves of the slogan are in that story. Because the code was open, one curious person could take it apart and prove what it did. But for two years almost nobody was looking at a library that runs on millions of machines, and the attack worked through the people, not the code. Open made the catch possible. A person paying attention made it happen.</p>
+
+  <p class="pullquote">Open doesn&rsquo;t mean someone checked. It means someone can.</p>
+
+  <h3>The secret cipher that wasn&rsquo;t safe</h3>
+  <p>The other direction is older. MIFARE Classic was one of the most widely used contactless smart-card chips in the world, in transit cards and building badges, and its cipher was a trade secret. In 2008 a team at Radboud University Nijmegen reverse engineered it and showed attacks that could recover the secret key from a genuine reader in under a second, tested against real systems like London&rsquo;s Oyster card and the Dutch transit card (Garcia et al., 2008). By the team&rsquo;s own account, the chip&rsquo;s maker went to court to stop the paper, and the judge let it be published.</p>
+  <p>Keeping the design secret did not make it strong. It just meant that the first people to study it closely were outside researchers instead of a public review before launch. I bring this one up because the faire&rsquo;s exhibit list included an NFC door access build (Maker Faire Orlando, 2026c). That is a great project. It is also exactly where an old, cheap tag type can quietly become a front-door key anyone can copy.</p>
+
+  <h3>The &ldquo;backdoor&rdquo; that got corrected</h3>
+  <p>In March 2025, headlines warned of a &ldquo;backdoor&rdquo; in the ESP32, the cheap Wi-Fi and Bluetooth chip inside a huge share of maker and smart-home projects, including the IoT kit on the faire floor. The researchers had found 29 undocumented debug commands in the chip&rsquo;s Bluetooth controller. Within days, Espressif said the commands were &ldquo;not accessible remotely&rdquo; and &ldquo;cannot be triggered by Bluetooth, radio signals, or over the Internet,&rdquo; that the original press release &ldquo;was factually corrected to remove the &lsquo;backdoor&rsquo; designation,&rdquo; and that it would still ship a fix to remove them (Espressif, 2025). The issue was tracked as CVE-2025-27840.</p>
+  <p>The finding was real. The panic was not. A community that can read the documentation, test the claim and argue about it in public turned a scary headline into an ordinary bug fix in about a week. That is the open model working the way it is supposed to.</p>
+
+  <h2 id="tested">4 &middot; Where open gets tested</h2>
+  <p>The tension right now is that &ldquo;security&rdquo; is also the most common reason companies give for closing things.</p>
+  <p><strong>Arduino.</strong> Qualcomm agreed to buy Arduino in October 2025. A month later, rewritten terms of service set off a backlash. Adafruit said the new terms included a perpetual license over what users upload and a ban on reverse engineering, and that &ldquo;the changes mark a clear break from the open-hardware ethos that built the platform&rdquo; (Proven, 2025). Arduino answered that the reverse-engineering ban covers only its paid cloud service, and that &ldquo;anything that was open, stays open,&rdquo; including the IDE, schematics, tooling and libraries (Halfacree, 2025). Both statements are on the record. What Arduino does next is the test.</p>
+  <p><strong>Bambu Lab.</strong> In January 2025, the 3D printer maker announced an &ldquo;authorization&rdquo; system for printer control in beta firmware, pitched as a way to keep printer communications safe and secure. Third-party software like OrcaSlicer would have to go through Bambu&rsquo;s own middleman app. Hackaday pointed out that the certificate and private key were easy to pull out of that app, and argued that this undercut the security case (Posch, 2025). In April 2026, a developer who had built a fork that worked around the middleman took it down. In his account, Bambu Lab sent a cease-and-desist letter accusing him of reverse engineering its software (Bertacchi, 2026).</p>
+  <p>Here is the question I would ask about any lock like that: <strong>who does it protect, and from whom?</strong> Real security makes it harder for a stranger to take over your machine. A lock that mainly keeps the owner from choosing their own software is a business decision wearing a security badge. Sometimes a design does both. The way to tell is to see the design, which brings us back to the point of this article.</p>
+  <p><strong>The law is catching up.</strong> The European Union&rsquo;s Cyber Resilience Act is phasing in for products with software in them sold in the EU, wherever the maker is. Its vulnerability-reporting duties for manufacturers started on September 11, 2026, and the rest applies from December 11, 2027. Foundations that support open source used in commercial products get a lighter set of duties as &ldquo;stewards&rdquo; (OpenSSF, n.d.; Checkmarx, 2026). Security firms&rsquo; summaries say purely volunteer, non-commercial projects are exempt (Checkmarx, 2026). If you sell a kit or a gadget, check how it applies to you against the regulation itself, not a blog post.</p>
+
+  <h2 id="checklist">5 &middot; Safe tinkering: a checklist for makers</h2>
+  <p>None of this is a reason to stop building. It is a reason to build with a few habits. Most of these take five minutes.</p>
+  <ol class="lessons">
+    <li><strong>Keep passwords out of code you share.</strong> GitGuardian counted <strong>23.8 million</strong> secrets, like passwords and API keys, leaked on public GitHub in 2024, up 25% from the year before, and found that 70% of the ones leaked in 2022 still worked (GitGuardian, 2025). Your home Wi-Fi password in a project you push to GitHub is one of those. The code below shows the easy fix.</li>
+    <li><strong>Change default passwords and keep projects off the open internet.</strong> A camera, a door controller or a sensor dashboard belongs on your home network or a guest network, not exposed to the world. If you want to reach it from outside, use a VPN instead of opening a port on your router.</li>
+    <li><strong>Don&rsquo;t trust a toy lock with a real door.</strong> Many cheap NFC and RFID tags use cryptography that was broken years ago (Garcia et al., 2008). They are great for learning. For an actual lock, pick a card type with modern, published cryptography and look up current research on it first.</li>
+    <li><strong>Get tools and firmware from the project&rsquo;s own release page, and check them.</strong> Many projects publish checksums or signatures next to their downloads. It takes one command to check, shown below.</li>
+    <li><strong>Update the boring parts.</strong> Board packages and libraries get security fixes too, as the ESP32 story shows. Watch the project&rsquo;s advisories or release notes for the chips you use.</li>
+    <li><strong>Write it up.</strong> A build log with photos, wiring and code is how the next person learns, and how someone smarter finds the mistake you missed. Documentation is a security feature.</li>
+    <li><strong>Report security bugs privately and kindly.</strong> If you find a hole in someone&rsquo;s project, look for a <span class="mono">SECURITY.md</span> file or a security contact before posting it in public, so the maintainer can fix it first.</li>
+    <li><strong>Back the people doing the work.</strong> The <span class="mono">xz</span> attack worked because one maintainer was carrying a critical project nearly alone. Join a makerspace, sponsor a maintainer, or answer a beginner&rsquo;s question on a forum.</li>
+  </ol>
+
+  <h2 id="code">For the technical: two small habits</h2>
+  <h3>Keep your Wi-Fi password out of your sketch</h3>
+  <p>Arduino&rsquo;s own examples use a separate secrets file for this. Put your network name and password there, include it from your sketch, and tell Git never to upload it. This works for ESP32 boards in the Arduino IDE. On a Chromebook, the Git commands run in the Linux (Crostini) terminal.</p>
+<pre class="term"><span class="d">// arduino_secrets.h  (stays on your computer, never committed)</span>
+<b>#define SECRET_SSID "my-network"</b>
+<b>#define SECRET_PASS "change-me"</b>
+
+<span class="d">// sketch.ino</span>
+<b>#include &lt;WiFi.h&gt;</b>
+<b>#include "arduino_secrets.h"</b>
+
+<b>void setup() {</b>
+<b>  WiFi.begin(SECRET_SSID, SECRET_PASS);</b>   <span class="d">// the password never appears in this file</span>
+<b>}</b>
+<b>void loop() {}</b></pre>
+<pre class="term"><span class="d"># Tell Git to ignore the secrets file</span>
+<b>echo "arduino_secrets.h" &gt;&gt; .gitignore</b>
+
+<span class="d"># Before you push, look for anything that smells like a password</span>
+<b>git grep -nIiE "pass(word)?|api[_-]?key|secret|token" -- . ':!*.md'</b>
+<span class="d"># Only the #include line should come back. Anything else, move it into the secrets file.</span></pre>
+  <p class="caption-under">If a password already went up to GitHub, deleting the file is not enough. It stays in the history. Change the password first, then clean up.</p>
+
+  <h3>Check a download before you flash it</h3>
+  <p>When a project publishes a checksum list (often called <span class="mono">SHA256SUMS</span>) and a signature next to its release files, these two commands tell you whether what you downloaded matches what the project published.</p>
+<pre class="term"><span class="d"># 1. Does the file match the project's published checksum?</span>
+<b>sha256sum -c SHA256SUMS --ignore-missing</b>
+<span class="g">firmware.bin: OK</span>
+
+<span class="d"># 2. Was the checksum list signed by the project's key?</span>
+<b>gpg --verify SHA256SUMS.asc SHA256SUMS</b>
+<span class="d"># Look for "Good signature" from a key you got from the project's own site.</span></pre>
+  <p class="caption-under">One honest limit: in the <span class="mono">xz</span> case, the poisoned release came from an account the project itself trusted. Checksums and signatures prove where a file came from. They cannot prove the person behind it is honest. That part takes people paying attention.</p>
+
+  <h2 id="open">What is still open</h2>
+  <p>I try to separate what is known from what is not, so here it is.</p>
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Claim</th><th>Status</th><th>What backs it</th></tr></thead>
+    <tbody>
+      <tr><td>How many people came on the weekend</td><td><span class="tagpill bet">Not published</span></td><td>I found only the Field Trip Day figure of about 2,500 (Mutti, 2026). No weekend total had been posted when I checked.</td></tr>
+      <tr><td>Every exhibit named here was on the floor</td><td><span class="tagpill bet">Listed</span></td><td>Taken from the faire&rsquo;s own exhibit pages, which mark locations &ldquo;subject to change&rdquo; (Maker Faire Orlando, 2026c).</td></tr>
+      <tr><td>Robot Ruckus 2026 winners</td><td><span class="tagpill bet">Not found</span></td><td>No published results turned up as of November 24.</td></tr>
+      <tr><td>The ESP32 &ldquo;backdoor&rdquo;</td><td><span class="tagpill ok">Corrected</span></td><td>Undocumented debug commands, not remotely reachable per Espressif, which committed to a fix that removes them (Espressif, 2025).</td></tr>
+      <tr><td>Arduino&rsquo;s disputed terms</td><td><span class="tagpill bet">Arduino&rsquo;s account</span></td><td>Arduino says the reverse-engineering ban covers only its cloud service (Halfacree, 2025). I could not confirm whether the wording has changed since.</td></tr>
+      <tr><td>Bambu Lab&rsquo;s cease-and-desist</td><td><span class="tagpill bet">Developer&rsquo;s account</span></td><td>Reported from the developer&rsquo;s own note; the coverage did not include a statement from Bambu Lab (Bertacchi, 2026).</td></tr>
+      <tr><td>Hobby projects are outside the Cyber Resilience Act</td><td><span class="tagpill bet">Summaries say so</span></td><td>Security-firm and foundation summaries (Checkmarx, 2026; OpenSSF, n.d.). Check the regulation itself if you sell anything in the EU.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="pullquote">You can&rsquo;t check a design you&rsquo;re not allowed to see. Go to the show and tell.</p>
+
+  <p>If you have never been to Maker Faire Orlando, watch its site for next year&rsquo;s dates, then go, and bring someone young. Talk to the makerspaces. They are where most of the people who will one day find the next <span class="mono">xz</span> are learning to take things apart.</p>
+
+  <div class="framing" style="border-left-color:var(--accent);">
+    <h3 style="color:var(--accent);">From the book</h3>
+    <p>More on hacker culture, the community, and the tools of the trade in <em>A Hacker&rsquo;s Guide to Survive</em> by Malcolm R. Smith.</p>
+    <p style="margin-bottom:0;"><a href="https://www.amazon.com/dp/B0HPMWMQMD"><strong>&#128214; Get <em>A Hacker&rsquo;s Guide to Survive</em> on Amazon &rarr;</strong></a><br>
+    Or <a href="../../book/">read Chapter 1 free</a> first.</p>
+  </div>
+
+  <h2 id="refs">Sources</h2>
+
+  <p class="refs-group">Maker Faire Orlando 2026 (checked November 24, 2026)</p>
+  <ul class="refs">
+    <li>Blakeslee, Jennifer (2026). &ldquo;Maker Faire Orlando 2026: Retro Games, Robots, and Rain or Shine DIY.&rdquo; <em>Make:</em>, November 6, 2026. <a href="https://makezine.com/article/maker-news/maker-faire-orlando-2026-retro-games-robots-and-rain-or-shine-diy/">makezine.com</a>.</li>
+    <li>Mutti, Gillian (2026). &ldquo;The Calm Before the Storm? Not in Orlando!&rdquo; <em>Make:</em>, November 7, 2026. <a href="https://makezine.com/article/maker-news/the-calm-before-the-storm-not-in-orlando/">makezine.com</a>.</li>
+    <li>Maker Faire Orlando (2026a). &ldquo;About Maker Faire Orlando.&rdquo; <a href="https://www.makerfaireorlando.com/about/">makerfaireorlando.com/about</a>.</li>
+    <li>Maker Faire Orlando (2026b). &ldquo;Field Trip Day.&rdquo; <a href="https://www.makerfaireorlando.com/field-trip-day/">makerfaireorlando.com/field-trip-day</a>.</li>
+    <li>Maker Faire Orlando (2026c). Exhibit directory and exhibit pages: <a href="https://www.makerfaireorlando.com/exhibits/">all exhibits</a>, <a href="https://www.makerfaireorlando.com/exhibits/the-ionic-age-metal-recovery-and-energy-storage-you-can-make/">The Ionic Age</a>, <a href="https://www.makerfaireorlando.com/exhibits/duinokit-hands-on-arduino-iot-learning-kits/">DuinoKit</a>, <a href="https://www.makerfaireorlando.com/exhibits/making-printers-do-weird-things/">Making Printers Do Weird Things</a>, <a href="https://www.makerfaireorlando.com/exhibits/anti-hackathon/">Anti-Hackathon</a>, <a href="https://www.makerfaireorlando.com/exhibits/tech-take-apart/">Tech Take-Apart</a>, <a href="https://www.makerfaireorlando.com/exhibits/familab/">FamiLAB</a>, <a href="https://www.makerfaireorlando.com/exhibits/tampa-hackerspace/">Tampa Hackerspace</a>, <a href="https://www.makerfaireorlando.com/exhibits/drafting-mechanix-presents/">Drafting Mechanix</a>.</li>
+    <li>Moeller, Kara (2026). Weekend roundup: things to do in Central Florida, including Maker Faire Orlando. <em>News 6 Insider / ClickOrlando</em>, November 5, 2026. <a href="https://www.clickorlando.com/insider/2026/11/05/6-things-to-do-in-central-florida-this-weekend-maker-faire-max-power-halifax-art-fest/">clickorlando.com</a>.</li>
+    <li>Zrallack, Brandi (2026). &ldquo;Maker Faire Orlando Returns November 7th and 8th.&rdquo; <em>MyCentralFloridaFamily.com</em>, October 12, 2026. <a href="https://mycentralfloridafamily.com/maker-faire-orlando-2026-family-fun/">mycentralfloridafamily.com</a>.</li>
+    <li>&ldquo;FamiLAB.&rdquo; <em>Wikipedia</em>. <a href="https://en.wikipedia.org/wiki/FamiLAB">en.wikipedia.org</a>.</li>
+  </ul>
+
+  <p class="refs-group">Open source and security</p>
+  <ul class="refs">
+    <li>Open Source Hardware Association (n.d.). &ldquo;Open Source Hardware (OSHW) Statement of Principles 1.0&rdquo; and Definition. <a href="https://oshwa.org/definition/">oshwa.org</a>.</li>
+    <li>Raymond, Eric S. (1999). <em>The Cathedral and the Bazaar.</em> O&rsquo;Reilly. <a href="http://www.catb.org/~esr/writings/cathedral-bazaar/">catb.org</a>.</li>
+    <li>CISA (2024). &ldquo;Reported Supply Chain Compromise Affecting XZ Utils Data Compression Library, CVE-2024-3094.&rdquo; March 29, 2024. <a href="https://www.cisa.gov/news-events/alerts/2024/03/29/reported-supply-chain-compromise-affecting-xz-utils-data-compression-library-cve-2024-3094">cisa.gov</a>.</li>
+    <li>&ldquo;XZ Utils backdoor.&rdquo; <em>Wikipedia</em>. <a href="https://en.wikipedia.org/wiki/XZ_Utils_backdoor">en.wikipedia.org</a>.</li>
+    <li>Garcia, F. D., de Koning Gans, G., Muijrers, R., van Rossum, P., Verdult, R., Wichers Schreur, R., and Jacobs, B. (2008). &ldquo;Dismantling MIFARE Classic.&rdquo; <em>Computer Security &ndash; ESORICS 2008</em>, Lecture Notes in Computer Science 5283, pp. 97&ndash;114. Springer. <a href="https://sos.cs.ru.nl/applications/rfid/2008-esorics.pdf">sos.cs.ru.nl (PDF)</a>.</li>
+    <li>Espressif Systems (2025). Statement responding to the undocumented ESP32 Bluetooth commands report. March 10, 2025. <a href="https://www.espressif.com/en/news/response_esp32_bluetooth">espressif.com</a>. Follow-up advisory AR2025-004 (CVE-2025-27840): <a href="https://documentation.espressif.com/AR2025-004_Security_Advisory_Follow-Up_Updates_and_Fixes_Regarding_ESP32_Undocumented_Bluetooth_Commands_en.pdf">documentation.espressif.com (PDF)</a>.</li>
+    <li>GitGuardian (2025). &ldquo;The State of Secrets Sprawl 2025.&rdquo; March 11, 2025. <a href="https://blog.gitguardian.com/the-state-of-secrets-sprawl-2025/">blog.gitguardian.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">Keeping open things open</p>
+  <ul class="refs">
+    <li>Proven, Liam (2025). &ldquo;Makers slam Qualcomm for tightening the clamps on Arduino.&rdquo; <em>The Register</em>, November 21, 2025. <a href="https://www.theregister.com/2025/11/21/adafruit_makers_unhappy_with_arduino">theregister.com</a>.</li>
+    <li>Halfacree, Gareth (2025). &ldquo;Arduino Clarifies Terms and Conditions Following Backlash: &lsquo;Anything That Was Open, Stays Open.&rsquo;&rdquo; <em>Hackster.io</em>, November 2025. <a href="https://www.hackster.io/news/arduino-clarifies-terms-and-conditions-following-backlash-anything-that-was-open-stays-open-645e9ee9a51e">hackster.io</a>.</li>
+    <li>Posch, Maya (2025). &ldquo;Bambu Lab Tries To Clarify Its New Beta Authentication Scheme.&rdquo; <em>Hackaday</em>, January 20, 2025. <a href="https://hackaday.com/2025/01/20/bambu-lab-tries-to-clarify-its-new-beta-authentication-scheme">hackaday.com</a>.</li>
+    <li>Bertacchi, Denise (2026). &ldquo;Developer re-enables 3D printer features that Bambu Lab disabled, firm promptly threatens legal action.&rdquo; <em>Tom&rsquo;s Hardware</em>, April 29, 2026. <a href="https://www.tomshardware.com/3d-printing/developer-re-enables-3d-printer-features-that-bambu-lab-disabled-firm-promptly-threatens-legal-action-orcaslicer-bambulab-project-now-shuttered">tomshardware.com</a>.</li>
+    <li>Open Source Security Foundation (n.d.). &ldquo;The CRA Stewards One Pager.&rdquo; <a href="https://policy.openssf.org/CRA/stewards-one-pager.html">policy.openssf.org</a>.</li>
+    <li>Checkmarx (2026). &ldquo;The Cyber Resilience Act&rsquo;s new reporting obligations are active: what you should know.&rdquo; October 1, 2026. <a href="https://checkmarx.com/zero-post/the-cyber-resilience-acts-new-reporting-obligations-are-active-what-you-should-know.md">checkmarx.com</a>.</li>
+    <li>European Union (2024). Regulation (EU) 2024/2847, the Cyber Resilience Act. <a href="https://eur-lex.europa.eu/eli/reg/2024/2847/oj">eur-lex.europa.eu</a>.</li>
+  </ul>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC. He builds software as a prompt engineer on a used Chromebook, and is the author of <em>A Hacker&rsquo;s Guide to Survive</em>.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
