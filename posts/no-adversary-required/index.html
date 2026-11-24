@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No Adversary Required: A Research Read of the November 2026 Outage Wave</title>
+<meta name="description" content="Between November 12 and 17, 2026, Microsoft 365, the FAA, Workday, AWS, Chase, United, Apple and the NSA all went down. Almost none of it was an attack. A research read through metastable failure, gray failure and dependency concentration, and how attackers moved into the gap.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="No Adversary Required: A Research Read of the November 2026 Outage Wave">
+<meta property="og:description" content="Nine organizations, six days, almost no attackers. Metastable failure in Microsoft's gateway, a router flood that grounded US aviation, and the phishing crews who moved into the gap. With scholarly sources.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/no-adversary-required/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/no-adversary-required/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="No Adversary Required: a shared dependency at the center of a network, with mail, air traffic control, payroll, cloud, bank, airline, iCloud and intelligence services failing around it.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/no-adversary-required/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Research">
+<meta property="article:published_time" content="2026-11-24">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="No Adversary Required: A Research Read of the November 2026 Outage Wave">
+<meta name="twitter:description" content="Metastable failure, a router flood that grounded US aviation, and the attackers who move into the gap. With scholarly sources.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/no-adversary-required/assets/cover.png">
+<meta name="twitter:image:alt" content="No Adversary Required: a shared dependency at the center of a network of failing services.">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/no-adversary-required/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0d110d url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#d7cbb0; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.8rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term .g{color:#86efac;} pre.term .a{color:#f0b429;} pre.term .r{color:#f08c7a;}
+  pre.term .b{color:#7fa6c2;} pre.term .d{color:#7d7363;} pre.term b{color:#e8e5d8; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .ledger{width:100%; border-collapse:collapse; margin:20px 0 8px; font-size:.9rem;}
+  .ledger th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:8px 10px; border-bottom:2px solid var(--rule); vertical-align:bottom;}
+  .ledger td{padding:11px 10px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.5;}
+  .ledger td:first-child{font-weight:700;}
+  .tagpill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:3px; white-space:nowrap;}
+  .tagpill.ok{background:rgba(22,101,52,.16); color:var(--term); border:1px solid rgba(22,101,52,.4);}
+  .tagpill.bet{background:rgba(168,106,34,.14); color:var(--accent); border:1px solid rgba(168,106,34,.4);}
+  .tablewrap{overflow-x:auto;}
+
+  .getcode{
+    background:var(--card); border:1px solid var(--accent); border-radius:6px;
+    padding:22px 24px; margin:26px 0 30px;
+  }
+  .getcode h3{margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
+  .getcode p{margin:0 0 12px; font-size:.96rem;} .getcode p:last-child{margin-bottom:0;}
+  .getcode .files{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--muted);}
+  .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.78rem; font-weight:600; text-decoration:none;
+    color:var(--bg); background:var(--accent2); border-radius:6px; padding:9px 16px; display:inline-block;
+  }
+  .btn.alt{background:transparent; color:var(--accent2); border:1px solid var(--accent2);}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="No Adversary Required: a shared dependency at the center of a network of failing services."></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Research</p>
+  <h1>No Adversary Required</h1>
+  <p class="dek">Between November 12 and 17, 2026, email, air traffic control, payroll, cloud sign-in, banking, an airline, Apple and the NSA all went down. Almost none of it was an attack. A research read of the outage wave, and of the attackers who moved into the gap.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; November 24, 2026</p>
+
+  <div class="partnav mono">
+    <a href="#wave">1 &middot; The wave</a>
+    <a href="#faa">2 &middot; The router flood</a>
+    <a href="#msft">3 &middot; The gateway loop</a>
+    <a href="#lit">4 &middot; What the research says</a>
+    <a href="#adversary">5 &middot; The adversary in the gap</a>
+    <a href="#attribution">6 &middot; Attribution discipline</a>
+    <a href="#cluster">7 &middot; Why clusters happen</a>
+    <a href="#agenda">8 &middot; What to do</a>
+    <a href="#open">Still open</a>
+    <a href="#refs">Sources</a>
+  </div>
+
+  <div class="framing">
+    <h3>Abstract</h3>
+    <p>In six days, at least nine organizations reported significant outages. The largest, Microsoft 365, ran 23 hours and 50 minutes. The most dramatic, a nationwide FAA ground stop, was the longest since September 11, 2001. Every organization that gave a cause blamed something internal: a latent defect, a router, an update, maintenance. The one confirmed cyberattack in the window, at Equinor, did not touch production.</p>
+    <p>This piece reads the two best-documented incidents against the systems literature. The Microsoft gateway collapse fits the <em>metastable failure</em> model of Bronson et al. (2021) and Huang et al. (2022) almost line for line, including both trigger types. The FAA event is a textbook failure-domain problem: one edge change reached 17 of 22 en route centers. Neither needed an adversary. Adversaries showed up anyway, within hours, as phishing that quoted Microsoft&rsquo;s real incident number.</p>
+    <p>The argument: for most organizations, the outage itself is not the security event. The confusion around it is.</p>
+  </div>
+
+  <h2 id="wave">1 &middot; The wave</h2>
+
+  <p>It started on Thursday, November 12, when Microsoft&rsquo;s networking gateway for Microsoft 365 began falling over. By Tuesday the 17th the list had grown to include the FAA, Workday, Amazon Web Services, JPMorgan Chase, United Airlines, Apple, the NSA&rsquo;s classified internal network and the Norwegian energy company Equinor. DarkOwl&rsquo;s weekly roundup summed up the uncomfortable part: almost none of these were reported as attacks, and the companies involved blamed config changes, buggy hardware and aging copper (DarkOwl, 2026).</p>
+
+  <figure>
+    <img src="assets/fig-wave-timeline.svg" alt="Timeline chart of nine outages from November 12 to 17, 2026: Microsoft 365, FAA, Workday, AWS us-east-1, JPMorgan Chase, United Airlines, Apple, NSA Net and Equinor, colored by stated cause.">
+    <figcaption>Six days, nine incidents. Only Equinor was a confirmed attack. Durations are as published or as computed by FourWeekMBA from published times; windows are drawn in UTC.
+      <span class="credit">Chart: Savvy Security LLC, from Microsoft (2026), FAA statements via Axios (2026), FourWeekMBA (2026), Pillitteri (2026) and DarkOwl (2026).</span></figcaption>
+  </figure>
+
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Date (2026)</th><th>Organization</th><th>Impact</th><th>Stated cause</th></tr></thead>
+    <tbody>
+      <tr><td>Nov 12&ndash;13</td><td>Microsoft 365</td><td>Exchange Online mailboxes unreachable worldwide; Teams, Copilot, Defender and others degraded. 23 h 50 m.</td><td>Latent gateway defect, traffic surge and missing capacity (Microsoft, 2026).</td></tr>
+      <tr><td>Nov 13</td><td>FAA</td><td>Nationwide ground stop, 4 h 21 m. About 12,000 flights not operated.</td><td>New router flooded the FAA telecom network during copper-to-fiber work (Axios, 2026; AIAA, 2026).</td></tr>
+      <tr><td>Nov 13&ndash;14</td><td>Workday</td><td>HR and payroll, about 18 hours, two data centers.</td><td>Not cybersecurity-related, per Workday (FourWeekMBA, 2026).</td></tr>
+      <tr><td>Nov 15</td><td>AWS us-east-1</td><td>IAM Identity Center sign-in, sign-ups and some connections failed for about three hours.</td><td>None given (Pillitteri, 2026).</td></tr>
+      <tr><td>Nov 16</td><td>JPMorgan Chase</td><td>Online banking lockouts, about 8.6 hours.</td><td>A software bug in on-premise hardware (FourWeekMBA, 2026).</td></tr>
+      <tr><td>Nov 16</td><td>United Airlines</td><td>About 1.5 hours; pilot weight-and-balance tools affected.</td><td>Technology issue, not cyber (DarkOwl, 2026).</td></tr>
+      <tr><td>Nov 17</td><td>Apple</td><td>iCloud sign-in, App Store, Music, Pay and others.</td><td>Internal update; not a cyberattack (FourWeekMBA, 2026).</td></tr>
+      <tr><td>Nov 17</td><td>NSA Net</td><td>Classified internal communications degraded.</td><td>Scheduled maintenance (FourWeekMBA, 2026).</td></tr>
+      <tr><td>Nov 17</td><td>Equinor</td><td>Certain IT systems; production unaffected.</td><td><span class="tagpill bet">Cyberattack</span> confirmed by Equinor (FourWeekMBA, 2026).</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="caption-under">Schwab, Marriott, the National Weather Service and NTT Docomo also reported problems in the same window (DarkOwl, 2026; IBTimes UK, 2026). I have left them out where causes or durations were not published.</p>
+
+  <p>For scale: the background rate of outages is high. ThousandEyes counted 419 global network outage events across ISPs, cloud, collaboration and edge networks in the week of November 9&ndash;15, and 450 the week before (Network World, 2026a). Most never make the news. The difference this week was that several hit services ordinary people touch every day, back to back, and the press started keeping a list.</p>
+
+  <h2 id="faa">2 &middot; Case study A: the router flood</h2>
+
+  <p>At about 3:30 PM Eastern on Friday, November 13, multiple FAA Air Route Traffic Control Centers started losing communications, radio frequencies and radar (GovInfoSecurity, 2026). The FAA called a nationwide ground stop and lifted it at 8:15 PM, the longest nationwide ground stop since the 2001 attacks (Business Traveller, 2026).</p>
+
+  <p>The FAA&rsquo;s own account is unusually specific. Its network was flooded at a rate of 1,000 connection attempts every 4 to 5 seconds, which destabilized aircraft communications and radar feeds (Axios, 2026). Investigators traced the traffic to two sites: a radio facility in El Dorado, Arkansas, where contractor L3Harris had just installed a new Juniper router as part of a copper-to-fiber conversion, and a radar site in Amarillo, Texas (KATV, 2026; AVweb, 2026). The instability reached 17 of the FAA&rsquo;s 22 en route centers and spread into several approach control facilities (AeroCorner, 2026). The FAA disabled both routers and roughly 60 others as a precaution, and paused new router installs (ABC17, 2026; Fox 5 Atlanta, 2026).</p>
+
+  <figure>
+    <img src="assets/fig-faa-blast-radius.svg" alt="Diagram: two edge routers in El Dorado, Arkansas and Amarillo, Texas flood the FAA FTI backbone, which destabilizes 17 of 22 en route centers. Result: a 4 hour 21 minute nationwide ground stop.">
+    <figcaption>Two edge devices, one shared backbone, most of the national en route system. One reporter notes the 17-of-22 figure rests on a paraphrase of the FAA Administrator rather than a published transcript (GovInfoSecurity, 2026).
+      <span class="credit">Diagram: Savvy Security LLC, after FAA and DOT statements as reported by Axios, KATV, AVweb and ABC17.</span></figcaption>
+  </figure>
+
+  <div class="secread">
+    <span class="tag">Research read</span>
+    <p><strong>The rate is small. The blast radius is not.</strong> A thousand connection attempts every four to five seconds works out to roughly 200&ndash;250 attempts per second. Modern carrier gear shrugs that off. That the legacy backbone did not points to control-plane exhaustion on old equipment, plus the absence of per-port connection rate limits or control-plane policing at the edge that would have kept one misbehaving device inside its own failure domain. This is my inference from the published numbers, not an FAA finding.</p>
+    <p><strong>Transition periods are attack surface.</strong> A TDM-to-IP migration means two network generations run side by side, with assumptions from the old one (few devices, trusted links, little chatter) meeting behavior from the new one. The Amarillo router had reportedly been in place about three weeks before it joined the flood (Aviation Outlook, 2026). That is a latent condition waiting for a trigger, the same shape as the Microsoft incident below.</p>
+  </div>
+
+  <p>Attribution moved fast here, and in the right direction. The FBI gave technical help but said it had not taken possession of any equipment (Fox 5 Atlanta, 2026). Officials ruled out hackers and AI, which mattered because the FAA had extended its AI-assisted traffic planning platform, SMART, to all 22 en route centers just three days earlier (BankInfoSecurity, 2026). That is exactly the kind of coincidence that fuels bad theories, and exactly why section 6 exists.</p>
+
+  <h2 id="msft">3 &middot; Case study B: the gateway loop</h2>
+
+  <p>I covered the Microsoft 365 outage for a general audience in <a href="../the-front-door-fell-over/">The Front Door Fell Over</a>. Here is the short version for researchers, built from Microsoft&rsquo;s preliminary Post Incident Report for EX1550543 / MO1550821, dated November 15 (Microsoft, 2026).</p>
+
+  <ul>
+    <li><strong>Latent precondition.</strong> A fix for the Microsoft 365 networking gateway servers, deployed from July, contained lock contention in an internal Windows process that could exhaust CPU and memory under certain load. Lab load tests missed it because their traffic mix and hardware were not representative; the contention gets worse on machines with more cores and newer hardware.</li>
+    <li><strong>Load trigger.</strong> About 15 hours before the outage, automated failover moved Teams traffic onto the primary gateway that also fronts Exchange Online.</li>
+    <li><strong>Capacity trigger.</strong> Nearly 14% of gateway capacity was already out of service for an unrelated reason.</li>
+    <li><strong>Amplification.</strong> As servers stopped responding, automatic redirection pushed their load onto the survivors, which then failed too. The defect reached much of the fleet in under two hours; at the low point more than 80% of servers were unresponsive. Regional bulkheads failed because of &ldquo;a separate issue&rdquo; the preliminary report does not describe.</li>
+    <li><strong>Sticky recovery.</strong> Restored servers stayed healthy briefly, then failed again as soon as they took traffic. Rollback, flighting and feature flags could not quickly revert a three-month-old change. Engineers ended up patching and returning servers in batches, sometimes half a region at a time.</li>
+  </ul>
+
+  <figure>
+    <img src="assets/fig-metastable-loop.svg" alt="Diagram mapping the Microsoft 365 outage to a metastable failure: a load trigger and a capacity trigger on top of a latent defect start a loop of saturation, failed health checks, traffic redirection and client retries, with more than 80% of servers down.">
+    <figcaption>Two triggers, one latent defect, and a loop that kept running after the triggers were gone. The interpretation is mine; Microsoft&rsquo;s report does not use the word &ldquo;metastable.&rdquo;
+      <span class="credit">Diagram: Savvy Security LLC, after Microsoft (2026), Bronson et al. (2021) and Huang et al. (2022).</span></figcaption>
+  </figure>
+
+  <p>Two things in the analysis around the report are worth a researcher&rsquo;s attention. First, the warning signs were there. Frank Dickson of Dickson Research pointed out that automation quietly absorbed isolated server failures for about 15 hours, and the high-priority alert fired only after the problem had grown (Network World, 2026b). Second, Mike Wilkes of Aikido Security noted that Microsoft&rsquo;s status page depended on the same infrastructure that failed (Network World, 2026b). Both are textbook cases from the literature in the next section.</p>
+
+  <p class="pullquote">The triggers were gone by evening. The failure was not. That is the signature of metastability.</p>
+
+  <h2 id="lit">4 &middot; What the research says</h2>
+
+  <h3>Metastable failures</h3>
+  <p>Bronson, Aghayev, Charapko and Zhu (2021) gave a name to a pattern operators had been calling retry storms, death spirals and persistent congestion. A metastable failure is a state of permanent overload with very low goodput that persists after the trigger that caused it is removed. The system has a stable &ldquo;good&rdquo; state and a stable &ldquo;bad&rdquo; one, and a temporary push can tip it from one to the other.</p>
+  <p>Huang et al. (2022) went looking for these in the wild. Scanning more than 600 public incident reports, they studied 22 metastable failures in depth and found that at least 4 of 15 major AWS outages in the preceding decade were metastable. They refined the model into two kinds of trigger, load spikes and capacity drops, and two kinds of amplification, extra work (retries, timeouts) and further capacity loss. The Microsoft incident has <em>both</em> triggers, the Teams failover and the 14% capacity hole, and both amplifiers, client reconnects and servers locking up under redistributed load. Very few public postmortems map this cleanly onto the taxonomy.</p>
+
+  <p>To make the mechanism concrete, I wrote a small simulation. It is a toy, not a model of Microsoft&rsquo;s fleet: 100 servers, a one-hour trigger that combines a 25% load increase with 14% of capacity offline, and lock-contention-style efficiency loss when a server is pushed past capacity. Policy A retries immediately and keeps rebalancing onto survivors. Policy B uses jittered backoff, lets clients give up, and has servers shed excess load quickly instead of accepting it.</p>
+
+  <figure>
+    <img src="assets/fig-metastable-sim.png" alt="Two-panel line chart from a toy simulation. With immediate retries, requests served drop to zero during a one-hour trigger and never recover, while healthy servers oscillate between 0 and about 40. With backoff and load shedding, service dips to about 91% during the trigger and returns to 100% immediately after.">
+    <figcaption>Same trigger, same fleet. Policy A never recovers after the trigger ends at minute 120, and its servers keep coming back and falling over, which is what Microsoft saw. Policy B dips and returns. Parameters are illustrative.
+      <span class="credit">Simulation and chart: Savvy Security LLC. Source code: <a href="assets/metastable_sim.py">metastable_sim.py</a>.</span></figcaption>
+  </figure>
+
+  <pre class="term"><span class="d"># the two lines that decide which world you live in (from metastable_sim.py)</span>
+<span class="b">if</span> policy == <span class="a">"A"</span>:
+    retries = backlog * <span class="r">1.0</span>                      <span class="d"># everyone retries at once</span>
+<span class="b">else</span>:
+    retries = backlog * rnd.uniform(<span class="g">0.15</span>, <span class="g">0.35</span>)  <span class="d"># jittered backoff</span>
+...
+<span class="b">if</span> policy == <span class="a">"B"</span> <span class="b">and</span> per &gt; <span class="g">0.95</span>:
+    accepted = <span class="g">0.95</span> * healthy                 <span class="d"># shed, don't drown</span></pre>
+  <p class="caption-under">Run it yourself: <span class="mono">python3 metastable_sim.py out.json</span>. Standard library only.</p>
+
+  <h3>Gray failure and differential observability</h3>
+  <p>Huang, Guo, Zhou and colleagues at Microsoft Research and Azure argued in 2017 that the big cloud breakdowns tend to come from subtle faults that defy quick detection, not clean crashes. Their key concept is <em>differential observability</em>: the system&rsquo;s own failure detectors can report healthy while the applications using it are suffering (Huang et al., 2017). They wrote from first-hand Azure experience that gray failure was behind most of the cloud incidents they saw.</p>
+  <p>The November gateway outage has two clear instances. For 15 hours, automation saw individual server failures as routine and handled them, while the fleet drifted toward collapse. Then, during recovery, servers passed health checks and failed the moment real traffic arrived. In both cases the detector and the client disagreed about what &ldquo;healthy&rdquo; meant.</p>
+
+  <h3>Outages are mostly self-inflicted, and that is old news</h3>
+  <p>Gunawi et al. (2016) built a cloud outage study from public reports covering 32 popular internet services and catalogued root causes, durations and fixes. Upgrades, configuration changes and load surges recur throughout the catalogue. The lesson I take from it is that redundancy and failover protect you from broken parts, not from bad changes to the machinery that manages those parts. November 2026 is a fresh dataset for the same conclusion: a fix, a failover, an install, an update, a maintenance window.</p>
+
+  <h3>Concentration turns local faults into national ones</h3>
+  <p>Kashaf, Sekar and Agarwal (2020) measured how the Alexa top 100,000 websites depend on third-party DNS, CDN and certificate authority providers. They found 89% critically depend on at least one such provider, that the top three providers in each category could affect 50&ndash;70% of those sites, and that indirect dependencies (a CDN that relies on someone else&rsquo;s DNS, for example) amplify a popular provider&rsquo;s reach by up to 25 times. Kumar et al. (2021) extended this kind of analysis across countries and found centralization concerns go well beyond the US.</p>
+  <p>The FAA backbone and Microsoft&rsquo;s gateway are the private-network versions of the same finding. The FTI network is one contractor-run backbone for the national airspace. Exchange Online could not fail away from the affected gateway &ldquo;for scale reasons,&rdquo; while Teams, SharePoint and OneDrive could (Microsoft, 2026). Concentration is not a bug someone forgot to fix. It is what scale buys, and the bill arrives as blast radius.</p>
+
+  <h2 id="adversary">5 &middot; The adversary in the gap</h2>
+
+  <p>No attacker caused the Microsoft outage. Attackers used it anyway, and fast. On November 13, while recovery was still under way, Microsoft Threat Intelligence observed a credential phishing campaign posing as Microsoft 365 service-health notices. The emails cited <strong>EX1550543</strong>, the real incident ID, claimed that messages held during the disruption would be deleted within 24 hours, and pushed a large &ldquo;RESTORE MESSAGES&rdquo; button (SecurityWeek, 2026; CSO Online, 2026; Fortra, 2026). Field Effect reported outage-themed texts and fake IT support calls alongside the emails (Field Effect, 2026).</p>
+
+  <div class="secread">
+    <span class="tag">Research read</span>
+    <p><strong>Real incident IDs are a credibility exploit.</strong> Service incident identifiers are published on status pages and repeated in hundreds of news stories. An attacker who quotes one borrows the authority of the real incident. Users had been told all day that EX1550543 was real; the lure was built on top of that.</p>
+    <p><strong>Outages degrade the defender, too.</strong> When email is down, help desks are flooded, users expect odd messages, and security teams lose their usual channels. Defender, part of Microsoft&rsquo;s own security stack, was in the list of affected services (Microsoft, 2026). An outage is a window of reduced detection and increased user compliance, whether or not anyone planned it.</p>
+  </div>
+
+  <p>The same week carried real security news that competed for the same attention. DarkOwl&rsquo;s roundup lists an exploited Outlook zero-day (CVE-2026-124194) that leaks a victim&rsquo;s NTLMv2 hash when a crafted message file is opened, added to CISA&rsquo;s Known Exploited Vulnerabilities catalog with a <strong>November 24</strong> remediation deadline, which is today. It also lists an exploited Chrome use-after-free, a CVSS 9.8 Apache HTTP Server RCE, and supply-chain compromises at Optimizely and ConnectWise ScreenConnect (DarkOwl, 2026). Every hour spent on an outage that turned out to be a router is an hour not spent on those.</p>
+
+  <p>Then there is the information layer. A viral claim that the internet would be switched off on November 17 traced back to a single anonymous post and was debunked by Ukraine&rsquo;s Center for Countering Disinformation (TopTen Media, 2026). After the wave, posts warning that America would &ldquo;go dark&rdquo; in 15 days spread using the list of real outages as evidence (IBTimes UK, 2026). Outage clusters are raw material for influence operations whether or not any adversary touched a server.</p>
+
+  <p>Warnings are good; queries are better. If you run Microsoft Defender for Office 365, something like this finds lures that lean on real incident IDs or the &ldquo;held messages&rdquo; story. Adjust the sender allowlist to the domains your tenant genuinely receives service notices from.</p>
+
+  <pre class="term"><span class="d">// KQL: outage-themed lures, Defender for Office 365 advanced hunting</span>
+<b>EmailEvents</b>
+| <span class="b">where</span> Timestamp &gt; datetime(<span class="a">2026-11-12</span>)
+| <span class="b">where</span> Subject <span class="b">has_any</span> (<span class="a">"EX1550543"</span>, <span class="a">"MO1550821"</span>)
+     <span class="b">or</span> Subject <span class="b">matches regex</span> <span class="a">@"(?i)(held|pending|quarantined)\s+(messages|emails)"</span>
+| <span class="b">where</span> SenderFromDomain <span class="b">!in~</span> (<span class="g">dynamic(["your-verified-notice-domains"])</span>)
+| <span class="b">join kind=leftouter</span> (<b>EmailUrlInfo</b> | <span class="b">project</span> NetworkMessageId, UrlDomain) <span class="b">on</span> NetworkMessageId
+| <span class="b">summarize</span> recipients=dcount(RecipientEmailAddress), urls=make_set(UrlDomain)
+            <span class="b">by</span> SenderFromAddress, Subject, DeliveryAction</pre>
+  <p class="caption-under">A starting point, not a finished rule. Generalize the incident IDs into a watchlist you update whenever a provider you depend on opens a major incident.</p>
+
+  <h2 id="attribution">6 &middot; Attribution discipline</h2>
+
+  <p>The most common question I got that week was some version of &ldquo;Is this a cyberattack?&rdquo; It is the right question asked at the wrong time. In the first hours, nobody outside the affected organization knows, and the organization often does not know either. Here is the evidence ladder I use, from weakest to strongest.</p>
+
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Signal</th><th>Weight</th><th>November example</th></tr></thead>
+    <tbody>
+      <tr><td>Several outages close together</td><td><span class="tagpill bet">Weak</span></td><td>The whole wave. Clusters happen without coordination (section 7).</td></tr>
+      <tr><td>Early vendor statement &ldquo;no indication of malicious activity&rdquo;</td><td><span class="tagpill bet">Moderate</span></td><td>Microsoft, Apple, Chase and United all said this early. Useful, but early statements are sometimes revised.</td></tr>
+      <tr><td>Mechanism published with specifics</td><td><span class="tagpill ok">Strong</span></td><td>FAA&rsquo;s connection rate and named sites; Microsoft&rsquo;s three-factor PIR with timestamps.</td></tr>
+      <tr><td>Behavior that fits the mechanism</td><td><span class="tagpill ok">Strong</span></td><td>Microsoft&rsquo;s recovery re-failure matches a metastable loop; a flood that stopped when two routers were disabled matches a device fault.</td></tr>
+      <tr><td>Law enforcement posture</td><td><span class="tagpill ok">Supporting</span></td><td>FBI assisting at the FAA but seizing no hardware.</td></tr>
+      <tr><td>Explicit attack disclosure</td><td><span class="tagpill ok">Strong</span></td><td>Equinor said plainly it had detected an ongoing cyberattack.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The asymmetry matters. A wrong &ldquo;attack&rdquo; call sends incident responders chasing ghosts and hands influence operators a story. A wrong &ldquo;just an outage&rdquo; call can miss something like the 2016 Mirai attack on Dyn, which looked like an outage to most of the internet. Hold both hypotheses, and let mechanism evidence, not timing, move you.</p>
+
+  <h2 id="cluster">7 &middot; Why clusters happen without a conspiracy</h2>
+
+  <p>These are hypotheses, not findings. Each is testable with outage data like the ThousandEyes series, and I would like to see someone do it.</p>
+  <ol class="lessons">
+    <li><strong>Change seasonality.</strong> Changes cluster in time. Patch Tuesday landed on November 10 with a very large release, the Microsoft outage began two days later (Krebs on Security, 2026), and many organizations push work before year-end change freezes. More changes in the same weeks means more latent defects meeting their triggers in the same weeks. The Microsoft defect itself was not part of Patch Tuesday, which is a useful caution against reading too much into timing.</li>
+    <li><strong>Reporting bias.</strong> After a headline outage, journalists and the public watch for more, so smaller incidents that would normally pass unnoticed become stories. The underlying rate barely moved (419 events that week versus 450 the week before), but the attention did.</li>
+    <li><strong>Hidden shared dependencies.</strong> Some incidents may share a component nobody has disclosed: a vendor, a firmware line, an upstream network. None of the published causes this month point to one, but Kashaf et al. (2020) showed how often indirect dependencies are invisible until they fail.</li>
+    <li><strong>Base rates.</strong> At hundreds of global outage events per week, a week with several famous ones is not rare enough by itself to need an explanation.</li>
+  </ol>
+
+  <h2 id="agenda">8 &middot; What to do with this</h2>
+
+  <h3>For defenders</h3>
+  <ol class="lessons">
+    <li><strong>Treat a provider outage as a phishing alert.</strong> When a provider you depend on opens a major incident, push a short notice to staff: the provider will not ask you to restore messages or sign in through an email link; check status through a bookmarked page.</li>
+    <li><strong>Keep an out-of-band channel.</strong> Your incident comms should not live only on the platform that is down. Microsoft&rsquo;s own status page shared fate with the outage (Network World, 2026b).</li>
+    <li><strong>Inventory your concentration.</strong> You cannot measure risk you have not mapped. Start with the DNS and CDN providers behind your own domains:</li>
+  </ol>
+
+  <pre class="term"><span class="d"># who does my business actually depend on? (Kashaf et al. style, crude)</span>
+<span class="b">while</span> read d; <span class="b">do</span>
+  echo <span class="a">"== $d"</span>
+  echo <span class="a">"  NS:    $(dig +short NS $d | tr '\n' ' ')"</span>
+  echo <span class="a">"  MX:    $(dig +short MX $d | tr '\n' ' ')"</span>
+  echo <span class="a">"  www -> $(dig +short CNAME www.$d)"</span>
+<span class="b">done</span> &lt; domains.txt</pre>
+  <p class="caption-under">If every line ends at the same two or three companies, that is your blast radius.</p>
+
+  <h3>For builders</h3>
+  <ol class="lessons">
+    <li><strong>Retry with backoff, jitter and a budget.</strong> The simulation above is the whole argument. Brooker (2019) covers the practice; the Google SRE book chapter on cascading failures covers the theory (Ulrich, 2016).</li>
+    <li><strong>Shed load early and cheaply.</strong> A fast rejection is better than a slow acceptance that drags the server under. Admission control is what kept Policy B alive.</li>
+    <li><strong>Rate-limit the control plane at the edge.</strong> One device should not be able to send a national backbone more connection attempts than it can absorb. Per-port and per-peer limits keep a fault in its own failure domain.</li>
+    <li><strong>Test on production-shaped hardware and traffic.</strong> Microsoft&rsquo;s defect hid because the test fleet had fewer cores than production (Microsoft, 2026).</li>
+    <li><strong>Make automation report patterns, not just fix events.</strong> Fifteen hours of quietly replaced servers was a signal. Healing that hides a trend is gray failure by design.</li>
+    <li><strong>Practice the fleet-wide recovery.</strong> Microsoft said its automated recovery was not designed for an outage this broad. Recovery from a metastable state usually needs traffic held back, not just servers restarted.</li>
+  </ol>
+
+  <h3>For researchers</h3>
+  <p>Open questions I think are worth a paper: measuring how quickly outage-themed lures appear after public incident IDs are posted; whether change-freeze calendars predict outage clustering in the ThousandEyes or Cloud Uptime Archive data (Cloud Uptime Archive, 2025); and how often vendor &ldquo;not an attack&rdquo; statements are later revised.</p>
+
+  <h2 id="open">Still open</h2>
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Question</th><th>Status</th><th>What we have</th></tr></thead>
+    <tbody>
+      <tr><td>Why Microsoft&rsquo;s regional bulkheads failed</td><td><span class="tagpill bet">Unknown</span></td><td>The preliminary report cites only a separate issue. A final report was due November 20; I have not seen a public copy, so this piece relies on the preliminary one.</td></tr>
+      <tr><td>Faulty router or installation error at the FAA</td><td><span class="tagpill bet">Under investigation</span></td><td>Officials have not said which (Business Traveller, 2026).</td></tr>
+      <tr><td>Cause of the AWS us-east-1 incident</td><td><span class="tagpill bet">Not published</span></td><td>AWS gave no cause in its updates (Pillitteri, 2026).</td></tr>
+      <tr><td>Any shared cause across the wave</td><td><span class="tagpill ok">No evidence</span></td><td>Every published cause is internal and different. Officials say the incidents are unrelated.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>I will update this post as final reports land.</p>
+
+  <p class="pullquote">The outage is rarely the security event. The confusion around it is.</p>
+
+  <div class="framing" style="border-left-color:var(--accent);">
+    <h3 style="color:var(--accent);">From the book</h3>
+    <p>More on incidents that changed how we build and defend systems in <em>A Hacker&rsquo;s Guide to Survive</em> by Malcolm R. Smith.</p>
+    <p style="margin-bottom:0;"><a href="https://www.amazon.com/dp/B0HPMWMQMD"><strong>&#128214; Get <em>A Hacker&rsquo;s Guide to Survive</em> on Amazon &rarr;</strong></a><br>
+    Or <a href="../../book/">read Chapter 1 free</a> first.</p>
+  </div>
+
+  <h2 id="refs">Sources</h2>
+
+  <p class="refs-group">Peer-reviewed and scholarly</p>
+  <ul class="refs">
+    <li>Bronson, N., Aghayev, A., Charapko, A., &amp; Zhu, T. (2021). Metastable failures in distributed systems. <em>Proceedings of the Workshop on Hot Topics in Operating Systems (HotOS &rsquo;21)</em>, ACM. <a href="https://doi.org/10.1145/3458336.3465286">doi:10.1145/3458336.3465286</a>.</li>
+    <li>Huang, L., Magnusson, M., Muralikrishna, A. B., Estyak, S., Isaacs, R., Aghayev, A., Zhu, T., &amp; Charapko, A. (2022). Metastable failures in the wild. <em>16th USENIX Symposium on Operating Systems Design and Implementation (OSDI 22)</em>. <a href="https://www.usenix.org/conference/osdi22/presentation/huang-lexiang">usenix.org</a>.</li>
+    <li>Huang, P., Guo, C., Zhou, L., Lorch, J. R., Dang, Y., Chintalapati, M., &amp; Yao, R. (2017). Gray failure: The Achilles&rsquo; heel of cloud-scale systems. <em>Proceedings of HotOS &rsquo;17</em>, 150&ndash;155. <a href="https://doi.org/10.1145/3102980.3103005">doi:10.1145/3102980.3103005</a>.</li>
+    <li>Gunawi, H. S., Hao, M., Suminto, R. O., Laksono, A., Satria, A. D., Adityatama, J., &amp; Eliazar, K. J. (2016). Why does the cloud stop computing? Lessons from hundreds of service outages. <em>Proceedings of the Seventh ACM Symposium on Cloud Computing (SoCC &rsquo;16)</em>, 1&ndash;16. <a href="https://doi.org/10.1145/2987550.2987583">doi:10.1145/2987550.2987583</a>.</li>
+    <li>Kashaf, A., Sekar, V., &amp; Agarwal, Y. (2020). Analyzing third party service dependencies in modern web services: Have we learned from the Mirai-Dyn incident? <em>ACM Internet Measurement Conference (IMC &rsquo;20)</em>. <a href="https://doi.org/10.1145/3419394.3423664">doi:10.1145/3419394.3423664</a>.</li>
+    <li>Kumar, R., Asif, S., Lee, E., &amp; Bustamante, F. E. (2021). Third-party service dependencies and centralization around the world. arXiv:2111.12253. <a href="https://arxiv.org/abs/2111.12253">arxiv.org</a>.</li>
+    <li>Cloud Uptime Archive (2025). Open-access availability data of web, cloud, and gaming services. arXiv:2504.09476. <a href="https://arxiv.org/abs/2504.09476">arxiv.org</a>.</li>
+    <li>Ulrich, M. (2016). Addressing cascading failures. In Beyer, Jones, Petoff &amp; Murphy (Eds.), <em>Site Reliability Engineering: How Google Runs Production Systems</em>. O&rsquo;Reilly. <a href="https://sre.google/sre-book/addressing-cascading-failures/">sre.google</a>.</li>
+    <li>Brooker, M. (2019). Timeouts, retries, and backoff with jitter. Amazon Builders&rsquo; Library. <a href="https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter">builder.aws.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">Primary incident documents</p>
+  <ul class="refs">
+    <li>Microsoft (2026). Preliminary Post Incident Report for Microsoft 365, EX1550543 / MO1550821. November 15, 2026. Public mirror: <a href="https://next.ink/wp-content/uploads/2026/11/PostIncidentReport.pdf">next.ink (PDF)</a>.</li>
+  </ul>
+
+  <p class="refs-group">Reporting and analysis (checked November 24, 2026)</p>
+  <ul class="refs">
+    <li>DarkOwl (2026). The week the internet broke: outages, zero-days and supply-chain attacks, November 10&ndash;17, 2026. November 19. <a href="https://www.darkowl.com/blog-content/the-week-the-internet-broke/">darkowl.com</a>.</li>
+    <li>FourWeekMBA (2026). The November outage wave, explained: 9 failures, 7 causes. <a href="https://fourweekmba.com/ai-the-november-outage-wave-explained-9-failures-7-causes/">fourweekmba.com</a>.</li>
+    <li>Network World (2026a). 2026 network outage report and internet health check (ThousandEyes data). <a href="https://www.networkworld.com/article/4113326/2026-network-outage-report-and-internet-health-check.html">networkworld.com</a>.</li>
+    <li>Schuman, E. (2026). Microsoft outage: a cascading failure that started with an undetected bug. <em>Network World</em> (2026b). <a href="https://www.networkworld.com/article/4249392/microsoft-outage-a-cascading-failure-that-started-with-an-undetected-bug-2.html">networkworld.com</a>.</li>
+    <li>Axios (2026). What we know about what caused the FAA&rsquo;s nationwide ground stop. November 16. <a href="https://axios.com/2026/11/16/faa-flights-ground-stop-router-cause-reasons">axios.com</a>.</li>
+    <li>AVweb (2026). Data surge linked to nationwide FAA outage. <a href="https://avweb.com/uncategorized/data-surge-linked-nationwide-faa-outage/">avweb.com</a>.</li>
+    <li>KATV (2026). El Dorado, Arkansas, at center of nationwide FAA communications breakdown. <a href="https://katv.com/news/local/el-dorado-arkansas-at-center-of-nationwide-faa-communications-breakdown-controllers-ground-stop-delays-cancellatoin-radar-installation-investigation-flights">katv.com</a>.</li>
+    <li>AeroCorner (2026). FAA ground stop probe narrows to two routers in Texas and Arkansas. <a href="https://aerocorner.com/news/faa-ground-stop-routers-texas-arkansas-investigation/">aerocorner.com</a>.</li>
+    <li>GovInfoSecurity (2026). Anatomy of the FAA ground stop: one backbone, one bad change. <a href="https://www.govinfosecurity.com/anatomy-faa-ground-stop-one-backbone-one-bad-change-a-33396">govinfosecurity.com</a>.</li>
+    <li>BankInfoSecurity (2026). FAA rules out AI, hackers behind US ground stop. <a href="https://www.bankinfosecurity.com/faa-rules-out-ai-hackers-behind-us-ground-stop-a-33395">bankinfosecurity.com</a>.</li>
+    <li>ABC17 / CNN (2026). FAA router outage coverage. <a href="https://abc17news.com/?p=1665316">abc17news.com</a>.</li>
+    <li>Fox 5 Atlanta (2026). FAA halting installation of new routers after communications failure caused nationwide ground stop. November 17. <a href="https://www.fox5atlanta.com/news/faa-halting-installation-new-routers">fox5atlanta.com</a>.</li>
+    <li>AIAA (2026). FAA identifies router malfunction behind nationwide ground stop (summarizing Aviation Week). November 16. <a href="https://aiaa.org/?p=37879">aiaa.org</a>.</li>
+    <li>Business Traveller (2026). What caused the FAA shutdown. <a href="https://www.businesstraveller.com/news/what-caused-faa-shutdown-november/">businesstraveller.com</a>.</li>
+    <li>Aviation Outlook (2026). Arkansas router grounded US flights and exposed the FAA single point of failure. <a href="https://www.aviationoutlook.com/p/arkansas-router-grounded-us-flights-and-exposed-the-faa-single-point-of-failure">aviationoutlook.com</a>.</li>
+    <li>Pillitteri, P. (2026). AWS down in US-EAST-1, sign-ins and sign-ups fail for over three hours. <a href="https://pasqualepillitteri.it/en/news/33873/aws-down-us-east-1-sign-ins-sign-ups-fail-three-hours">pasqualepillitteri.it</a>.</li>
+    <li>SecurityWeek (2026). Microsoft rules out cyberattack in outage, warns of phishing campaign. <a href="https://securityweek.com/microsoft-rules-out-cyberattack-in-outage-warns-of-phishing-campaign">securityweek.com</a>.</li>
+    <li>CSO Online (2026). Hackers exploit Microsoft 365 outage to launch credential phishing campaign. <a href="https://www.csoonline.com/article/4249611/hackers-exploit-microsoft-365-outage-to-launch-credential-phishing-campaign-2.html">csoonline.com</a>.</li>
+    <li>Fortra (2026). Threat actors exploit Microsoft 365 outage in credential phishing campaign. November 13. <a href="https://www.fortra.com/blog/threat-actors-exploit-microsoft-365-outage-credential-phishing-campaign">fortra.com</a>.</li>
+    <li>Field Effect (2026). Microsoft 365 outage theme drives credential phishing and support scams. November 13. <a href="https://fieldeffect.com/blog/microsoft-365-outage-theme">fieldeffect.com</a>.</li>
+    <li>Krebs, B. (2026). Microsoft fixes nearly 1,100 security vulnerabilities. <em>Krebs on Security</em>. <a href="https://krebsonsecurity.com/2026/11/microsoft-fixes-nearly-1100-security-vulnerabilities/">krebsonsecurity.com</a>.</li>
+    <li>IBTimes UK (2026). List of 13 major tech, banking, aviation outages fuels fears of US net shutdown. <a href="https://www.ibtimes.co.uk/us-service-outages-fuel-internet-shutdown-rumours-1833005">ibtimes.co.uk</a>.</li>
+    <li>TopTen Media (2026). November 17, 2026: Will the internet go down? <a href="https://topten-media.com/en/a/november-17-2026-internet-shutdown-rumor-what-really-happens">topten-media.com</a>.</li>
+  </ul>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC. He builds software as a prompt engineer on a used Chromebook, and is the author of <em>A Hacker&rsquo;s Guide to Survive</em>.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
