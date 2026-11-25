@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When the Firewall Itself Gets Hacked</title>
+<meta name="description" content="Attackers took over the Check Point servers that run the firewalls at 22 organizations, using a flaw patched in July. Why security gear is now the first thing attackers go after, and why it should be the first thing you patch.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="When the Firewall Itself Gets Hacked: Check Point Management Servers at 22 Organizations">
+<meta property="og:description" content="24 firewall management servers, 22 organizations, 17 countries, and a door that was patched in July. What happened, why the box that guards your network is a prime target, and a patch-first checklist.">
+<meta property="og:image" content="https://malcolm1014.github.io/savvy-blog/posts/when-the-firewall-gets-hacked/assets/cover.png">
+<meta property="og:image:secure_url" content="https://malcolm1014.github.io/savvy-blog/posts/when-the-firewall-gets-hacked/assets/cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="When the Firewall Itself Gets Hacked: a firewall management server under attacker control, wired to the four firewalls it runs, one of them switched off.">
+<meta property="og:url" content="https://malcolm1014.github.io/savvy-blog/posts/when-the-firewall-gets-hacked/">
+<meta property="og:site_name" content="Savvy Security LLC">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Malcolm R. Smith">
+<meta property="article:section" content="Threat Brief">
+<meta property="article:published_time" content="2026-11-25">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When the Firewall Itself Gets Hacked">
+<meta name="twitter:description" content="Attackers held Check Point management servers at 22 organizations using a flaw patched in July. Why security gear should be the first thing you patch.">
+<meta name="twitter:image" content="https://malcolm1014.github.io/savvy-blog/posts/when-the-firewall-gets-hacked/assets/cover.png">
+<meta name="twitter:image:alt" content="A firewall management server under attacker control, wired to the firewalls it runs.">
+
+<link rel="canonical" href="https://malcolm1014.github.io/savvy-blog/posts/when-the-firewall-gets-hacked/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f3ea; --fg:#1a1712; --muted:#5d5545; --rule:#ddd6c4;
+    --accent:#a86a22; --accent2:#2f5568; --card:#fbf8f0; --term:#166534;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#11130f; --fg:#e8e5d8; --muted:#a49c87; --rule:#2c2e24; --accent:#e0a256; --accent2:#7fa6c2; --card:#191b15; --term:#4ade80; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:'Source Serif 4','Noto Serif',Georgia,'Times New Roman',serif;
+    line-height:1.68; font-size:17px;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .hero{
+    background:#0d110d url('assets/cover.png') center/cover no-repeat;
+    aspect-ratio:1200/630; width:100%;
+  }
+  main{max-width:760px; margin:0 auto; padding:42px 20px 90px;}
+  .backlink{font-family:'IBM Plex Mono',monospace; font-size:.78rem;}
+  .kicker{color:var(--accent); font-weight:700; letter-spacing:.09em; font-size:.76rem; text-transform:uppercase; margin:26px 0 10px; font-family:'IBM Plex Mono',monospace;}
+  h1{font-size:2.15rem; line-height:1.18; margin:0 0 10px; font-weight:700;}
+  .dek{font-size:1.08rem; color:var(--muted); font-style:italic; margin:0 0 16px;}
+  .byline{color:var(--muted); font-size:.92rem; margin:0 0 28px; font-family:'IBM Plex Mono',monospace;}
+
+  .partnav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 34px; padding:18px 0; border-top:2px solid var(--rule); border-bottom:2px solid var(--rule);}
+  .partnav a{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:700; text-decoration:none;
+    color:var(--accent2); border:1px solid var(--rule); border-radius:20px; padding:6px 13px; letter-spacing:.02em;
+  }
+  .partnav a:hover{border-color:var(--accent2); background:var(--card);}
+
+  h2{font-size:1.5rem; margin:54px 0 6px; padding-bottom:10px; border-bottom:2px solid var(--accent); font-weight:700; scroll-margin-top:16px;}
+  h3{font-size:1.14rem; margin:32px 0 10px; color:var(--fg); font-weight:700;}
+  p{margin:0 0 17px;}
+  ul,ol{margin:0 0 17px; padding-left:23px;}
+  li{margin-bottom:7px;}
+  hr{border:none; border-top:1px solid var(--rule); margin:38px 0;}
+  strong{color:var(--fg); font-weight:700;}
+  em{color:var(--fg);}
+  a{color:var(--accent2); word-break:break-word;}
+
+  .framing{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent2);
+    border-radius:4px; padding:22px 24px; margin:20px 0 32px; font-size:.98rem;
+  }
+  .framing h3{margin-top:0; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono',monospace; color:var(--accent2); font-weight:700;}
+  .framing p{margin:0 0 12px;} .framing p:last-child{margin-bottom:0;}
+
+  .secread{
+    background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--accent);
+    border-radius:0 4px 4px 0; padding:18px 22px; margin:20px 0 26px;
+  }
+  .secread .tag{display:block; font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:9px;}
+  .secread p{font-size:.96rem; margin:0 0 12px;} .secread p:last-child{margin-bottom:0;}
+
+  figure{margin:28px 0 8px;}
+  figure img{width:100%; display:block; border-radius:4px; border:1px solid var(--rule);}
+  figcaption{font-size:.83rem; color:var(--muted); margin:9px 0 28px; line-height:1.55;}
+  figcaption .credit{display:block; font-family:'IBM Plex Mono',monospace; font-size:.7rem; margin-top:4px;}
+
+  .pullquote{
+    margin:10px 0 32px; padding:22px 8px; border-top:1px solid var(--accent2); border-bottom:1px solid var(--accent2);
+    font-size:1.28rem; line-height:1.45; color:var(--fg); text-align:center; font-weight:600;
+  }
+
+  blockquote{
+    margin:22px 0 26px; padding:4px 0 4px 22px; border-left:3px solid var(--accent);
+    font-size:1.02rem; color:var(--fg);
+  }
+  blockquote p{margin:0 0 10px;} blockquote p:last-child{margin-bottom:0;}
+  blockquote cite{display:block; margin-top:10px; font-style:normal; font-size:.84rem; color:var(--muted); font-family:'IBM Plex Mono',monospace;}
+
+  pre.term{
+    background:#0d1410; color:#d7cbb0; border:1px solid var(--rule); border-radius:5px;
+    padding:16px 18px; overflow-x:auto; font-family:'IBM Plex Mono',monospace;
+    font-size:.8rem; line-height:1.6; margin:22px 0 10px;
+  }
+  pre.term .g{color:#86efac;} pre.term .a{color:#f0b429;} pre.term .r{color:#f08c7a;}
+  pre.term .b{color:#7fa6c2;} pre.term .d{color:#7d7363;} pre.term b{color:#e8e5d8; font-weight:600;}
+  .caption-under{font-size:.83rem; color:var(--muted); margin:0 0 28px;}
+
+  .lessons{list-style:none; margin:0 0 22px; padding:0; counter-reset:lesson;}
+  .lessons li{
+    counter-increment:lesson; position:relative; margin:0 0 14px; padding:14px 18px 14px 54px;
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; font-size:.96rem;
+  }
+  .lessons li::before{
+    content:counter(lesson); position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; background:var(--accent2); color:var(--bg);
+    font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center;
+  }
+
+  .ledger{width:100%; border-collapse:collapse; margin:20px 0 8px; font-size:.9rem;}
+  .ledger th{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:8px 10px; border-bottom:2px solid var(--rule); vertical-align:bottom;}
+  .ledger td{padding:11px 10px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.5;}
+  .ledger td:first-child{font-weight:700;}
+  .tagpill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:3px; white-space:nowrap;}
+  .tagpill.ok{background:rgba(22,101,52,.16); color:var(--term); border:1px solid rgba(22,101,52,.4);}
+  .tagpill.bet{background:rgba(168,106,34,.14); color:var(--accent); border:1px solid rgba(168,106,34,.4);}
+  .tablewrap{overflow-x:auto;}
+
+  .getcode{
+    background:var(--card); border:1px solid var(--accent); border-radius:6px;
+    padding:22px 24px; margin:26px 0 30px;
+  }
+  .getcode h3{margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
+  .getcode p{margin:0 0 12px; font-size:.96rem;} .getcode p:last-child{margin-bottom:0;}
+  .getcode .files{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--muted);}
+  .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.78rem; font-weight:600; text-decoration:none;
+    color:var(--bg); background:var(--accent2); border-radius:6px; padding:9px 16px; display:inline-block;
+  }
+  .btn.alt{background:transparent; color:var(--accent2); border:1px solid var(--accent2);}
+
+  .note{background:var(--card); border:1px solid var(--rule); border-radius:4px; padding:18px 22px; margin:22px 0 24px; font-size:.92rem; color:var(--muted);}
+  .note p{margin:0 0 10px;} .note p:last-child{margin-bottom:0;}
+  .note strong{color:var(--fg);}
+
+  .refs{font-size:.85rem; color:var(--muted); padding-left:20px;}
+  .refs li{margin-bottom:7px;}
+  .refs-group{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent2); font-weight:700; margin:22px 0 8px;}
+
+  .signoff{font-style:italic; color:var(--muted); margin-top:36px;}
+  footer{color:var(--muted); font-size:.85rem; text-align:center; padding:24px 20px 40px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<div class="hero" role="img" aria-label="When the Firewall Itself Gets Hacked: a firewall management server under attacker control, wired to the four firewalls it runs, one of them switched off."></div>
+
+<main>
+  <p class="backlink"><a href="../../">&larr; All articles</a></p>
+  <p class="kicker">Savvy Security LLC &middot; Threat Brief</p>
+  <h1>When the Firewall Itself Gets Hacked</h1>
+  <p class="dek">Attackers spent at least two weeks inside the servers that run the firewalls at 22 organizations. In the later stages they used a Check Point flaw that had been patched since July. The box that guards your network is now one of the first things attackers go after, which is why it should be the first thing you patch.</p>
+  <p class="byline">By Malcolm R. Smith &mdash; Savvy Security LLC &middot; November 2026</p>
+
+  <div class="partnav mono">
+    <a href="#what">1 &middot; What happened</a>
+    <a href="#door">2 &middot; The door they used</a>
+    <a href="#jewel">3 &middot; Why this server</a>
+    <a href="#pattern">4 &middot; A pattern, not a fluke</a>
+    <a href="#checklist">5 &middot; Patch the guards first</a>
+    <a href="#code">For the technical</a>
+    <a href="#open">Still open</a>
+    <a href="#refs">Sources</a>
+  </div>
+
+  <div class="framing">
+    <h3>The short version</h3>
+    <p>On November 23, 2026, the threat intelligence company GreyNoise reported that an unknown attacker it calls <strong>GT13</strong> had taken over <strong>24 Check Point Security Management Servers</strong> belonging to <strong>at least 22 organizations in 17 countries</strong>, across government, finance, energy, transportation, mining, engineering and manufacturing (GreyNoise, 2026).</p>
+    <p>A management server is the control room for a company&rsquo;s Check Point firewalls. GreyNoise saw the attacker copy the firewall database and the internal certificate authority, make its own certificate, and at one victim unload the security policies, which GreyNoise says would switch the firewall off.</p>
+    <p>In the later stages the attacker used <span class="mono">CVE-2026-16232</span>, a login bypass that Check Point disclosed and patched in July after it was already being exploited (Rapid7, 2026). How GT13 got in the first time is still unknown. The lesson for everyone else is plain: <strong>security gear is a target, so patch it first, keep its admin side off the internet, and check for intruders after you patch.</strong></p>
+  </div>
+
+  <h2 id="what">1 &middot; What happened</h2>
+  <p>GreyNoise runs sensors around the internet that watch who is scanning and attacking what. In this case it got an unusually detailed view of the attacker&rsquo;s own relay server: more than 1,400 network sessions, 800 command lines and 1,200 files. Its report, written by researcher Steve Miller, lays out the campaign from that vantage point (GreyNoise, 2026).</p>
+  <ul>
+    <li><strong>When:</strong> GreyNoise confirmed activity from <strong>October 17 to November 2, 2026</strong>, when its view ended. Its detailed timeline starts earlier, on October 2, with the attacker taking over the relay server. Because the attacker still had persistent access when the view ended, GreyNoise expects the campaign is still going.</li>
+    <li><strong>The relay:</strong> The attacker hijacked a file-sharing server running Rejetto HFS through a separate flaw, <span class="mono">CVE-2026-61500</span>, and used it as a base to store stolen data and manage victims. It reached victims from <strong>99 IP addresses</strong>, mostly ExpressVPN exits and Check Point devices it had already compromised.</li>
+    <li><strong>The work:</strong> GreyNoise counted more than 100 management tasks run against Check Point servers through <span class="mono">CVE-2026-16232</span>, at least 30 Python scripts, and common tools like Nmap, Chisel and Impacket. On October 26 the attacker sent one bulk certificate task to all 24 servers. Every one of them returned errors, and those error messages included the victims&rsquo; addresses, which helped GreyNoise identify many of them.</li>
+    <li><strong>The reach:</strong> From the firewalls, the attacker probed deeper: Citrix NetScaler, Ivanti Connect Secure, VMware vCenter, Microsoft Exchange, Oracle databases and Windows domain controllers, including attempts at older, well-known bugs like Netlogon (<span class="mono">CVE-2020-1472</span>) and ProxyLogon (<span class="mono">CVE-2021-26855</span>).</li>
+    <li><strong>Who:</strong> GreyNoise does not attribute GT13 to any known group. It says it suspects the attacker used AI models and agentic tools for scanning, exploitation and tool building, and that some odd stumbles in the timeline look like automated systems getting in each other&rsquo;s way. That is GreyNoise&rsquo;s suspicion, worded carefully, not a confirmed finding.</li>
+  </ul>
+  <p>GreyNoise says it is working with government partners and national CERTs to notify the victims. None of the 22 organizations has been named.</p>
+
+  <h2 id="door">2 &middot; The door they used</h2>
+  <p><span class="mono">CVE-2026-16232</span> is an authentication bypass in the login process for Check Point&rsquo;s SmartConsole, the program administrators use to manage firewalls. If an attacker can reach the management server&rsquo;s address over the network, and the server isn&rsquo;t limited to a list of trusted admin machines, the attacker can get a login token and act as a <strong>full administrator</strong> without a password (Rapid7, 2026).</p>
+  <ul>
+    <li><strong>Disclosed:</strong> Check Point published its advisory on July 22, 2026, and said the flaw had already been used against a small number of customers before a fix existed (Rapid7, 2026; Check Point, 2026).</li>
+    <li><strong>Severity:</strong> Critical, scored 9.3 under CVSS version 4.</li>
+    <li><strong>Urgency:</strong> The US Cybersecurity and Infrastructure Security Agency added it to its Known Exploited Vulnerabilities list the same day and gave federal agencies until July 25 to fix it (Rapid7, 2026). Three days.</li>
+    <li><strong>The fix:</strong> Jumbo Hotfix R82.10 Take 36, R82 Take 118 and R81.20 Take 158, or later. Rapid7&rsquo;s summary lists R81.10 and older versions with no fix, so those need an upgrade.</li>
+    <li><strong>The workaround:</strong> Restrict SmartConsole&rsquo;s Trusted Clients to specific admin addresses, never &ldquo;Any.&rdquo; Rapid7 notes this narrows who can reach the door but does not remove the bug.</li>
+  </ul>
+  <p>Put those dates next to GreyNoise&rsquo;s. The patch had been public for about three months when GT13 was using this flaw against two dozen servers. That gap, between &ldquo;fix available&rdquo; and &ldquo;fix installed,&rdquo; is where most of these stories live.</p>
+  <div class="secread">
+    <span class="tag">Read this part twice</span>
+    <p>Patching closes the door. It does not tell you whether someone walked through it before you closed it. Rapid7&rsquo;s advice for this flaw is to investigate for compromise even after patching, especially if the management server could be reached from the internet. GT13 copied certificate authorities and made its own certificate. A stolen certificate keeps working after the patch, until someone replaces it.</p>
+  </div>
+
+  <h2 id="jewel">3 &middot; Why the management server is the crown jewel</h2>
+  <p>Think of a company&rsquo;s firewalls as the guards at every entrance. The management server is the office that writes their orders. It holds:</p>
+  <ul>
+    <li><strong>The rulebook for every firewall.</strong> Which traffic is allowed, from where, to which inside systems. Read it and you have a map of the network: what exists, what talks to what, and where the exceptions are.</li>
+    <li><strong>The admin keys.</strong> Who can log in and change things.</li>
+    <li><strong>The certificate authority.</strong> The internal &ldquo;passport office&rdquo; that issues the certificates firewalls use to trust the management server and each other. Steal it and you can print passports the whole system accepts. GreyNoise saw GT13 copy it and create a certificate of its own.</li>
+    <li><strong>The off switch.</strong> Whoever controls policy can push new rules, or remove them. At one victim, GT13 unloaded the security policies.</li>
+  </ul>
+  <p class="pullquote">The guard checks everyone&rsquo;s ID. Nobody checks the guard.</p>
+  <p>That&rsquo;s the part that keeps defenders up at night. Most security tools watch laptops and servers. Very few watch the firewall&rsquo;s own control room, so an attacker who gets in there can sit quietly in the one place built to be trusted.</p>
+
+  <h2 id="pattern">4 &middot; A pattern, not a fluke</h2>
+  <p>This is not a Check Point problem alone. Attackers have been moving to the edge of the network for years, and the numbers show it.</p>
+  <ul>
+    <li>Verizon&rsquo;s 2025 Data Breach Investigations Report found that flaws in VPNs and other edge devices accounted for <strong>22% of breaches that started with a known vulnerability</strong>, almost eight times the 3% in the year before (Tenable, 2025).</li>
+    <li>In February 2025, cyber agencies from the US, UK, Canada, Australia and partners published joint guidance on securing edge devices: firewalls, routers, VPN gateways and other internet-facing systems (CISA, 2025).</li>
+    <li>GT13 itself tried bugs in Citrix and Ivanti gear from 2025 and 2024. Same playbook, different logo.</li>
+  </ul>
+  <p>Why attackers like these boxes so much: they sit on the internet by design, they hold the keys to everything behind them, they usually can&rsquo;t run the security software that would spot an intruder, and patching them means a maintenance window, so it gets pushed to &ldquo;next month.&rdquo; Attackers know all four.</p>
+
+  <h2 id="checklist">5 &middot; Patch the guards first: a checklist</h2>
+  <p>Whether you run Check Point, another brand, or a small office router your internet provider set up, the same habits apply.</p>
+  <ol class="lessons">
+    <li><strong>Put security gear at the top of the patch list.</strong> When a firewall, VPN or management server maker says a flaw is being exploited, treat it like a fire, not a ticket. CISA gave three days for this one.</li>
+    <li><strong>Keep the admin side off the internet.</strong> Management consoles and admin web pages should only be reachable from your admin network or through a VPN. On Check Point, limit SmartConsole&rsquo;s Trusted Clients to specific addresses, never &ldquo;Any.&rdquo;</li>
+    <li><strong>Patch, then hunt.</strong> After installing the fix, look for new admin accounts, unfamiliar login tokens, recent policy changes, new certificates and unknown SSH keys. Check Point (for the July attacks) and GreyNoise (for GT13) have published indicators to search for.</li>
+    <li><strong>Watch the watcher.</strong> Send logs from your security devices to a separate system and alert on the rare, dangerous events: a policy being unloaded, a new administrator, a certificate being issued.</li>
+    <li><strong>Retire versions that no longer get fixes.</strong> If your version is on the &ldquo;no fix&rdquo; list, the only fix is an upgrade.</li>
+    <li><strong>Know what you expose.</strong> Check your own public addresses from outside your network every so often. The section below shows how.</li>
+    <li><strong>Use multi-factor sign-in and named admin accounts.</strong> It won&rsquo;t stop a login bypass, but it stops the stolen-password attacks that usually come next, and named accounts make the logs readable.</li>
+    <li><strong>If someone else runs your firewall, ask three questions.</strong> Is the management side reachable from the internet? When was the last security update installed? Have you checked for signs of compromise since July? A good provider answers in a day.</li>
+  </ol>
+
+  <h2 id="code">For the technical: an outside-in check</h2>
+  <p>The simplest test is whether your firewall&rsquo;s management ports answer from the internet at all. Run this from <strong>outside</strong> your network, for example a laptop on a phone hotspot, and <strong>only against addresses you own</strong>. On a Chromebook, it runs in the Linux (Crostini) terminal.</p>
+<pre class="term"><span class="d"># Install nmap once</span>
+<b>sudo apt install nmap</b>
+
+<span class="d"># Replace with YOUR office's public IP address</span>
+<b>nmap -Pn -p 443,18190,18264,18265,19009 203.0.113.10</b>
+
+<span class="d">PORT      STATE    SERVICE</span>
+<span class="g">443/tcp   filtered https</span>
+<span class="g">18190/tcp filtered unknown</span>
+<span class="g">19009/tcp filtered unknown</span>
+<span class="r">18264/tcp open     unknown</span>   <span class="d">&larr; answers from the internet: find out why</span></pre>
+  <p class="caption-under">&ldquo;Filtered&rdquo; or &ldquo;closed&rdquo; is what you want. Ports 18190 and 19009 are the ones SmartConsole uses to reach a Check Point management server, and 18264 and 18265 are certificate services, per Check Point&rsquo;s community port table. Check the official port list for your version, and remember a site-to-site VPN may need some of these open between your own sites, not to the whole world. The address above is a documentation example; the output is illustrative.</p>
+
+  <h2 id="open">What is still open</h2>
+  <p>I try to separate what is known from what is not, so here it is.</p>
+  <div class="tablewrap">
+  <table class="ledger">
+    <thead><tr><th>Claim</th><th>Status</th><th>What backs it</th></tr></thead>
+    <tbody>
+      <tr><td>How GT13 first got into the Check Point servers</td><td><span class="tagpill bet">Unknown</span></td><td>GreyNoise says the attacker had access before it took over the relay, and it could not tell how. <span class="mono">CVE-2026-16232</span> was seen in later stages (GreyNoise, 2026).</td></tr>
+      <tr><td>The campaign is still running</td><td><span class="tagpill bet">GreyNoise expects so</span></td><td>Its view ended around November 2 while the attacker still had persistent access.</td></tr>
+      <tr><td>The attacker used AI tools</td><td><span class="tagpill bet">Suspected</span></td><td>GreyNoise&rsquo;s own words are &ldquo;we believe&rdquo; and &ldquo;we suspect.&rdquo;</td></tr>
+      <tr><td>Who GT13 is</td><td><span class="tagpill bet">Not attributed</span></td><td>GreyNoise does not tie it to any known group and puts little weight on its working-hours clue.</td></tr>
+      <tr><td>When it started</td><td><span class="tagpill bet">Two dates</span></td><td>GreyNoise&rsquo;s summary says October 17; its own timeline shows relay work from October 2.</td></tr>
+      <tr><td>The 24 servers and 22 organizations</td><td><span class="tagpill ok">Reported</span></td><td>GreyNoise&rsquo;s count. The victims have not been named.</td></tr>
+      <tr><td>The July flaw and its fix</td><td><span class="tagpill ok">Confirmed</span></td><td>Check Point&rsquo;s advisory and Rapid7&rsquo;s analysis (Check Point, 2026; Rapid7, 2026).</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="pullquote">Patch the guards first. Then check that the guards are still yours.</p>
+
+  <p>If you run a small business and someone else handles your network, forward this to them with the three questions from the checklist. If you run the network yourself, the hour it takes to check the management side is cheaper than finding out the way 22 organizations just did.</p>
+
+  <div class="framing" style="border-left-color:var(--accent);">
+    <h3 style="color:var(--accent);">From the book</h3>
+    <p>More on how attackers think, and how to stay a step ahead, in <em>A Hacker&rsquo;s Guide to Survive</em> by Malcolm R. Smith.</p>
+    <p style="margin-bottom:0;"><a href="https://www.amazon.com/dp/B0HPMWMQMD"><strong>&#128214; Get <em>A Hacker&rsquo;s Guide to Survive</em> on Amazon &rarr;</strong></a><br>
+    Or <a href="../../book/">read Chapter 1 free</a> first.</p>
+  </div>
+
+  <h2 id="refs">Sources</h2>
+
+  <p class="refs-group">The GT13 campaign (checked November 25, 2026)</p>
+  <ul class="refs">
+    <li>Miller, Steve (2026). &ldquo;99 IPs but a C2 ain&rsquo;t one: An Active Intrusion Campaign Against Check Point Security Management Servers.&rdquo; <em>GreyNoise</em>, November 23, 2026. <a href="https://www.greynoise.io/blog/check-point-security-management-servers-intrusion-campaign">greynoise.io</a>.</li>
+    <li>BleepingComputer (2026). &ldquo;Hackers compromise Check Point Servers in 22 organizations.&rdquo; November 24, 2026. <a href="https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/">bleepingcomputer.com</a>. Also summarized on <a href="https://it.slashdot.org/story/26/11/24/197200/hackers-compromise-check-point-servers-in-22-organizations">Slashdot</a>.</li>
+  </ul>
+
+  <p class="refs-group">CVE-2026-16232</p>
+  <ul class="refs">
+    <li>Check Point (2026). &ldquo;Check Point SmartConsole Authentication Bypass (CVE-2026-16232).&rdquo; Advisory CPAI-2026-9895. <a href="https://advisories.checkpoint.com/defense/advisories/public/2026/cpai-2026-9895.html">advisories.checkpoint.com</a>. Check Point&rsquo;s support article for customers is sk185169.</li>
+    <li>Rapid7 (2026). &ldquo;CVE-2026-16232: Critical Check Point SmartConsole Authentication Bypass Exploited in the Wild.&rdquo; July 23, 2026, updated July 28, 2026. <a href="https://rapid7.com/blog/post/etr-cve-2026-16232-critical-check-point-smartconsole-authentication-bypass-exploited-in-the-wild">rapid7.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">Edge devices as targets</p>
+  <ul class="refs">
+    <li>Tenable (2025). &ldquo;Verizon 2025 DBIR: Tenable Research Collaboration Shines a Spotlight on CVE Remediation Trends.&rdquo; April 23, 2025. <a href="https://www.tenable.com/blog/verizon-2025-dbir-tenable-research-collaboration">tenable.com</a>.</li>
+    <li>CISA (2025). &ldquo;CISA and Partners Release Guidance on Edge Devices&rdquo; (with ASD&rsquo;s ACSC, CCCS, NCSC-UK and others). February 4, 2025. <a href="https://cisa.gov/news-events/alerts/2025/02/04/cisa-partners-asds-acsc-cccs-ncsc-uk-and-other-international-and-us-organizations-release-guidance">cisa.gov</a>.</li>
+  </ul>
+
+  <p class="signoff">Malcolm R. Smith writes on security architecture, threat modeling, and autonomous defense for Savvy Security LLC. He builds software as a prompt engineer on a used Chromebook, and is the author of <em>A Hacker&rsquo;s Guide to Survive</em>.</p>
+
+</main>
+<footer>Savvy Security LLC</footer>
+</body>
+</html>
