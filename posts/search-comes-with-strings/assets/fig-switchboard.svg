@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" font-family="DejaVu Sans, sans-serif">
+  <rect width="1000" height="560" fill="#fbf8f0"/>
+  <text x="40" y="48" font-size="24" font-weight="700" fill="#1a1712">The admin switchboard, early 2027</text>
+  <text x="40" y="76" font-size="15" fill="#5d5545">What a K-12 student account gets for each choice a school administrator makes (as announced and clarified Nov 3, 2026)</text>
+
+  <g font-size="13" font-weight="700" fill="#5d5545" font-family="DejaVu Sans Mono, monospace">
+    <text x="40" y="118">ADMIN SETS</text>
+    <text x="420" y="118">STUDENT GETS</text>
+  </g>
+  <line x1="40" y1="128" x2="960" y2="128" stroke="#ddd6c4" stroke-width="2"/>
+
+  <!-- row template -->
+  <g font-size="15">
+    <!-- row 1 -->
+    <g transform="translate(0,140)">
+      <rect x="40" y="0" width="340" height="80" rx="8" fill="#fff" stroke="#ddd6c4"/>
+      <text x="60" y="32" font-weight="700" fill="#1a1712">Do nothing (new default)</text>
+      <text x="60" y="58" fill="#5d5545">Gemini OFF · Search OFF</text>
+      <path d="M385 40 H410" stroke="#a49c87" stroke-width="3" marker-end="url(#a)"/>
+      <rect x="420" y="0" width="540" height="80" rx="8" fill="#f4e4e0" stroke="#c0574a"/>
+      <text x="440" y="32" font-weight="700" fill="#8a2f24">No chatbot and no Google Search</text>
+      <text x="440" y="58" fill="#5d5545">Search shows a "not available" notice from the school</text>
+    </g>
+    <!-- row 2 -->
+    <g transform="translate(0,240)">
+      <rect x="40" y="0" width="340" height="80" rx="8" fill="#fff" stroke="#ddd6c4"/>
+      <text x="60" y="32" font-weight="700" fill="#1a1712">Search only</text>
+      <text x="60" y="58" fill="#5d5545">Gemini OFF · Search ON</text>
+      <path d="M385 40 H410" stroke="#a49c87" stroke-width="3" marker-end="url(#a)"/>
+      <rect x="420" y="0" width="540" height="80" rx="8" fill="#f6ecdc" stroke="#a86a22"/>
+      <text x="440" y="32" font-weight="700" fill="#7a4a12">Search, with its AI built in</text>
+      <text x="440" y="58" fill="#5d5545">Standard (AI Overviews) or Guided Learning mode</text>
+    </g>
+    <!-- row 3 -->
+    <g transform="translate(0,340)">
+      <rect x="40" y="0" width="340" height="80" rx="8" fill="#fff" stroke="#ddd6c4"/>
+      <text x="60" y="32" font-weight="700" fill="#1a1712">Everything on</text>
+      <text x="60" y="58" fill="#5d5545">Gemini ON · Search ON</text>
+      <path d="M385 40 H410" stroke="#a49c87" stroke-width="3" marker-end="url(#a)"/>
+      <rect x="420" y="0" width="540" height="80" rx="8" fill="#e2eef0" stroke="#2f5568"/>
+      <text x="440" y="32" font-weight="700" fill="#2f5568">Chatbot, notebooks, Classroom AI and Search</text>
+      <text x="440" y="58" fill="#5d5545">Can be set per grade level or student group</text>
+    </g>
+    <!-- missing row -->
+    <g transform="translate(0,440)">
+      <rect x="40" y="0" width="340" height="80" rx="8" fill="none" stroke="#a49c87" stroke-dasharray="7 6" stroke-width="2"/>
+      <text x="60" y="32" font-weight="700" fill="#a49c87">Search, minus the AI</text>
+      <text x="60" y="58" fill="#a49c87">Classic links-only results</text>
+      <rect x="420" y="0" width="540" height="80" rx="8" fill="none" stroke="#c0574a" stroke-dasharray="7 6" stroke-width="2"/>
+      <text x="440" y="34" font-weight="700" fill="#c0574a" font-size="20">✕  Not offered</text>
+      <text x="440" y="60" fill="#5d5545">The switch critics are asking for</text>
+    </g>
+  </g>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#a49c87"/></marker></defs>
+</svg>

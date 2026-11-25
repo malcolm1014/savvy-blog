@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="DejaVu Sans, sans-serif">
+  <rect width="1000" height="700" fill="#fbf8f0"/>
+  <text x="40" y="48" font-size="24" font-weight="700" fill="#1a1712">What the research actually says</text>
+  <text x="40" y="76" font-size="15" fill="#5d5545">Five studies, two directions. The design of the tool matters more than whether AI is "on" or "off."</text>
+
+  <g font-size="14">
+    <!-- harm column -->
+    <text x="40" y="118" font-size="13" font-weight="700" fill="#c0574a" font-family="DejaVu Sans Mono, monospace">WARNING SIGNS</text>
+    <g transform="translate(40,130)">
+      <rect width="450" height="150" rx="10" fill="#fff" stroke="#c0574a" stroke-width="2"/>
+      <text x="22" y="62" font-size="46" font-weight="700" fill="#c0574a">−17%</text>
+      <text x="190" y="38" font-weight="700" fill="#1a1712">Unguarded chatbot, then</text>
+      <text x="190" y="58" font-weight="700" fill="#1a1712">exam without it</text>
+      <text x="190" y="84" fill="#5d5545">~1,000 high-school math</text>
+      <text x="190" y="102" fill="#5d5545">students, field experiment</text>
+      <text x="22" y="132" font-size="12" fill="#7d7363" font-family="DejaVu Sans Mono, monospace">Bastani et al., PNAS 2025</text>
+    </g>
+    <g transform="translate(40,300)">
+      <rect width="450" height="150" rx="10" fill="#fff" stroke="#c0574a" stroke-width="2"/>
+      <text x="22" y="62" font-size="46" font-weight="700" fill="#c0574a">666</text>
+      <text x="190" y="38" font-weight="700" fill="#1a1712">More AI use, weaker</text>
+      <text x="190" y="58" font-weight="700" fill="#1a1712">critical thinking</text>
+      <text x="190" y="84" fill="#5d5545">Strongest in younger users;</text>
+      <text x="190" y="102" fill="#5d5545">offloading is the mediator</text>
+      <text x="22" y="132" font-size="12" fill="#7d7363" font-family="DejaVu Sans Mono, monospace">Gerlich, Societies 2025 (correlational)</text>
+    </g>
+    <g transform="translate(40,470)">
+      <rect width="450" height="150" rx="10" fill="#fff" stroke="#c0574a" stroke-width="2"/>
+      <text x="22" y="62" font-size="46" font-weight="700" fill="#c0574a">EEG</text>
+      <text x="190" y="38" font-weight="700" fill="#1a1712">Weakest brain connectivity</text>
+      <text x="190" y="58" font-weight="700" fill="#1a1712">in the chatbot group</text>
+      <text x="190" y="84" fill="#5d5545">Brain-only &gt; search engine</text>
+      <text x="190" y="102" fill="#5d5545">&gt; LLM, across essay sessions</text>
+      <text x="22" y="132" font-size="12" fill="#7d7363" font-family="DejaVu Sans Mono, monospace">Kosmyna et al., arXiv 2025 (preprint)</text>
+    </g>
+
+    <!-- help column -->
+    <text x="510" y="118" font-size="13" font-weight="700" fill="#166534" font-family="DejaVu Sans Mono, monospace">REASONS FOR HOPE</text>
+    <g transform="translate(510,130)">
+      <rect width="450" height="150" rx="10" fill="#fff" stroke="#166534" stroke-width="2"/>
+      <text x="22" y="62" font-size="46" font-weight="700" fill="#166534">Hints</text>
+      <text x="190" y="38" font-weight="700" fill="#1a1712">A tutor that gives hints,</text>
+      <text x="190" y="58" font-weight="700" fill="#1a1712">not answers</text>
+      <text x="190" y="84" fill="#5d5545">Same study: guardrails</text>
+      <text x="190" y="102" fill="#5d5545">largely erased the −17%</text>
+      <text x="22" y="132" font-size="12" fill="#7d7363" font-family="DejaVu Sans Mono, monospace">Bastani et al., PNAS 2025</text>
+    </g>
+    <g transform="translate(510,300)">
+      <rect width="450" height="150" rx="10" fill="#fff" stroke="#166534" stroke-width="2"/>
+      <text x="22" y="62" font-size="46" font-weight="700" fill="#166534">RCT</text>
+      <text x="190" y="38" font-weight="700" fill="#1a1712">AI tutor beat in-class</text>
+      <text x="190" y="58" font-weight="700" fill="#1a1712">active learning</text>
+      <text x="190" y="84" fill="#5d5545">Learned more, in less time;</text>
+      <text x="190" y="102" fill="#5d5545">college physics, &lt;200 students</text>
+      <text x="22" y="132" font-size="12" fill="#7d7363" font-family="DejaVu Sans Mono, monospace">Kestin et al., Scientific Reports 2025</text>
+    </g>
+    <g transform="translate(510,470)">
+      <rect width="450" height="150" rx="10" fill="#fff" stroke="#2f5568" stroke-width="2"/>
+      <text x="22" y="62" font-size="46" font-weight="700" fill="#2f5568">319</text>
+      <text x="190" y="38" font-weight="700" fill="#1a1712">Trust in the AI predicts</text>
+      <text x="190" y="58" font-weight="700" fill="#1a1712">less critical thinking</text>
+      <text x="190" y="84" fill="#5d5545">Self-confidence predicts</text>
+      <text x="190" y="102" fill="#5d5545">more of it</text>
+      <text x="22" y="132" font-size="12" fill="#7d7363" font-family="DejaVu Sans Mono, monospace">Lee et al., CHI 2025</text>
+    </g>
+  </g>
+  <rect x="40" y="640" width="920" height="40" rx="6" fill="#2f5568"/>
+  <text x="500" y="666" text-anchor="middle" font-size="16" font-weight="700" fill="#fbf8f0">Takeaway: guardrails and sequencing decide the outcome, not the on/off switch.</text>
+</svg>
