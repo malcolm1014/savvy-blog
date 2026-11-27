@@ -215,6 +215,7 @@
     <li><strong>The workaround:</strong> Restrict SmartConsole&rsquo;s Trusted Clients to specific admin addresses, never &ldquo;Any.&rdquo; Rapid7 notes this narrows who can reach the door but does not remove the bug.</li>
   </ul>
   <p>Put those dates next to GreyNoise&rsquo;s. The patch had been public for about three months when GT13 was using this flaw against two dozen servers. That gap, between &ldquo;fix available&rdquo; and &ldquo;fix installed,&rdquo; is where most of these stories live.</p>
+  <p><strong>A second door on the same server.</strong> On September 22, 2026, Check Point disclosed another critical flaw in its management servers, <span class="mono">CVE-2026-93616</span>. It lets an attacker who can reach the management web service upload and run code without logging in, and Check Point says it saw a handful of targeted attacks with it on July 23 (Check Point, September 2026). GreyNoise does not say GT13 used it. But a server patched only to the July levels above is still open to it. Check Point lists R82.10 Take 44 or lower, R82 Take 126 or lower and R81.20 Take 166 or lower as affected, and says LivePatch does not fix it. Install the latest Jumbo Hotfix for your version from Check Point&rsquo;s support article sk1000171.</p>
   <div class="secread">
     <span class="tag">Read this part twice</span>
     <p>Patching closes the door. It does not tell you whether someone walked through it before you closed it. Rapid7&rsquo;s advice for this flaw is to investigate for compromise even after patching, especially if the management server could be reached from the internet. GT13 copied certificate authorities and made its own certificate. A stolen certificate keeps working after the patch, until someone replaces it.</p>
@@ -308,6 +309,11 @@
   <ul class="refs">
     <li>Check Point (2026). &ldquo;Check Point SmartConsole Authentication Bypass (CVE-2026-16232).&rdquo; Advisory CPAI-2026-9895. <a href="https://advisories.checkpoint.com/defense/advisories/public/2026/cpai-2026-9895.html">advisories.checkpoint.com</a>. Check Point&rsquo;s support article for customers is sk185169.</li>
     <li>Rapid7 (2026). &ldquo;CVE-2026-16232: Critical Check Point SmartConsole Authentication Bypass Exploited in the Wild.&rdquo; July 23, 2026, updated July 28, 2026. <a href="https://rapid7.com/blog/post/etr-cve-2026-16232-critical-check-point-smartconsole-authentication-bypass-exploited-in-the-wild">rapid7.com</a>.</li>
+  </ul>
+
+  <p class="refs-group">CVE-2026-93616 (checked November 27, 2026)</p>
+  <ul class="refs">
+    <li>Check Point (2026). Security advisory on active exploitation of CVE-2026-85102 and the management pre-authentication flaw CVE-2026-93616. <em>Check Point Blog</em>, September 22, 2026. <a href="https://blog.checkpoint.com/security/security-advisory-action-required-active-exploitation-of-cve-2026-85102-and-a-management-pre-authentication-vulnerability-cve-2026-93616/">blog.checkpoint.com</a>. Check Point&rsquo;s support article for customers is sk1000171.</li>
   </ul>
 
   <p class="refs-group">Edge devices as targets</p>
